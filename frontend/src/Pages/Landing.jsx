@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState } from 'react';
+import '../index.css'
 import Navbar from '../Components/Navbar';
 import BgImage from '../images/hero1bg.png';
 import logo from '../images/logo.png';
@@ -6,16 +7,33 @@ import lady from '../images/herolady.png';
 import men from '../images/hero2menwhite.png';
 import group from '../images/hero2nig.png';
 import tommy from '../images/tommy.png';
+import resume from '../images/resume.png'
+import portfolio from '../images/portfolio.png'
+import applicants from '../images/applicants.png'
+import say from '../images/say.png'
+
 
 function Landing() {
+  const [openDropdown, setOpenDropdown] = useState(null);
+
+  const toggleDropdown = (index) => {
+    setOpenDropdown((prevIndex) => (prevIndex === index ? null : index));
+  };
+
+
   const landingStyle = {
     background: `url(${BgImage}) center/cover no-repeat`,
     height: '100vh',
     fontFamily: 'Montserrat, sans-serif',
   };
+  
 
   return (
     <>
+
+  {/*
+  first section
+  */}
       <div style={landingStyle}>
         <Navbar />
         <div className="flex justify-end mt-16 mr-32">
@@ -32,11 +50,14 @@ function Landing() {
         </div>
       </div>
 
-     {/* Second Section */}
+ {/*
+  Second section
+  */}
+
 <div className="py-20 bg-[#282727]">
   <div className="container mx-auto flex justify-center items-center">
-    {/* 2x2 Grid */}
-    <div className="grid grid-cols-2 gap-4">
+
+    <div className="grid grid-cols-2 gap-8">
       <div className="relative bg-gray-700 rounded-md overflow-hidden" style={{ width: '250px', height: '300px' }}>
         <img src={lady} alt="Image 1" className="object-cover w-full h-full" />
       </div>
@@ -51,7 +72,6 @@ function Landing() {
       </div>
     </div>
 
-    {/* Right Section with Title, Paragraph, and Button */}
     <div className="w-1/2 space-y-10 ml-8 flex flex-col justify-center items-center" style={{ fontFamily: 'Montserrat, sans-serif' }}>
     <h1 className="text-4xl font-semibold mb-4 text-white">Explore Potential Hires Today!</h1>
     <p className="text-xl mb-4 text-white leading-loose">
@@ -61,6 +81,94 @@ function Landing() {
     <button style={{ backgroundColor: '#CB8A8A' }} className="w-36 h-12 text-lg text-white rounded-lg">Join Today</button>
     </div>
     </div>
+</div>
+
+ {/*
+  Third section
+  */}
+<div className='h-screen'>
+  <div className='container mx-auto mt-12  h-5/6'>
+    <h1 className='text-5xl font-bold mb-4'>Nemo ipsim enim</h1>
+    <p className='text-xl font-semibold mb-4'>nemo ipsim niram</p>
+
+    <div className="flex justify-center space-x-4 h-3/4">
+      <div className="w-1/4 h-full bg-cover bg-center relative" style={{ backgroundImage: `url(${resume})` }}>
+        <h1 className='text-4xl text-white mt-6 ml-6'>Resume</h1>
+      </div>
+      <div className="w-1/4 h-full bg-cover bg-center" style={{ backgroundImage: `url(${portfolio})` }}>
+        <h1 className='text-4xl text-white mt-4 ml-6'>Portfolio</h1>
+      </div>
+      <div className="w-1/4 h-full bg-cover bg-center" style={{ backgroundImage: `url(${applicants})` }}>
+        <h1 className='text-4xl text-white mt-4 ml-6'>Applicants</h1>
+      </div>
+    </div>
+  </div>
+</div>
+
+ {/*
+  fourth section
+  */}
+<div className="main-container flex w-3/5 mx-auto space-x-40">
+  <div className="text-container flex-grow p-4 items-center text-center space-y-7">
+        <h1 className="text-4xl font-bold">Say Goodbye To Unemployment</h1>
+        <h4 className="text-xl font-semibold">Nemo enim ipsam</h4>
+        <p className="text-gray-600">Consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.
+        Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam.</p>
+        <button className="border border-blue-400 text-blue-400 px-4 py-2 mt-4 rounded-lg hover:bg-blue-100">Learn More</button>
+  </div>
+  <div className="image-container flex-none w-2/5">
+        <img src={say} alt="Image Alt Text" className="w-full h-full object-cover" />
+      </div>
+  </div>
+
+{/* Fifth section */}
+<div className="space-y-16 w-3/5 mx-auto flex flex-col mt-40 ">
+  <h1 className="text-4xl font-bold">FAQ</h1>
+  {Array.from({ length: 3 }, (_, index) => (
+    <div key={index} className="relative flex">
+      <div className="flex items-center">
+        <p className="text-2xl font-semibold">Nemo enim ipsam</p>
+      </div>
+      <div
+        className={`${
+          openDropdown === index ? 'block' : 'hidden'
+        } absolute mt-10 space-y-2 bg-white border border-gray-200 rounded-md shadow-md`}
+      >
+        <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Nesciunt obcaecati atque autem est voluptate iusto tenetur iure veritatis alias ipsam?</p>
+      </div>
+      <button
+        onClick={() => toggleDropdown(index)}
+        className="cursor-pointer text-2xl font-semibold focus:outline-none ml-auto"
+      >
+        !
+      </button>
+    </div>
+  ))}
+</div>
+
+<div className="flex flex-col justify-center items-center shadow-inner text-black p-8 mt-80">
+  <div className='flex items-center'>
+    <img src={logo} alt="Logo" className="w-16 h-16 mb-4" />
+    <h2 className="text-2xl font-bold">FirstStep</h2>
+  </div>
+  <p className="text-md mb-4 font-medium">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet consectetur adipisicing elit. Commodi, sapiente? </p>
+  <p className='text-md mb-4 font-medium'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Laborum totam velit sint corrupti iure tempore.</p>
+  <hr className="border-t border-gray-600 w-full mb-4" />
+  <div className="flex flex-col items-center">
+    <p className='text-lg font-semibold'>Contact us</p>
+    <div className='flex'>
+      <a href="mailto:info@example.com" className="mr-4">
+        <img src={logo} alt="link" className="w-12 h-12" />
+      </a>
+      <a href="tel:+123456789" className="mr-4">
+        <img src={logo} alt="link" className="w-12 h-12" />
+      </a>
+      <a href="https://www.example.com" target="_blank" rel="noopener noreferrer">
+        <img src={logo} alt="link" className="w-12 h-12" />
+      </a>
+    </div>
+  </div>
+  <p className="text-sm mt-4">&copy; 2024 FirstStep. All rights reserved.</p>
 </div>
 
     </>
