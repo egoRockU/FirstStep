@@ -1,27 +1,16 @@
 import asyncHandler from 'express-async-handler'
-import validator from 'validator'
 import LocalAccount from '../models/localAccountModel.js'
 import bcrypt from 'bcrypt'
+import checkIfEmailExist from '../utils/checkIfEmailExists.js'
 
 const saltRounds = 10
-
-const checkIfEmailExist = async(email, res) => {
-    if (!validator.isEmail(email)){
-        res.status(400)
-        throw new Error('Email must be a valid email address')
-    }
-
-    const emailExists = await LocalAccount.findOne({email})
-
-    return emailExists
-}
 
 const getAllLocalAccounts = asyncHandler(async (req, res) => {
     const accounts = await LocalAccount.find({})
 
     if(!accounts) {
         res.status(404)
-        throw new Error('User not found')
+        throw new Error('No users found')
     }
 
     res.status(200).json(accounts)
@@ -30,7 +19,7 @@ const getAllLocalAccounts = asyncHandler(async (req, res) => {
 const createLocalAccount = asyncHandler(async (req, res) => {
     const { email, password } = req.body
 
-    const emailExist = await checkIfEmailExist(email, res)
+    const emailExist = await checkIfEmailExist(email, LocalAccount, res)
 
     if (emailExist) {
         res.status(400)
@@ -52,7 +41,7 @@ const createLocalAccount = asyncHandler(async (req, res) => {
 const loginLocal = asyncHandler(async (req, res)=>{
     const { email, password } = req.body
 
-    const emailExists = await checkIfEmailExist(email, res)
+    const emailExists = await checkIfEmailExist(email, LocalAccount,res)
 
     if (!emailExists) {
         res.status(401)

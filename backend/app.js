@@ -1,5 +1,6 @@
 import express from 'express'
 import localAccountRoutes from './routes/localAccountRoutes.js'
+import googleAccountRoutes from './routes/googleAccountRoutes.js'
 import dotenv from 'dotenv'
 dotenv.config()
 import connectDB from './db/db.js'
@@ -8,8 +9,11 @@ const app = express()
 const port = process.env.PORT || 8000
 connectDB()
 
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: false }))
+
+//routes
 app.use('/localaccounts', localAccountRoutes)
+app.use('/googleaccounts', googleAccountRoutes)
 
 app.listen(port, ()=>{
     console.log(`Express app is listening at port ${port}`)
