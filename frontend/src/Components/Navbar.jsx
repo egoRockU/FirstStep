@@ -10,8 +10,8 @@ function Navbar() {
     navigate("/login")
   }
   
-  const clickcreate = () => {
-    navigate("/create")
+  const clickchoose = () => {
+    navigate("/choose")
   }
 
   return (
@@ -24,7 +24,7 @@ function Navbar() {
         </div>
         <div className='flex bg-transparent w-60 justify-between mr-2'>
           <button style={{color: '#CB8A8A'}} className='bg-white w-28 h-11 px-5 border text-lg rounded-lg hover:text-stone-500' onClick={clicklogin}>Login</button>
-          <button style={{ backgroundColor: '#CB8A8A' }} className='w-28 h-11 px-5 border text-lg text-white rounded-lg hover:text-stone-500' onClick={clickcreate}>Register</button>
+          <button style={{ backgroundColor: '#CB8A8A' }} className='w-28 h-11 px-5 border text-lg text-white rounded-lg hover:text-stone-500' onClick={clickchoose}>Register</button>
         </div>
     </header>
   );
