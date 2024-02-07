@@ -1,5 +1,7 @@
 import React from 'react'
 import logo from '../images/logo.png'
+import google from '../images/google.png'
+
 
 function Footer() {
   return (
@@ -15,13 +17,13 @@ function Footer() {
     <p className='text-lg font-semibold'>Contact us</p>
     <div className='flex'>
       <a href="mailto:info@example.com" className="mr-4">
-        <img src={logo} alt="link" className="w-12 h-12" />
+        <img src={google} alt="link" className="w-12 h-12" />
       </a>
       <a href="tel:+123456789" className="mr-4">
-        <img src={logo} alt="link" className="w-12 h-12" />
+        <img src={google} alt="link" className="w-12 h-12" />
       </a>
       <a href="https://www.example.com" target="_blank" rel="noopener noreferrer">
-        <img src={logo} alt="link" className="w-12 h-12" />
+        <img src={google} alt="link" className="w-12 h-12" />
       </a>
     </div>
   </div>

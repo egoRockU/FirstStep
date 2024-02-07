@@ -22,16 +22,26 @@ function Login() {
 <div className='py-4 w-full mt-5 mb-4 ml-20 flex justify-start items-center'><h1 className="text-5xl font-medium mb-5">Welcome back!</h1></div>
     <div className='flex flex-col w-full h-1/2 mt-5 space-y-3 items-start p-4 ml-8'>
     <input
+    style={{
+      backgroundColor:'transparent',
+      fontFamily:'Montserrat, sans-serif',
+      border:'2px solid black',
+    }}
       type="email"
       placeholder="Email"
-      className="w-1/2 p-2 mb-4 border rounded-md custom-input"
+      className="w-1/2 p-2 mb-4 border rounded-md custom-input placeholder-black font-semibold"
     />
     <input
+      style={{
+        backgroundColor:'transparent',
+        fontFamily:'Montserrat, sans-serif',
+        border:'2px solid black',
+      }}
       type="password"
       placeholder="Password"
-      className="w-1/2 p-2 mb-4 border rounded-md custom-input"
+      className="w-1/2 p-2 mb-4 border rounded-md custom-input placeholder-black font-semibold"
     />
-    <p>Forgot password?</p>
+    <button type="button" className='w-46 mt-5 text-stone-500 rounded-full bg-transparent p-2'>Forgot Password?</button>
     </div>
     <div className='flex flex-col h-1/2 w-full p-4 space-y-6 ml-8'>
     <button style={{backgroundColor:'#FFA1A1'}} className="w-32 text-stone-500 p-2 rounded-full mb-4 hover:text-white hover:bg-red-500 transition-colors duration-300">

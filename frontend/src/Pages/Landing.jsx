@@ -45,7 +45,7 @@ function Landing() {
             </div>
             <div className='flex flex-col items-center'>
               <p className='text-2xl'>Craft Your Tomorrow, Shape Your Dreams - Explore the Future with Us!</p>
-              <button style={{ backgroundColor: '#CB8A8A' }} className='mt-5 w-34 h-11 px-5 text-lg text-white rounded-lg'>Join Today</button>
+              <button style={{ backgroundColor: '#CB8A8A' }} className='mt-5 w-34 h-11 px-5 text-lg text-white rounded-lg hover:text-stone-500'>Join Today</button>
             </div>
           </div>
         </div>
@@ -79,7 +79,7 @@ function Landing() {
     Explore a hub of top-tier talent, meticulously showcased in diverse portfolios. Simplify your hiring journey by
      connecting effortlessly with standout applicants ready to elevate your team.Your next exceptional hire is just a 
     click away – discover, connect, and transform your workforce with ease.</p>
-    <button style={{ backgroundColor: '#CB8A8A' }} className="w-36 h-12 text-lg text-white rounded-lg">Join Today</button>
+    <button style={{ backgroundColor: '#CB8A8A' }} className="w-36 h-12 text-lg text-white rounded-lg hover:text-stone-500">Join Today</button>
     </div>
     </div>
 </div>
@@ -93,13 +93,14 @@ function Landing() {
     <p className='text-xl font-semibold mb-4'>nemo ipsim niram</p>
 
     <div className="flex justify-center space-x-4 h-3/4">
-      <div className="w-1/4 h-full bg-cover bg-center relative" style={{ backgroundImage: `url(${resume})` }}>
-        <h1 className='text-4xl text-white mt-6 ml-6'>Resume</h1>
-      </div>
-      <div className="w-1/4 h-full bg-cover bg-center" style={{ backgroundImage: `url(${portfolio})` }}>
+    <div className="w-1/4 h-full bg-cover bg-center relative hover:w-1/3 hover:h-auto transition-all duration-300" style={{ backgroundImage: `url(${resume})` }}>
+    <h1 className='text-4xl text-white mt-6 ml-6'>Resume</h1>
+    </div>
+
+      <div className="w-1/4 h-full bg-cover bg-center relative hover:w-1/3 hover:h-auto transition-all duration-300" style={{ backgroundImage: `url(${portfolio})` }}>
         <h1 className='text-4xl text-white mt-4 ml-6'>Portfolio</h1>
       </div>
-      <div className="w-1/4 h-full bg-cover bg-center" style={{ backgroundImage: `url(${applicants})` }}>
+      <div className="w-1/4 h-full bg-cover bg-center relative hover:w-1/3 hover:h-auto transition-all duration-300" style={{ backgroundImage: `url(${applicants})` }}>
         <h1 className='text-4xl text-white mt-4 ml-6'>Applicants</h1>
       </div>
     </div>
