@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import '../index.css'
+import '../Fonts.css'
 import Navbar from '../Components/Navbar';
 import BgImage from '../images/hero1bg.png';
 import logo from '../images/logo.png';
@@ -11,6 +11,7 @@ import resume from '../images/resume.png'
 import portfolio from '../images/portfolio.png'
 import applicants from '../images/applicants.png'
 import say from '../images/say.png'
+import Footer from '../Components/Footer';
 
 
 function Landing() {
@@ -36,15 +37,15 @@ function Landing() {
   */}
       <div style={landingStyle}>
         <Navbar />
-        <div className="flex justify-end mt-16 mr-32">
-          <div className="w-1/2 mt-20 mr-5">
+        <div className="flex justify-end  mr-32">
+          <div className="w-1/2 mt-40 mr-5">
             <div className='flex items-center justify-center mr-20'>
               <img src={logo} alt="logo" />
               <h1 className='text-8xl font-medium'>FirstStep</h1>
             </div>
             <div className='flex flex-col items-center'>
               <p className='text-2xl'>Craft Your Tomorrow, Shape Your Dreams - Explore the Future with Us!</p>
-              <button style={{ backgroundColor: '#CB8A8A' }} className='mt-5 w-34 h-11 px-5 text-lg text-white rounded-lg'>Join Today</button>
+              <button style={{ backgroundColor: '#CB8A8A' }} className='mt-5 w-34 h-11 px-5 text-lg text-white rounded-lg hover:text-stone-500'>Join Today</button>
             </div>
           </div>
         </div>
@@ -78,7 +79,7 @@ function Landing() {
     Explore a hub of top-tier talent, meticulously showcased in diverse portfolios. Simplify your hiring journey by
      connecting effortlessly with standout applicants ready to elevate your team.Your next exceptional hire is just a 
     click away – discover, connect, and transform your workforce with ease.</p>
-    <button style={{ backgroundColor: '#CB8A8A' }} className="w-36 h-12 text-lg text-white rounded-lg">Join Today</button>
+    <button style={{ backgroundColor: '#CB8A8A' }} className="w-36 h-12 text-lg text-white rounded-lg hover:text-stone-500">Join Today</button>
     </div>
     </div>
 </div>
@@ -92,13 +93,14 @@ function Landing() {
     <p className='text-xl font-semibold mb-4'>nemo ipsim niram</p>
 
     <div className="flex justify-center space-x-4 h-3/4">
-      <div className="w-1/4 h-full bg-cover bg-center relative" style={{ backgroundImage: `url(${resume})` }}>
-        <h1 className='text-4xl text-white mt-6 ml-6'>Resume</h1>
-      </div>
-      <div className="w-1/4 h-full bg-cover bg-center" style={{ backgroundImage: `url(${portfolio})` }}>
+    <div className="w-1/4 h-full bg-cover bg-center relative hover:w-1/3 hover:h-auto transition-all duration-300" style={{ backgroundImage: `url(${resume})` }}>
+    <h1 className='text-4xl text-white mt-6 ml-6'>Resume</h1>
+    </div>
+
+      <div className="w-1/4 h-full bg-cover bg-center relative hover:w-1/3 hover:h-auto transition-all duration-300" style={{ backgroundImage: `url(${portfolio})` }}>
         <h1 className='text-4xl text-white mt-4 ml-6'>Portfolio</h1>
       </div>
-      <div className="w-1/4 h-full bg-cover bg-center" style={{ backgroundImage: `url(${applicants})` }}>
+      <div className="w-1/4 h-full bg-cover bg-center relative hover:w-1/3 hover:h-auto transition-all duration-300" style={{ backgroundImage: `url(${applicants})` }}>
         <h1 className='text-4xl text-white mt-4 ml-6'>Applicants</h1>
       </div>
     </div>
@@ -145,32 +147,7 @@ function Landing() {
     </div>
   ))}
 </div>
-
-<div className="flex flex-col justify-center items-center shadow-inner text-black p-8 mt-80">
-  <div className='flex items-center'>
-    <img src={logo} alt="Logo" className="w-16 h-16 mb-4" />
-    <h2 className="text-2xl font-bold">FirstStep</h2>
-  </div>
-  <p className="text-md mb-4 font-medium">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet consectetur adipisicing elit. Commodi, sapiente? </p>
-  <p className='text-md mb-4 font-medium'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Laborum totam velit sint corrupti iure tempore.</p>
-  <hr className="border-t border-gray-600 w-full mb-4" />
-  <div className="flex flex-col items-center">
-    <p className='text-lg font-semibold'>Contact us</p>
-    <div className='flex'>
-      <a href="mailto:info@example.com" className="mr-4">
-        <img src={logo} alt="link" className="w-12 h-12" />
-      </a>
-      <a href="tel:+123456789" className="mr-4">
-        <img src={logo} alt="link" className="w-12 h-12" />
-      </a>
-      <a href="https://www.example.com" target="_blank" rel="noopener noreferrer">
-        <img src={logo} alt="link" className="w-12 h-12" />
-      </a>
-    </div>
-  </div>
-  <p className="text-sm mt-4">&copy; 2024 FirstStep. All rights reserved.</p>
-</div>
-
+        <Footer/>
     </>
   );
 }
