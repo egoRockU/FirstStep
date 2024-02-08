@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import logo from '../images/logo.png'
 
 function Navbar() {
   const navigate = useNavigate();
@@ -8,6 +9,10 @@ function Navbar() {
   const clickLogin = () => {
     navigate("/login");
   };
+
+  const clicklanding = () => {
+    navigate("/")
+  }
 
   const clickRegister = () => {
     navigate("/register");
@@ -45,15 +50,20 @@ function Navbar() {
           </svg>
         </button>
       </div>
-      <ul className={`lg:flex lg:items-center lg:w-3/4 lg:justify-end lg:space-x-24 ${isOpen ? 'block' : 'hidden'}`}>
+      <div className='w-1/2'>
+        <img src={logo} alt="logo" className='h-12 transition-transform hover:scale-125' onClick={clicklanding}/>
+      </div>
+      <div className='flex justify-between w-1/2'>
+      <ul className={`lg:flex lg:items-center  ${isOpen ? 'block' : 'hidden'}`}>
         <li className='my-6 lg:my-0 lg:mx-4 text-xl hover:text-stone-400'>Resume Builder</li>
         <li className='my-6 lg:my-0 lg:mx-4 text-xl hover:text-stone-400'>Portfolio Builder</li>
         <li className='my-6 lg:my-0 lg:mx-4 text-xl hover:text-stone-400'>About us</li>
         <li className='my-6 lg:my-0 lg:mx-4 text-xl hover:text-stone-400'>Employees</li>
       </ul>
-      <div>
+      <div className='flex'>
           <button className='bg-[#CB8A8A] text-white duration-500 px-3 py-2 mx-2 rounded-lg' onClick={clickLogin}>Login</button>
           <button className='text-[#CB8A8A] bg-white duration-500 px-3 py-2 mx-2 rounded-lg' onClick={clickRegister}>Register</button>
+          </div>
         </div>
     </nav>
   );
