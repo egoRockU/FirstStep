@@ -108,52 +108,58 @@ function Register() {
           <div className='w-full mt-5 mb-2 flex justify-center items-center'>
             <h1 className="text-5xl font-medium mb-5">Create Account</h1>
           </div>
-        <div className='flex flex-col w-full h-1/2 mt-5 space-y-6 items-center '>
-            <input
-            style={{
-                backgroundColor:'transparent',
-                fontFamily:'Montserrat, sans-serif',
-                border:'2px solid black',
-              }}
-              type="email"
-              placeholder="Email"
-              className="w-1/2 p-2 border rounded-md custom-input placeholder-black font-semibold"
-              onChange={(e)=>setEmail(e.target.value)}
-            />
-            <input
-            style={{
-                backgroundColor:'transparent',
-                fontFamily:'Montserrat, sans-serif',
-                border:'2px solid black',
-              }}
-              type="email"
-              placeholder="Confirm Email"
-              className="w-1/2 p-2 border rounded-md custom-input font-semibold placeholder-black"
-              onChange={(e)=>setConfirmEmail(e.target.value)}
-            />
-            <input
-            style={{
-                backgroundColor:'transparent',
-                fontFamily:'Montserrat, sans-serif',
-                border:'2px solid black',
-              }}
-              type="password"
-              placeholder="Password"
-              className="w-1/2 p-2 mb-4 border rounded-md custom-input font-semibold placeholder-black"
-              onChange={(e)=>setPassword(e.target.value)}
-            />
-            <input
-            style={{
-                backgroundColor:'transparent',
-                fontFamily:'Montserrat, sans-serif',
-                border:'2px solid black',
-              }}
-              type="password"
-              placeholder="Confirm Password"
-              className="w-1/2 p-2 border rounded-md custom-input font-semibold placeholder-black"
-              onChange={(e)=>setConfirmPassword(e.target.value)}
-            />
-        </div>
+        <form>
+          <div className='flex flex-col w-full h-1/2 mt-5 space-y-6 items-center '>
+              <input
+              style={{
+                  backgroundColor:'transparent',
+                  fontFamily:'Montserrat, sans-serif',
+                  border:'2px solid black',
+                }}
+                type="email"
+                placeholder="Email"
+                className="w-1/2 p-2 border rounded-md custom-input placeholder-black font-semibold"
+                onChange={(e)=>setEmail(e.target.value)}
+                required
+              />
+              <input
+              style={{
+                  backgroundColor:'transparent',
+                  fontFamily:'Montserrat, sans-serif',
+                  border:'2px solid black',
+                }}
+                type="email"
+                placeholder="Confirm Email"
+                className="w-1/2 p-2 border rounded-md custom-input font-semibold placeholder-black"
+                onChange={(e)=>setConfirmEmail(e.target.value)}
+              />
+              <input
+              style={{
+                  backgroundColor:'transparent',
+                  fontFamily:'Montserrat, sans-serif',
+                  border:'2px solid black',
+                }}
+                type="password"
+                placeholder="Password"
+                className="w-1/2 p-2 mb-4 border rounded-md custom-input font-semibold placeholder-black"
+                onChange={(e)=>setPassword(e.target.value)}
+              />
+              <input
+              style={{
+                  backgroundColor:'transparent',
+                  fontFamily:'Montserrat, sans-serif',
+                  border:'2px solid black',
+                }}
+                type="password"
+                placeholder="Confirm Password"
+                className="w-1/2 p-2 border rounded-md custom-input font-semibold placeholder-black"
+                onChange={(e)=>setConfirmPassword(e.target.value)}
+              />
+              <button type="button" className='w-32 text-stone-500 rounded-full bg-white p-2 hover:text-red-500' onClick={handleRegister}>
+                Register
+              </button>
+          </div>
+        </form>
         <div className='w-full space-y-4 flex flex-col items-center'>
           {/*
           <div className="form-group">
@@ -167,9 +173,6 @@ function Register() {
           </label>
           </div>
           */}
-            <button type="button" className='w-32 text-stone-500 rounded-full bg-white p-2 hover:text-red-500' onClick={handleRegister}>
-              Register
-            </button>
           <h1 className='text-lg font-medium'>or</h1>
           <GoogleOAuthProvider clientId={googleClientId}>
             <GoogleLogin
