@@ -2,25 +2,29 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import validator from 'validator';
+import { GoogleLogin, GoogleOAuthProvider } from '@react-oauth/google'
+import { jwtDecode } from 'jwt-decode'
 import logo from '../images/logo.png'
 import '../Fonts.css'
 import BgImage from '../images/signBg.jpg'
 import google from '../images/google.png'
 import Navbar from '../Components/Navbar';
 
+
 function Register() {
 
+  const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmEmail, setConfirmEmail] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
   const [inputs, setInputs] = useState([])
+  const googleClientId = import.meta.env.VITE_GOOGLE_CLIENT_ID
 
   useEffect(() => {
     setInputs({'email': email, 'password': password})
   }, [email, password])
 
-  const navigate = useNavigate();
 
   const bgStyle = {
       background: `url(${BgImage}) center/cover no-repeat`,
@@ -52,7 +56,6 @@ function Register() {
         }
       }).then((res)=>{
         alert('Account has been successfully created.')
-        console.log(res.data)
         navigate('/choose')
       }).catch((err)=>{
         if (err.response.data.emailExist){
@@ -63,10 +66,29 @@ function Register() {
     } else {
       alert('Email must be a valid email address')
     }
-
-
   }
 
+  const handleGoogleRegister = async(credentialResponse) => {
+    let credential = jwtDecode(credentialResponse.credential)
+    const googleInputs = {
+      'email': credential.email,
+      'sub': credential.sub
+    }
+
+    axios.post('/api/googleaccounts/create', googleInputs, {
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded'
+      }
+    }).then((res)=>{
+      alert('Account has been successfully created.')
+      navigate('/choose')
+    }).catch((err)=>{
+      if (err.response.data.emailExist){
+        alert('Account with this email already exists')
+      }
+      console.log(err.response.data.error)
+    })
+  }
 
     // const [agreeTerms, setAgreeTerms] = useState(false);
     // const handleClick = () => {
@@ -149,10 +171,15 @@ function Register() {
               Register
             </button>
           <h1 className='text-lg font-medium'>or</h1>
-          <button className="w-40 bg-white text-stone-500 p-2 rounded-full flex items-center space-x-5 hover:text-red-500 transition-colors duration-300">
-            <img src={google} alt="Google Logo" className="w-8 h-8"/>
-            <span>Sign In</span>
-          </button>
+          <GoogleOAuthProvider clientId={googleClientId}>
+            <GoogleLogin
+              onSuccess={handleGoogleRegister}
+              type="buttton"
+              size="large"
+              text="continue_with"
+              shape='pill'
+            />
+          </GoogleOAuthProvider>
         </div>
         </div>
       </div>

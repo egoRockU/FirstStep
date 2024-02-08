@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios'
 import validator from 'validator'
+import { GoogleLogin, GoogleOAuthProvider } from '@react-oauth/google'
+import { jwtDecode } from 'jwt-decode'
 import logo from '../images/logo.png'
 import '../Fonts.css'
 import BgImage from '../images/signBg.jpg'
@@ -10,9 +13,11 @@ import Navbar from '../Components/Navbar'
 
 function Login() {
 
+  const navigate = useNavigate();
   const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [password, setPassword] = useState('')
   const [inputs, setInputs] = useState([])
+  const googleClientId = import.meta.env.VITE_GOOGLE_CLIENT_ID
 
   useEffect(() => {
     setInputs({'email': email, 'password': password})
@@ -42,6 +47,27 @@ function Login() {
 
   };
 
+  const handleGoogleLogin = (credentialResponse) => {
+    let credential = jwtDecode(credentialResponse.credential)
+    const googleInputs = {
+      'email': credential.email,
+      'sub': credential.sub
+    }
+
+    axios.post('/api/googleaccounts/login', googleInputs, {
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded'
+      }
+    }).then((res)=>{
+      console.log(res.data)
+    }).catch((err)=>{
+      if (err.response.data.emailDoesNotExist){ 
+        alert(err.response.data.error)
+        navigate('/register')
+      }
+    })
+
+  }
 
   return (
 
@@ -89,10 +115,15 @@ function Login() {
             Log In
           </button>
           <h1 className='text-lg'>OR</h1>
-          <button className="w-40 bg-white text-stone-500 p-2 rounded-full flex items-center space-x-5 hover:text-red-500 transition-colors duration-300">
-            <img src={google} alt="Google Logo" className="w-8 h-8"/>
-            <span>Log In</span>
-          </button>
+          <GoogleOAuthProvider clientId={googleClientId}>
+            <GoogleLogin
+              onSuccess={handleGoogleLogin}
+              type="buttton"
+              size="large"
+              text="continue_with"
+              shape='pill'
+            />
+          </GoogleOAuthProvider>
         </div>
       </div>
     </div>

@@ -19,7 +19,7 @@ const createGoogleAccount = asyncHandler(async (req, res) => {
     const emailExist = await checkIfEmailExist(email, GoogleAccount, res)
 
     if (emailExist) {
-        res.status(400)
+        res.status(400).json({error: 'Email already exists', emailExist: true})
         throw new Error('Email already exists')
     }
 
@@ -39,7 +39,7 @@ const loginGoogle = asyncHandler(async (req, res) => {
     const emailExist = await checkIfEmailExist(email, GoogleAccount, res)
 
     if (!emailExist){
-        res.status(401)
+        res.status(401).json({error: 'This account has not been registered yet.', emailDoesNotExist: true})
         throw new Error('Email does not Exist')
     }
 
