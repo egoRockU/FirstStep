@@ -37,6 +37,7 @@ function Login() {
           'Content-Type': 'application/x-www-form-urlencoded'
         }
       }).then((res)=>{
+        alert(res.data.message)
         console.log(res.data)
       }).catch((err)=>{
         console.log(err.response.data.error)
@@ -59,6 +60,7 @@ function Login() {
         'Content-Type': 'application/x-www-form-urlencoded'
       }
     }).then((res)=>{
+      alert(res.data.message)
       console.log(res.data)
     }).catch((err)=>{
       if (err.response.data.emailDoesNotExist){ 
