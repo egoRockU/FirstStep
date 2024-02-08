@@ -22,7 +22,7 @@ const createLocalAccount = asyncHandler(async (req, res) => {
     const emailExist = await checkIfEmailExist(email, LocalAccount, res)
 
     if (emailExist) {
-        res.status(400)
+        res.status(400).json({error: 'Email already exists', emailExist: true})
         throw new Error('Email already exists')
     }
 
@@ -44,7 +44,7 @@ const loginLocal = asyncHandler(async (req, res)=>{
     const emailExists = await checkIfEmailExist(email, LocalAccount,res)
 
     if (!emailExists) {
-        res.status(401)
+        res.status(401).json({error: 'Email does not Exist'})
         throw new Error('Email does not Exist')
     }
 
@@ -56,7 +56,7 @@ const loginLocal = asyncHandler(async (req, res)=>{
             message: 'User Logged In!'
         })
     } else {
-        res.status(401)
+        res.status(401).json({error: 'Incorrect Password'})
         throw new Error('Incorrect Password')
     }
 })

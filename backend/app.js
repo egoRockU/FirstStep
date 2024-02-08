@@ -1,4 +1,5 @@
 import express from 'express'
+import cors from 'cors'
 import localAccountRoutes from './routes/localAccountRoutes.js'
 import googleAccountRoutes from './routes/googleAccountRoutes.js'
 import dotenv from 'dotenv'
@@ -9,7 +10,9 @@ const app = express()
 const port = process.env.PORT || 8000
 connectDB()
 
+app.use(cors())
 app.use(express.urlencoded({ extended: false }))
+
 
 //routes
 app.use('/localaccounts', localAccountRoutes)
