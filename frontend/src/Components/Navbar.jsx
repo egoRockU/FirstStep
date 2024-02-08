@@ -2,16 +2,15 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
 
-
 function Navbar() {
   const navigate = useNavigate();
 
-  const clicklogin = () => {
+  const clickLogin = () => {
     navigate("/login")
   }
   
-  const clickchoose = () => {
-    navigate("/choose")
+  const clickRegister = () => {
+    navigate("/register")
   }
 
   return (
@@ -23,8 +22,8 @@ function Navbar() {
           <h1 className='font-medium text-xl'>Employees</h1>
         </div>
         <div className='flex bg-transparent w-60 justify-between mr-2'>
-          <button style={{color: '#CB8A8A'}} className='bg-white w-28 h-11 px-5 border text-lg rounded-lg hover:text-stone-500' onClick={clicklogin}>Login</button>
-          <button style={{ backgroundColor: '#CB8A8A' }} className='w-28 h-11 px-5 border text-lg text-white rounded-lg hover:text-stone-500' onClick={clickchoose}>Register</button>
+          <button style={{color: '#CB8A8A'}} className='bg-white w-28 h-11 px-5 border text-lg rounded-lg hover:text-stone-500' onClick={clickLogin}>Login</button>
+          <button style={{ backgroundColor: '#CB8A8A' }} className='w-28 h-11 px-5 border text-lg text-white rounded-lg hover:text-stone-500' onClick={clickRegister}>Register</button>
         </div>
     </header>
   );
