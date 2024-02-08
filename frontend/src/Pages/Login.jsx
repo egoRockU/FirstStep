@@ -16,7 +16,8 @@ function Login() {
   return (
 
     <>
-    <div style={bgStyle} className='flex flex-col justify-center'>
+    <div style={bgStyle} className='flex flex-col'>
+      
       <Navbar/>
 
       <div className="flex flex-col bg-white bg-opacity-75 w-1/3 mx-auto h-4/6">
