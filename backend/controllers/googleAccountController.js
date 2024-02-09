@@ -13,7 +13,7 @@ const getAllGoogleAccounts = asyncHandler(async (req, res) => {
     res.status(200).json(accounts)
 })
 
-const createGoogleAccount = asyncHandler(async (req, res) => {
+const createGoogleAccount = asyncHandler(async (req, res, next) => {
     const { email, sub } = req.body
 
     const emailExist = await checkIfEmailExist(email, GoogleAccount, res)
@@ -26,21 +26,28 @@ const createGoogleAccount = asyncHandler(async (req, res) => {
     const insertResult = await GoogleAccount.create({email, sub})
     if (!insertResult) throw new Error ('Error creating account')
 
-    res.status(201).json({
-        message: 'success!',
-        _id: insertResult.insertedId
-    })
-
+    next()
+    // res.status(201).json({
+    //     message: 'success!',
+    //     _id: insertResult.insertedId
+    // })
 })
 
 const loginGoogle = asyncHandler(async (req, res) => {
     const {email, sub} = req.body
 
     const emailExist = await checkIfEmailExist(email, GoogleAccount, res)
+    const accountId = emailExist._id.toString()
 
     if (!emailExist){
         res.status(401).json({error: 'This account has not been registered yet.', emailDoesNotExist: true})
         throw new Error('Email does not Exist')
+    }
+
+    //session
+    if (req.session.authenticated) {
+        res.status(200).json({ message: 'already logged in!', isAuthenticated: true})
+        return
     }
 
     if (emailExist.sub !== sub) {
@@ -48,6 +55,8 @@ const loginGoogle = asyncHandler(async (req, res) => {
         throw new Error('Invalid sub string.')
     }
 
+    req.session.authenticated = true
+    req.session.user = { email, id: accountId }
     res.status(200).json({
         message: 'Google User Logged In!'
     })

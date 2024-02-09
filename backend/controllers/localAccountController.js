@@ -16,7 +16,7 @@ const getAllLocalAccounts = asyncHandler(async (req, res) => {
     res.status(200).json(accounts)
 })
 
-const createLocalAccount = asyncHandler(async (req, res) => {
+const createLocalAccount = asyncHandler(async (req, res, next) => {
     const { email, password } = req.body
 
     const emailExist = await checkIfEmailExist(email, LocalAccount, res)
@@ -31,38 +31,48 @@ const createLocalAccount = asyncHandler(async (req, res) => {
     const insertResult = await LocalAccount.create({email, password: passwordHash})
     if (!insertResult) throw new Error ('Error creating account')
 
-    res.status(201).json({
-        message: 'success!',
-        _id: insertResult.insertedId
-    })
-
+    next()
+    // res.status(201).json({
+    //     message: 'success!',
+    //     _id: insertResult.insertedId
+    // })
 })
 
 const loginLocal = asyncHandler(async (req, res)=>{
     const { email, password } = req.body
-
     const emailExists = await checkIfEmailExist(email, LocalAccount,res)
 
     if (!emailExists) {
         res.status(401).json({error: 'Email does not Exist'})
         throw new Error('Email does not Exist')
     }
+    
+    const accountId = emailExists._id.toString()
 
     const correctPassword = await bcrypt.compare(password, emailExists.password)
     
-    //Add express session when frontend is done
+    //session
+    if (req.session.authenticated) {
+        res.status(200).json({ message: 'already logged in!', isAuthenticated: true})
+        return
+    }
+
     if (correctPassword) {
+        req.session.authenticated = true
+        req.session.user = { email, id: accountId }
         res.status(200).json({
-            message: 'User Logged In!'
+            message: 'User Logged In!',
+            isAuthenticated: true
         })
     } else {
-        res.status(401).json({error: 'Incorrect Password'})
+        res.status(403).json({error: 'Incorrect Password'})
         throw new Error('Incorrect Password')
     }
 })
 
 
 const changeLocalPassword = asyncHandler(async (req, res) => {
+
     const {email, password, newPassword} = req.body
 
     const emailExists = await checkIfEmailExist(email, res)
@@ -90,9 +100,16 @@ const changeLocalPassword = asyncHandler(async (req, res) => {
 })
 
 
+const logout = asyncHandler(async (req, res) => {
+    req.session.destroy()
+    res.clearCookie('connect.sid')
+    res.status(200).json({message: 'User Logged Out'})
+})
+
 export {
     getAllLocalAccounts,
     createLocalAccount,
     loginLocal,
-    changeLocalPassword
+    changeLocalPassword,
+    logout
 }
