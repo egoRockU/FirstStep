@@ -1,31 +1,71 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-
+import logo from '../images/logo.png'
 
 function Navbar() {
   const navigate = useNavigate();
+  const [isOpen, setIsOpen] = useState(false);
 
   const clickLogin = () => {
-    navigate("/login")
-  }
-  
-  const clickRegister = () => {
-    navigate("/register")
+    navigate("/login");
+  };
+
+  const clicklanding = () => {
+    navigate("/")
   }
 
+  const clickRegister = () => {
+    navigate("/register");
+  };
+
   return (
-    <header className='fixed top-0 left-0 right-0 flex justify-end z-50 bg-white bg-opacity-30 py-3'>
-        <div className='flex bg-transparent w-6/12 justify-between mr-32 items-center'>
-          <h1 className='font-medium text-xl'>Resume Builder</h1>
-          <h1 className='font-medium text-xl'>Portfolio Builder</h1>
-          <h1 className='font-medium text-xl'>About us</h1>
-          <h1 className='font-medium text-xl'>Employees</h1>
+    <nav className='p-3 bg-white bg-opacity-75 flex justify-between'>
+      <div className="flex justify-between items-center">
+        <button
+          className="block lg:hidden focus:outline-none"
+          onClick={() => setIsOpen(!isOpen)}
+          aria-label="Toggle Menu"
+        >
+          <svg
+            className="w-6 h-6"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            {isOpen ? (
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M6 18L18 6M6 6l12 12"
+              />
+            ) : (
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M4 6h16M4 12h16m-7 6h7"
+              />
+            )}
+          </svg>
+        </button>
+      </div>
+      <div className='w-1/2'>
+        <img src={logo} alt="logo" className='h-12 transition-transform hover:scale-125' onClick={clicklanding}/>
+      </div>
+      <div className='flex justify-between w-1/2'>
+      <ul className={`lg:flex lg:items-center  ${isOpen ? 'block' : 'hidden'}`}>
+        <li className='my-6 lg:my-0 lg:mx-4 text-xl hover:text-stone-400'>Resume Builder</li>
+        <li className='my-6 lg:my-0 lg:mx-4 text-xl hover:text-stone-400'>Portfolio Builder</li>
+        <li className='my-6 lg:my-0 lg:mx-4 text-xl hover:text-stone-400'>About us</li>
+        <li className='my-6 lg:my-0 lg:mx-4 text-xl hover:text-stone-400'>Employees</li>
+      </ul>
+      <div className='flex'>
+          <button className='bg-[#CB8A8A] text-white duration-500 px-3 py-2 mx-2 rounded-lg' onClick={clickLogin}>Login</button>
+          <button className='text-[#CB8A8A] bg-white duration-500 px-3 py-2 mx-2 rounded-lg' onClick={clickRegister}>Register</button>
+          </div>
         </div>
-        <div className='flex bg-transparent w-60 justify-between mr-2'>
-          <button style={{color: '#CB8A8A'}} className='bg-white w-28 h-11 px-5 border text-lg rounded-lg hover:text-stone-500' onClick={clickLogin}>Login</button>
-          <button style={{ backgroundColor: '#CB8A8A' }} className='w-28 h-11 px-5 border text-lg text-white rounded-lg hover:text-stone-500' onClick={clickRegister}>Register</button>
-        </div>
-    </header>
+    </nav>
   );
 }
 

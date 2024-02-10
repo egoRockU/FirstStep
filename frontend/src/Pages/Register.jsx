@@ -101,13 +101,15 @@ function Register() {
 
   return (
     <>
-      <div style={bgStyle} className='flex flex-col justify-center'>
+      <div style={bgStyle} className='flex flex-col space-y-24'>
+        <div>
         <Navbar/>
-
+        </div>
         <div className="flex flex-col items-center mt-8 bg-white bg-opacity-75 w-1/3 mx-auto h-4/6">
           <div className='w-full mt-5 mb-2 flex justify-center items-center'>
             <h1 className="text-5xl font-medium mb-5">Create Account</h1>
           </div>
+        <form className='w-full mb-4'>
         <div className='flex flex-col w-full h-1/2 mt-5 space-y-6 items-center '>
             <input
             style={{
@@ -153,7 +155,11 @@ function Register() {
               className="w-1/2 p-2 border rounded-md custom-input font-semibold placeholder-black"
               onChange={(e)=>setConfirmPassword(e.target.value)}
             />
+             <button type="button" className='w-32 text-stone-500 rounded-full bg-white p-2 hover:text-red-500' onClick={handleRegister}>
+              Register
+            </button>
         </div>
+        </form>
         <div className='w-full space-y-4 flex flex-col items-center'>
           {/*
           <div className="form-group">
@@ -167,9 +173,6 @@ function Register() {
           </label>
           </div>
           */}
-            <button type="button" className='w-32 text-stone-500 rounded-full bg-white p-2 hover:text-red-500' onClick={handleRegister}>
-              Register
-            </button>
           <h1 className='text-lg font-medium'>or</h1>
           <GoogleOAuthProvider clientId={googleClientId}>
             <GoogleLogin
