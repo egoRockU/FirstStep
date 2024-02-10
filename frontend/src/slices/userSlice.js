@@ -20,6 +20,28 @@ export const loginUser = createAsyncThunk(
         }
 })
 
+export const loginGoogle = createAsyncThunk(
+    'user/loginGoogle',
+    async (inputs)=>{
+        try {
+            const res = await axios.post('/api/googleaccounts/login', inputs, {
+                headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+                }
+            })
+            localStorage.setItem('user', JSON.stringify(res.data.user))
+            alert(res.data.message)
+            console.log(res.data['user'])
+            return (res.data['user'])
+        } catch (err) {
+            if (err.response.data.emailDoesNotExist){ 
+                alert(err.response.data.error)
+                navigate('/register')
+            }
+        }
+    }
+)
+
 export const logoutUser = createAsyncThunk(
     'user/logoutUser',
     async()=>{
@@ -54,6 +76,23 @@ const userSlice = createSlice({
             state.error = null
         })
         .addCase(loginUser.rejected, (state, action)=>{
+            state.loading = false
+            state.user = null
+            console.log(action.error.message)
+            state.error = action.error.message
+        })
+        .addCase(loginGoogle.pending, (state)=>{
+            state.loading = true
+            state.user = null
+            state.error = null
+        })
+        .addCase(loginGoogle.fulfilled, (state, action)=>{
+            state.loading = false
+            console.log('payload: ' + JSON.stringify(action.payload))
+            state.user = JSON.stringify(action.payload)
+            state.error = null
+        })
+        .addCase(loginGoogle.rejected, (state, action)=>{
             state.loading = false
             state.user = null
             console.log(action.error.message)

@@ -10,7 +10,7 @@ import BgImage from '../images/signBg.jpg'
 import google from '../images/google.png'
 import Navbar from '../Components/Navbar'
 import { useDispatch, useSelector } from 'react-redux';
-import { loginUser } from '../slices/userSlice';
+import { loginUser, loginGoogle } from '../slices/userSlice';
 
 
 function Login() {
@@ -63,19 +63,22 @@ function Login() {
       'sub': credential.sub
     }
 
-    axios.post('/api/googleaccounts/login', googleInputs, {
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded'
-      }
-    }).then((res)=>{
-      alert(res.data.message)
-      console.log(res.data)
-    }).catch((err)=>{
-      if (err.response.data.emailDoesNotExist){ 
-        alert(err.response.data.error)
-        navigate('/register')
-      }
-    })
+    dispatch(loginGoogle(googleInputs))
+    navigate('/')
+
+    // axios.post('/api/googleaccounts/login', googleInputs, {
+    //   headers: {
+    //     'Content-Type': 'application/x-www-form-urlencoded'
+    //   }
+    // }).then((res)=>{
+    //   alert(res.data.message)
+    //   console.log(res.data)
+    // }).catch((err)=>{
+    //   if (err.response.data.emailDoesNotExist){ 
+    //     alert(err.response.data.error)
+    //     navigate('/register')
+    //   }
+    // })
 
   }
 

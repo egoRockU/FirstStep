@@ -58,8 +58,14 @@ const loginGoogle = asyncHandler(async (req, res) => {
     }
 
     generateToken(email, res)
+    const user = {
+        email: emailExist.email,
+        id: emailExist._id.toString(),
+        accountType: 'google'
+    }
     res.status(200).json({
-        message: 'Google User Logged In!'
+        message: 'Google User Logged In!',
+        user
     })
 })
 
