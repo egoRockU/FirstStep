@@ -60,8 +60,14 @@ const loginLocal = asyncHandler(async (req, res)=>{
     
     if (correctPassword) {
         generateToken(email, res)
+        const user = {
+            email: emailExists.email,
+            id: emailExists._id.toString(),
+            accountType: 'local'
+        }
         res.status(200).json({
-            message: 'User Logged In!'
+            message: 'User Logged In!',
+            user
         })
     } else {
         res.status(401).json({error: 'Incorrect Password'})

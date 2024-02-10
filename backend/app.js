@@ -2,6 +2,7 @@ import express from 'express'
 import cors from 'cors'
 import localAccountRoutes from './routes/localAccountRoutes.js'
 import googleAccountRoutes from './routes/googleAccountRoutes.js'
+import logout from './routes/logout.js'
 import cookieParser from 'cookie-parser'
 import dotenv from 'dotenv'
 dotenv.config()
@@ -20,6 +21,7 @@ app.use(express.urlencoded({ extended: false }))
 //routes
 app.use('/localaccounts', localAccountRoutes)
 app.use('/googleaccounts', googleAccountRoutes)
+app.use('/logout', logout)
 
 app.listen(port, ()=>{
     console.log(`Express app is listening at port ${port}`)

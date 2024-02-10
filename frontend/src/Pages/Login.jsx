@@ -9,6 +9,8 @@ import '../Fonts.css'
 import BgImage from '../images/signBg.jpg'
 import google from '../images/google.png'
 import Navbar from '../Components/Navbar'
+import { useDispatch, useSelector } from 'react-redux';
+import { loginUser } from '../slices/userSlice';
 
 
 function Login() {
@@ -18,6 +20,9 @@ function Login() {
   const [password, setPassword] = useState('')
   const [inputs, setInputs] = useState([])
   const googleClientId = import.meta.env.VITE_GOOGLE_CLIENT_ID
+
+  const dispatch = useDispatch()
+  const {loading, error} = useSelector((state)=>state.user)
 
   useEffect(() => {
     setInputs({'email': email, 'password': password})
@@ -32,16 +37,19 @@ function Login() {
   const login = (e) => {
     e.preventDefault()
     if (validator.isEmail(email)){
-      axios.post('/api/localaccounts/login', inputs, {
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded'
-        }
-      }).then((res)=>{
-        alert(res.data.message)
-        console.log(res.data)
-      }).catch((err)=>{
-        console.log(err.response.data.error)
-      })
+      // axios.post('/api/localaccounts/login', inputs, {
+      //   headers: {
+      //     'Content-Type': 'application/x-www-form-urlencoded'
+      //   }
+      // }).then((res)=>{
+      //   alert(res.data.message)
+      //   console.log(res.data)
+      // }).catch((err)=>{
+      //   console.log(err.response.data.error)
+      // })
+      dispatch(loginUser(inputs))
+      navigate('/')
+
     } else {
       alert('Email must be a valid email address')
     }

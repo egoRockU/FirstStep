@@ -1,14 +1,25 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import logo from '../images/logo.png'
+import { useDispatch, useSelector } from 'react-redux';
+import { logoutUser } from '../slices/userSlice';
 
 function Navbar() {
   const navigate = useNavigate();
+  const { user } = useSelector((state)=>state.user)
+  const dispatch = useDispatch()
+
   const [isOpen, setIsOpen] = useState(false);
+
 
   const clickLogin = () => {
     navigate("/login");
   };
+
+  const clickLogout = () => {
+    dispatch(logoutUser())
+    navigate('/')
+  }
 
   const clicklanding = () => {
     navigate("/")
@@ -61,7 +72,8 @@ function Navbar() {
         <li className='my-6 lg:my-0 lg:mx-4 text-xl hover:text-stone-400'>Employees</li>
       </ul>
       <div className='flex'>
-          <button className='bg-[#CB8A8A] text-white duration-500 px-3 py-2 mx-2 rounded-lg' onClick={clickLogin}>Login</button>
+          {!user ? <button className='bg-[#CB8A8A] text-white duration-500 px-3 py-2 mx-2 rounded-lg' onClick={clickLogin}>Login</button> :
+            <button className='bg-[#CB8A8A] text-white duration-500 px-3 py-2 mx-2 rounded-lg' onClick={clickLogout}>Logout</button>}
           <button className='text-[#CB8A8A] bg-white duration-500 px-3 py-2 mx-2 rounded-lg' onClick={clickRegister}>Register</button>
           </div>
         </div>
