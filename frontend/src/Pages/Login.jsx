@@ -37,16 +37,6 @@ function Login() {
   const login = (e) => {
     e.preventDefault()
     if (validator.isEmail(email)){
-      // axios.post('/api/localaccounts/login', inputs, {
-      //   headers: {
-      //     'Content-Type': 'application/x-www-form-urlencoded'
-      //   }
-      // }).then((res)=>{
-      //   alert(res.data.message)
-      //   console.log(res.data)
-      // }).catch((err)=>{
-      //   console.log(err.response.data.error)
-      // })
       dispatch(loginUser(inputs))
       navigate('/')
 
@@ -62,24 +52,12 @@ function Login() {
       'email': credential.email,
       'sub': credential.sub
     }
-
-    dispatch(loginGoogle(googleInputs))
+    dispatch(loginGoogle(googleInputs)).then((result)=>{
+      if (result.error){
+        navigate('/register')
+      }
+    })
     navigate('/')
-
-    // axios.post('/api/googleaccounts/login', googleInputs, {
-    //   headers: {
-    //     'Content-Type': 'application/x-www-form-urlencoded'
-    //   }
-    // }).then((res)=>{
-    //   alert(res.data.message)
-    //   console.log(res.data)
-    // }).catch((err)=>{
-    //   if (err.response.data.emailDoesNotExist){ 
-    //     alert(err.response.data.error)
-    //     navigate('/register')
-    //   }
-    // })
-
   }
 
   return (

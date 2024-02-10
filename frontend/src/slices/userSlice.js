@@ -36,7 +36,8 @@ export const loginGoogle = createAsyncThunk(
         } catch (err) {
             if (err.response.data.emailDoesNotExist){ 
                 alert(err.response.data.error)
-                navigate('/register')
+                throw new Error ('Email does not exist')
+                //return (err.response.data.emailDoesNotExist)
             }
         }
     }
