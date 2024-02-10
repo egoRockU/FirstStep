@@ -1,8 +1,11 @@
 import asyncHandler from 'express-async-handler'
 import GoogleAccount from '../models/googleAccountModel.js'
 import checkIfEmailExist from '../utils/checkIfEmailExists.js'
+import LocalAccount from '../models/localAccountModel.js'
+import generateToken from '../utils/generateToken.js'
 
 const getAllGoogleAccounts = asyncHandler(async (req, res) => {
+    console.log(req.user)
     const accounts = await GoogleAccount.find({})
 
     if (!accounts) {
@@ -17,10 +20,16 @@ const createGoogleAccount = asyncHandler(async (req, res) => {
     const { email, sub } = req.body
 
     const emailExist = await checkIfEmailExist(email, GoogleAccount, res)
+    const emailExistsInLocal = await checkIfEmailExist(email, LocalAccount, res)
 
     if (emailExist) {
         res.status(400).json({error: 'Email already exists', emailExist: true})
         throw new Error('Email already exists')
+    }
+
+    if (emailExistsInLocal) {
+        res.status(400).json({error: 'This email already have an account. Try logging in by entering email and password', emailExist: true})
+        throw new Error('This email already have an account. Try logging in by entering email and password')
     }
 
     const insertResult = await GoogleAccount.create({email, sub})
@@ -48,6 +57,7 @@ const loginGoogle = asyncHandler(async (req, res) => {
         throw new Error('Invalid sub string.')
     }
 
+    generateToken(email, res)
     res.status(200).json({
         message: 'Google User Logged In!'
     })
