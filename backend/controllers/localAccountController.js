@@ -2,6 +2,8 @@ import asyncHandler from 'express-async-handler'
 import LocalAccount from '../models/localAccountModel.js'
 import bcrypt from 'bcrypt'
 import checkIfEmailExist from '../utils/checkIfEmailExists.js'
+import generateToken from '../utils/generateToken.js'
+import GoogleAccount from '../models/googleAccountModel.js'
 
 const saltRounds = 10
 
@@ -20,10 +22,16 @@ const createLocalAccount = asyncHandler(async (req, res) => {
     const { email, password } = req.body
 
     const emailExist = await checkIfEmailExist(email, LocalAccount, res)
+    const emailExistsInGoogle = await checkIfEmailExist(email, GoogleAccount, res)
 
     if (emailExist) {
         res.status(400).json({error: 'Email already exists', emailExist: true})
         throw new Error('Email already exists')
+    }
+
+    if (emailExistsInGoogle) {
+        res.status(400).json({error: 'This email already have an account. Try logging in using Google', emailExist: true})
+        throw new Error('This email already have an account. Try logging in using Google')
     }
 
     const passwordHash = await bcrypt.hash(password, saltRounds)
@@ -50,8 +58,8 @@ const loginLocal = asyncHandler(async (req, res)=>{
 
     const correctPassword = await bcrypt.compare(password, emailExists.password)
     
-    //Add express session when frontend is done
     if (correctPassword) {
+        generateToken(email, res)
         res.status(200).json({
             message: 'User Logged In!'
         })
@@ -89,10 +97,19 @@ const changeLocalPassword = asyncHandler(async (req, res) => {
     })
 })
 
+const logout = asyncHandler(async (req, res)=>{
+    res.cookie('access_token', '', {
+        httpOnly: true,
+        expires: new Date(0)
+    })
+
+    res.status(200).json({message: 'User logged out successfully'})
+})
 
 export {
     getAllLocalAccounts,
     createLocalAccount,
     loginLocal,
-    changeLocalPassword
+    changeLocalPassword,
+    logout
 }

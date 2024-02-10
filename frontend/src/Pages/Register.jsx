@@ -59,7 +59,7 @@ function Register() {
         navigate('/choose')
       }).catch((err)=>{
         if (err.response.data.emailExist){
-          alert('Account with this email already exists')
+          alert(err.response.data.error)
         }
         console.log(err.response.data.error)
       })
