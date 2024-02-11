@@ -29,9 +29,9 @@ function Navbar() {
     navigate("/register");
   };
 
-  const clickProfile = () => {
-    navigate('/choose')
-  }
+  // const clickProfile = () => {
+  //   navigate('/choose')
+  // }
 
   return (
     <nav className='p-3 bg-white bg-opacity-75 flex justify-between'>
@@ -64,9 +64,9 @@ function Navbar() {
             )}
           </svg>
         </button>
-      </div>
-      <div className='w-1/2'>
+      <div className='w-full'>
         <img src={logo} alt="logo" className='h-12 transition-transform hover:scale-125' onClick={clicklanding}/>
+      </div>
       </div>
       <div className='flex justify-between w-1/2'>
       <ul className={`lg:flex lg:items-center  ${isOpen ? 'block' : 'hidden'}`}>
@@ -75,7 +75,7 @@ function Navbar() {
         <li className='my-6 lg:my-0 lg:mx-4 text-xl hover:text-stone-400'>About us</li>
         <li className='my-6 lg:my-0 lg:mx-4 text-xl hover:text-stone-400'>Employees</li>
       </ul>
-        {!user ? 
+        {/* {!user ? 
             <div className='flex'>
               <button className='bg-[#CB8A8A] text-white duration-500 px-3 py-2 mx-2 rounded-lg' onClick={clickLogin}>Login</button>
               <button className='text-[#CB8A8A] bg-white duration-500 px-3 py-2 mx-2 rounded-lg' onClick={clickRegister}>Register</button>
@@ -85,7 +85,11 @@ function Navbar() {
             <button className='bg-[#CB8A8A] text-white duration-500 px-3 py-2 mx-2 rounded-lg' onClick={clickLogout}>Logout</button>
             <button className='text-[#CB8A8A] bg-white duration-500 px-3 py-2 mx-2 rounded-lg' onClick={clickProfile}>Profile</button>
           </div>
-        }
+        } */}
+          <div className='flex'>
+            <button className='bg-[#CB8A8A] text-white duration-500 px-3 py-2 mx-2 rounded-lg' onClick={clickLogin}>Login</button>
+            <button className='text-[#CB8A8A] bg-white duration-500 px-3 py-2 mx-2 rounded-lg' onClick={clickRegister}>Register</button>
+          </div> 
         </div>
     </nav>
   );

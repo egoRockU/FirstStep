@@ -3,6 +3,7 @@ import Login from './Pages/Login';
 import Register from './Pages/Register'
 import Choose from './Pages/Choose'
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import Create from './Pages/Create';
 import { useSelector } from 'react-redux'
 
 function App() {
@@ -16,6 +17,7 @@ function App() {
           <Route path="/login" element={<Login/>}/>
           <Route path="/register" element={ !user ? (<Register/>) : (<Landing />)}/>
           <Route path="/choose" element={ user ? (<Choose/>) : (<Login />)}/>
+          <Route path="/create" element={ user ? (<Create/>) : (<Login />)}/>
         </Routes>
       </BrowserRouter>
   );
