@@ -49,9 +49,9 @@ function Navbar() {
             )}
           </svg>
         </button>
-      </div>
-      <div className='w-1/2'>
+      <div className='w-full'>
         <img src={logo} alt="logo" className='h-12 transition-transform hover:scale-125' onClick={clicklanding}/>
+      </div>
       </div>
       <div className='flex justify-between w-1/2'>
       <ul className={`lg:flex lg:items-center  ${isOpen ? 'block' : 'hidden'}`}>
