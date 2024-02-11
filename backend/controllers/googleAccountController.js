@@ -3,6 +3,8 @@ import GoogleAccount from '../models/googleAccountModel.js'
 import checkIfEmailExist from '../utils/checkIfEmailExists.js'
 import LocalAccount from '../models/localAccountModel.js'
 import generateToken from '../utils/generateToken.js'
+import crypto from 'crypto'
+import sendVerificationEmail from '../utils/sendVerificationEmail.js'
 
 const getAllGoogleAccounts = asyncHandler(async (req, res) => {
     console.log(req.user)
@@ -32,8 +34,11 @@ const createGoogleAccount = asyncHandler(async (req, res) => {
         throw new Error('This email already have an account. Try logging in by entering email and password')
     }
 
-    const insertResult = await GoogleAccount.create({email, sub})
+    const uniqueString = crypto.randomBytes(64).toString('hex')
+
+    const insertResult = await GoogleAccount.create({email, sub, uniqueString})
     if (!insertResult) throw new Error ('Error creating account')
+    sendVerificationEmail(email, uniqueString)
 
     res.status(201).json({
         message: 'success!',

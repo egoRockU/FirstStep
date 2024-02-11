@@ -1,29 +1,27 @@
 import nodemailer from 'nodemailer'
+import dotenv from 'dotenv'
+dotenv.config()
 
 const sendVerificationEmail = (email, uniqueString) => {
 
-    const transporter = nodemailer.createTransport({
-        service: "Gmail",
-        host: "smtp.gmail.com",
-        port: 465,
-        secure: true,
+    let transporter = nodemailer.createTransport({
+        service: "gmail",
         auth: {
-            type: 'login',
             user: process.env.GMAIL_USER,
             pass: process.env.GMAIL_APP_PASS
         }
     })
 
-    const sender = {
-        name: 'First Step',
-        address: process.env.GMAIL_USER
-    }
+    // const sender = {
+    //     name: 'FirstStep',
+    //     address: process.env.GMAIL_USER
+    // }
 
-    const options = {
-        from: sender,
+    let options = {
+        from: process.env.GMAIL_USER,
         to: email,
         subject: 'FirstStep Email Verification',
-        html: `Please click <a href=http://localhost:5000/verify/${uniqueString} here to confirm your registraion.`
+        html: `Please click <a href=http://localhost:8000/verify/${uniqueString}> here </a> to confirm your registraion.`
     }
 
     transporter.sendMail(options, (err, res) => {

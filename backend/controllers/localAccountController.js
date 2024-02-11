@@ -5,6 +5,7 @@ import checkIfEmailExist from '../utils/checkIfEmailExists.js'
 import generateToken from '../utils/generateToken.js'
 import GoogleAccount from '../models/googleAccountModel.js'
 import crypto from 'crypto'
+import sendVerificationEmail from '../utils/sendVerificationEmail.js'
 
 const saltRounds = 10
 
@@ -41,6 +42,7 @@ const createLocalAccount = asyncHandler(async (req, res) => {
     const insertResult = await LocalAccount.create({email, password: passwordHash, uniqueString})
     if (!insertResult) throw new Error ('Error creating account')
 
+    sendVerificationEmail(email, uniqueString)
 
     res.status(201).json({
         message: 'success!',

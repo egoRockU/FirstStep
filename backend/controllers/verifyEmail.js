@@ -17,6 +17,8 @@ const verifyEmail = asyncHandler(async(req, res) => {
     } else {
         console.log('Account not found.')
     }
+
+    res.status(200).send('<p>Thank you for confirming!. Your email is now verified.</p>')
 })
 
 export default verifyEmail

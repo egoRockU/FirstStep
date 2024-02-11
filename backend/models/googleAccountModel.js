@@ -9,6 +9,15 @@ const googleAccountSchema = new mongoose.Schema ({
         type: String,
         required: true
     },
+    isVerified: {
+        type: Boolean,
+        required: false,
+        default: false
+    },
+    uniqueString: {
+        type: String,
+        required: true
+    },
     profileId: {
         type: mongoose.Schema.Types.ObjectId,
         required: false,
