@@ -4,6 +4,7 @@ import bcrypt from 'bcrypt'
 import checkIfEmailExist from '../utils/checkIfEmailExists.js'
 import generateToken from '../utils/generateToken.js'
 import GoogleAccount from '../models/googleAccountModel.js'
+import crypto from 'crypto'
 
 const saltRounds = 10
 
@@ -35,9 +36,11 @@ const createLocalAccount = asyncHandler(async (req, res) => {
     }
 
     const passwordHash = await bcrypt.hash(password, saltRounds)
+    const uniqueString = crypto.randomBytes(64).toString('hex')
 
-    const insertResult = await LocalAccount.create({email, password: passwordHash})
+    const insertResult = await LocalAccount.create({email, password: passwordHash, uniqueString})
     if (!insertResult) throw new Error ('Error creating account')
+
 
     res.status(201).json({
         message: 'success!',

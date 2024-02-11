@@ -2,6 +2,7 @@ import express from 'express'
 import cors from 'cors'
 import localAccountRoutes from './routes/localAccountRoutes.js'
 import googleAccountRoutes from './routes/googleAccountRoutes.js'
+import verifyEmail from './controllers/verifyEmail.js'
 import logout from './routes/logout.js'
 import cookieParser from 'cookie-parser'
 import dotenv from 'dotenv'
@@ -22,6 +23,7 @@ app.use(express.urlencoded({ extended: false }))
 app.use('/localaccounts', localAccountRoutes)
 app.use('/googleaccounts', googleAccountRoutes)
 app.use('/logout', logout)
+app.get('/verify/:uniqueString', verifyEmail)
 
 app.listen(port, ()=>{
     console.log(`Express app is listening at port ${port}`)
