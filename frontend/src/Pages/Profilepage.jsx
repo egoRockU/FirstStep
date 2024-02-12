@@ -4,6 +4,9 @@ import banner from "../images/signBg.jpg";
 import man from "../images/tommy.png";
 import twitter from "../images/twitter.png";
 import ucc from '../images/ucclogo.webp'
+import yt from '../images/yt.png'
+import fb from '../images/fb.png'
+
 
 function Profilepage() {
   return (
@@ -16,8 +19,9 @@ function Profilepage() {
           className="w-full h-80 object-cover rounded-lg"
         />
       </div>
+      <div className="container mx-auto flex space-x-2">
       <div className="flex flex-col mb-60">
-        <div className="flex container mx-auto mt-5 bg-white shadow-xl rounded-lg pb-8 ">
+        <div className="flex mt-5 bg-white shadow-xl rounded-lg pb-8 ">
           <div className="w-5/6">
             <div className="space-y-4 ml-10">
               <div>
@@ -48,8 +52,8 @@ function Profilepage() {
           <div className="w-1/6 space-y-10">
             <h2>Socials</h2>
             <img src={twitter} alt="" />
-            <img src={twitter} alt="" />
-            <img src={twitter} alt="" />
+            <img src={yt} alt="" />
+            <img src={fb} alt="" />
           </div>
         </div>
 
@@ -103,6 +107,15 @@ function Profilepage() {
             </div>
             </div>
         </div>
+      </div>
+      <div className="bg-white shadow-lg rounded-xl p-4 mb-60 text-center">
+        <h2 className="text-2xl">Certificates and Achievements</h2>
+        <div className="p-4 flex flex-col items-center h-1/3 justify-around">
+            <img src={ucc} alt="" className="w-24 h-24" />
+            <img src={ucc} alt="" className="w-24 h-24" />
+            <img src={ucc} alt="" className="w-24 h-24" />
+        </div>
+      </div>
       </div>
     </>
   );
