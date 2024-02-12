@@ -4,10 +4,10 @@ import { getAllLocalAccounts,
         createLocalAccount,
         loginLocal,
         changeLocalPassword
-
 } from '../controllers/localAccountController.js'
+import authenticateToken from '../middlewares/authenticateToken.js'
 
-router.get('/', getAllLocalAccounts)
+router.get('/', authenticateToken, getAllLocalAccounts)
 router.post('/create', createLocalAccount)
 router.post('/login', loginLocal)
 router.post('/changepassword', changeLocalPassword)

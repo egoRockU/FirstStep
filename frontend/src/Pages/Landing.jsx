@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
 import '../Fonts.css'
 import Navbar from '../Components/Navbar';
 import BgImage from '../images/hero1bg.png';
@@ -12,9 +13,13 @@ import portfolio from '../images/portfolio.png'
 import applicants from '../images/applicants.png'
 import say from '../images/say.png'
 import Footer from '../Components/Footer';
+import NavbarLoggedIn from '../Components/NavbarLoggedIn';
 
 
 function Landing() {
+
+  const {user} = useSelector((state)=>state.user)
+
   const [openDropdown, setOpenDropdown] = useState(null);
 
   const toggleDropdown = (index) => {
@@ -34,7 +39,7 @@ function Landing() {
 
   {/* first section */}
       <div style={landingStyle}>
-        <Navbar />
+        {user ? <NavbarLoggedIn/> : <Navbar />}
         <div className="flex justify-end  mr-32">
           <div className="w-1/2 mt-40 mr-5">
             <div className='flex items-center justify-center mr-20'>

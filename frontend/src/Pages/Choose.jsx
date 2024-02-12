@@ -5,6 +5,7 @@ import BgImage from '../images/signBg.jpg';
 import job from '../images/job.png';
 import talent from '../images/talent.png';
 import Navbar from '../Components/Navbar';
+import NavbarLoggedIn from '../Components/NavbarLoggedIn';
 
 function Choose() {
   
@@ -20,15 +21,16 @@ function Choose() {
 
   const navigate = useNavigate();
 
-
-  const clickapplicant = () =>{
-    navigate("/create")
+  const clickapplicant = () => {
+    navigate("/create");
   }
 
   return (
     <>
       <div style={bgStyle}>
-        <Navbar/>
+        <div style={{ position: 'absolute', top: '0', left: '0', right: '0', zIndex: '100' }}>
+          <NavbarLoggedIn />
+        </div>
         <div className='w-1/2 h-4/6 flex flex-col items-center text-center bg-white bg-opacity-60'>
           <h1 className='text-5xl text-black mb-2 mt-5'>Create Account</h1>
           <p className='text-lg font-medium mb-2'>I am an...</p>

@@ -14,6 +14,15 @@ const localAccountSchema = new mongoose.Schema({
         required: false,
         default: null
     },
+    isVerified: {
+        type: Boolean,
+        required: false,
+        default: false
+    },
+    uniqueString: {
+        type: String,
+        required: true
+    },
     isAdmin: {
         type: Boolean,
         required: false,
