@@ -56,7 +56,7 @@ function Register() {
         }
       }).then((res)=>{
         alert('Account has been successfully created.')
-        navigate('/choose')
+        navigate('/login')
       }).catch((err)=>{
         if (err.response.data.emailExist){
           alert(err.response.data.error)
@@ -81,10 +81,10 @@ function Register() {
       }
     }).then((res)=>{
       alert('Account has been successfully created.')
-      navigate('/choose')
+      navigate('/login')
     }).catch((err)=>{
       if (err.response.data.emailExist){
-        alert('Account with this email already exists')
+        alert(err.response.data.error)
       }
       console.log(err.response.data.error)
     })

@@ -70,6 +70,8 @@ function NavbarLoggedIn() {
           <BsBell className="text-black duration-500 mx-2 cursor-pointer text-3xl" />
           {/* Profile icon */}
           <BsPerson className="text-black duration-500 mx-2 cursor-pointer text-3xl" onClick={clickProfile}/>
+
+          {/* Nilagay ko lang tong logout dito pang test. Tanggalin mo na lang tas lagay mo yung clickLogout function sa gagawin mo pang logout. -gerwin */}
           <button className='bg-[#CB8A8A] text-white duration-500 px-3 py-2 mx-2 rounded-lg' onClick={clickLogout}>Logout</button>
         </div>
       </div>
