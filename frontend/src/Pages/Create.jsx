@@ -54,18 +54,16 @@ function Create() {
             <button className="text-2xl bg-[#FFCECE] w-full rounded-full">
               +
             </button>
-          </div>
         </div>
+          </div>
         <form className="w-2/3">
           <div className="bg-gray-100 p-4 rounded-lg shadow-md">
             <div>
               <h2 className="text-3xl font-semibold mb-4">Summary</h2>
-              <p>
-                Lorem ipsum dolor sit, amet consectetur adipisicing elit. Fugiat
-                molestiae, nisi ipsum quibusdam earum quaerat saepe veniam ipsam
-                eaque. Nulla eaque molestiae dolores laboriosam explicabo
-                officia aliquam totam nam ducimus.
-              </p>
+              <textarea
+              class="w-full h-full bg-transparent border-none outline-none p-4 rounded-xl resize-none text-xl"
+              placeholder="Type here..."
+            ></textarea>
             </div>
             <hr className="w-full border-gray-300 my-4" />
             <div className="mb-4">
@@ -91,7 +89,7 @@ function Create() {
             <hr className="w-full border-gray-300 my-4" />
             <button
               type="submit"
-              className="bg-blue-500 text-white py-2 px-4 rounded-lg shadow-md hover:bg-blue-600"
+              className="bg-[#FFCECE] text-black py-2 px-4 rounded-lg shadow-md hover:text-stone-500"
             >
               Submit
             </button>

@@ -5,6 +5,7 @@ import Choose from './Pages/Choose'
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Create from './Pages/Create';
 import { useSelector } from 'react-redux'
+import Profilepage from './Pages/Profilepage';
 
 function App() {
 
@@ -18,6 +19,7 @@ function App() {
           <Route path="/register" element={ !user ? (<Register/>) : (<Landing />)}/>
           <Route path="/choose" element={ user ? (<Choose/>) : (<Login />)}/>
           <Route path="/create" element={ user ? (<Create/>) : (<Login />)}/>
+          <Route path='/profile' element={<Profilepage/>}/>
         </Routes>
       </BrowserRouter>
   );
