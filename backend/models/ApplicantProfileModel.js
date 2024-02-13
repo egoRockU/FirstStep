@@ -89,11 +89,7 @@ const ApplicantProfileSchema = new Schema({
     required: false,
     default: ''
   },
-  portfolioId: {
-    type: Schema.Types.ObjectId,
-    required: false,
-    default: null
-  },
+  
   messages: {
     type: [Schema.Types.ObjectId],
     required: false,
