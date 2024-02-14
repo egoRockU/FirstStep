@@ -178,9 +178,10 @@ function Register() {
             <GoogleLogin
               onSuccess={handleGoogleRegister}
               type="buttton"
-              size="large"
-              text="continue_with"
+              size="medium"
+              text="signup_with"
               shape='pill'
+              logo_alignment='center'
             />
           </GoogleOAuthProvider>
         </div>

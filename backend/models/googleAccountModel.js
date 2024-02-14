@@ -16,7 +16,7 @@ const googleAccountSchema = new mongoose.Schema ({
     },
     uniqueString: {
         type: String,
-        required: true
+        required: false
     },
     profileId: {
         type: mongoose.Schema.Types.ObjectId,

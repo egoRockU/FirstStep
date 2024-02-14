@@ -115,8 +115,8 @@ function Login() {
             <GoogleLogin
               onSuccess={handleGoogleLogin}
               type="buttton"
-              size="large"
-              text="continue_with"
+              size="medium"
+              text="signin_with"
               shape='pill'
             />
           </GoogleOAuthProvider>

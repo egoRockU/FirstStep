@@ -3,8 +3,11 @@ import GoogleAccount from '../models/googleAccountModel.js'
 import checkIfEmailExist from '../utils/checkIfEmailExists.js'
 import LocalAccount from '../models/localAccountModel.js'
 import generateToken from '../utils/generateToken.js'
+import bcrypt from 'bcrypt'
 import crypto from 'crypto'
 import sendVerificationEmail from '../utils/sendVerificationEmail.js'
+
+const saltRounds = 10
 
 const getAllGoogleAccounts = asyncHandler(async (req, res) => {
     console.log(req.user)
@@ -34,9 +37,10 @@ const createGoogleAccount = asyncHandler(async (req, res) => {
         throw new Error('This email already have an account. Try logging in by entering email and password')
     }
 
+    const subHash = await bcrypt.hash(sub, saltRounds)
     const uniqueString = crypto.randomBytes(64).toString('hex')
 
-    const insertResult = await GoogleAccount.create({email, sub, uniqueString})
+    const insertResult = await GoogleAccount.create({email, sub: subHash, uniqueString})
     if (!insertResult) throw new Error ('Error creating account')
     sendVerificationEmail(email, uniqueString)
 
@@ -57,7 +61,9 @@ const loginGoogle = asyncHandler(async (req, res) => {
         throw new Error('Email does not Exist')
     }
 
-    if (emailExist.sub !== sub) {
+    const correctSub = await bcrypt.compare(sub, emailExist.sub)
+
+    if (!correctSub) {
         res.status(401)
         throw new Error('Invalid sub string.')
     }
