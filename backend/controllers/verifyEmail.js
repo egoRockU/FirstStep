@@ -18,7 +18,7 @@ const verifyEmail = asyncHandler(async(req, res) => {
     } else {
         res.status(404).send(`<h3>Page not Found</h3>
                             <p>Token already expired</p>`)
-        console.log('Account not found.')
+        throw new Error('Account not Found')
     }
 
     res.status(200).send(`

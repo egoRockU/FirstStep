@@ -155,7 +155,7 @@ function Register() {
               className="w-1/2 p-2 border rounded-md custom-input font-semibold placeholder-black"
               onChange={(e)=>setConfirmPassword(e.target.value)}
             />
-             <button type="button" className='w-32 text-stone-500 rounded-full bg-white p-2 hover:text-red-500' onClick={handleRegister}>
+            <button type="submit" className='w-32 text-stone-500 rounded-full bg-white p-2 hover:text-red-500' onClick={handleRegister}>
               Register
             </button>
         </div>

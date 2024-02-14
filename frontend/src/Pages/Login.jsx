@@ -38,8 +38,13 @@ function Login() {
     e.preventDefault()
     if (validator.isEmail(email)){
       dispatch(loginUser(inputs))
-      navigate('/')
-
+      .then((res)=> {
+        if (res.error){
+          alert(res.error.message)
+        } else {
+          navigate('/')
+        }
+      })
     } else {
       alert('Email must be a valid email address')
     }

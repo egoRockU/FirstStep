@@ -8,6 +8,7 @@ import cookieParser from 'cookie-parser'
 import dotenv from 'dotenv'
 dotenv.config()
 import connectDB from './db/db.js'
+import { errorHandler } from './middlewares/errorMiddlewares.js'
 
 const app = express()
 const port = process.env.PORT || 8000
@@ -24,6 +25,9 @@ app.use('/localaccounts', localAccountRoutes)
 app.use('/googleaccounts', googleAccountRoutes)
 app.use('/logout', logout)
 app.get('/verify/:uniqueString', verifyEmail)
+
+
+app.use(errorHandler)
 
 app.listen(port, ()=>{
     console.log(`Express app is listening at port ${port}`)

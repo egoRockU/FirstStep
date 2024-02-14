@@ -10,13 +10,13 @@ export const loginUser = createAsyncThunk(
                 'Content-Type': 'application/x-www-form-urlencoded'
                 }
             })
-
             localStorage.setItem('user', JSON.stringify(res.data.user))
             alert(res.data.message)
             console.log(res.data['user'])
             return (res.data['user'])
         } catch (err) {
             console.log(err.response.data.error)
+            throw new Error (err.response.data.error)
         }
 })
 
@@ -36,7 +36,7 @@ export const loginGoogle = createAsyncThunk(
         } catch (err) {
             if (err.response.data.emailDoesNotExist){ 
                 alert(err.response.data.error)
-                throw new Error ('Email does not exist')
+                throw new Error (err.response.data.error)
                 //return (err.response.data.emailDoesNotExist)
             }
         }
@@ -72,7 +72,7 @@ const userSlice = createSlice({
         })
         .addCase(loginUser.fulfilled, (state, action)=>{
             state.loading = false
-            console.log('payload: ' + JSON.stringify(action.payload))
+            //console.log('payload: ' + JSON.stringify(action.payload))
             state.user = JSON.stringify(action.payload)
             state.error = null
         })
@@ -89,14 +89,14 @@ const userSlice = createSlice({
         })
         .addCase(loginGoogle.fulfilled, (state, action)=>{
             state.loading = false
-            console.log('payload: ' + JSON.stringify(action.payload))
+            //console.log('payload: ' + JSON.stringify(action.payload))
             state.user = JSON.stringify(action.payload)
             state.error = null
         })
         .addCase(loginGoogle.rejected, (state, action)=>{
             state.loading = false
             state.user = null
-            console.log(action.error.message)
+            //console.log(action.error.message)
             state.error = action.error.message
         })
         .addCase(logoutUser.fulfilled, (state)=>{
