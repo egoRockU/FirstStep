@@ -6,6 +6,8 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Create from './Pages/Create';
 import { useSelector } from 'react-redux'
 import Profilepage from './Pages/Profilepage';
+import NewLanding from './Pages/NewLanding';
+import Newnavbar from './Components/Newnavbar';
 
 function App() {
 
@@ -14,7 +16,7 @@ function App() {
   return (
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Landing />} />
+          <Route path="/" element={<NewLanding />} />
           <Route path="/login" element={<Login/>}/>
           <Route path="/register" element={ !user ? (<Register/>) : (<Landing />)}/>
           <Route path="/choose" element={ user ? (<Choose/>) : (<Login />)}/>

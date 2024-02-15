@@ -24,10 +24,10 @@ function NavbarLoggedIn() {
   }
 
   return (
-    <nav className='p-3 bg-white bg-opacity-75 flex justify-between shadow-xl'>
-      <div className="flex justify-between items-center">
+    <nav className='p-3 bg-white bg-opacity-75 flex shadow-xl justify-between items-center'>
+      <div className="flex items-center">
         <button
-          className="block lg:hidden focus:outline-none"
+          className="block lg:hidden focus:outline-none ml-3"
           onClick={() => setIsOpen(!isOpen)}
           aria-label="Toggle Menu"
         >
@@ -54,27 +54,29 @@ function NavbarLoggedIn() {
             )}
           </svg>
         </button>
-        <div className='w-full'>
-          <img src={logo} alt="logo" className='h-12 transition-transform hover:scale-125' onClick={clickLanding}/>
-        </div>
+        {/* Render logo based on isOpen state */}
+        {!isOpen && (
+          <img src={logo} alt="logo" className='h-12 transition-transform hover:scale-125 cursor-pointer' onClick={clickLanding}/>
+        )}
       </div>
-      <div className='flex justify-between w-1/2'>
-        <ul className={`lg:flex lg:items-center  ${isOpen ? 'block' : 'hidden'}`}>
+      <div className={`lg:flex lg:items-center space-x-4 ${isOpen ? 'block w-full lg:w-auto' : 'hidden'}`}>
+        <ul className="lg:flex lg:items-center">
           <li className='my-6 lg:my-0 lg:mx-4 text-xl hover:text-stone-400'>Resume Builder</li>
           <li className='my-6 lg:my-0 lg:mx-4 text-xl hover:text-stone-400'>Portfolio Builder</li>
           <li className='my-6 lg:my-0 lg:mx-4 text-xl hover:text-stone-400'>About us</li>
           <li className='my-6 lg:my-0 lg:mx-4 text-xl hover:text-stone-400'>Employees</li>
         </ul>
-        <div className='flex items-center mx-auto space-x-5'>
-          {/* Notification icon */}
-          <BsBell className="text-black duration-500 mx-2 cursor-pointer text-3xl" />
-          {/* Profile icon */}
-          <BsPerson className="text-black duration-500 mx-2 cursor-pointer text-3xl" onClick={clickProfile}/>
-
-          {/* Nilagay ko lang tong logout dito pang test. Tanggalin mo na lang tas lagay mo yung clickLogout function sa gagawin mo pang logout. -gerwin */}
-          <button className='bg-[#CB8A8A] text-white duration-500 px-3 py-2 mx-2 rounded-lg' onClick={clickLogout}>Logout</button>
-        </div>
       </div>
+      <div className='flex items-center space-x-5 justify-between'>
+        {/* Notification icon */}
+        <BsBell className="text-black duration-500 mx-2 cursor-pointer text-3xl" />
+        {/* Profile icon */}
+        <BsPerson className="text-black duration-500 mx-2 cursor-pointer text-3xl" onClick={clickProfile}/>
+
+        {/* Logout button */}
+        <button className='bg-[#CB8A8A] text-white duration-500 px-3 py-2 mx-2 rounded-lg' onClick={clickLogout}>Logout</button>
+      </div>
+
     </nav>
   );
 }
