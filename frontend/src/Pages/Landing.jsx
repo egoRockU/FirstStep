@@ -79,8 +79,7 @@ function Landing() {
                 Explore a hub of top-tier talent, meticulously showcased in diverse portfolios. Simplify your hiring journey by
                 connecting effortlessly with standout applicants ready to elevate your team.Your next exceptional hire is just a 
                 click away – discover, connect, and transform your workforce with ease.</p>
-              <button style={{ backgroundColor: '#CB8A8A' }} className="w-36 h-12 text-lg text-white rounded-lg hover:text-stone-500">Join Today</button>
-            </div>
+              <button style={{ backgroundColor: '#CB8A8A' }} className="w-36 h-12 text-lg text-white rounded-lg hover:text-stone-500">Join Today</button>            </div>
           </div>
       </div>
 
