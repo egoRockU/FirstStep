@@ -2,6 +2,7 @@ import express from 'express'
 import cors from 'cors'
 import localAccountRoutes from './routes/localAccountRoutes.js'
 import googleAccountRoutes from './routes/googleAccountRoutes.js'
+import ApplicantProfileRoutes from './routes/ApplicantProfileRoutes.js';
 import dotenv from 'dotenv'
 dotenv.config()
 import connectDB from './db/db.js'
@@ -17,6 +18,9 @@ app.use(express.urlencoded({ extended: false }))
 //routes
 app.use('/localaccounts', localAccountRoutes)
 app.use('/googleaccounts', googleAccountRoutes)
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use('/ApplicantProfile.js', ApplicantProfileRoutes);
 
 app.listen(port, ()=>{
     console.log(`Express app is listening at port ${port}`)

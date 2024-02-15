@@ -5,7 +5,7 @@ const { Schema } = mongoose;
 const ApplicantProfileSchema = new Schema({
   accountId: {
     type: Schema.Types.ObjectId,
-    required: true
+    required: false
   },
   profileImg: {
     type: String,
@@ -89,12 +89,17 @@ const ApplicantProfileSchema = new Schema({
     required: false,
     default: ''
   },
-  
+  portfolioId: {
+    type: Schema.Types.ObjectId,
+    required: false,
+    default: null
+  },
   messages: {
     type: [Schema.Types.ObjectId],
     required: false,
     default: []
-  }
+  },
+  
 });
 
 const ApplicantProfile = mongoose.model('ApplicantProfile', ApplicantProfileSchema);
