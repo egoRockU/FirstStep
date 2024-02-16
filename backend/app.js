@@ -31,6 +31,4 @@ app.use('/applicantprofile', ApplicantProfileRoutes);
 
 app.use(errorHandler)
 
-app.listen(port, ()=>{
-    console.log(`Express app is listening at port ${port}`)
-})
+export default app
