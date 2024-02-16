@@ -4,7 +4,6 @@ import banner from "../images/signBg.jpg";
 import NavbarLoggedIn from "../Components/NavbarLoggedIn";
 import google from "../images/google.png";
 import Footer from "../Components/Footer";
-import imgph from "../images/imgplaceholder.png";
 
 function Create() {
   const [selectedImage, setSelectedImage] = useState(null);
@@ -44,7 +43,7 @@ function Create() {
           />
         </div>
         <div className="w-full flex mb-20">
-          <div className=" bg-white md:left-[100px] lg:left-[192px] mt-[-40px] absolute w-2/5 lg:w-1/5 rounded-2xl">
+          <div className=" bg-white md:left-[60px] lg:left-[100px] xl:left-[192px] mt-[-40px] absolute w-2/5 lg:w-1/3 xl:w-1/5 rounded-2xl">
             <div className="p-4 flex flex-col items-center">
               <div style={{ position: "relative", display: "inline-block" }}>
                 <input
@@ -69,33 +68,40 @@ function Create() {
                     className="absolute inset-0 cursor-pointer"
                     style={{ zIndex: 1 }}
                   >
-                    <img
-                      src={imgph}
-                      alt="Placeholder"
-                      className="w-60 h-60 rounded-full"
-                    />
                   </div>
                 )}
               </div>
-              <div>
-                <h1 className="text-3xl font-semibold">John Doe</h1>
-                <p className="text-gray-700">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce
-                  euismod nunc a purus varius convallis.
-                </p>
-              </div>
-              <div className="flex items-start space-y-4">
-                <div className="items-center space-x-2">
-                  <img src={google} alt="Facebook" className="w-8 h-8" />
+              <form>
+                <div class="space-y-2">
+                  <input
+                    type="text"
+                    placeholder="Type name here"
+                    class="text-2xl rounded-xl border-2 p-0 md::p-2"
+                  />
+                  <div class="flex items-center">
+                    <div>
+                      <img src={google} alt="Facebook" class="w-8 h-8" />
+                    </div>
+                    <div>
+                      <img src={google} alt="Twitter" class="w-8 h-8" />
+                    </div>
+                    <div>
+                      <img src={google} alt="Instagram" class="w-8 h-8" />
+                    </div>
+                  </div>
+                  <div>
+                    <textarea
+                      name="Bio"
+                      id="bio"
+                      cols="30"
+                      rows="5"
+                      class="border-2 rounded-xl p-2"
+                    ></textarea>
+                  </div>
                 </div>
-                <div className="items-center space-x-2">
-                  <img src={google} alt="Twitter" className="w-8 h-8" />
-                </div>
-                <div className="items-center space-x-2">
-                  <img src={google} alt="Instagram" className="w-8 h-8" />
-                </div>
-              </div>
-              <div className="bg-gray-100 p-3 rounded-lg shadow-md">
+              </form>
+
+              <div className="bg-gray-100 p-3 rounded-lg shadow-md mt-4">
                 <div className="flex items-center justify-center mb-2">
                   <div className="w-32 h-16 rounded-full flex items-center justify-center">
                     <span className="text-small font-medium">
@@ -110,7 +116,7 @@ function Create() {
             </div>
           </div>
           <div className="flex flex-col space-y-8">
-            <form className="md:w-[430px] lg:w-[1000px] h-[300px] mt-[-40px] rounded-xl p-2 bg-white relative md:left-[500px] lg:left-[600px]">
+            <form className="md:w-[430px] lg:w-[570px] xl:w-[1000px] h-[300px] mt-[-40px] rounded-xl p-2 bg-white relative md:left-[500px] lg:left-[540px] xl:left-[600px]">
               <div className="w-full ">
                 <div className="flex justify-between mx-5 items-center">
                   <h2 className="text-3xl font-semibold mb-4">Summary</h2>
@@ -118,7 +124,7 @@ function Create() {
                 </div>
               </div>
             </form>
-            <div className="relative md:w-[430px] lg:w-[1000px] h-[300px] rounded-xl p-2 bg-white md:left-[500px] lg:left-[600px]">
+            <div className="relative md:w-[430px] lg:w-[580px] xl:w-[1000px] h-[300px] rounded-xl p-2 bg-white md:left-[500px] lg:left-[540px] xl:left-[600px]">
               <div className="flex justify-between mx-5 items-center">
                 <h3 className="text-3xl font-semibold mb-2 ">
                   Academic Achievements
@@ -126,7 +132,7 @@ function Create() {
                 <button className="text-2xl">+</button>
               </div>
             </div>
-            <div className="relative md:w-[430px] lg:w-[1000px] h-[300px] rounded-xl p-2 bg-white md:left-[500px] lg:left-[600px]">
+            <div className="relative md:w-[430px] lg:w-[580px] xl:w-[1000px] h-[300px] rounded-xl p-2 bg-white md:left-[500px] lg:left-[540px] xl:left-[600px]">
               <div className="flex justify-between mx-5 items-center">
                 <h3 className="text-3xl font-semibold mb-2 ">
                   Activities and Inovements
@@ -134,13 +140,13 @@ function Create() {
                 <button className="text-2xl">+</button>
               </div>
             </div>
-            <div className="relative md:w-[430px] lg:w-[1000px] h-[300px] rounded-xl p-2 bg-white md:left-[500px] lg:left-[600px]">
+            <div className="relative md:w-[430px] lg:w-[580px] xl:w-[1000px] h-[300px] rounded-xl p-2 bg-white md:left-[500px] lg:left-[540px] xl:left-[600px]">
               <div className="flex justify-between mx-5 items-center">
                 <h3 className="text-3xl font-semibold mb-2 ">Projects</h3>
                 <button className="text-2xl">+</button>
               </div>
             </div>
-            <div className="relative md:w-[430px] lg:w-[1000px] h-[200px] rounded-xl p-2 bg-white md:left-[500px] lg:left-[600px]">
+            <div className="relative md:w-[430px] lg:w-[580px] xl:w-[1000px] h-[200px] rounded-xl p-2 bg-white md:left-[500px] lg:left-[540px] xl:left-[600px]">
               <div className="flex justify-between mx-5 items-center">
                 <h3 className="text-3xl font-semibold mb-2 ">Certificates</h3>
                 <button className="text-2xl">+</button>

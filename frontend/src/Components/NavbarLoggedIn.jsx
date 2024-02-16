@@ -26,8 +26,8 @@ function NavbarLoggedIn() {
   return (
     <nav className='p-1 bg-blue-300'>
       <div className='flex w-full'>
-     <div className='flex items-center sm:w-1/2 lg:w-full hover:font-semibold' onClick={clickLanding}>
-      <img src={logo} alt="" className='w-12 h-12' />
+     <div className='flex items-center sm:w-1/2 lg:w-full' onClick={clickLanding}>
+      <img src={logo} alt="" className='w-12 h-12 hover:scale-125' />
       <h1 className='text-xl'>FirstStep</h1>
      </div>
      <div className='w-full flex justify-around'>

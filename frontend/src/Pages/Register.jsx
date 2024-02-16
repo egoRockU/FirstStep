@@ -8,8 +8,7 @@ import logo from '../images/logo.png'
 import '../Fonts.css'
 import BgImage from '../images/signBg.jpg'
 import google from '../images/google.png'
-import Navbar from '../Components/Navbar';
-
+import Newnavbar from '../Components/Newnavbar';
 
 function Register() {
 
@@ -99,11 +98,15 @@ function Register() {
     //   }
     // };
 
+    const clickLogin = () => {
+      navigate("/login");
+    };
+
   return (
     <>
       <div style={bgStyle} className='flex flex-col space-y-24'>
         <div>
-        <Navbar/>
+        <Newnavbar/>
         </div>
         <div className="flex flex-col items-center mt-8 bg-white bg-opacity-75 w-1/3 mx-auto h-4/6">
           <div className='w-full mt-5 mb-2 flex justify-center items-center'>
@@ -183,6 +186,9 @@ function Register() {
               shape='pill'
             />
           </GoogleOAuthProvider>
+          <div className='cursor-pointer mt-4' onClick={clickLogin}>
+          <h1>Already have an Account?</h1>
+        </div>
         </div>
         </div>
       </div>

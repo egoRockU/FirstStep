@@ -8,7 +8,7 @@ import logo from '../images/logo.png'
 import '../Fonts.css'
 import BgImage from '../images/signBg.jpg'
 import google from '../images/google.png'
-import Navbar from '../Components/Navbar'
+import Newnavbar from '../Components/Newnavbar'
 import { useDispatch, useSelector } from 'react-redux';
 import { loginUser, loginGoogle } from '../slices/userSlice';
 
@@ -60,12 +60,15 @@ function Login() {
     navigate('/')
   }
 
+  const clickRegister = () => {
+    navigate("/register");
+  };
   return (
 
     <>
     <div style={bgStyle} className='flex flex-col space-y-20'>
       <div>
-      <Navbar/>
+      <Newnavbar/>
       </div>
       <div className="flex flex-col bg-white bg-opacity-75 w-1/3 mx-auto h-4/6">
         <div className='py-4 w-full mt-5 mb-2 flex justify-center items-center'>
@@ -120,6 +123,9 @@ function Login() {
               shape='pill'
             />
           </GoogleOAuthProvider>
+          <div className='cursor-pointer mt-4' onClick={clickRegister}>
+          <h1>Need to Register?</h1>
+        </div>
         </div>
       </div>
     </div>

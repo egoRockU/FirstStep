@@ -1,4 +1,6 @@
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { useSelector } from "react-redux";
 import Bg from "../images/newlandingbg.png";
 import Newnavbar from "../Components/Newnavbar";
 import abi from "../images/hevabi.mp4";
@@ -6,12 +8,15 @@ import resume from "../images/resume.png";
 import portfolio from "../images/portfolio.png";
 import applicants from "../images/applicants.png";
 import Footer from "../Components/Footer";
+import '../Fonts.css'
+import NavbarLoggedIn from "../Components/NavbarLoggedIn";
 
 function NewLanding() {
   const landingStyle = {
     background: `url(${Bg}) center/cover no-repeat`,
     fontFamily: "Montserrat, sans-serif",
     height: "998px",
+    fontFamily:'Montserrat, sans-serif'
   };
 
   const navigate = useNavigate();
@@ -20,25 +25,33 @@ function NewLanding() {
     navigate("/login");
   };
 
+  const {user} = useSelector((state)=>state.user)
+
+  const [openDropdown, setOpenDropdown] = useState(null);
+
+  const toggleDropdown = (index) => {
+    setOpenDropdown((prevIndex) => (prevIndex === index ? null : index));
+  };
+
   return (
     <div style={landingStyle}>
       <>
-        <Newnavbar />
+      {user ? <NavbarLoggedIn/> : <Newnavbar />}
         <div className="sm:h-3/4 lg:h-3/4 w-full flex flex-col lg:justify-around mt-20">
           <div className="w-full flex flex-col sm:items-center lg:items-start h-[80%] justify-around text-center pl-20">
-            <div className="flex flex-col w-1/2">
-              <h1 className="text-6xl text-white font-semibold">
+            <div className="flex flex-col sm:w-full  md:w-1/2">
+              <h1 className="sm:text-xl md:text-6xl text-white font-semibold">
                 Craft Your Tomorrow
               </h1>
-              <h1 className="text-6xl text-white font-semibold">
+              <h1 className="sm:text-xl md:text-6xl text-white font-semibold">
                 Shape Your Dreams
               </h1>
-              <h1 className="text-4xl text-white font-semibold opacity-60">
+              <h1 className="sm:text-lg md:text-4xl text-white font-semibold opacity-60">
                 Explore Your Future With Us
               </h1>
             </div>
             <div className="flex flex-col w-1/2">
-              <h1 className="text-base text-white leading-10">
+              <h1 className="text-base text-white md:leading-10">
                 Unleash your hidden talents! Build a winning resume & portfolio,
                 showcase your skills, and get noticed by dream employers. Take
                 control of your career journey, start today!
