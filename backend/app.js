@@ -2,6 +2,7 @@ import express from 'express'
 import cors from 'cors'
 import localAccountRoutes from './routes/localAccountRoutes.js'
 import googleAccountRoutes from './routes/googleAccountRoutes.js'
+import ApplicantProfileRoutes from './routes/ApplicantProfileRoutes.js';
 import verifyEmail from './controllers/verifyEmail.js'
 import logout from './routes/logout.js'
 import cookieParser from 'cookie-parser'
@@ -25,6 +26,7 @@ app.use('/localaccounts', localAccountRoutes)
 app.use('/googleaccounts', googleAccountRoutes)
 app.use('/logout', logout)
 app.get('/verify/:uniqueString', verifyEmail)
+app.use('/applicantprofile', ApplicantProfileRoutes);
 
 
 app.use(errorHandler)
