@@ -1,10 +1,11 @@
 
 export const handleCreate = async (model, data, res) => {
     try {
-      await model.create(data);
+      const insertResult = await model.create(data);
       res.status(201).send({
         status: true,
-        message: 'Successfully Created!'
+        message: 'Successfully Created!',
+        _id: insertResult._id
       });
     } catch (err) {
       console.error('Error:', err);
