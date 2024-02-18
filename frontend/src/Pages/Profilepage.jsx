@@ -1,131 +1,145 @@
-import React from "react";
-import NavbarLoggedIn from "../Components/NavbarLoggedIn";
+import { useState } from "react";
+import Man from "../images/tommy.png";
 import banner from "../images/signBg.jpg";
-import man from "../images/tommy.png";
-import twitter from "../images/twitter.png";
-import ucc from "../images/ucclogo.webp";
-import yt from "../images/yt.png";
-import fb from "../images/fb.png";
+import NavbarLoggedIn from "../Components/NavbarLoggedIn";
+import google from "../images/google.png";
+import Footer from "../Components/Footer";
 
-function Profilepage() {
+function Create() {
+  const [selectedImage, setSelectedImage] = useState(null);
+  const placeholderImage = "placeholder.jpg"; // Provide your placeholder image URL here
+
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = function (e) {
+        setSelectedImage(e.target.result);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
   return (
     <>
       <NavbarLoggedIn />
-      <div className="container mx-auto mt-6">
-        <img
-          src={banner}
-          alt="banner"
-          className="w-full h-80 object-cover rounded-lg"
-        />
-      </div>
-      <div className="container mx-auto flex space-x-2">
-        <div className="flex flex-col mb-60">
-          <div className="flex mt-5 bg-white shadow-xl rounded-lg pb-8 ">
-            <div className="w-5/6">
-              <div className="space-y-4 ml-10">
-                <div>
-                  <img
-                    src={man}
-                    alt="tommy"
-                    className="w-60 h-60 rounded-full border-4 border-white md:mb-0 md:mr-4"
-                  />
-                </div>
-                <h1 className="text-2xl font-semibold">Micholo Pogi</h1>
-                <a href="#">facebook ng pinapoging lalaki</a>
-                <h1 className="text-lg font-semibold">Bio</h1>
-                <p className="w-1/2">
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  Impedit perferendis et quam alias ipsum eligendi quasi illum
-                  nisi nihil quibusdam.
-                </p>
-                <div className="flex w-1/2 space-x-2">
-                  <button className="text-base bg-[#FFCECE] p-2 rounded-full hover:bg-stone-300">
-                    Prefferedjob1
-                  </button>
-                  <button className="text-base bg-[#FFCECE] p-2 rounded-full hover:bg-stone-300">
-                    Preferredjob2
-                  </button>
+      <div>
+        <div
+          style={{
+            background: "linear-gradient(to bottom, #ffffff,#87ceeb)",
+            position: "fixed",
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            zIndex: -1,
+          }}
+        ></div>
+        <div className="h-full">
+          <img
+            src={banner}
+            alt=""
+            className="w-full h-80 object-cover rounded-xl"
+          />
+        </div>
+        <div className="w-full flex mb-20 h-[1800px] mt-[-50px]">
+          <div className="container mx-auto">
+            <div className="flex flex-col sm:flex-col lg:flex-row lg:space-x-5 h-full">
+              <div className=" bg-white rounded-2xl sm:w-full lg:w-1/3 sm:h-1/3 lg:h-1/2">
+                <div className="p-4 flex flex-col items-center lg:space-y-10">
+                  <div
+                    style={{ position: "relative", display: "inline-block" }}
+                  >
+                    <input
+                      type="file"
+                      id="imageInput"
+                      accept="image/*"
+                      style={{ display: "none" }}
+                      onChange={handleImageChange}
+                    />
+                    <label htmlFor="imageInput" className="cursor-pointer">
+                      <img
+                        src={selectedImage || placeholderImage}
+                        alt=""
+                        className="w-60 h-60 rounded-full border-4 border-black mb-4 md:mb-0 md:mr-4"
+                      />
+                    </label>
+                    {!selectedImage && (
+                      <div
+                        onClick={() =>
+                          document.getElementById("imageInput").click()
+                        }
+                        className="absolute inset-0 cursor-pointer"
+                        style={{ zIndex: 1 }}
+                      ></div>
+                    )}
+                  </div>
+                  <div class="space-y-2">
+                    <h1 className="text-2xl font-semibold">Exmaple Name</h1>
+                    <div class="flex items-center">
+                      <div>
+                        <img src={google} alt="Facebook" class="w-8 h-8" />
+                      </div>
+                      <div>
+                        <img src={google} alt="Twitter" class="w-8 h-8" />
+                      </div>
+                      <div>
+                        <img src={google} alt="Instagram" class="w-8 h-8" />
+                      </div>
+                    </div>
+                    <div>
+                      <h1 className="font-semibold text-xl">Bio</h1>
+                      <p className="font-base text-base">
+                        Lorem ipsum dolor sit amet consectetur, adipisicing
+                        elit. Inventore, laudantium. Suscipit veniam omnis
+                        mollitia consequuntur deserunt facere quia dolore
+                        molestiae?
+                      </p>
+                    </div>
+                  </div>
+                  <div className="bg-gray-100 p-3 rounded-lg shadow-md mt-4 sm:w-1/4 lg:w-2/3">
+                    <div className="flex items-center justify-center mb-2">
+                      <div className="w-32 h-16 rounded-full flex items-center justify-center">
+                        <span className="text-small font-medium">
+                          Preferred Jobs
+                        </span>
+                      </div>
+                    </div>
+                    <button className="text-2xl bg-[#FFCECE] w-full rounded-full">
+                      +
+                    </button>
+                  </div>
                 </div>
               </div>
-            </div>
-            <div className="w-1/6 space-y-10">
-              <h2>Socials</h2>
-              <img src={twitter} alt="" />
-              <img src={yt} alt="" />
-              <img src={fb} alt="" />
-            </div>
-          </div>
-
-          <div class="container mx-auto h-64 mt-4 bg-white shadow-lg p-4 rounded-xl">
-            <h1 class="text-2xl">Summary</h1>
-            <div class="w-11/12 mx-auto h-5/6 bg-gray-200 rounded-xl overflow-hidden">
-              <p className="text-xl">
-                Lorem ipsum, dolor sit amet consectetur adipisicing elit.
-                Suscipit sint nisi dolor similique aperiam recusandae
-                accusantium quos nulla expedita laboriosam.
-              </p>
-            </div>
-          </div>
-
-          <div className="container mx-auto p-4 bg-white shadow-lg mt-4 rounded-xl ">
-            <h1 className="text-2xl m-5">Academic Achievements</h1>
-            <div className="flex flex-col items-center p-4 rounded-xl space-y-5">
-              <div className="flex items-center w-1/2 justify-around">
-                <img src={ucc} alt="" className="w-24 h-24" />
-                <div className="flex flex-col space-y-2">
-                  <p className="text-2xl">School</p>
-                  <p className="text-lg">
-                    School addresshsdhakjhdsajkadshkjdas
-                  </p>
-                </div>
-              </div>
-              <div className="flex items-center w-1/2 justify-around">
-                <img src={ucc} alt="" className="w-24 h-24" />
-                <div className="flex flex-col space-y-2">
-                  <p className="text-2xl">School</p>
-                  <p className="text-lg">
-                    School addresshsdhakjhdsajkadshkjdas
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div className="container mx-auto p-4 mt-4 bg-white shadow-lg rounded-xl">
-            <h2 className="text-2xl m-5">Projects</h2>
-            <div className="flex">
-              <div className=" w-3/4 mx-auto flex justify-around">
-                <div className="flex flex-col items-center space-y-3">
-                  <img src={ucc} alt="" className="w-28 h-28" />
-                  <h1 className="text-xl">Project</h1>
-                </div>
-                <div className="flex flex-col items-center space-y-3">
-                  <img src={ucc} alt="" className="w-28 h-28" />
-                  <h1 className="text-xl">Project</h1>
-                </div>
-                <div className="flex flex-col items-center space-y-3">
-                  <img src={banner} alt="" className="w-28 h-28" />
-                  <h1 className="text-xl">Project</h1>
-                </div>
-                <div className="flex flex-col items-center space-y-3">
-                  <img src={banner} alt="" className="w-28 h-28" />
-                  <h1 className="text-xl">Project</h1>
+              <div className="w-full h-full sm:mt-10 lg:mt-0">
+                <div className="grid grid-cols-1 gap-4 h-full">
+                  <div className="bg-white p-4 rounded-xl text-3xl">
+                    <h1>Summary</h1>
+                  </div>
+                  <div className="bg-white p-4 rounded-xl text-3xl">
+                    <h1>Education</h1>
+                  </div>
+                  <div className="bg-white p-4 rounded-xl text-3xl">
+                    <h1>Achievements and Involvements</h1>
+                  </div>
+                  <div className="bg-white p-4 rounded-xl text-3xl">
+                    <h1>Projects</h1>
+                  </div>
+                  <div className="bg-white p-4 rounded-xl text-3xl">
+                    <h1> Awards</h1>
+                  </div>
+                  <div className="bg-white p-4 rounded-xl text-3xl">
+                    <h1>Certificates</h1>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-        <div className="bg-white shadow-lg rounded-xl p-4 mb-60 text-center">
-          <h2 className="text-2xl">Certificates and Achievements</h2>
-          <div className="p-4 flex flex-col items-center h-1/3 justify-around">
-            <img src={ucc} alt="" className="w-24 h-24" />
-            <img src={ucc} alt="" className="w-24 h-24" />
-            <img src={ucc} alt="" className="w-24 h-24" />
-          </div>
-        </div>
       </div>
+      <Footer />
     </>
   );
 }
 
-export default Profilepage;
+export default Create;

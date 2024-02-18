@@ -8,22 +8,24 @@ import { useSelector } from 'react-redux'
 import Profilepage from './Pages/Profilepage';
 import NewLanding from './Pages/NewLanding';
 import Newnavbar from './Components/Newnavbar';
+import Editprofilepage from './Pages/Editprofilepage';
 
 function App() {
 
   const {user} = useSelector((state)=>state.user)
 
   return (
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<NewLanding />} />
-          <Route path="/login" element={<Login/>}/>
-          <Route path="/register" element={ !user ? (<Register/>) : (<Landing />)}/>
-          <Route path="/choose" element={ user ? (<Choose/>) : (<Login />)}/>
-          <Route path="/create" element={ user ? (<Create/>) : (<Login />)}/>
-          <Route path='/profile' element={<Profilepage/>}/>
-        </Routes>
-      </BrowserRouter>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<NewLanding />} />
+        <Route path="/login" element={<Login/>}/>
+        <Route path="/register" element={ !user ? (<Register/>) : (<Landing />)}/>
+        <Route path="/choose" element={ user ? (<Choose/>) : (<Login />)}/>
+        <Route path="/create" element={ user ? (<Create/>) : (<Login />)}/>
+        <Route path='/editprofile' element={<Editprofilepage/>} />
+        <Route path='/profile' element={<Profilepage/>} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 
