@@ -68,7 +68,7 @@ function Navbar() {
         <img src={logo} alt="logo" className='h-12 transition-transform hover:scale-125' onClick={clicklanding}/>
       </div>
       </div>
-      <div className='flex justify-between w-1/2'>
+      <div className='flex justify-end w-full space-x-4'>
       <ul className={`lg:flex lg:items-center  ${isOpen ? 'block' : 'hidden'}`}>
         <li className='my-6 lg:my-0 lg:mx-4 text-xl hover:text-stone-400'>Resume Builder</li>
         <li className='my-6 lg:my-0 lg:mx-4 text-xl hover:text-stone-400'>Portfolio Builder</li>
@@ -88,7 +88,6 @@ function Navbar() {
         } */}
           <div className='flex'>
             <button className='bg-[#CB8A8A] text-white duration-500 px-3 py-2 mx-2 rounded-lg' onClick={clickLogin}>Login</button>
-            <button className='text-[#CB8A8A] bg-white duration-500 px-3 py-2 mx-2 rounded-lg' onClick={clickRegister}>Register</button>
           </div> 
         </div>
     </nav>
