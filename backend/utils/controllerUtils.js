@@ -44,6 +44,18 @@ export const handleCreate = async (model, data, res) => {
     }
   };
   
+  export const handleRetrieveOne = async (model, profileId, res) => {
+    try {
+      const results = await model.findById(profileId);
+      res.status(200).send(results);
+    } catch (err) {
+      res.status(500).send({
+        status: false,
+        message: 'Not Retrieved!'
+      });
+    }
+  };
+
   export const handleUpdate = async (model, query, update, res) => {
     try {
       await model.updateOne(query, { $set: update });

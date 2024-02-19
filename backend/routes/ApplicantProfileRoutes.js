@@ -5,11 +5,13 @@ import {
   createController,
   deleteController,
   retrieveController,
-  updateController
+  updateController,
+  retrieveOneController
 } from '../controllers/ApplicantProfileController.js';
 
 router.post('/create', createController);
 router.get('/retrieve', retrieveController);
+router.post('/retrieveone', retrieveOneController);
 router.post('/update', updateController);
 router.post('/delete', deleteController);
 

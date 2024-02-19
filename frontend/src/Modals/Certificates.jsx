@@ -1,15 +1,21 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
-function Certificates({ onClose, onSubmit }) {
+function Certificates({ onClose, onSubmit, onEdit, formIndex, initialData }) {
   const [formData, setFormData] = useState({
     title: "",
     image: null, 
     document: "",
     description: "",
-    dateReceived: "",
+    dateReceived: '',
   });
 
   const [imagePreview, setImagePreview] = useState(null);
+
+  useEffect(() => {
+    if (initialData) {
+      setFormData(initialData);
+    }
+  }, [initialData]);  
 
   const handleChange = (e) => {
     if (e.target.name === "image") {
@@ -25,15 +31,15 @@ function Certificates({ onClose, onSubmit }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     onSubmit(formData);
-    setFormData({
-      title: "",
-      image: null,
-      document: "",
-      description: "",
-      dateReceived: "",
-    });
     setImagePreview(null); // Reset image preview
+    onClose();
   };
+
+  const handleEdit = (e) => {
+    e.preventDefault();
+    onEdit(formIndex, formData);
+    onClose();
+  }
 
   const handleCancel = () => {
     onClose();
@@ -112,6 +118,15 @@ function Certificates({ onClose, onSubmit }) {
             />
           </div>
           <div className="text-right">
+            {initialData && (
+              <button
+                type="button"
+                onClick={handleEdit}
+                className="bg-yellow-500 text-white px-4 py-2 rounded-md mr-2"
+              >
+                Edit
+              </button>
+            )}
             <button
               type="button"
               onClick={handleCancel}
@@ -119,12 +134,11 @@ function Certificates({ onClose, onSubmit }) {
             >
               Cancel
             </button>
-            <button
-              type="submit"
-              className="bg-blue-500 text-white px-4 py-2 rounded-md"
-            >
+            {!initialData && 
+              <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded-md">
               Submit
-            </button>
+              </button>
+            }
           </div>
         </form>
         <button

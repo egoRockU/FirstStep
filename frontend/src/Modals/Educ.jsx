@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-function Educ({ onClose, onSubmit, initialData }) {
+function Educ({ onClose, onSubmit, onEdit, formIndex, initialData }) {
   const [formData, setFormData] = useState({
     schoolName: '',
     degree: '',
@@ -26,6 +26,12 @@ function Educ({ onClose, onSubmit, initialData }) {
     onSubmit(formData);
     onClose();
   };
+
+  const handleEdit = (e) => {
+    e.preventDefault();
+    onEdit(formIndex, formData);
+    onClose();
+  }
 
   const handleCancel = () => {
     onClose();
@@ -76,7 +82,7 @@ function Educ({ onClose, onSubmit, initialData }) {
             {initialData && (
               <button
                 type="button"
-                onClick={handleCancel}
+                onClick={handleEdit}
                 className="bg-yellow-500 text-white px-4 py-2 rounded-md mr-2"
               >
                 Edit
@@ -85,9 +91,12 @@ function Educ({ onClose, onSubmit, initialData }) {
             <button type="button" onClick={handleCancel} className="bg-gray-500 text-white px-4 py-2 rounded-md mr-2">
               Cancel
             </button>
-            <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded-md">
+
+            {!initialData && 
+              <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded-md">
               Submit
-            </button>
+              </button>
+            }
           </div>
         </form>
       </div>
