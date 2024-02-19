@@ -72,7 +72,9 @@ const loginGoogle = asyncHandler(async (req, res) => {
     const user = {
         email: emailExist.email,
         id: emailExist._id.toString(),
-        accountType: 'google'
+        accountType: 'google',
+        profileType: emailExist.profileType,
+        profileId: emailExist.profileId
     }
     res.status(200).json({
         message: 'Google User Logged In!',
@@ -80,8 +82,44 @@ const loginGoogle = asyncHandler(async (req, res) => {
     })
 })
 
+const addProfile = asyncHandler(async (req, res) => {
+    const { profileType, profileId, email } = req.body
+
+    const emailExist = await checkIfEmailExist(email, GoogleAccount, res)
+
+    if (!emailExist) {
+        res.status(401)
+        throw new Error('Email does not exist')
+    }
+
+    const changeValues = {
+        profileType,
+        profileId
+    }
+
+    const updateResult = await GoogleAccount.findOneAndUpdate({email}, changeValues)
+    if (!updateResult) throw new Error('Error Updating Profile values')
+
+    const newEmailExist = await checkIfEmailExist(email, GoogleAccount, res)
+
+    const user = {
+        email: emailExist.email,
+        id: emailExist._id.toString(),
+        accountType: 'google',                                                                                      
+        profileType: newEmailExist.profileType,
+        profileId: newEmailExist.profileId
+    }
+
+    res.status(201).json({
+        message: "Profile Values updated successfully",
+        user
+    })
+
+})
+
 export {
     getAllGoogleAccounts,
     createGoogleAccount,
-    loginGoogle
+    loginGoogle,
+    addProfile
 }

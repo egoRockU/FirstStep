@@ -8,10 +8,11 @@ export const handleCreate = async (model, data, res) => {
         _id: insertResult._id
       });
     } catch (err) {
-      console.error('Error:', err);
+      console.error('Error:', err.message);
       res.status(500).send({
         status: false,
-        message: 'Not Created!'
+        message: "Creating Failed!",
+        errorMessage: err.message
       });
     }
   };

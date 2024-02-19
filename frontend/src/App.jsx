@@ -19,7 +19,7 @@ function App() {
       <Routes>
         <Route path="/" element={<NewLanding />} />
         <Route path="/login" element={<Login/>}/>
-        <Route path="/register" element={ !user ? (<Register/>) : (<Landing />)}/>
+        <Route path="/register" element={ !user ? (<Register/>) : (<NewLanding />)}/>
         <Route path="/choose" element={ user ? (<Choose/>) : (<Login />)}/>
         <Route path="/create" element={ user ? (<Create/>) : (<Login />)}/>
         <Route path='/editprofile' element={<Editprofilepage/>} />

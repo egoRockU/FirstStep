@@ -1,3 +1,5 @@
+import LocalAccount from './localAccountModel.js';
+import GoogleAccount from './googleAccountModel.js';
 import mongoose from 'mongoose';
 
 const { Schema } = mongoose;
@@ -212,7 +214,18 @@ const ApplicantProfileSchema = new Schema({
   
 });
 
+ApplicantProfileSchema.pre('remove', {document: true}, async function(){
+  try {
+    await LocalAccount.updateMany({profileId: this._id}, {$set: {profileId: null, profileType: ""}})
+    await GoogleAccount.updateMany({profileId: this._id}, {$set: {profileId: null, profileType: ""}})
+    next()
+  } catch (err) {
+    next(err)
+  }
+})
 
 const ApplicantProfile = mongoose.model('ApplicantProfile', ApplicantProfileSchema);
+
+
 
 export default ApplicantProfile;

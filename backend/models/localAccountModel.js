@@ -9,6 +9,11 @@ const localAccountSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    profileType:{
+        type: String,
+        required: false,
+        default: ""
+    },
     profileId: {
         type: mongoose.Schema.Types.ObjectId,
         required: false,

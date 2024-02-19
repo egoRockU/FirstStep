@@ -68,7 +68,9 @@ const loginLocal = asyncHandler(async (req, res)=>{
         const user = {
             email: emailExists.email,
             id: emailExists._id.toString(),
-            accountType: 'local'
+            accountType: 'local',
+            profileType: emailExists.profileType,
+            profileId: emailExists.profileId
         }
         res.status(200).json({
             message: 'User Logged In!',
@@ -108,6 +110,40 @@ const changeLocalPassword = asyncHandler(async (req, res) => {
     })
 })
 
+const addProfile = asyncHandler(async (req, res) => {
+    const { profileType, profileId, email } = req.body
+
+    const emailExist = await checkIfEmailExist(email, LocalAccount, res)
+
+    if (!emailExist) {
+        res.status(401)
+        throw new Error('Email does not exist')
+    }
+
+    const changeValues = {
+        profileType,
+        profileId
+    }
+
+    const updateResult = await LocalAccount.findOneAndUpdate({email}, changeValues)
+    if (!updateResult) throw new Error('Error Updating Profile values')
+
+    const newEmailExist = await checkIfEmailExist(email, LocalAccount, res)
+
+    const user = {
+        email: emailExist.email,
+        id: emailExist._id.toString(),
+        accountType: 'local',
+        profileType: newEmailExist.profileType,
+        profileId: newEmailExist.profileId
+    }
+    res.status(201).json({
+        message: "Profile Values updated successfully",
+        user
+    })
+
+})
+
 const logout = asyncHandler(async (req, res)=>{
     res.cookie('access_token', '', {
         httpOnly: true,
@@ -122,5 +158,6 @@ export {
     createLocalAccount,
     loginLocal,
     changeLocalPassword,
-    logout
+    logout,
+    addProfile
 }

@@ -18,6 +18,11 @@ const googleAccountSchema = new mongoose.Schema ({
         type: String,
         required: false
     },
+    profileType:{
+        type: String,
+        required: false,
+        default: ""
+    },
     profileId: {
         type: mongoose.Schema.Types.ObjectId,
         required: false,
