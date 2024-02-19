@@ -43,14 +43,18 @@ function Certificates({ onClose, onSubmit, onEdit, formIndex, initialData }) {
 
   const handleCancel = () => {
     onClose();
-    setFormData({
-      title: "",
-      image: null,
-      document: "",
-      description: "",
-      dateReceived: "",
-    });
-    setImagePreview(null);
+    if (initialData) {
+      setFormData(initialData)
+    } else {
+      setFormData({
+        title: "",
+        image: null,
+        document: "",
+        description: "",
+        dateReceived: "",
+      });
+      setImagePreview(null);
+    }
   };
 
   return (

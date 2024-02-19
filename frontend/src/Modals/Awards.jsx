@@ -7,6 +7,8 @@ function Awards({ onClose, onSubmit, onEdit, formIndex, initialData }) {
     description: ''
   });
 
+  console.log(formData);
+
   useEffect(() => {
     if (initialData) {
       setFormData(initialData);
@@ -15,7 +17,6 @@ function Awards({ onClose, onSubmit, onEdit, formIndex, initialData }) {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    console.log(name + " " + value)
     setFormData({ ...formData, [name]: value });
   };
 
@@ -33,11 +34,15 @@ function Awards({ onClose, onSubmit, onEdit, formIndex, initialData }) {
 
   const handleCancel = () => {
     onClose();
-    setFormData({
-      title: '',
-      dateReceived: '',
-      description: ''
-    });
+    if (initialData){
+      setFormData(initialData)
+    } else {
+      setFormData({
+        title: '',
+        dateReceived: '',
+        description: ''
+      });
+    }
   };
 
   return (

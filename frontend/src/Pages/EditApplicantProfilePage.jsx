@@ -34,7 +34,6 @@ function EditApplicantProfilePage() {
 
   const [formData, setFormData] = useState();
   const [formIndex, setFormIndex] = useState();
-  console.log(formData)
 
   //education
   const [educationData, setEducationData] = useState([]);
@@ -170,7 +169,7 @@ function EditApplicantProfilePage() {
   };
 
   const editCertData = (index, newValue) => {
-    const updatedCertData = [...awardData];
+    const updatedCertData = [...certData];
     updatedCertData[index] = newValue;
     updateProfileElement("certs", updatedCertData);
     setCertData(updatedCertData)
