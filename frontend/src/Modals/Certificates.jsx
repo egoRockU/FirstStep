@@ -83,7 +83,7 @@ function Certificates({ onClose, onSubmit, onEdit, formIndex, initialData }) {
               type="date"
               id="dateReceived"
               name="dateReceived"
-              value={formData.dateReceived}
+              value={formData.dateReceived ? new Date(formData.dateReceived).toISOString().substring(0, 10) : ''}
               onChange={handleChange}
               className="border border-gray-300 rounded-md px-4 py-2 w-full"
             />

@@ -69,7 +69,7 @@ const AwardsSchema = new Schema({
     type: String,
     required: true
   },
-  dateRecieved: {
+  dateReceived: {
     type: Date,
     required: true
   },
@@ -100,9 +100,17 @@ const CertificatesSchema = new Schema({
     required: false,
     default: ""
   },
-  dateRecieved: {
+  dateReceived: {
     type: Date,
     required: true,
+    set: function (date) {
+      const parsedDate = new Date(date)
+      console.log("dateTime" + parsedDate)
+      parsedDate.setHours(0, 0, 0, 0)
+      console.log("date: " + parsedDate)
+      console.log(parsedDate)
+      return parsedDate                       
+    }
   }
 })
 

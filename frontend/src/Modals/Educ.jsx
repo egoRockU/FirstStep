@@ -68,11 +68,15 @@ function Educ({ onClose, onSubmit, onEdit, formIndex, initialData }) {
           </div>
           <div className="mb-4">
             <label htmlFor="startDate" className="block font-semibold">Start Date:</label>
-            <input type="date" id="startDate" name="startDate" value={formData.startDate} onChange={handleChange} className="border border-gray-300 rounded-md px-4 py-2 w-full" />
+            <input type="date" id="startDate" name="startDate" 
+            value={formData.startDate ? new Date(formData.startDate).toISOString().substring(0, 10) : ''} 
+            onChange={handleChange} className="border border-gray-300 rounded-md px-4 py-2 w-full" />
           </div>
           <div className="mb-4">
             <label htmlFor="endDate" className="block font-semibold">End Date:</label>
-            <input type="date" id="endDate" name="endDate" value={formData.endDate} onChange={handleChange} className="border border-gray-300 rounded-md px-4 py-2 w-full" />
+            <input type="date" id="endDate" name="endDate" 
+            value={formData.endDate ? new Date(formData.endDate).toISOString().substring(0, 10) : ''} 
+            onChange={handleChange} className="border border-gray-300 rounded-md px-4 py-2 w-full" />
           </div>
           <div className="mb-4">
             <label htmlFor="grade" className="block font-semibold">Grade:</label>

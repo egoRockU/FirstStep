@@ -188,7 +188,6 @@ function EditApplicantProfilePage() {
       setAchievementsData(profileObj.activitiesAndInvolvements)
       setAwardData(profileObj.awards)
       setCertData(profileObj.certs)
-      console.log(res.data)
     })
   }
 
@@ -199,6 +198,7 @@ function EditApplicantProfilePage() {
         [key]: value
       }
     }
+
     axios.post('/api/applicantprofile/update', input, {
       headers: {
         'Content-Type': 'application/json'
@@ -343,9 +343,9 @@ function EditApplicantProfilePage() {
                                   <p className="text-2xl">{edu.schoolName}</p>
                                   <div className="flex-col">
                                     <div className="flex space-x-2">
-                                      <p className="text-lg">{edu.startDate}</p>
+                                      <p className="text-lg">{new Date(edu.startDate).toISOString().substring(0, 10)}</p>
                                       <p className="text-lg">-</p>
-                                      <p className="text-lg">{edu.endDate}</p>
+                                      <p className="text-lg">{new Date(edu.endDate).toISOString().substring(0, 10)}</p>
                                     </div>
                                     <div className="flex space-x-3 items-center">
                                       <p>{edu.degree}</p>
@@ -409,10 +409,10 @@ function EditApplicantProfilePage() {
                             </p>
                             <p className="text-md">{achievement.location}</p>
                             <p className="text-md">
-                              Started: {achievement.startDate}
+                              Started: {new Date(achievement.startDate).toISOString().substring(0, 10)}
                             </p>
                             <p className="text-md">
-                              Ended: {achievement.endDate}
+                              Ended: {new Date(achievement.endDate).toISOString().substring(0, 10)}
                             </p>
                             <p className="text-md">{achievement.description}</p>
                             <div className="mt-5 flex space-x-5">
@@ -464,7 +464,7 @@ function EditApplicantProfilePage() {
                         <div key={index} className="p-3">
                           <div className="p-5 bg-blue-200 rounded-xl">
                             <p className="text-2xl">{award.title}</p>
-                            <p className="text-md">{award.dateReceived}</p>
+                            <p className="text-md">{new Date(award.dateReceived).toISOString().substring(0, 10)}</p>
                             <p className="text-md">{award.description}</p>
                             <div className="mt-5 flex space-x-5">
                               <button
@@ -512,7 +512,7 @@ function EditApplicantProfilePage() {
                         <div key={index} className="p-3">
                           <div className="p-5 bg-blue-200 rounded-xl">
                             <p className="text-2xl">{cert.title}</p>
-                            <p className="text-md">{cert.dateReceived}</p>
+                            <p className="text-md">{new Date(cert.dateReceived).toISOString().substring(0,10)}</p>
                             <p className="text-md">{cert.description}</p>
                             <div className="mt-5 flex space-x-5">
                               <button
