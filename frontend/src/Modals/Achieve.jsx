@@ -1,5 +1,3 @@
-// Involvements.jsx
-
 import React, { useState } from 'react';
 
 function Involvements({ onClose, onSubmit }) {
