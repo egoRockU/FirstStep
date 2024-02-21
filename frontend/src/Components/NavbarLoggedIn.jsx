@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import logo from '../images/logo.png';
-import { BsBell, BsPerson } from 'react-icons/bs'; // Import icons for notification and profile
+import { BsBell} from 'react-icons/bs'; // Import icons for notification and profile
 import { useDispatch } from 'react-redux';
 import { logoutUser } from '../slices/userSlice';
+import DropdownMenu from './DropdownMenu';
+
 
 function NavbarLoggedIn() {
   const navigate = useNavigate();
@@ -32,7 +34,7 @@ function NavbarLoggedIn() {
   }
 
   return (
-    <nav className='p-1 bg-blue-300'>
+    <nav className='p-1 bg-blue-300 shadow-2xl'>
       <div className='flex w-full'>
      <div className='flex items-center sm:w-1/2 lg:w-full' onClick={clickLanding}>
       <img src={logo} alt="" className='w-12 h-12 hover:scale-125' />
@@ -46,11 +48,7 @@ function NavbarLoggedIn() {
       <div className='flex items-center space-x-5'>
         {/* Notification icon */}
         <BsBell className="text-black duration-500 mx-2 cursor-pointer text-3xl" />
-        {/* Profile icon */}
-        <BsPerson className="text-black duration-500 mx-2 cursor-pointer text-3xl" onClick={clickProfile}/>
-
-        {/* Logout button */}
-        <button className='bg-[#CB8A8A] text-white duration-500 px-3 py-2 mx-2 rounded-lg' onClick={clickLogout}>Logout</button>
+        <DropdownMenu/>
       </div>
      </div>
      </div>

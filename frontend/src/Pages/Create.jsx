@@ -7,6 +7,7 @@ import twt from "../images/x.webp";
 import { useNavigate } from "react-router-dom"
 import { useState, useEffect } from "react";
 import axios from "axios";
+import NavbarLoggedIn from '../Components/NavbarLoggedIn'
 const placeholderImage =
   "https://imgs.search.brave.com/q02hpLETIRmEBEpeaZkCKOUDubZ65X3ccxNLb1WxvY0/rs:fit:860:0:0/g:ce/aHR0cHM6Ly90My5m/dGNkbi5uZXQvanBn/LzAyLzk5LzczLzI2/LzM2MF9GXzI5OTcz/MjY2OF9nWnFLVmJ1/Mktqcm9MWXRUOWhS/WmZFMzdBWldGSEpR/bi5qcGc"; // Provide your placeholder image URL here
 
@@ -30,6 +31,7 @@ function CreateApplicantProfilepage() {
   const [skills, setSkills] = useState([]);
   const [inputs, setInputs] = useState({});
   const navigate = useNavigate()
+  
 
   useEffect(()=>{
     setInputs({
@@ -152,8 +154,9 @@ function CreateApplicantProfilepage() {
         background: "linear-gradient(to bottom, #87cefa, #336699)",
       }}
     >
+      <NavbarLoggedIn/>
       <div className="h-[1200px] ">
-        <div className="flex h-9/12 container mx-auto space-x-4">
+        <div className="flex h-9/12 container mx-auto space-x-4 w-1/2 mt-5">
           <div className="h-full w-full">
             <div className="w-full" style={{ position: "relative" }}>
               <div>

@@ -75,12 +75,13 @@ function Login() {
       <div>
       <Newnavbar/>
       </div>
-      <div className="flex flex-col bg-white bg-opacity-75 w-1/3 mx-auto h-4/6">
-        <div className='py-4 w-full mt-5 mb-2 flex justify-center items-center'>
-          <h1 className="text-5xl font-medium mb-5">Welcome back!</h1>
+      <div className="flex flex-col bg-white bg-opacity-75  lg:w-1/3 mx-auto h-4/6">
+        <form className='h-1/2'>
+        <div className='flex flex-col w-full h-full items-center justify-around'>
+        <div className='w-full flex justify-center'>
+          <h1 className="text-5xl font-medium">Welcome!</h1>
         </div>
-        <form>
-        <div className='flex flex-col w-full h-1/2 mt-5 space-y-3 items-center p-4'>
+        <div className='flex flex-col w-full space-y-5 justify-center items-center'>
           <input
           style={{
             backgroundColor:'transparent',
@@ -89,7 +90,7 @@ function Login() {
           }}
             type="email"
             placeholder="Email"
-            className="w-1/2 p-2 mb-4 border rounded-md custom-input placeholder-black font-semibold"
+            className="w-1/2 p-2 border rounded-md custom-input placeholder-black font-semibold"
             onChange={(e) =>setEmail(e.target.value)}
             required
           />
@@ -101,29 +102,32 @@ function Login() {
             }}
             type="password"
             placeholder="Password"
-            className="w-1/2 p-2 mb-4 border rounded-md custom-input placeholder-black font-semibold"
+            className="w-1/2 p-2 border rounded-md custom-input placeholder-black font-semibold"
             onChange={(e) =>setPassword(e.target.value)}
             required
           />
-          <div>
-          <button type="button" className='w-46 mt-5 text-stone-500 rounded-full bg-transparent p-2'>Forgot Password?</button>
-        </div>
-        <button style={{backgroundColor:'#FFA1A1'}} 
-          className="w-32 text-stone-500 p-2 rounded-full hover:text-white hover:bg-red-500 transition-colors duration-300"
+          </div>
+          </div>
+        </form>
+        <div className='flex flex-col h-1/2 w-full space-y-3 items-center'>
+        <button type="button" className='w-46 text-stone-500 rounded-full bg-transparent p-2'>Forgot Password?</button>
+           <button 
+          className="w-32 text-stone-500 p-2 rounded-full bg-[#FFA1A1] hover:text-white hover:bg-red-500 transition-colors duration-300"
           type='submit'
           onClick={login}
           >
             Log In
           </button>
+          <div className='flex justify-between gap-3 items-center'>
+            <div className='h-[1px] bg-black w-32'></div>
+            <h1 className='text-lg'>OR</h1>
+            <div className='h-[1px] bg-black w-32'></div>
           </div>
-        </form>
-        <div className='flex flex-col h-1/2 w-full space-y-3 items-center'>
-          <h1 className='text-lg'>OR</h1>
           <GoogleOAuthProvider clientId={googleClientId}>
-            <GoogleLogin
+            <GoogleLogin 
               onSuccess={handleGoogleLogin}
               type="buttton"
-              size="medium"
+              size="large"
               text="signin_with"
               shape='pill'
             />
