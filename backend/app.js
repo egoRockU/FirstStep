@@ -2,12 +2,14 @@ import express from 'express'
 import cors from 'cors'
 import localAccountRoutes from './routes/localAccountRoutes.js'
 import googleAccountRoutes from './routes/googleAccountRoutes.js'
+import ApplicantProfileRoutes from './routes/ApplicantProfileRoutes.js';
 import verifyEmail from './controllers/verifyEmail.js'
 import logout from './routes/logout.js'
 import cookieParser from 'cookie-parser'
 import dotenv from 'dotenv'
 dotenv.config()
 import connectDB from './db/db.js'
+import { errorHandler } from './middlewares/errorMiddlewares.js'
 
 const app = express()
 const port = process.env.PORT || 8000
@@ -24,7 +26,9 @@ app.use('/localaccounts', localAccountRoutes)
 app.use('/googleaccounts', googleAccountRoutes)
 app.use('/logout', logout)
 app.get('/verify/:uniqueString', verifyEmail)
+app.use('/applicantprofile', ApplicantProfileRoutes);
 
-app.listen(port, ()=>{
-    console.log(`Express app is listening at port ${port}`)
-})
+
+app.use(errorHandler)
+
+export default app

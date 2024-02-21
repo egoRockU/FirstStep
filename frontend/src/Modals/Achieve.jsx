@@ -1,15 +1,23 @@
-import React, { useState } from 'react';
+// Involvements.jsx
 
-function Involvements({ onClose, onSubmit }) {
+import React, { useState, useEffect } from 'react';
+
+function Involvements({ onClose, onSubmit, onEdit, formIndex, initialData }) {
   const [formData, setFormData] = useState({
     title: '',
-    type: '',
-    organization: '',
+    typeOfActivity: '',
+    organizationOrCompanyName: '',
     location: '',
     startDate: '',
     endDate: '',
     description: ''
   });
+
+  useEffect(() => {
+    if (initialData) {
+      setFormData(initialData);
+    }
+  }, [initialData]);  
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -19,27 +27,30 @@ function Involvements({ onClose, onSubmit }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     onSubmit(formData);
-    setFormData({
-      title: '',
-      type: '',
-      organization: '',
-      location: '',
-      startDate: '',
-      endDate: '',
-      description: ''
-    });
+    setFormData(formData);
   };
+
+  const handleEdit = (e) => {
+    e.preventDefault();
+    onEdit(formIndex, formData);
+    onClose();
+  }
+
   const handleCancel = () => {
     onClose();
-    setFormData({
+    if (initialData) {
+      setFormData(initialData);
+    } else {
+      setFormData({
         title: '',
-        type: '',
-        organization: '',
+        typeOfActivity: '',
+        organizationOrCompanyName: '',
         location: '',
         startDate: '',
         endDate: '',
         description: ''
-    });
+      });
+    }
   };
 
   return (
@@ -53,11 +64,11 @@ function Involvements({ onClose, onSubmit }) {
           </div>
           <div className="mb-4">
             <label htmlFor="type" className="block font-semibold">Type:</label>
-            <input type="text" id="type" name="type" value={formData.type} onChange={handleChange} className="border border-gray-300 rounded-md px-4 py-2 w-full" />
+            <input type="text" id="typeOfActivity" name="typeOfActivity" value={formData.typeOfActivity} onChange={handleChange} className="border border-gray-300 rounded-md px-4 py-2 w-full" />
           </div>
           <div className="mb-4">
             <label htmlFor="organization" className="block font-semibold">Organization/Company Name:</label>
-            <input type="text" id="organization" name="organization" value={formData.organization} onChange={handleChange} className="border border-gray-300 rounded-md px-4 py-2 w-full" />
+            <input type="text" id="organization" name="organizationOrCompanyName" value={formData.organizationOrCompanyName} onChange={handleChange} className="border border-gray-300 rounded-md px-4 py-2 w-full" />
           </div>
           <div className="mb-4">
             <label htmlFor="location" className="block font-semibold">Location:</label>
@@ -65,21 +76,38 @@ function Involvements({ onClose, onSubmit }) {
           </div>
           <div className="mb-4">
             <label htmlFor="startDate" className="block font-semibold">Start Date:</label>
-            <input type="date" id="startDate" name="startDate" value={formData.startDate} onChange={handleChange} className="border border-gray-300 rounded-md px-4 py-2 w-full" />
+            <input type="date" id="startDate" name="startDate" 
+            value={formData.startDate ? new Date(formData.startDate).toISOString().substring(0, 10) : ''} 
+            onChange={handleChange} className="border border-gray-300 rounded-md px-4 py-2 w-full" />
           </div>
           <div className="mb-4">
             <label htmlFor="endDate" className="block font-semibold">End Date:</label>
-            <input type="date" id="endDate" name="endDate" value={formData.endDate} onChange={handleChange} className="border border-gray-300 rounded-md px-4 py-2 w-full" />
+            <input type="date" id="endDate" name="endDate" 
+            value={formData.endDate ? new Date(formData.endDate).toISOString().substring(0, 10) : ''} 
+            onChange={handleChange} className="border border-gray-300 rounded-md px-4 py-2 w-full" />
           </div>
           <div className="mb-4">
             <label htmlFor="description" className="block font-semibold">Description:</label>
             <textarea id="description" name="description" value={formData.description} onChange={handleChange} className="border border-gray-300 rounded-md px-4 py-2 w-full" />
           </div>
           <div className="text-right">
+          {initialData && (
+              <button
+                type="button"
+                onClick={handleEdit}
+                className="bg-yellow-500 text-white px-4 py-2 rounded-md mr-2"
+              >
+                Edit
+              </button>
+            )}
           <button type="button" onClick={handleCancel} className="mr-4 text-gray-600 hover:text-gray-800 focus:outline-none">
               Cancel
             </button>
-            <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded-md">Submit</button>
+            {!initialData && 
+              <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded-md">
+              Submit
+              </button>
+            }
           </div>
         </form>
         <button onClick={onClose} className="absolute top-0 right-0 mt-4 mr-4 text-gray-600 hover:text-gray-800 focus:outline-none">

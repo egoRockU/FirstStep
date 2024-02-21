@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Man from "../images/tommy.png";
 import banner from "../images/signBg.jpg";
 import NavbarLoggedIn from "../Components/NavbarLoggedIn";
@@ -7,11 +7,19 @@ import Footer from "../Components/Footer";
 import Educ from "../Modals/Educ";
 import Achieve from "../Modals/Achieve";
 import Awards from "../Modals/Awards";
-import Certificates from "../Modals/Certifiactes";
+import Certificates from "../Modals/Certificates";
+import axios from "axios";
 
-function Create() {
+function EditApplicantProfilePage() {
   const [selectedImage, setSelectedImage] = useState(null);
   const placeholderImage = "placeholder.jpg";
+  const profileId = JSON.parse(localStorage.getItem('user')).profileId
+  const [username, setUsername] = useState('')
+  const [bio, setBio] = useState('')
+
+  useEffect(()=>{
+    getUserProfile()
+  }, [])
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
@@ -24,90 +32,181 @@ function Create() {
     }
   };
 
-  const [showModal, setShowModal] = useState(false);
-  const [formData, setFormData] = useState({ name: "", age: "" });
-  const [educationData, setEducationData] = useState([]);
+  const [formData, setFormData] = useState();
+  const [formIndex, setFormIndex] = useState();
 
-  const handleSubmit = (data) => {
+  //education
+  const [educationData, setEducationData] = useState([]);
+  const [showModal, setShowModal] = useState(false);
+
+  const handleEducSubmit = (data) => {
     console.log(data);
-    setEducationData([...educationData, data]);
+    setEducationData(prevEducationData => {
+      const updatedEducationData = [...prevEducationData, data];
+      updateProfileElement("education", updatedEducationData);
+      return updatedEducationData;
+    });
     setShowModal(false);
   };
 
-  const handleDelete = (index) => {
+  const handleEducDelete = (index) => {
     const updatedEducationData = [...educationData];
     updatedEducationData.splice(index, 1);
+    updateProfileElement("education", updatedEducationData);
     setEducationData(updatedEducationData);
   };
 
-  const handleEdit = (index) => {
+  const handleEducEdit = (index) => {
     const educationToEdit = educationData[index];
     setFormData(educationToEdit);
+    setFormIndex(index)
     setShowModal(true);
   };
 
+  const editEducationData = (index, newValue) => {
+    const updatedEducationData = [...educationData];
+    updatedEducationData[index] = newValue;
+    updateProfileElement("education", updatedEducationData);
+    setEducationData(updatedEducationData);
+  }
+
+  //activities and involvements
   const [achievementsData, setAchievementsData] = useState([]);
   const [showAchieveModal, setShowAchieveModal] = useState(false);
 
   const handleSubmitAchieve = (formData) => {
-    setAchievementsData([...achievementsData, formData]);
+    setAchievementsData( prevAchievementsData => {
+      const updatedAchievementsData = [...prevAchievementsData, formData];
+      updateProfileElement("activitiesAndInvolvements", updatedAchievementsData);
+      return updatedAchievementsData;
+    });
     setShowAchieveModal(false);
   };
 
   const handleDeleteAchievement = (index) => {
     const updatedAchievements = [...achievementsData];
     updatedAchievements.splice(index, 1);
+    updateProfileElement("activitiesAndInvolvements", updatedAchievements);
     setAchievementsData(updatedAchievements);
   };
-  const [editAchievementIndex, setEditAchievementIndex] = useState(null);
 
   const handleEditAchievement = (index) => {
-    setEditAchievementIndex(index);
+    const achievementToEdit = achievementsData[index];
+    setFormData(achievementToEdit);
+    setFormIndex(index)
     setShowAchieveModal(true);
   };
 
+  const editAchievementsData = (index, newValue) => {
+    const updatedAchievementsData = [...achievementsData];
+    updatedAchievementsData[index] = newValue;
+    updateProfileElement("activitiesAndInvolvements", updatedAchievementsData);
+    setAchievementsData(updatedAchievementsData);
+  }
+
+  //awards
   const [awardData, setAwardData] = useState([]);
   const [showAwardModal, setShowAwardModal] = useState(false);
 
   const handleSubmitAward = (formData) => {
-    console.log("Award form data:", formData);
-    setAwardData([...awardData, formData]);
+    setAwardData( prevAwardData => {
+      const updatedAwardsData = [...prevAwardData, formData];
+      updateProfileElement("awards", updatedAwardsData);
+      return updatedAwardsData;
+    }
+    );
     setShowAwardModal(false);
   };
 
   const handleDeleteAward = (index) => {
     const updatedAward = [...awardData];
     updatedAward.splice(index, 1);
+    updateProfileElement("awards", updatedAward);
     setAwardData(updatedAward);
   };
 
-  const [editAwardIndex, setEditAwardIndex] = useState(null);
-
   const handleEditAward = (index) => {
-    setEditAwardIndex(index);
+    const awardToEdit = awardData[index];
+    setFormData(awardToEdit);
+    setFormIndex(index)
     setShowAwardModal(true);
   };
 
+  const editAwardData = (index, newValue) => {
+    const updatedAwardData = [...awardData];
+    updatedAwardData[index] = newValue;
+    updateProfileElement("awards", updatedAwardData);
+    setAwardData(updatedAwardData)
+  }
+
+  //certificates
   const [certData, setCertData] = useState([]);
   const [showCertModal, setShowCertModal] = useState(false);
 
   const handleSubmitCert = (formData) => {
     console.log("Cert form data:", formData);
-    setCertData([...certData, formData]);
+    setCertData(prevCertData => {
+      const updatedCertData = [...prevCertData, formData];
+      updateProfileElement("certs", updatedCertData);
+      return updatedCertData;
+    }
+    );
     setShowCertModal(false);
   };
 
   const handleDeleteCert = (index) => {
     const updatedCert = [...certData];
     updatedCert.splice(index, 1);
+    updateProfileElement("certs", updatedCert);
     setCertData(updatedCert);
   };
-  const [editCertIndex, setEditCertIndex] = useState(null);
 
   const handleEditCert = (index) => {
-    setEditCertIndex(index);
+    const certToEdit = certData[index];
+    setFormData(certToEdit);
+    setFormIndex(index);
     setShowCertModal(true);
   };
+
+  const editCertData = (index, newValue) => {
+    const updatedCertData = [...certData];
+    updatedCertData[index] = newValue;
+    updateProfileElement("certs", updatedCertData);
+    setCertData(updatedCertData)
+  }
+
+  const getUserProfile = () => {
+    axios.post('/api/applicantprofile/retrieveone', {profileId},{
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded'
+      }
+    }).then((res)=>{
+      const profileObj = res.data
+      setUsername(`${profileObj.firstName} ${profileObj.lastName}`)
+      setBio(profileObj.bio)
+      setEducationData(profileObj.education)
+      setAchievementsData(profileObj.activitiesAndInvolvements)
+      setAwardData(profileObj.awards)
+      setCertData(profileObj.certs)
+    })
+  }
+
+  const updateProfileElement = (key, value) => {
+    const input = {
+      _id: profileId,
+      set: {
+        [key]: value
+      }
+    }
+
+    axios.post('/api/applicantprofile/update', input, {
+      headers: {
+        'Content-Type': 'application/json'
+        }
+    }).then((res)=>{
+      console.log(res.data.message)
+    })
+  }
 
   return (
     <>
@@ -163,26 +262,23 @@ function Create() {
                       ></div>
                     )}
                   </div>
-                  <div class="space-y-2">
-                    <h1 className="text-2xl font-semibold">Exmaple Name</h1>
-                    <div class="flex items-center">
+                  <div className="space-y-2">
+                    <h1 className="text-2xl font-semibold">{username}</h1>
+                    <div className="flex items-center">
                       <div>
-                        <img src={google} alt="Facebook" class="w-8 h-8" />
+                        <img src={google} alt="Facebook" className="w-8 h-8" />
                       </div>
                       <div>
-                        <img src={google} alt="Twitter" class="w-8 h-8" />
+                        <img src={google} alt="Twitter" className="w-8 h-8" />
                       </div>
                       <div>
-                        <img src={google} alt="Instagram" class="w-8 h-8" />
+                        <img src={google} alt="Instagram" className="w-8 h-8" />
                       </div>
                     </div>
                     <div>
                       <h1 className="font-semibold text-xl">Bio</h1>
                       <p className="font-base text-base">
-                        Lorem ipsum dolor sit amet consectetur, adipisicing
-                        elit. Inventore, laudantium. Suscipit veniam omnis
-                        mollitia consequuntur deserunt facere quia dolore
-                        molestiae?
+                        {bio || "..."}
                       </p>
                     </div>
                   </div>
@@ -222,9 +318,14 @@ function Create() {
                     </button>
                     {showModal && (
                       <Educ
-                        onClose={() => setShowModal(false)}
-                        onSubmit={handleSubmit}
-                        formData={formData}
+                        onClose={() => {
+                          setFormData()
+                          setShowModal(false)
+                        }}
+                        onSubmit={handleEducSubmit}
+                        onEdit={editEducationData}
+                        initialData={formData}
+                        formIndex={formIndex}
                         setFormData={setFormData}
                       />
                     )}
@@ -242,9 +343,9 @@ function Create() {
                                   <p className="text-2xl">{edu.schoolName}</p>
                                   <div className="flex-col">
                                     <div className="flex space-x-2">
-                                      <p className="text-lg">{edu.startDate}</p>
+                                      <p className="text-lg">{new Date(edu.startDate).toISOString().substring(0, 10)}</p>
                                       <p className="text-lg">-</p>
-                                      <p className="text-lg">{edu.endDate}</p>
+                                      <p className="text-lg">{new Date(edu.endDate).toISOString().substring(0, 10)}</p>
                                     </div>
                                     <div className="flex space-x-3 items-center">
                                       <p>{edu.degree}</p>
@@ -260,13 +361,13 @@ function Create() {
                             <div className="mt-2 flex justify-between">
                               <button
                                 className="bg-green-300 px-4 py-2 rounded-md"
-                                onClick={() => handleEdit(index)}
+                                onClick={() => handleEducEdit(index)}
                               >
                                 Edit
                               </button>
                               <button
                                 className="text-white bg-red-500 px-4 py-2 rounded-md"
-                                onClick={() => handleDelete(index)}
+                                onClick={() => handleEducDelete(index)}
                               >
                                 Delete
                               </button>
@@ -277,7 +378,7 @@ function Create() {
                     </div>
                   </div>
                   <div className="bg-white p-4 rounded-xl">
-                    <h1 className="text-3xl">Achievements and Involvements</h1>
+                    <h1 className="text-3xl">Activities and Involvements</h1>
                     <button
                       onClick={() => setShowAchieveModal(true)}
                       className="text-lg p-3 px-4 rounded-full bg-blue-200 hover:bg-blue-600"
@@ -286,8 +387,15 @@ function Create() {
                     </button>
                     {showAchieveModal && (
                       <Achieve
-                        onClose={() => setShowAchieveModal(false)}
+                        onClose={() => {
+                          setFormData()
+                          setShowAchieveModal(false)
+                        }}
                         onSubmit={handleSubmitAchieve}
+                        onEdit={editAchievementsData}
+                        initialData={formData}
+                        formIndex={formIndex}
+                        setFormData={setFormData}
                       />
                     )}
                     <div className="mt-4 w-full items-center flex">
@@ -295,16 +403,16 @@ function Create() {
                         <div key={index} className="p-3">
                           <div className="p-5 bg-blue-200 rounded-xl">
                             <p className="text-2xl">{achievement.title}</p>
-                            <p className="text-md">{achievement.type}</p>
+                            <p className="text-md">{achievement.typeOfActivity}</p>
                             <p className="text-md">
-                              {achievement.organization}
+                              {achievement.organizationOrCompanyName}
                             </p>
                             <p className="text-md">{achievement.location}</p>
                             <p className="text-md">
-                              Started: {achievement.startDate}
+                              Started: {new Date(achievement.startDate).toISOString().substring(0, 10)}
                             </p>
                             <p className="text-md">
-                              Ended: {achievement.endDate}
+                              Ended: {new Date(achievement.endDate).toISOString().substring(0, 10)}
                             </p>
                             <p className="text-md">{achievement.description}</p>
                             <div className="mt-5 flex space-x-5">
@@ -340,8 +448,15 @@ function Create() {
                     </button>
                     {showAwardModal && (
                       <Awards
-                        onClose={() => setShowAwardModal(false)}
+                        onClose={() => {
+                          setFormData()
+                          setShowAwardModal(false)
+                        }}
                         onSubmit={handleSubmitAward}
+                        onEdit={editAwardData}
+                        initialData={formData}
+                        formIndex={formIndex}
+                        setFormData={setFormData}
                       />
                     )}
                     <div className="mt-4 w-full items-center flex">
@@ -349,7 +464,7 @@ function Create() {
                         <div key={index} className="p-3">
                           <div className="p-5 bg-blue-200 rounded-xl">
                             <p className="text-2xl">{award.title}</p>
-                            <p className="text-md">{award.dateReceived}</p>
+                            <p className="text-md">{new Date(award.dateReceived).toISOString().substring(0, 10)}</p>
                             <p className="text-md">{award.description}</p>
                             <div className="mt-5 flex space-x-5">
                               <button
@@ -370,12 +485,7 @@ function Create() {
                       ))}
                     </div>
                   </div>
-                  {showCertModal && (
-                    <Certificates
-                      onClose={() => setShowCertModal(false)}
-                      onSubmit={handleDeleteCert}
-                    />
-                  )}
+
                   <div className="bg-white p-4 rounded-xl">
                     <h1 className="text-3xl">Certificates</h1>
                     <button
@@ -386,8 +496,15 @@ function Create() {
                     </button>
                     {showCertModal && (
                       <Certificates
-                        onClose={() => setShowCertModal(false)}
+                        onClose={() => {
+                          setFormData()
+                          setShowCertModal(false)
+                        }}
                         onSubmit={handleSubmitCert}
+                        onEdit={editCertData}
+                        initialData={formData}
+                        formIndex={formIndex}
+                        setFormData={setFormData}
                       />
                     )}
                     <div className="mt-4 w-full items-center flex">
@@ -395,7 +512,7 @@ function Create() {
                         <div key={index} className="p-3">
                           <div className="p-5 bg-blue-200 rounded-xl">
                             <p className="text-2xl">{cert.title}</p>
-                            <p className="text-md">{cert.dateReceived}</p>
+                            <p className="text-md">{new Date(cert.dateReceived).toISOString().substring(0,10)}</p>
                             <p className="text-md">{cert.description}</p>
                             <div className="mt-5 flex space-x-5">
                               <button
@@ -427,4 +544,4 @@ function Create() {
   );
 }
 
-export default Create;
+export default EditApplicantProfilePage;

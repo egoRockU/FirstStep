@@ -12,13 +12,21 @@ const verifyEmail = asyncHandler(async(req, res) => {
 
     if (account) {
         account.isVerified = true
+        account.uniqueString = ""
         await account.save()
         console.log(`${account.email} is now verified`)
     } else {
-        console.log('Account not found.')
+        res.status(404).send(`<h3>Page not Found</h3>
+                            <p>Token already expired</p>`)
+        throw new Error('Account not Found')
     }
 
-    res.status(200).send('<p>Thank you for confirming!. Your email is now verified.</p>')
+    res.status(200).send(`
+    <body style="text-align: center;">
+        <h3>Your email is now verified!</h3>
+        <p>Thank you for verifying your email.</p>
+    </body>
+    `)
 })
 
 export default verifyEmail

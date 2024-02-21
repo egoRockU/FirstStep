@@ -15,8 +15,7 @@ function NewLanding() {
   const landingStyle = {
     background: `url(${Bg}) center/cover no-repeat`,
     fontFamily: "Montserrat, sans-serif",
-    height: "998px",
-    fontFamily:'Montserrat, sans-serif'
+    height: "998px"
   };
 
   const navigate = useNavigate();

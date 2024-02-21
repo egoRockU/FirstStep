@@ -8,7 +8,7 @@ import { useSelector } from 'react-redux'
 import Profilepage from './Pages/Profilepage';
 import NewLanding from './Pages/NewLanding';
 import Newnavbar from './Components/Newnavbar';
-import Editprofilepage from './Pages/Editprofilepage';
+import EditApplicantProfilePage from './Pages/EditApplicantProfilePage';
 
 function App() {
 
@@ -19,10 +19,10 @@ function App() {
       <Routes>
         <Route path="/" element={<NewLanding />} />
         <Route path="/login" element={<Login/>}/>
-        <Route path="/register" element={ !user ? (<Register/>) : (<Landing />)}/>
+        <Route path="/register" element={ !user ? (<Register/>) : (<NewLanding />)}/>
         <Route path="/choose" element={ user ? (<Choose/>) : (<Login />)}/>
         <Route path="/create" element={ user ? (<Create/>) : (<Login />)}/>
-        <Route path='/editprofile' element={<Editprofilepage/>} />
+        <Route path='/editprofile' element={<EditApplicantProfilePage/>} />
         <Route path='/profile' element={<Profilepage/>} />
       </Routes>
     </BrowserRouter>

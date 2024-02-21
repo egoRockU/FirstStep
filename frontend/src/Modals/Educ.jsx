@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-function Educ({ onClose, onSubmit, initialData }) {
+function Educ({ onClose, onSubmit, onEdit, formIndex, initialData }) {
   const [formData, setFormData] = useState({
     schoolName: '',
     degree: '',
@@ -26,6 +26,12 @@ function Educ({ onClose, onSubmit, initialData }) {
     onSubmit(formData);
     onClose();
   };
+
+  const handleEdit = (e) => {
+    e.preventDefault();
+    onEdit(formIndex, formData);
+    onClose();
+  }
 
   const handleCancel = () => {
     onClose();
@@ -62,11 +68,15 @@ function Educ({ onClose, onSubmit, initialData }) {
           </div>
           <div className="mb-4">
             <label htmlFor="startDate" className="block font-semibold">Start Date:</label>
-            <input type="date" id="startDate" name="startDate" value={formData.startDate} onChange={handleChange} className="border border-gray-300 rounded-md px-4 py-2 w-full" />
+            <input type="date" id="startDate" name="startDate" 
+            value={formData.startDate ? new Date(formData.startDate).toISOString().substring(0, 10) : ''} 
+            onChange={handleChange} className="border border-gray-300 rounded-md px-4 py-2 w-full" />
           </div>
           <div className="mb-4">
             <label htmlFor="endDate" className="block font-semibold">End Date:</label>
-            <input type="date" id="endDate" name="endDate" value={formData.endDate} onChange={handleChange} className="border border-gray-300 rounded-md px-4 py-2 w-full" />
+            <input type="date" id="endDate" name="endDate" 
+            value={formData.endDate ? new Date(formData.endDate).toISOString().substring(0, 10) : ''} 
+            onChange={handleChange} className="border border-gray-300 rounded-md px-4 py-2 w-full" />
           </div>
           <div className="mb-4">
             <label htmlFor="grade" className="block font-semibold">Grade:</label>
@@ -76,7 +86,7 @@ function Educ({ onClose, onSubmit, initialData }) {
             {initialData && (
               <button
                 type="button"
-                onClick={handleCancel}
+                onClick={handleEdit}
                 className="bg-yellow-500 text-white px-4 py-2 rounded-md mr-2"
               >
                 Edit
@@ -85,9 +95,12 @@ function Educ({ onClose, onSubmit, initialData }) {
             <button type="button" onClick={handleCancel} className="bg-gray-500 text-white px-4 py-2 rounded-md mr-2">
               Cancel
             </button>
-            <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded-md">
+
+            {!initialData && 
+              <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded-md">
               Submit
-            </button>
+              </button>
+            }
           </div>
         </form>
       </div>

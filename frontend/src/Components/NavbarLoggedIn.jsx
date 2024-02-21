@@ -9,6 +9,7 @@ function NavbarLoggedIn() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [isOpen, setIsOpen] = useState(false);
+  let userObj = JSON.parse(localStorage.getItem('user'))
 
   const clickLanding = () => {
     navigate("/");
@@ -20,7 +21,14 @@ function NavbarLoggedIn() {
   }
 
   const clickProfile = () => {
-    navigate('/choose')
+    let userAccountType = userObj.profileType
+    let userAccountId = userObj.profileId
+
+    if (userAccountId && userAccountType) {
+      navigate('/editprofile')
+    } else {
+      navigate('/choose')
+    }
   }
 
   return (

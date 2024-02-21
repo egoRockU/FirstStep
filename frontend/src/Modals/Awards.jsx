@@ -1,11 +1,17 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
-function Awards({ onClose, onSubmit }) {
+function Awards({ onClose, onSubmit, onEdit, formIndex, initialData }) {
   const [formData, setFormData] = useState({
     title: '',
     dateReceived: '',
     description: ''
   });
+
+  useEffect(() => {
+    if (initialData) {
+      setFormData(initialData);
+    }
+  }, [initialData]);  
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -15,20 +21,26 @@ function Awards({ onClose, onSubmit }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     onSubmit(formData);
-    setFormData({
-      title: '',
-      dateReceived: '',
-      description: ''
-    });
+    onClose();
   };
+
+  const handleEdit = (e) => {
+    e.preventDefault();
+    onEdit(formIndex, formData);
+    onClose();
+  }
 
   const handleCancel = () => {
     onClose();
-    setFormData({
-      title: '',
-      dateReceived: '',
-      description: ''
-    });
+    if (initialData){
+      setFormData(initialData)
+    } else {
+      setFormData({
+        title: '',
+        dateReceived: '',
+        description: ''
+      });
+    }
   };
 
   return (
@@ -42,17 +54,32 @@ function Awards({ onClose, onSubmit }) {
           </div>
           <div className="mb-4">
             <label htmlFor="dateReceived" className="block font-semibold">Date Received:</label>
-            <input type="date" id="dateReceived" name="dateReceived" value={formData.dateReceived} onChange={handleChange} className="border border-gray-300 rounded-md px-4 py-2 w-full" />
+            <input type="date" id="dateReceived" name="dateReceived" 
+            value={formData.dateReceived ? new Date(formData.dateReceived).toISOString().substring(0, 10) : ''} 
+            onChange={handleChange} className="border border-gray-300 rounded-md px-4 py-2 w-full" />
           </div>
           <div className="mb-4">
             <label htmlFor="description" className="block font-semibold">Description:</label>
             <textarea id="description" name="description" value={formData.description} onChange={handleChange} className="border border-gray-300 rounded-md px-4 py-2 w-full" />
           </div>
+          {initialData && (
+              <button
+                type="button"
+                onClick={handleEdit}
+                className="bg-yellow-500 text-white px-4 py-2 rounded-md mr-2"
+              >
+                Edit
+              </button>
+            )}
           <div className="text-right">
             <button type="button" onClick={handleCancel} className="mr-4 text-gray-600 hover:text-gray-800 focus:outline-none">
               Cancel
             </button>
-            <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded-md">Submit</button>
+            {!initialData && 
+              <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded-md">
+              Submit
+              </button>
+            }
           </div>
         </form>
         <button onClick={onClose} className="absolute top-0 right-0 mt-4 mr-4 text-gray-600 hover:text-gray-800 focus:outline-none">
