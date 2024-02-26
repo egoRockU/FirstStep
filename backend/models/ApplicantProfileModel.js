@@ -141,7 +141,7 @@ const ApplicantProfileSchema = new Schema({
     type: String,
     required: false
   },
-  phone: {
+  contactNum: {
     type: String,
     required: false,
     default: ''
