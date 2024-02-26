@@ -7,7 +7,7 @@ import { retrieveAll,
         deleteEmployer
 } from '../controllers/EmployerProfileController.js'
 
-router.get('/', retrieveAll)
+router.get('/retrieve', retrieveAll)
 router.post('/create', create)
 router.post('/retrieveone', retrieveOne)
 router.post('/update', update)
