@@ -9,6 +9,8 @@ import Profilepage from './Pages/Profilepage';
 import NewLanding from './Pages/NewLanding';
 import Newnavbar from './Components/Newnavbar';
 import EditApplicantProfilePage from './Pages/EditApplicantProfilePage';
+import Newlogin from './Pages/Newlogin';
+import Newregister from './Pages/Newregister';
 
 function App() {
 
@@ -24,6 +26,8 @@ function App() {
         <Route path="/create" element={ user ? (<Create/>) : (<Login />)}/>
         <Route path='/editprofile' element={<EditApplicantProfilePage/>} />
         <Route path='/profile' element={<Profilepage/>} />
+        <Route path='/newlogin' element={<Newlogin/>} />
+        <Route path='/newregister' element={<Newregister/>} />
       </Routes>
     </BrowserRouter>
   );
