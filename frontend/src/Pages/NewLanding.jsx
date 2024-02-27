@@ -21,7 +21,7 @@ function NewLanding() {
   const navigate = useNavigate();
 
   const clickjoin = () => {
-    navigate("/login");
+    navigate("/newlogin");
   };
 
   const {user} = useSelector((state)=>state.user)

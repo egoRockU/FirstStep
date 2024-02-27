@@ -62,10 +62,11 @@ function Newlogin() {
     navigate("/newregister");
   };
   return (
-    <div style={bgStyle} className="flex flex-col space-y-20">
+    <div style={bgStyle} className="flex flex-col">
       <div>
         <Newnavbar />
       </div>
+      <div className="w-full h-full flex justify-center items-center">
       <div className="h-[65%] w-[65%] mx-auto bg-white opacity-80 flex">
         <div className="w-1/2 h-full flex flex-col items-center justify-center gap-8">
           <h1 className="text-3xl">Log In</h1>
@@ -132,6 +133,7 @@ function Newlogin() {
             <h1 className="text-3xl">FirstStep</h1>
           </div>
         </div>
+      </div>
       </div>
     </div>
   );

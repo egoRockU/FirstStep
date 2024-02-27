@@ -119,10 +119,11 @@ function Newregister() {
   };
 
   return (
-    <div style={bgStyle} className="flex flex-col gap-2">
+    <div style={bgStyle} className="flex flex-col">
       <div>
         <Newnavbar />
       </div>
+      <div className="w-full h-full flex justify-center items-center">
       <div className="py-5 w-[65%] mx-auto bg-white opacity-80 flex">
         <div className="w-1/2">
           <div className="w-full flex justify-center items-center h-full">
@@ -240,6 +241,7 @@ function Newregister() {
             </form>
           </div>
         </div>
+      </div>
       </div>
     </div>
   );

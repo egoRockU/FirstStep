@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { logoutUser } from "../slices/userSlice";
 import { BsBell, BsPerson } from "react-icons/bs"; // Import icons for notification and profile
+import profile from '../images/profileicon.png'
 
 const DropdownMenu = () => {
   const navigate = useNavigate();
@@ -40,7 +41,7 @@ const DropdownMenu = () => {
           aria-haspopup="true"
           aria-expanded="true"
         >
-          <BsPerson className="text-black duration-500 mx-2 cursor-pointer text-3xl" />
+          <img src={profile} alt="" className="text-black duration-500 mx-2 cursor-pointer w-8 h-8" />
         </button>
       </div>
 
