@@ -4,7 +4,7 @@ import localAccountRoutes from './routes/localAccountRoutes.js'
 import googleAccountRoutes from './routes/googleAccountRoutes.js'
 import ApplicantProfileRoutes from './routes/ApplicantProfileRoutes.js';
 import EmployerPriofileRoutes from './routes/EmployerProfileRoutes.js'
-import verifyEmail from './controllers/verifyEmail.js'
+import {verifyEmail, requestAnotherEmail} from './controllers/verifyEmail.js'
 import logout from './routes/logout.js'
 import cookieParser from 'cookie-parser'
 import dotenv from 'dotenv'
@@ -25,7 +25,8 @@ app.use(express.urlencoded({ extended: false }))
 app.use('/localaccounts', localAccountRoutes)
 app.use('/googleaccounts', googleAccountRoutes)
 app.use('/logout', logout)
-app.get('/verify/:uniqueString', verifyEmail)
+app.get('/verify/:urlToken', verifyEmail)
+app.get('/requestverifylink/:email', requestAnotherEmail)
 app.use('/applicantprofile', ApplicantProfileRoutes)
 app.use('/employerprofile', EmployerPriofileRoutes)
 
