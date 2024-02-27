@@ -16,15 +16,15 @@ const verifyEmail = asyncHandler(async(req, res) => {
             LocalAccount.findOne({ uniqueString }),
             GoogleAccount.findOne({ uniqueString })
         ]).then(([account1, account2])=> account1 || account2 )
-    
+
         if (account) {
             account.isVerified = true
             account.uniqueString = ""
             await account.save()
             console.log(`${account.email} is now verified`)
         } else {
-            res.status(404).send(`<h3>Page not Found</h3>
-                                <p>Account not Found</p>`)
+            res.status(404).send(`<h3>This Account is already verified</h3>
+            <p>There is no need to verify this account.</p>`)
             throw new Error('Account not Found')
         }
     
@@ -54,7 +54,7 @@ const verifyEmail = asyncHandler(async(req, res) => {
             </body>
             `)
         } else {
-            console.log(err.name)
+            console.log(err.message)
         }
     }
 })
