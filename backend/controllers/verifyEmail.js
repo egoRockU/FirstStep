@@ -68,6 +68,11 @@ const requestAnotherEmail = async(req, res) => {
         GoogleAccount.findOne({ email })
     ]).then(([account1, account2])=> account1 || account2 )
 
+    if (account.isVerified){
+        res.status(404).send(`<h3>This Account is already verified</h3>
+        <p>There is no need to verify this account.</p>`)
+    }
+
     if (account) {
         account.uniqueString = uniqueString
         account.save()
