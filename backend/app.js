@@ -11,6 +11,7 @@ import dotenv from 'dotenv'
 dotenv.config()
 import connectDB from './db/db.js'
 import { errorHandler } from './middlewares/errorMiddlewares.js'
+import routes from './routes/routes.js';
 
 const app = express()
 connectDB()
@@ -29,6 +30,7 @@ app.get('/verify/:urlToken', verifyEmail)
 app.get('/requestverifylink/:email', requestAnotherEmail)
 app.use('/applicantprofile', ApplicantProfileRoutes)
 app.use('/employerprofile', EmployerPriofileRoutes)
+app.use('/',routes);
 
 app.use(errorHandler)
 
