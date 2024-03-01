@@ -8,9 +8,8 @@ import validator from "validator";
 import { GoogleLogin, GoogleOAuthProvider } from "@react-oauth/google";
 import { jwtDecode } from "jwt-decode";
 import "../Fonts.css";
-
-// Import the Terms component
 import Terms from '../Modals/Terms.jsx';
+
 
 function Newregister() {
   const navigate = useNavigate();
@@ -35,7 +34,6 @@ function Newregister() {
   const handleRegister = (e) => {
     e.preventDefault();
 
-    // Reset error state
     setError("");
 
     // Validation checks
