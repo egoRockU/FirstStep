@@ -4,6 +4,7 @@ import React, { useState } from "react";
 const placeholderImage =
   "https://imgs.search.brave.com/q02hpLETIRmEBEpeaZkCKOUDubZ65X3ccxNLb1WxvY0/rs:fit:860:0:0/g:ce/aHR0cHM6Ly90My5m/dGNkbi5uZXQvanBn/LzAyLzk5LzczLzI2/LzM2MF9GXzI5OTcz/MjY2OF9nWnFLVmJ1/Mktqcm9MWXRUOWhS/WmZFMzdBWldGSEpR/bi5qcGc"; // Provide your placeholder image URL here
 import Footer from "../Components/Footer";
+import AddSocial from "../Modals/Create Profile/Addsocial";
 
 function CreateEmployerpage() {
   const [selectedImage, setSelectedImage] = useState(null);
@@ -30,6 +31,30 @@ function CreateEmployerpage() {
       reader.readAsDataURL(file);
     }
   };
+
+//social
+const [isAddSocialModalOpen, setAddSocialModalOpen] = useState(false); 
+const [socialLinks, setSocialLinks] = useState([]);  
+const onSubmitSocialMedia = (formData) => {
+  
+  if (!formData.platform || !formData.link) {
+    alert("Please provide both platform and link");
+    return;
+  }
+  console.log("Submitted formData:", formData);
+  setSocialLinks([...socialLinks, formData]);
+  closeAddSocialModal();
+};
+const openAddSocialModal = () => {
+  setAddSocialModalOpen(true);
+  };
+
+  const closeAddSocialModal = () => {
+    setAddSocialModalOpen(false);
+ 
+  };
+
+
 
   return (
     <>
@@ -161,10 +186,19 @@ function CreateEmployerpage() {
                   />
                 </div>
                 <div className="w-full border-2 h-16 border-[#444B88] flex justify-center items-center">
-                  <button className="p-2 px-5 bg-[#8B95EE]">
+                  <button className="p-2 px-5 bg-[#8B95EE]"  onClick={openAddSocialModal}>
                     + Add Social link
                   </button>
                 </div>
+                {isAddSocialModalOpen && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
+          <div className="bg-white p-4 rounded-md">
+            <AddSocial
+              onClose={closeAddSocialModal}
+              onSubmit={onSubmitSocialMedia} />
+                      </div>
+                    </div>
+                  )}
                 <div className="flex flex-col justify-center items-start">
                     <h1 className="text-lg">Website</h1>
                   <input type="text" className="text-base border-2 border-[#444B88] p-2 w-full" required />
