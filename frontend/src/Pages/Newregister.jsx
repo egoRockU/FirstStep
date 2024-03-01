@@ -9,18 +9,20 @@ import { GoogleLogin, GoogleOAuthProvider } from "@react-oauth/google";
 import { jwtDecode } from "jwt-decode";
 import "../Fonts.css";
 
+// Import the Terms component
+import Terms from '../Modals/Terms.jsx';
+
 function Newregister() {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmEmail, setConfirmEmail] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [error, setError] = useState(""); // State for error message
+  const [error, setError] = useState(""); 
   const [inputs, setInputs] = useState([]);
   const googleClientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
 
   useEffect(() => {
-    // Update inputs state whenever email or password changes
     setInputs({ email: email, password: password });
   }, [email, password]);
 
@@ -67,7 +69,7 @@ function Newregister() {
         })
         .catch((err) => {
           if (err.response.data.emailExist) {
-            setError(err.response.data.error); // Set error message
+            setError(err.response.data.error); 
           }
           console.log(err.response.data.error);
         });
@@ -95,7 +97,7 @@ function Newregister() {
       })
       .catch((err) => {
         if (err.response.data.emailExist) {
-          setError(err.response.data.error); // Set error message
+          setError(err.response.data.error); 
         }
         console.log(err.response.data.error);
       });
@@ -103,19 +105,42 @@ function Newregister() {
 
   const [agreeTerms, setAgreeTerms] = useState(false);
   const [agreeToPrivacyPolicy, setAgreeToPrivacyPolicy] = useState(false);
+  const [isTermsOpen, setIsTermsOpen] = useState(false);
 
-  const handleClick = () => {
-    if (agreeTerms && agreeToPrivacyPolicy) {
-      navigate("/");
-    } else if (!agreeTerms) {
-      setError("Please agree to the terms and conditions."); // Set error message
-    } else if (!agreeToPrivacyPolicy) {
-      setError("Please agree to the Privacy Policy"); // Set error message
-    }
+  const handleTermsOpen = () => {
+    setIsTermsOpen(true);
+  };
+
+  const handleTermsClose = () => {
+    setIsTermsOpen(false);
+  };
+
+  const handleCheckboxChange = (e) => {
+    setAgreeTerms(e.target.checked);
   };
 
   const clickLogin = () => {
     navigate("/newlogin");
+  };
+  
+  const handleClick = () => {
+    if (agreeTerms && agreeToPrivacyPolicy) {
+      navigate("/");
+    } else if (!agreeTerms) {
+      setError("Please agree to the terms and conditions.");
+    } else if (!agreeToPrivacyPolicy) {
+      setError("Please agree to the Privacy Policy");
+    }
+  };
+
+  const handleAcceptTerms = () => {
+    setAgreeTerms(true);
+    setIsTermsOpen(false); 
+  };
+  
+  const handleDeclineTerms = () => {
+    setAgreeTerms(false);
+    setIsTermsOpen(false); 
   };
 
   return (
@@ -182,17 +207,18 @@ function Newregister() {
                 />
                 <div className="form-group flex flex-col gap-2">
                   <label>
-                    <input
-                      type="checkbox"
-                      onChange={(e) => setAgreeTerms(e.target.checked)}
-                      checked={agreeTerms}
-                    />{" "}
-                    I agree to the{" "}
-                    <span className="text-blue-400 cursor-pointer">
-                      Terms and Conditions
+                    <span
+                      className="text-blue-400 cursor-pointer"
+                      onClick={handleTermsOpen}
+                    >
+                      <input
+                        type="checkbox"
+                        onChange={handleCheckboxChange}
+                        checked={agreeTerms}
+                      />{" "}
+                      I agree to the Terms and Conditions
                     </span>
                   </label>
-
                   <label>
                     <input
                       type="checkbox"
@@ -214,7 +240,6 @@ function Newregister() {
                 >
                   Register
                 </button>
-                {/* Display error message */}
                 {error && <p className="text-[#FF0000] bg-[#FFB1B1] p-2 px-10 rounded-lg">{error}</p>}
                 <div className="flex justify-between gap-3 items-center">
                   <div className="h-[1px] bg-black w-48"></div>
@@ -243,6 +268,10 @@ function Newregister() {
         </div>
       </div>
       </div>
+      <Terms isOpen={isTermsOpen} 
+  onClose={handleTermsClose} 
+  onAccept={handleAcceptTerms} 
+  onDecline={handleDeclineTerms}   />
     </div>
   );
 }

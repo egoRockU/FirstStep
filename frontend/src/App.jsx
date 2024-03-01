@@ -1,4 +1,3 @@
-import Landing from './Pages/Landing';
 import Login from './Pages/Login';
 import Register from './Pages/Register'
 import Choose from './Pages/Choose'
@@ -7,10 +6,10 @@ import Create from './Pages/Create';
 import { useSelector } from 'react-redux'
 import Profilepage from './Pages/Profilepage';
 import NewLanding from './Pages/NewLanding';
-import Newnavbar from './Components/Newnavbar';
-import EditApplicantProfilePage from './Pages/EditApplicantProfilePage';
 import Newlogin from './Pages/Newlogin';
 import Newregister from './Pages/Newregister';
+import Editprofilepage from './Pages/Editprofilepage';
+import Awards from './Modals/Edit Profile/Editawards';
 
 function App() {
 
@@ -24,10 +23,11 @@ function App() {
         <Route path="/register" element={ !user ? (<Register/>) : (<NewLanding />)}/>
         <Route path="/choose" element={ user ? (<Choose/>) : (<Login />)}/>
         <Route path="/create" element={ user ? (<Create/>) : (<Login />)}/>
-        <Route path='/editprofile' element={<EditApplicantProfilePage/>} />
+        <Route path='/editprofile' element={<Editprofilepage/>} />
         <Route path='/profile' element={<Profilepage/>} />
         <Route path='/newlogin' element={<Newlogin/>} />
         <Route path='/newregister' element={<Newregister/>} />
+        <Route path='/awards' element={<Awards/>} />
       </Routes>
     </BrowserRouter>
   );

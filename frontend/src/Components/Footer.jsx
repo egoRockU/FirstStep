@@ -12,10 +12,10 @@ function Footer() {
         </div>
         <div>
           <ul className="space-y-3">
-            <li className="text-[#444B88] cursor-pointer">Feedback</li>
-            <li className="text-[#444B88] cursor-pointer">About Us</li>
-            <li className="text-[#444B88] cursor-pointer">Terms & Conditions</li>
-            <li className="text-[#444B88] cursor-pointer">Privacy Policy</li>
+            <li className="text-[#444B88] cursor-pointer text-sm">Feedback</li>
+            <li className="text-[#444B88] cursor-pointer text-sm">About Us</li>
+            <li className="text-[#444B88] cursor-pointer text-sm">Terms & Conditions</li>
+            <li className="text-[#444B88] cursor-pointer text-sm">Privacy Policy</li>
           </ul>
           <p className="mt-2">@2024 FirstStep. All rights reserved.</p>
         </div>

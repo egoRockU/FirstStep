@@ -61,6 +61,8 @@ function Newlogin() {
   const clickRegister = () => {
     navigate("/newregister");
   };
+
+  
   return (
     <div style={bgStyle} className="flex flex-col">
       <div>
