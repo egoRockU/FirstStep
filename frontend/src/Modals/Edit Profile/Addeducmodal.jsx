@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { IoCloseOutline } from "react-icons/io5";
 
 
-function Educ({ onClose, onSubmit, onEdit, formIndex, initialData }) {
+function Addeduc({ onClose, onSubmit, onEdit, formIndex, initialData }) {
   const [formData, setFormData] = useState({
     schoolName: '',
     degree: '',
@@ -111,4 +111,4 @@ function Educ({ onClose, onSubmit, onEdit, formIndex, initialData }) {
   );
 }
 
-export default Educ;
+export default Addeduc;

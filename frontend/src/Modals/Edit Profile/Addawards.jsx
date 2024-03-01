@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-function Awards({ onClose, onSubmit, onEdit, formIndex, initialData }) {
+function AddAwards({ onClose, onSubmit, onEdit, formIndex, initialData }) {
   const [formData, setFormData] = useState({
     title: "",
     dateReceived: "",
@@ -44,12 +44,12 @@ function Awards({ onClose, onSubmit, onEdit, formIndex, initialData }) {
   };
 
   return (
-    <div className="fixed inset-0 flex justify-center items-center bg-gray-900 bg-opacity-50">
+    <div className="fixed inset-0 flex justify-center items-center bg-gray-900 bg-opacity-50 shadow-xl">
       <div className="bg-white p-8 rounded-sm w-1/3">
-        <h2 className="text-xl text-[#444B88]">Add Award</h2>
-        <form onSubmit={handleSubmit}>
-          <div className="mb-4">
-            <label htmlFor="title" className="block">
+        <h2 className="text-xl">Add Award</h2>
+        <form onSubmit={handleSubmit} className="flex flex-col gap-2">
+          <div className="">
+            <label htmlFor="title" className="block text-[#444B88]">
               Title:
             </label>
             <input
@@ -58,11 +58,11 @@ function Awards({ onClose, onSubmit, onEdit, formIndex, initialData }) {
               name="title"
               value={formData.title}
               onChange={handleChange}
-              className="border border-gray-300 rounded-md px-4 py-2 w-full"
+              className="border border-[#444B88] rounded-md px-4 py-2 w-full"
             />
           </div>
-          <div className="mb-4">
-            <label htmlFor="dateReceived" className="block">
+          <div className="">
+            <label htmlFor="dateReceived" className="block text-[#444B88]">
               Date Received:
             </label>
             <input
@@ -77,11 +77,11 @@ function Awards({ onClose, onSubmit, onEdit, formIndex, initialData }) {
                   : ""
               }
               onChange={handleChange}
-              className="border border-gray-300 rounded-md px-4 py-2 w-full"
+              className="border border-[#444B88] rounded-md px-4 py-2 w-full"
             />
           </div>
-          <div className="mb-4">
-            <label htmlFor="description" className="block">
+          <div className="">
+            <label htmlFor="description" className="block text-[#444B88]">
               Description:
             </label>
             <textarea
@@ -89,7 +89,7 @@ function Awards({ onClose, onSubmit, onEdit, formIndex, initialData }) {
               name="description"
               value={formData.description}
               onChange={handleChange}
-              className="border border-gray-300 rounded-md px-4 py-2 w-full"
+              className="border border-[#444B88] rounded-md px-4 py-2 w-full"
             />
           </div>
           {initialData && (
@@ -101,18 +101,18 @@ function Awards({ onClose, onSubmit, onEdit, formIndex, initialData }) {
               Edit
             </button>
           )}
-          <div className="text-right">
+          <div className="flex justify-end gap-2">
             <button
               type="button"
               onClick={handleCancel}
-              className="mr-4 text-gray-600 hover:text-gray-800 focus:outline-none"
+              className="border border-[#444B88] bg-white p-1 rounded-md"
             >
               Cancel
             </button>
             {!initialData && (
               <button
                 type="submit"
-                className="bg-blue-500 text-white px-4 py-2 rounded-md"
+                className="border border-[#444B88] p-1 rounded-md bg-[#8B95EE]"
               >
                 Submit
               </button>
@@ -142,4 +142,4 @@ function Awards({ onClose, onSubmit, onEdit, formIndex, initialData }) {
   );
 }
 
-export default Awards;
+export default AddAwards;

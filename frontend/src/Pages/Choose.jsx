@@ -1,16 +1,20 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import BgImage from '../images/signBg.jpg';
-import job from '../images/job.png';
-import talent from '../images/talent.png';
 import NavbarLoggedIn from '../Components/NavbarLoggedIn';
 import Footer from '../Components/Footer';
 
 function Choose() {
   const navigate = useNavigate();
-  const clickapplicant = () => {
+  const clickapplicant = (e) => {
+    e.preventDefault()
     navigate("/create");
   }
+
+  const clickemployer = (e) => {
+    e.preventDefault()
+    navigate("/createEmployerpage");
+  }
+
 
   return (
     <>
@@ -24,10 +28,10 @@ function Choose() {
     <div className=' h-[70%]'>
       <div className='flex w-full h-full p-3'>
         <div className='flex w-[80%] mx-auto'>
-        <div className='w-1/2 h-[80%] flex flex-col justify-center items-center text-blue-500 border-[#444B88] border hover:bg-blue-500 hover:text-white hover:w-[75%] duration-150'>
+        <div className='w-1/2 h-[80%] flex flex-col justify-center items-center text-blue-500 border-[#444B88] border hover:bg-blue-500 hover:text-white hover:w-[75%] duration-150' onClick={clickapplicant}>
           I am an <span className='text-3xl'>APPLICANT</span>
         </div>
-        <div className='w-1/2 h-[80%] flex flex-col justify-center items-center text-blue-500 border-[#444B88] border hover:bg-blue-500 hover:text-white hover:w-[75%] duration-150'>
+        <div className='w-1/2 h-[80%] flex flex-col justify-center items-center text-blue-500 border-[#444B88] border hover:bg-blue-500 hover:text-white hover:w-[75%] duration-150' onClick={clickemployer}>
           I am an <span className='text-3xl'>Employer</span>
           </div>
           </div>

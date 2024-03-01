@@ -1,5 +1,3 @@
-import Login from './Pages/Login';
-import Register from './Pages/Register'
 import Choose from './Pages/Choose'
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Create from './Pages/Create';
@@ -9,7 +7,10 @@ import NewLanding from './Pages/NewLanding';
 import Newlogin from './Pages/Newlogin';
 import Newregister from './Pages/Newregister';
 import Editprofilepage from './Pages/Editprofilepage';
-import Awards from './Modals/Edit Profile/Editawards';
+import CreateEmployerpage from './Pages/Createemployerpage';
+import Employerprofilepage from './Pages/Employerprofilepage';
+import Editemployerprofilepage from './Pages/Editemployerprofile';
+import Editemployerabout from './Pages/Editemployerabout';
 
 function App() {
 
@@ -19,15 +20,19 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<NewLanding />} />
-        <Route path="/login" element={<Login/>}/>
-        <Route path="/register" element={ !user ? (<Register/>) : (<NewLanding />)}/>
-        <Route path="/choose" element={ user ? (<Choose/>) : (<Login />)}/>
-        <Route path="/create" element={ user ? (<Create/>) : (<Login />)}/>
+        <Route path="/login" element={<Newlogin/>}/>
+        <Route path="/register" element={ !user ? (<Newregister/>) : (<NewLanding />)}/>
+        <Route path="/choose" element={ user ? (<Choose/>) : (<Newlogin />)}/>
+        <Route path="/create" element={ user ? (<Create/>) : (<Newlogin />)}/>
         <Route path='/editprofile' element={<Editprofilepage/>} />
         <Route path='/profile' element={<Profilepage/>} />
         <Route path='/newlogin' element={<Newlogin/>} />
         <Route path='/newregister' element={<Newregister/>} />
-        <Route path='/awards' element={<Awards/>} />
+        <Route path='/CreateEmployerpage' element={<CreateEmployerpage/>}/>
+        <Route path='/employerprofile' element={<Employerprofilepage/>}/>
+        <Route path='/editemployerprofilepage' element={<Editemployerprofilepage/>}/>
+        <Route path='/editemployerabout' element={<Editemployerabout/>}/>
+    
       </Routes>
     </BrowserRouter>
   );

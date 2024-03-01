@@ -9,7 +9,7 @@ function Newnavbar() {
     Navigate("/");
   };
   return (
-    <div className='flex bg-black py-4 items-center justify-center sticky'>
+    <div className='flex bg-black py-4 items-center justify-center sticky top-0 bg-opacity-50'>
       <div className='w-[60%] flex justify-between'>
         <div className='flex items-center cursor-pointer gap-1' onClick={clickLanding}>
             <img src={logo} alt="logo" className='w-8 h-8 hover:scale-125' />

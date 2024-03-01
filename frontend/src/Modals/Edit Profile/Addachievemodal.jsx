@@ -1,8 +1,6 @@
-// Involvements.jsx
-
 import React, { useState, useEffect } from 'react';
 
-function Involvements({ onClose, onSubmit, onEdit, formIndex, initialData }) {
+function Addachievemodal({ onClose, onSubmit, onEdit, formIndex, initialData }) {
   const [formData, setFormData] = useState({
     title: '',
     typeOfActivity: '',
@@ -120,4 +118,4 @@ function Involvements({ onClose, onSubmit, onEdit, formIndex, initialData }) {
   );
 }
 
-export default Involvements;
+export default Addachievemodal;
