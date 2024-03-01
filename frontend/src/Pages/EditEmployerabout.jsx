@@ -8,6 +8,7 @@ import Footer from "../Components/Footer";
 function Editemployerabout() {
   const [selectedImage, setSelectedImage] = useState(null);
   const [selectedBanner, setSelectedBanner] = useState(null);
+  const navigate= useNavigate();
 
   const handleBannerChange = (e) => {
     const file = e.target.files[0];
@@ -30,6 +31,7 @@ function Editemployerabout() {
       reader.readAsDataURL(file);
     }
   };
+
 
   return (
     <>
@@ -73,7 +75,7 @@ function Editemployerabout() {
               <div className="p-5 w-3/4 space-y-5">
                 <div>
                   <h1 className="text-xl">
-                    Initialize your Profile{" "}
+                    Edit your Profile{" "}
                     <span className="text-blue-300 text-lg">Employer</span>
                   </h1>
                 </div>
@@ -160,6 +162,17 @@ function Editemployerabout() {
                     required
                   />
                 </div>
+                <div className="flex flex-col w-full">
+                  <h1 className="text-lg">About</h1>
+                  <textarea
+                    type="text"
+                    name="name"
+                    id=""
+                    className="text-base border-2 border-[#444B88] p-2 h-40"
+                    placeholder="Tell me something about yourself.."
+                    required
+                  />
+                </div>
                 <div className="w-full border-2 h-16 border-[#444B88] flex justify-center items-center">
                   <button className="p-2 px-5 bg-[#8B95EE]">
                     + Add Social link
@@ -197,11 +210,11 @@ function Editemployerabout() {
                   <div className="w-full h-full mt-5">
                   </div>
                   <div className="flex justify-around w-full pb-5">
-                    <button className="text-lg border border-black py-1 px-2 rounded-sm">
+                    <button className="text-lg border border-black py-1 px-1 rounded-sm">
                       Cancel
                     </button>
                     <button
-                      className="text-lg bg-[#8B95EE] border border-[#444B88] hover:bg-blue-600 py-1 px-2 rounded-sm"
+                      className="text-lg bg-[#8B95EE] border border-[#444B88] hover:bg-blue-600 py-1 rounded-sm"
                     >
                       Save Changes
                     </button>

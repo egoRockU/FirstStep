@@ -7,7 +7,6 @@ import { FaSquareXTwitter } from "react-icons/fa6";
 import { FaLinkedin } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 
-
 function Editemployerprofilepage() {
     const navigate = useNavigate();
   const [selectedImage, setSelectedImage] = useState(null);
