@@ -10,9 +10,62 @@ import NavbarLoggedIn from "../Components/NavbarLoggedIn";
 const placeholderImage =
   "https://imgs.search.brave.com/q02hpLETIRmEBEpeaZkCKOUDubZ65X3ccxNLb1WxvY0/rs:fit:860:0:0/g:ce/aHR0cHM6Ly90My5m/dGNkbi5uZXQvanBn/LzAyLzk5LzczLzI2/LzM2MF9GXzI5OTcz/MjY2OF9nWnFLVmJ1/Mktqcm9MWXRUOWhS/WmZFMzdBWldGSEpR/bi5qcGc"; // Provide your placeholder image URL here
   import { FaCamera } from "react-icons/fa";
-
-
+  import AddSocial from "../Modals/Create Profile/Addsocial";
+  import AddIndustry from "../Modals/Create Profile/Addindustry";
+  import AddSkill from "../Modals/Create Profile/Addskill";
 function CreateApplicantProfilepage() {
+  //social
+  const [isAddSocialModalOpen, setAddSocialModalOpen] = useState(false); 
+  const [socialLinks, setSocialLinks] = useState([]);  
+  const onSubmitSocialMedia = (formData) => {
+    
+    if (!formData.platform || !formData.link) {
+      alert("Please provide both platform and link");
+      return;
+    }
+    console.log("Submitted formData:", formData);
+    setSocialLinks([...socialLinks, formData]);
+    closeAddSocialModal();
+  };
+  const openAddSocialModal = () => {
+    setAddSocialModalOpen(true);
+    };
+  
+    const closeAddSocialModal = () => {
+      setAddSocialModalOpen(false);
+   
+    };
+    
+//industry
+  const [isAddIndustryModalOpen, setAddIndustryModalOpen] = useState(false);
+  const openAddIndustryModal = () => {
+    setAddIndustryModalOpen(true);
+  };
+
+  const closeAddIndustryModal = () => {
+    setAddIndustryModalOpen(false);
+  };
+  const industrySuggestions  = ['Web Developer', 'Game Developer', 'Graphic Designer', ' Software Developer', 'Video Game Developer', 'CyberSecurity', 'Artificial Intelligence and Machine Learning', 'Mobile App Development']; 
+//end
+
+
+//skill
+  const [isAddSkillModalOpen, setAddSkillModalOpen] = useState(false);
+
+
+  const openAddSkillModal = () => {
+    setAddSkillModalOpen(true);
+  };
+
+  const closeAddSkillModal = () => {
+    setAddSkillModalOpen(false);
+  };
+  
+
+  const skillSuggestions = ['JavaScript', 'Python', 'Java', 'C++', 'React', 'Node.js', 'Ruby'];
+//end
+
+
   let userObj = JSON.parse(localStorage.getItem("user"));
   let userId = userObj.id;
   let userEmail = userObj.email;
@@ -32,6 +85,7 @@ function CreateApplicantProfilepage() {
   const [skills, setSkills] = useState([]);
   const [inputs, setInputs] = useState({});
   const navigate = useNavigate();
+
 
   useEffect(() => {
     setInputs({
@@ -204,12 +258,12 @@ function CreateApplicantProfilepage() {
                     className="absolute cursor-pointer text-lg bg-white p-2 rounded-full"
                     style={{ zIndex: 1, bottom: 20, right: 30 }}
                   >
-                  <FaCamera />
+                    <FaCamera />
                   </button>
                 )}
               </div>
             </div>
-
+  
             <div className="bg-white h-full mb-10 shadow-lg">
               <div className="flex">
                 <div className="p-5 w-3/4 space-y-5">
@@ -294,16 +348,33 @@ function CreateApplicantProfilepage() {
                     />
                   </div>
                   <div className="w-full border-2 h-16 border-[#444B88] flex justify-center items-center">
-                    <button className="p-2 px-5 bg-[#8B95EE]">
+                    <button
+                      className="p-2 px-5 bg-[#8B95EE]" onClick={openAddSocialModal}>
                       + Add Social link
                     </button>
                   </div>
+                  {isAddSocialModalOpen && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
+          <div className="bg-white p-4 rounded-md">
+            <AddSocial
+              onClose={closeAddSocialModal}
+              onSubmit={onSubmitSocialMedia} />
+                      </div>
+                    </div>
+                  )}
                   <div className="w-full border-2 h-16 border-[#444B88] flex justify-center items-center">
-                    <button className="p-2 px-5 bg-[#8B95EE]">
+                    <button className="p-2 px-5 bg-[#8B95EE]" onClick={openAddIndustryModal}>
                       + Add Industries
                     </button>
                   </div>
-                </div>
+                  {isAddIndustryModalOpen && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
+          <div className="bg-white p-4 rounded-md">
+            <AddIndustry onClose={closeAddIndustryModal} suggestions={industrySuggestions}  />
+          </div>
+        </div>
+      )} </div>
+                
                 <div className="flex flex-col justify-center items-center w-1/4">
                   <input
                     type="file"
@@ -332,10 +403,34 @@ function CreateApplicantProfilepage() {
                     <div className="flex flex-col justify-center items-center w-full">
                       <h1 className="text-2xl ">Skills</h1>
                       <div className="border-2 p-3 px-5 bg-[#8B95EE] border-[#444B88]">
-                        <h1>+ Add Skills</h1>
+                      <h1 onClick={openAddSkillModal}>+ Add Skills</h1>
                       </div>
+                      
+{isAddSkillModalOpen && (
+  <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
+    <div className="bg-white p-4 rounded-md">
+    <AddSkill onClose={closeAddSkillModal}    suggestions={skillSuggestions} />
+    </div>
+  </div>
+)}
+<div className="flex flex-wrap">
+  {skills.map((skill, index) => (
+    <div key={index} className="bg-blue-200 rounded-xl p-3 m-2">
+      <p className="text-2xl">{skill}</p>
+      <div className="mt-2 flex space-x-2">
+        <button className="bg-green-300 p-2 px-4 rounded-xl" onClick={() => handleEditSkill(index)}>
+          Edit
+        </button>
+        <button className="bg-red-500 p-2 px-4 rounded-xl" onClick={() => handleDeleteSkill(index)}>
+          Delete
+        </button>
+      </div>
+    </div>
+  ))}
+</div>
                     </div>
-                  </div>
+                  </div> 
+                      
                   <div className="flex justify-between w-9/12 mb-2">
                     <button className="text-lg border border-black px-2">
                       Cancel
@@ -347,7 +442,9 @@ function CreateApplicantProfilepage() {
                       Save
                     </button>
                   </div>
+                  
                 </div>
+                
               </div>
             </div>
           </div>
@@ -355,7 +452,5 @@ function CreateApplicantProfilepage() {
       </div>
       <Footer />
     </div>
-  );
-}
-
+  );}  
 export default CreateApplicantProfilepage;
