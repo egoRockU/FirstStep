@@ -5,10 +5,12 @@ import Footer from "../Components/Footer";
 import profile from "../images/profilee.png";
 import { FaSquareXTwitter } from "react-icons/fa6";
 import { FaLinkedin } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 
 function editprofile() {
   const [selectedImage, setSelectedImage] = useState(null);
   const placeholderImage = { profile };
+  const navigate = useNavigate();
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
@@ -20,6 +22,11 @@ function editprofile() {
       reader.readAsDataURL(file);
     }
   };
+  
+  const clickedit = (e) =>{
+    e.preventDefault();
+    navigate("/editapplicantprofilepage")
+  }
 
   return (
     <>
@@ -127,7 +134,7 @@ function editprofile() {
                     </div>
                   </div>
                 </div>
-                <button className="w-full bg-[#444B88] border-[#BCBCBC] border-2 p-2 text-white rounded-b-lg">
+                <button className="w-full bg-[#444B88] border-[#BCBCBC] border-2 p-2 text-white rounded-b-lg" onClick={clickedit}>
                   Edit
                 </button>
               </div>

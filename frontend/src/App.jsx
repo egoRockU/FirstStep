@@ -11,6 +11,7 @@ import CreateEmployerpage from './Pages/Createemployerpage';
 import Employerprofilepage from './Pages/Employerprofilepage';
 import Editemployerprofilepage from './Pages/Editemployerprofile';
 import Editemployerabout from './Pages/Editemployerabout';
+import EditApplicantProfilePage from './Pages/EditApplicantProfilePage';
 
 function App() {
 
@@ -32,7 +33,7 @@ function App() {
         <Route path='/employerprofile' element={<Employerprofilepage/>}/>
         <Route path='/editemployerprofilepage' element={<Editemployerprofilepage/>}/>
         <Route path='/editemployerabout' element={<Editemployerabout/>}/>
-    
+        <Route path='/editapplicantprofilepage' element={<EditApplicantProfilePage/>}/>
       </Routes>
     </BrowserRouter>
   );

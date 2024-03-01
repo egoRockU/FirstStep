@@ -1,7 +1,6 @@
-// Terms.jsx
 import React from 'react';
 
-function Terms({ isOpen, onClose, onAccept, onDecline }) {
+function Terms({ isOpen, onAccept, onDecline }) {
   return (
     <>
       {isOpen && (
