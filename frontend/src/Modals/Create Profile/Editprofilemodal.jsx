@@ -1,76 +1,16 @@
-import React from "react";
-import Footer from "../Components/Footer";
-import fb from "../images/fb.png";
-import yt from "../images/yt.png";
-import twt from "../images/x.webp";
+import React, { useState } from "react";
+import Footer from "../../Components/Footer";
 import { useNavigate } from "react-router-dom";
-import { useState, useEffect } from "react";
-import axios from "axios";
-import NavbarLoggedIn from "../Components/NavbarLoggedIn";
+import NavbarLoggedIn from "../../Components/NavbarLoggedIn";
+import { FaCamera } from "react-icons/fa";
+
 const placeholderImage =
   "https://imgs.search.brave.com/q02hpLETIRmEBEpeaZkCKOUDubZ65X3ccxNLb1WxvY0/rs:fit:860:0:0/g:ce/aHR0cHM6Ly90My5m/dGNkbi5uZXQvanBn/LzAyLzk5LzczLzI2/LzM2MF9GXzI5OTcz/MjY2OF9nWnFLVmJ1/Mktqcm9MWXRUOWhS/WmZFMzdBWldGSEpR/bi5qcGc"; // Provide your placeholder image URL here
-  import { FaCamera } from "react-icons/fa";
 
-
-function CreateApplicantProfilepage() {
-  let userObj = JSON.parse(localStorage.getItem("user"));
-  let userId = userObj.id;
-  let userEmail = userObj.email;
-  let userAccountType = userObj.accountType;
+function Editprofilemodal() {
   const [selectedImage, setSelectedImage] = useState(null);
   const [selectedBanner, setSelectedBanner] = useState(null);
-  const [fName, setFName] = useState("");
-  const [lName, setLName] = useState("");
-  const [email, setEmail] = useState(userEmail);
-  const [city, setCity] = useState("");
-  const [country, setCountry] = useState("");
-  const [contactNum, setContactNum] = useState("");
-  const [bio, setBio] = useState("");
-  const [twitter, setTwitter] = useState("");
-  const [facebook, setFacebook] = useState("");
-  const [youtube, setYoutube] = useState("");
-  const [skills, setSkills] = useState([]);
-  const [inputs, setInputs] = useState({});
   const navigate = useNavigate();
-
-  useEffect(() => {
-    setInputs({
-      accountId: userId,
-      firstName: fName,
-      lastName: lName,
-      email: email,
-      phone: contactNum,
-      address: `${city}, ${country}`,
-      bio: bio,
-      socialLinks: [
-        {
-          social: "twitter",
-          link: twitter,
-        },
-        {
-          social: "facebook",
-          link: facebook,
-        },
-        {
-          social: "youtube",
-          link: youtube,
-        },
-      ],
-      skills: skills,
-    });
-  }, [
-    fName,
-    lName,
-    email,
-    contactNum,
-    city,
-    country,
-    bio,
-    twitter,
-    facebook,
-    youtube,
-    skills,
-  ]);
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
@@ -91,83 +31,6 @@ function CreateApplicantProfilepage() {
         setSelectedBanner(e.target.result);
       };
       reader.readAsDataURL(file);
-    }
-  };
-
-  const updateSkillsState = (index, value) => {
-    setSkills((skills) => {
-      const newSkills = [...skills];
-      newSkills[index] = value;
-      return newSkills;
-    });
-  };
-
-  const goback = () => {
-    navigate("/");
-  };
-
-  const createProfile = () => {
-    axios
-      .post("/api/applicantprofile/create", inputs, {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      })
-      .then((res) => {
-        if (res.data.status == true) {
-          alert(res.data.message);
-          updateAccountProfileValues(
-            res.data._id,
-            "applicant",
-            userAccountType
-          );
-          navigate("/editprofile");
-        }
-        if (res.data.status == false) {
-          alert("Not Inserted");
-        }
-      })
-      .catch((err) => {
-        alert(err.response.data.message);
-        console.log(err.response.data.errorMessage);
-      });
-  };
-
-  const updateAccountProfileValues = (profileId, profileType, accountType) => {
-    const updateInputs = {
-      email: userEmail,
-      profileType,
-      profileId,
-    };
-
-    if (accountType == "google") {
-      axios
-        .post("/api/googleaccounts/addprofile", updateInputs, {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        })
-        .then((res) => {
-          localStorage.setItem("user", JSON.stringify(res.data.user));
-        })
-        .catch((err) => {
-          console.log(err.message);
-        });
-    }
-
-    if (accountType == "local") {
-      axios
-        .post("/api/localaccounts/addprofile", updateInputs, {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        })
-        .then((res) => {
-          localStorage.setItem("user", JSON.stringify(res.data.user));
-        })
-        .catch((err) => {
-          console.log(err.message);
-        });
     }
   };
 
@@ -204,7 +67,7 @@ function CreateApplicantProfilepage() {
                     className="absolute cursor-pointer text-lg bg-white p-2 rounded-full"
                     style={{ zIndex: 1, bottom: 20, right: 30 }}
                   >
-                  <FaCamera />
+                    <FaCamera />
                   </button>
                 )}
               </div>
@@ -227,7 +90,6 @@ function CreateApplicantProfilepage() {
                         name="name"
                         id=""
                         className="text-base border-2 border-[#444B88] p-2"
-                        onChange={(e) => setFName(e.target.value)}
                       />
                     </div>
                     <div className="flex flex-col w-full">
@@ -237,7 +99,6 @@ function CreateApplicantProfilepage() {
                         name="name"
                         id=""
                         className="text-base border-2 border-[#444B88] p-2"
-                        onChange={(e) => setLName(e.target.value)}
                       />
                     </div>
                   </div>
@@ -246,10 +107,8 @@ function CreateApplicantProfilepage() {
                     <input
                       type="text"
                       name="name"
-                      value={email}
                       id=""
                       className="text-base border-2 border-[#444B88] p-2"
-                      onChange={(e) => setEmail(e.target.value)}
                     />
                   </div>
                   <div className="flex flex-col w-full">
@@ -259,7 +118,6 @@ function CreateApplicantProfilepage() {
                       name="name"
                       id=""
                       className="text-base border-2 border-[#444B88] p-2"
-                      onChange={(e) => setContactNum(e.target.value)}
                     />
                   </div>
                   <div className="flex flex-col w-full">
@@ -269,7 +127,6 @@ function CreateApplicantProfilepage() {
                       name="name"
                       id=""
                       className="text-base border-2 border-[#444B88] p-2"
-                      onChange={(e) => setCity(e.target.value)}
                     />
                   </div>
                   <div className="flex flex-col w-full">
@@ -279,7 +136,6 @@ function CreateApplicantProfilepage() {
                       name="name"
                       id=""
                       className="text-base border-2 border-[#444B88] p-2"
-                      onChange={(e) => setCountry(e.target.value)}
                     />
                   </div>
                   <div className="flex flex-col w-full">
@@ -290,7 +146,6 @@ function CreateApplicantProfilepage() {
                       id=""
                       className="text-base border-2 border-[#444B88] p-2 h-40"
                       placeholder="Tell me something about yourself.."
-                      onChange={(e) => setBio(e.target.value)}
                     />
                   </div>
                   <div className="w-full border-2 h-16 border-[#444B88] flex justify-center items-center">
@@ -342,7 +197,6 @@ function CreateApplicantProfilepage() {
                     </button>
                     <button
                       className="text-lg bg-[#8B95EE] border border-[#444B88] hover:bg-blue-600 px-2"
-                      onClick={createProfile}
                     >
                       Save
                     </button>
@@ -358,4 +212,4 @@ function CreateApplicantProfilepage() {
   );
 }
 
-export default CreateApplicantProfilepage;
+export default Editprofilemodal;

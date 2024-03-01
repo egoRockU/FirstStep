@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import logo from '../images/logo.png';
-import { BsBell, BsPerson } from 'react-icons/bs'; // Import icons for notification and profile
+import logo from '../images/newlogo.png';
+import { BsBell} from 'react-icons/bs'; // Import icons for notification and profile
 import { useDispatch } from 'react-redux';
 import { logoutUser } from '../slices/userSlice';
+import DropdownMenu from './DropdownMenu';
+import bell from '../images/bell.png'
 
 function NavbarLoggedIn() {
   const navigate = useNavigate();
@@ -32,25 +34,23 @@ function NavbarLoggedIn() {
   }
 
   return (
-    <nav className='p-1 bg-blue-300'>
-      <div className='flex w-full'>
-     <div className='flex items-center sm:w-1/2 lg:w-full' onClick={clickLanding}>
-      <img src={logo} alt="" className='w-12 h-12 hover:scale-125' />
-      <h1 className='text-xl'>FirstStep</h1>
+    <nav className='bg-white py-2.5'>
+      <div className='flex w-[60%] justify-between mx-auto'>
+     <div className='flex items-center gap-1' onClick={clickLanding}>
+      <img src={logo} alt="" className='w-6 h-6 hover:scale-125' />
+      <h1 className='text-2xl text-'>FirstStep</h1>
      </div>
-     <div className='w-full flex justify-around'>
+     <div className='flex items-center gap-10'>
       <ul className='flex h-full items-center space-x-10'>
-        <li className='text-lg font-medium'>Resume Builder</li>
-        <li className='text-lg font-medium'>Portfolio Builder</li>
+        <li className='text-lg font-medium text-black'>Resume Builder</li>
+        <li className='text-lg font-medium text-black'>Portfolio Builder</li>
+        <li className='text-lg font-medium text-black'>For Employers</li>
       </ul>
-      <div className='flex items-center space-x-5'>
-        {/* Notification icon */}
-        <BsBell className="text-black duration-500 mx-2 cursor-pointer text-3xl" />
-        {/* Profile icon */}
-        <BsPerson className="text-black duration-500 mx-2 cursor-pointer text-3xl" onClick={clickProfile}/>
-
-        {/* Logout button */}
-        <button className='bg-[#CB8A8A] text-white duration-500 px-3 py-2 mx-2 rounded-lg' onClick={clickLogout}>Logout</button>
+     </div>
+     <div>
+     <div className='flex items-center gap-2'>
+      <img src={bell} alt="" className="text-black duration-500  cursor-pointer w-8 h-8" />
+        <DropdownMenu/>
       </div>
      </div>
      </div>

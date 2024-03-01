@@ -1,51 +1,46 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import logo from '../images/logo.png';
-import BgImage from '../images/signBg.jpg';
-import job from '../images/job.png';
-import talent from '../images/talent.png';
-import Navbar from '../Components/Navbar';
 import NavbarLoggedIn from '../Components/NavbarLoggedIn';
+import Footer from '../Components/Footer';
 
 function Choose() {
-  
-  const bgStyle = {
-    background: `url(${BgImage}) center/cover no-repeat`,
-    height: '100vh',
-    fontFamily: 'Montserrat, sans-serif',
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
-  };
-
   const navigate = useNavigate();
-
-  const clickapplicant = () => {
+  const clickapplicant = (e) => {
+    e.preventDefault()
     navigate("/create");
   }
 
+  const clickemployer = (e) => {
+    e.preventDefault()
+    navigate("/createEmployerpage");
+  }
+
+
   return (
     <>
-      <div style={bgStyle}>
-        <div style={{ position: 'absolute', top: '0', left: '0', right: '0', zIndex: '100' }}>
-          <NavbarLoggedIn />
+  <NavbarLoggedIn />
+  <div className='w-full h-[100vh] flex justify-center items-center bg-gray-100'>
+    <div className='w-[65%] h-[75%] bg-white'>
+    <div className='w-full flex flex-col justify-center items-center h-[30%] gap-5'>
+      <h1 className='text-3xl text-blue-500'>Create Profile</h1>
+      <p>Choose what type of profile you want to create.</p>
+    </div>
+    <div className=' h-[70%]'>
+      <div className='flex w-full h-full p-3'>
+        <div className='flex w-[80%] mx-auto'>
+        <div className='w-1/2 h-[80%] flex flex-col justify-center items-center text-blue-500 border-[#444B88] border hover:bg-blue-500 hover:text-white hover:w-[75%] duration-150' onClick={clickapplicant}>
+          I am an <span className='text-3xl'>APPLICANT</span>
         </div>
-        <div className='w-1/2 h-4/6 flex flex-col items-center text-center bg-white bg-opacity-60'>
-          <h1 className='text-5xl text-black mb-2 mt-5'>Create Account</h1>
-          <p className='text-lg font-medium mb-2'>I am an...</p>
-          <div className='w-3/4 h-3/4 flex justify-center items-center space-x-20'>
-            <div style={{ backgroundImage: `url(${job})`, backgroundSize: 'cover', height: '100%', display:'flex', justifyContent:'center', alignItems:'center'}} className='w-1/2 text-center  hover:w-3/4 hover:h-auto transition-all duration-300'>
-              <div className='text-3xl text-white' onClick={clickapplicant}>
-                Applicant
-              </div>
-            </div>
-            <div style={{ backgroundImage: `url(${talent})`, backgroundSize: 'cover', height: '100%', display:'flex', justifyContent:'center', alignItems:'center' }} className='w-1/2 text-center  hover:w-3/4 hover:h-auto transition-all duration-300'>
-              <div className='text-3xl text-white' >Employer</div>
-            </div>
+        <div className='w-1/2 h-[80%] flex flex-col justify-center items-center text-blue-500 border-[#444B88] border hover:bg-blue-500 hover:text-white hover:w-[75%] duration-150' onClick={clickemployer}>
+          I am an <span className='text-3xl'>Employer</span>
           </div>
-        </div>
+          </div>
       </div>
+    </div>
+    </div>
+  </div>
+        
+      <Footer/>
     </>
   );
 }

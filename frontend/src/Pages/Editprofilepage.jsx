@@ -6,7 +6,7 @@ import profile from "../images/profilee.png";
 import { FaSquareXTwitter } from "react-icons/fa6";
 import { FaLinkedin } from "react-icons/fa";
 
-function Create() {
+function editprofile() {
   const [selectedImage, setSelectedImage] = useState(null);
   const placeholderImage = { profile };
 
@@ -24,7 +24,7 @@ function Create() {
   return (
     <>
       <NavbarLoggedIn />
-      <div className="bg-gray-100 mx-auto h-[1000px]">
+      <div className="bg-gray-100 mx-auto h-[1100px]">
         <div className="container mx-auto">
           <img
             src={banner}
@@ -38,7 +38,7 @@ function Create() {
               <div className="w-[500px] h-full">
                 <div className="mx-auto bg-white px-5 py-2 rounded-lg">
                   <div className="flex flex-col">
-                    <div className="flex justify-around w-auto">
+                    <div className="flex justify-around">
                       <input
                         type="file"
                         id="imageInput"
@@ -52,22 +52,23 @@ function Create() {
                           alt=""
                           className="w-40 h-40 rounded-full border-2"
                         />
+                        {!selectedImage && (
+                          <div
+                            onClick={() =>
+                              document.getElementById("imageInput").click()
+                            }
+                            className="absolute cursor-pointer"
+                            style={{ zIndex: 1 }}
+                          ></div>
+                        )}
                       </label>
-                      {!selectedImage && (
-                        <div
-                          onClick={() =>
-                            document.getElementById("imageInput").click()
-                          }
-                          className="absolute inset-0 cursor-pointer"
-                          style={{ zIndex: 1 }}
-                        ></div>
-                      )}
                       <div className="flex justify-center items-center">
                         <button className="p-1 px-4 rounded-2xl border border-[#444B88] bg-[#8B95EE]">
                           Message
                         </button>
                       </div>
                     </div>
+
                     <div className="flex flex-col w-full p-5 space-y-2">
                       <div className="flex">
                         <h1 className="text-2xl text-[#8B95EE]">
@@ -126,27 +127,83 @@ function Create() {
                     </div>
                   </div>
                 </div>
+                <button className="w-full bg-[#444B88] border-[#BCBCBC] border-2 p-2 text-white rounded-b-lg">
+                  Edit
+                </button>
               </div>
               <div className="w-[800px]">
                 <div className="grid grid-cols-1 gap-4">
-                  <div className="bg-white p-4 rounded-xl flex flex-col items-center border-2 border-gray-300">
-                    <h1 className="text-[#444B88] font-base text-xl">About</h1>
-                    <textarea name="about" id="" cols="30" rows="5" placeholder="This user did not write anything yet." className="w-full"></textarea>
+                  <div className="rounded-xl">
+                    <div className="bg-white p-4 flex flex-col items-center border-2 border-gray-300">
+                      <h1 className="text-[#444B88] font-base text-xl">
+                        About
+                      </h1>
+                      <textarea
+                        name="about"
+                        id=""
+                        cols="30"
+                        rows="5"
+                        placeholder="This user did not write anything yet."
+                        className="w-full"
+                      ></textarea>
+                    </div>
+                    <div className="w-full">
+                      <button className="w-full bg-[#444B88] border-[#BCBCBC] border-1 p-2 text-white rounded-b-lg">
+                        Edit
+                      </button>
+                    </div>
                   </div>
-                  <div className="bg-white p-4 rounded-xl text-xl flex justify-center border-2 border-gray-300">
-                    <h1 className="text-[#444B88] font-base">Education</h1>
+                  <div className="rounded-xl">
+                    <div className="bg-white p-4 text-xl flex justify-center border-2 border-gray-300">
+                      <h1 className="text-[#444B88] font-base">Education</h1>
+                    </div>
+                    <div className="w-full">
+                      <button className="w-full bg-[#444B88] border-[#BCBCBC] border-1 p-2 text-white rounded-b-lg">
+                        Add
+                      </button>
+                    </div>
                   </div>
-                  <div className="bg-white p-4 rounded-xl text-xl flex justify-center border-2 border-gray-300">
-                    <h1 className="text-[#444B88] font-base">Activities and Involvements</h1>
+                  <div className="rounded-xl">
+                    <div className="bg-white p-4 text-xl flex justify-center border-2 border-gray-300">
+                      <h1 className="text-[#444B88] font-base">
+                        Activities and Involvements
+                      </h1>
+                    </div>
+                    <div className="w-full">
+                      <button className="w-full bg-[#444B88] border-[#BCBCBC] border-1 p-2 text-white rounded-b-lg">
+                        Add
+                      </button>
+                    </div>
                   </div>
-                  <div className="bg-white p-4 rounded-xl text-xl flex justify-center border-2 border-gray-300">
-                    <h1 className="text-[#444B88] font-base">Projects</h1>
+                  <div className="rounded-xl">
+                    <div className="bg-white p-4 text-xl flex justify-center border-2 border-gray-300">
+                      <h1 className="text-[#444B88] font-base">Projects</h1>
+                    </div>
+                    <div className="w-full">
+                      <button className="w-full bg-[#444B88] border-[#BCBCBC] border-1 p-2 text-white rounded-b-lg">
+                        Add
+                      </button>
+                    </div>
                   </div>
-                  <div className="bg-white p-4 rounded-xl text-xl flex justify-center border-2 border-gray-300">
-                    <h1 className="text-[#444B88] font-base">Awards</h1>
+                  <div className="rounded-xl">
+                    <div className="bg-white p-4 text-xl flex justify-center border-2 border-gray-300">
+                      <h1 className="text-[#444B88] font-base">Awards</h1>
+                    </div>
+                    <div className="w-full">
+                      <button className="w-full bg-[#444B88] border-[#BCBCBC] border-1 p-2 text-white rounded-b-lg">
+                        Add
+                      </button>
+                    </div>
                   </div>
-                  <div className="bg-white p-4 rounded-xl text-xl flex justify-center border-2 border-gray-300">
-                    <h1 className="text-[#444B88] font-base">Certificates</h1>
+                  <div className="rounded-xl">
+                    <div className="bg-white p-4 text-xl flex justify-center border-2 border-gray-300">
+                      <h1 className="text-[#444B88] font-base">Certificates</h1>
+                    </div>
+                    <div className="w-full">
+                      <button className="w-full bg-[#444B88] border-[#BCBCBC] border-1 p-2 text-white rounded-b-lg">
+                        Add
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -154,9 +211,9 @@ function Create() {
           </div>
         </div>
       </div>
-      <Footer/>
+      <Footer />
     </>
   );
 }
 
-export default Create;
+export default editprofile;
