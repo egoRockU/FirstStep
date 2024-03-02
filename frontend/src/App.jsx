@@ -10,7 +10,7 @@ import Editprofilepage from "./Pages/Editprofilepage";
 import CreateEmployerpage from "./Pages/Createemployerpage";
 import Employerprofilepage from "./Pages/Employerprofilepage";
 import Editemployerprofilepage from "./Pages/Editemployerprofile";
-import Editemployerabout from "./Pages/Editemployerabout";
+import Editemployerabout from "./Pages/EditEmployerabout"
 import EditApplicantProfilePage from "./Pages/EditApplicantProfilePage";
 
 function App() {
