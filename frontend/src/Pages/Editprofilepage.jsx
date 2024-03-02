@@ -7,7 +7,10 @@ import { FaSquareXTwitter } from "react-icons/fa6";
 import { FaLinkedin } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { IoCloseOutline } from "react-icons/io5";
-import Addeduc from "../Modals/Edit Profile/Addeducmodal";
+import AddEduc from "../Modals/Edit Profile/Addeducmodal";
+import AddAchievement from "../Modals/Edit Profile/Addachievemodal";
+import AddAward from "../Modals/Edit Profile/Addawards";
+import AddCert from "../Modals/Edit Profile/Addcertificates";
 
 function editprofile() {
   const [selectedImage, setSelectedImage] = useState(null);
@@ -61,6 +64,112 @@ function editprofile() {
     updatedEducationData[index] = newValue;
     updateProfileElement("education", updatedEducationData);
     setEducationData(updatedEducationData);
+  };
+
+  //activities and involvements
+  const [achievementsData, setAchievementsData] = useState([]);
+  const [showAchievementModal, setShowAchievementModal] = useState(false);
+
+  const handleSubmitAchieve = (formData) => {
+    setAchievementsData((prevAchievementsData) => {
+      const updatedAchievementsData = [...prevAchievementsData, formData];
+      updateProfileElement(
+        "activitiesAndInvolvements",
+        updatedAchievementsData
+      );
+      return updatedAchievementsData;
+    });
+    setShowAchievementModal(false);
+  };
+
+  const handleDeleteAchievement = (index) => {
+    const updatedAchievements = [...achievementsData];
+    updatedAchievements.splice(index, 1);
+    updateProfileElement("activitiesAndInvolvements", updatedAchievements);
+    setAchievementsData(updatedAchievements);
+  };
+
+  const handleEditAchievement = (index) => {
+    const achievementToEdit = achievementsData[index];
+    setFormData(achievementToEdit);
+    setFormIndex(index);
+    setShowAchievementModal(true);
+  };
+
+  const editAchievementsData = (index, newValue) => {
+    const updatedAchievementsData = [...achievementsData];
+    updatedAchievementsData[index] = newValue;
+    updateProfileElement("activitiesAndInvolvements", updatedAchievementsData);
+    setAchievementsData(updatedAchievementsData);
+  };
+
+  //awards
+  const [awardData, setAwardData] = useState([]);
+  const [showAwardModal, setShowAwardModal] = useState(false);
+
+  const handleSubmitAward = (formData) => {
+    setAwardData((prevAwardData) => {
+      const updatedAwardsData = [...prevAwardData, formData];
+      updateProfileElement("awards", updatedAwardsData);
+      return updatedAwardsData;
+    });
+    setShowAwardModal(false);
+  };
+
+  const handleDeleteAward = (index) => {
+    const updatedAward = [...awardData];
+    updatedAward.splice(index, 1);
+    updateProfileElement("awards", updatedAward);
+    setAwardData(updatedAward);
+  };
+
+  const handleEditAward = (index) => {
+    const awardToEdit = awardData[index];
+    setFormData(awardToEdit);
+    setFormIndex(index);
+    setShowAwardModal(true);
+  };
+
+  const editAwardData = (index, newValue) => {
+    const updatedAwardData = [...awardData];
+    updatedAwardData[index] = newValue;
+    updateProfileElement("awards", updatedAwardData);
+    setAwardData(updatedAwardData);
+  };
+
+  //certificate
+  const [certData, setCertData] = useState([]);
+  const [showCertModal, setShowCertModal] = useState(false);
+
+  const handleSubmitCert = (formData) => {
+    console.log("Cert form data:", formData);
+    setCertData((prevCertData) => {
+      const updatedCertData = [...prevCertData, formData];
+      updateProfileElement("certs", updatedCertData);
+      return updatedCertData;
+    });
+    setShowCertModal(false);
+  };
+
+  const handleDeleteCert = (index) => {
+    const updatedCert = [...certData];
+    updatedCert.splice(index, 1);
+    updateProfileElement("certs", updatedCert);
+    setCertData(updatedCert);
+  };
+
+  const handleEditCert = (index) => {
+    const certToEdit = certData[index];
+    setFormData(certToEdit);
+    setFormIndex(index);
+    setShowCertModal(true);
+  };
+
+  const editCertData = (index, newValue) => {
+    const updatedCertData = [...certData];
+    updatedCertData[index] = newValue;
+    updateProfileElement("certs", updatedCertData);
+    setCertData(updatedCertData);
   };
 
   const clickedit = (e) => {
@@ -258,9 +367,9 @@ function editprofile() {
                       >
                         Add
                       </button>
-                      {/* TODO finish add education modal */}
+                      {/* TODO finish add education modal and functions */}
                       {showEducationModal && (
-                        <Addeduc
+                        <AddEduc
                           onClose={() => {
                             setFormData();
                             setShowEducationModal(false);
@@ -332,9 +441,26 @@ function editprofile() {
                       </div>
                     </div>
                     <div className="w-full">
-                      <button className="w-full bg-[#444B88] border-[#BCBCBC] border-1 p-2 text-white rounded-b-lg">
+                      <button
+                        className="w-full bg-[#444B88] border-[#BCBCBC] border-1 p-2 text-white rounded-b-lg"
+                        onClick={() => setShowAchievementModal(true)}
+                      >
                         Add
                       </button>
+                      {/* TODO finish add achievements modal and functions / add close button*/}
+                      {showAchievementModal && (
+                        <AddAchievement
+                          onClose={() => {
+                            setFormData();
+                            setShowAchievementModal(false);
+                          }}
+                          onSubmit={handleSubmitAchieve}
+                          onEdit={editAchievementsData}
+                          initialData={formData}
+                          formIndex={formIndex}
+                          setFormData={setFormData}
+                        />
+                      )}
                     </div>
                   </div>
                   <div className="rounded-xl">
@@ -376,9 +502,26 @@ function editprofile() {
                       </div>
                     </div>
                     <div className="w-full">
-                      <button className="w-full bg-[#444B88] border-[#BCBCBC] border-1 p-2 text-white rounded-b-lg">
+                      <button
+                        className="w-full bg-[#444B88] border-[#BCBCBC] border-1 p-2 text-white rounded-b-lg"
+                        onClick={() => setShowAwardModal(true)}
+                      >
                         Add
                       </button>
+                      {/* TODO finish add awards modal and functions / add close button*/}
+                      {showAwardModal && (
+                        <AddAward
+                          onClose={() => {
+                            setFormData();
+                            setShowAwardModal(false);
+                          }}
+                          onSubmit={handleSubmitAward}
+                          onEdit={editAwardData}
+                          initialData={formData}
+                          formIndex={formIndex}
+                          setFormData={setFormData}
+                        />
+                      )}
                     </div>
                   </div>
                   <div className="rounded-xl">
@@ -410,9 +553,26 @@ function editprofile() {
                       </div>
                     </div>
                     <div className="w-full">
-                      <button className="w-full bg-[#444B88] border-[#BCBCBC] border-1 p-2 text-white rounded-b-lg">
+                      <button
+                        className="w-full bg-[#444B88] border-[#BCBCBC] border-1 p-2 text-white rounded-b-lg"
+                        onClick={() => setShowCertModal(true)}
+                      >
                         Add
                       </button>
+                      {/* TODO finish add certificates modal and functions / add close button*/}
+                      {showCertModal && (
+                        <AddCert
+                          onClose={() => {
+                            setFormData();
+                            setShowCertModal(false);
+                          }}
+                          onSubmit={handleSubmitCert}
+                          onEdit={editCertData}
+                          initialData={formData}
+                          formIndex={formIndex}
+                          setFormData={setFormData}
+                        />
+                      )}
                     </div>
                   </div>
                 </div>
