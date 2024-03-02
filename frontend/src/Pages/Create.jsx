@@ -9,16 +9,15 @@ import axios from "axios";
 import NavbarLoggedIn from "../Components/NavbarLoggedIn";
 const placeholderImage =
   "https://imgs.search.brave.com/q02hpLETIRmEBEpeaZkCKOUDubZ65X3ccxNLb1WxvY0/rs:fit:860:0:0/g:ce/aHR0cHM6Ly90My5m/dGNkbi5uZXQvanBn/LzAyLzk5LzczLzI2/LzM2MF9GXzI5OTcz/MjY2OF9nWnFLVmJ1/Mktqcm9MWXRUOWhS/WmZFMzdBWldGSEpR/bi5qcGc"; // Provide your placeholder image URL here
-  import { FaCamera } from "react-icons/fa";
-  import AddSocial from "../Modals/Create Profile/Addsocial";
-  import AddIndustry from "../Modals/Create Profile/Addindustry";
-  import AddSkill from "../Modals/Create Profile/Addskill";
+import { FaCamera } from "react-icons/fa";
+import AddSocial from "../Modals/Create Profile/Addsocial";
+import AddIndustry from "../Modals/Create Profile/Addindustry";
+import AddSkill from "../Modals/Create Profile/Addskill";
 function CreateApplicantProfilepage() {
   //social
-  const [isAddSocialModalOpen, setAddSocialModalOpen] = useState(false); 
-  const [socialLinks, setSocialLinks] = useState([]);  
+  const [isAddSocialModalOpen, setAddSocialModalOpen] = useState(false);
+  const [socialLinks, setSocialLinks] = useState([]);
   const onSubmitSocialMedia = (formData) => {
-    
     if (!formData.platform || !formData.link) {
       alert("Please provide both platform and link");
       return;
@@ -29,14 +28,13 @@ function CreateApplicantProfilepage() {
   };
   const openAddSocialModal = () => {
     setAddSocialModalOpen(true);
-    };
-  
-    const closeAddSocialModal = () => {
-      setAddSocialModalOpen(false);
-   
-    };
-    
-//industry
+  };
+
+  const closeAddSocialModal = () => {
+    setAddSocialModalOpen(false);
+  };
+
+  //industry
   const [isAddIndustryModalOpen, setAddIndustryModalOpen] = useState(false);
   const openAddIndustryModal = () => {
     setAddIndustryModalOpen(true);
@@ -45,13 +43,36 @@ function CreateApplicantProfilepage() {
   const closeAddIndustryModal = () => {
     setAddIndustryModalOpen(false);
   };
-  const industrySuggestions  = ['Web Developer', 'Game Developer', 'Graphic Designer', ' Software Developer', 'Video Game Developer', 'CyberSecurity', 'Artificial Intelligence and Machine Learning', 'Mobile App Development']; 
-//end
+  const [industrySuggestions, setIndustrySuggestions] = useState([
+    "Web Developer",
+    "Game Developer",
+    "Graphic Designer",
+    "Software Developer",
+    "Video Game Developer",
+    "CyberSecurity",
+    "Artificial Intelligence and Machine Learning",
+    "Mobile App Development",
+  ]);
 
+  const addIndustry = (industry) => {
+    setIndustrySuggestions([...industrySuggestions, industry]);
+  };
 
-//skill
+  const editIndustry = (index, industry) => {
+    const updatedIndustries = [...industrySuggestions];
+    updatedIndustries[index] = industry;
+    setIndustrySuggestions(updatedIndustries);
+  };
+
+  const deleteIndustry = (index) => {
+    const updatedIndustries = industrySuggestions.filter((_, i) => i !== index);
+    setIndustrySuggestions(updatedIndustries);
+  };
+
+  //end
+
+  //skill
   const [isAddSkillModalOpen, setAddSkillModalOpen] = useState(false);
-
 
   const openAddSkillModal = () => {
     setAddSkillModalOpen(true);
@@ -60,11 +81,33 @@ function CreateApplicantProfilepage() {
   const closeAddSkillModal = () => {
     setAddSkillModalOpen(false);
   };
-  
 
-  const skillSuggestions = ['JavaScript', 'Python', 'Java', 'C++', 'React', 'Node.js', 'Ruby'];
-//end
+  const [skillSuggestions, setSkillSuggestions] = useState([
+    "JavaScript",
+    "Python",
+    "Java",
+    "C++",
+    "React",
+    "Node.js",
+    "Ruby",
+  ]);
 
+  const addSkill = (skill) => {
+    setSkillSuggestions([...skillSuggestions, skill]);
+  };
+
+  const editSkill = (index, skill) => {
+    const updatedSkills = [...skillSuggestions];
+    updatedSkills[index] = skill;
+    setSkillSuggestions(updatedSkills);
+  };
+
+  const deleteSkill = (index) => {
+    const updatedSkills = skillSuggestions.filter((_, i) => i !== index);
+    setSkillSuggestions(updatedSkills);
+  };
+
+  //end
 
   let userObj = JSON.parse(localStorage.getItem("user"));
   let userId = userObj.id;
@@ -85,7 +128,6 @@ function CreateApplicantProfilepage() {
   const [skills, setSkills] = useState([]);
   const [inputs, setInputs] = useState({});
   const navigate = useNavigate();
-
 
   useEffect(() => {
     setInputs({
@@ -263,7 +305,7 @@ function CreateApplicantProfilepage() {
                 )}
               </div>
             </div>
-  
+
             <div className="bg-white h-full mb-10 shadow-lg">
               <div className="flex">
                 <div className="p-5 w-3/4 space-y-5">
@@ -347,34 +389,86 @@ function CreateApplicantProfilepage() {
                       onChange={(e) => setBio(e.target.value)}
                     />
                   </div>
+
                   <div className="w-full border-2 h-16 border-[#444B88] flex justify-center items-center">
+                    {socialLinks.map((link, index) => (
+                      <div
+                        key={index}
+                        className="flex items-center justify-between mt-4 "
+                      >
+                        <div>
+                          <a href="`1" onClick={() => editSocialLink(index)}>
+                            {link.platform}
+                          </a>
+                        </div>
+                        <div>
+                          <a href={link.link}>{link.link}</a>
+                        </div>
+                        <div>
+                          <button onClick={() => editSocialLink(index)}>
+                            Edit
+                          </button>
+
+                          <button onClick={() => deleteSocialLink(index)}>
+                            X
+                          </button>
+                        </div>
+                      </div>
+                    ))}
+
                     <button
-                      className="p-2 px-5 bg-[#8B95EE]" onClick={openAddSocialModal}>
+                      className="p-2 px-5 bg-[#8B95EE]"
+                      onClick={openAddSocialModal}
+                    >
                       + Add Social link
                     </button>
                   </div>
                   {isAddSocialModalOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
-          <div className="bg-white p-4 rounded-md">
-            <AddSocial
-              onClose={closeAddSocialModal}
-              onSubmit={onSubmitSocialMedia} />
+                    <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
+                      <div className="bg-white p-4 rounded-md">
+                        <AddSocial
+                          onClose={closeAddSocialModal}
+                          onSubmit={onSubmitSocialMedia}
+                        />
                       </div>
                     </div>
                   )}
+
                   <div className="w-full border-2 h-16 border-[#444B88] flex justify-center items-center">
-                    <button className="p-2 px-5 bg-[#8B95EE]" onClick={openAddIndustryModal}>
+                    <button
+                      className="p-2 px-5 bg-[#8B95EE]"
+                      onClick={openAddIndustryModal}
+                    >
                       + Add Industries
                     </button>
+
+                    {industrySuggestions.map((index) => (
+                      <div key={index} className="bg-blue-200 ">
+                        <div>
+                          <p className="text-2xl">{"1"}</p>
+                        </div>
+                        <div></div>
+                        <div>
+                          {/*                                         
+                                        <button onClick={() => editIndustry(index)}>Edit</button> */}
+
+                          <button onClick={() => editIndustry(index)}>X</button>
+                        </div>
+                      </div>
+                    ))}
                   </div>
                   {isAddIndustryModalOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
-          <div className="bg-white p-4 rounded-md">
-            <AddIndustry onClose={closeAddIndustryModal} suggestions={industrySuggestions}  />
-          </div>
-        </div>
-      )} </div>
-                
+                    <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
+                      <div className="bg-white p-4 rounded-md">
+                        <AddIndustry
+                          onClose={closeAddIndustryModal}
+                          suggestions={industrySuggestions}
+                        />
+                      </div>
+                    </div>
+                  )}
+                </div>
+
                 <div className="flex flex-col justify-center items-center w-1/4">
                   <input
                     type="file"
@@ -403,34 +497,42 @@ function CreateApplicantProfilepage() {
                     <div className="flex flex-col justify-center items-center w-full">
                       <h1 className="text-2xl ">Skills</h1>
                       <div className="border-2 p-3 px-5 bg-[#8B95EE] border-[#444B88]">
-                      <h1 onClick={openAddSkillModal}>+ Add Skills</h1>
+
+                        <div> {skillSuggestions.map((index) => (
+                          <div key={index} className>
+                            <div>
+                              <p className="text-2xl">{""}</p>
+                            </div>
+                            <div></div>
+                            <div>
+                              {/*                                         
+                                        <button onClick={() => editIndustry(index)}>Edit</button> */}
+
+                              <button onClick={() => deleteIndustry(index)}>
+                                X
+                              </button>
+                            </div>
+                          </div>
+                        ))}</div>
+                        <h1 onClick={openAddSkillModal}>+ Add Skills</h1>
+                        
                       </div>
-                      
-{isAddSkillModalOpen && (
-  <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
-    <div className="bg-white p-4 rounded-md">
-    <AddSkill onClose={closeAddSkillModal}    suggestions={skillSuggestions} />
-    </div>
-  </div>
-)}
-<div className="flex flex-wrap">
-  {skills.map((skill, index) => (
-    <div key={index} className="bg-blue-200 rounded-xl p-3 m-2">
-      <p className="text-2xl">{skill}</p>
-      <div className="mt-2 flex space-x-2">
-        <button className="bg-green-300 p-2 px-4 rounded-xl" onClick={() => handleEditSkill(index)}>
-          Edit
-        </button>
-        <button className="bg-red-500 p-2 px-4 rounded-xl" onClick={() => handleDeleteSkill(index)}>
-          Delete
-        </button>
-      </div>
-    </div>
-  ))}
-</div>
+
+                      {isAddSkillModalOpen && (
+                        <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
+                          <div className="bg-white p-4 rounded-md">
+                            <AddSkill
+                              onClose={closeAddSkillModal}
+                              suggestions={skillSuggestions}
+                            />
+                          </div>
+                        </div>
+                        
+                      )}
+                      <div className="flex flex-wrap"></div>
                     </div>
-                  </div> 
-                      
+                  </div>
+
                   <div className="flex justify-between w-9/12 mb-2">
                     <button className="text-lg border border-black px-2">
                       Cancel
@@ -442,9 +544,7 @@ function CreateApplicantProfilepage() {
                       Save
                     </button>
                   </div>
-                  
                 </div>
-                
               </div>
             </div>
           </div>
@@ -452,5 +552,6 @@ function CreateApplicantProfilepage() {
       </div>
       <Footer />
     </div>
-  );}  
+  );
+}
 export default CreateApplicantProfilepage;
