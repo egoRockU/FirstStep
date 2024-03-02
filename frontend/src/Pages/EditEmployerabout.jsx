@@ -5,6 +5,7 @@ const placeholderImage =
   "https://imgs.search.brave.com/q02hpLETIRmEBEpeaZkCKOUDubZ65X3ccxNLb1WxvY0/rs:fit:860:0:0/g:ce/aHR0cHM6Ly90My5m/dGNkbi5uZXQvanBn/LzAyLzk5LzczLzI2/LzM2MF9GXzI5OTcz/MjY2OF9nWnFLVmJ1/Mktqcm9MWXRUOWhS/WmZFMzdBWldGSEpR/bi5qcGc"; // Provide your placeholder image URL here
 import Footer from "../Components/Footer";
 import { useNavigate } from "react-router-dom";
+import AddSocial from "../Modals/EditEmployer Profile/Addsocial";
 
 function Editemployerabout() {
   const [selectedImage, setSelectedImage] = useState(null);
@@ -33,6 +34,39 @@ function Editemployerabout() {
     }
   };
 
+
+  const [isAddSocialModalOpen, setAddSocialModalOpen] = useState(false);
+  const [socialLinks, setSocialLinks] = useState([]);
+  const onSubmitSocialMedia = (formData) => {
+    if (!formData.platform || !formData.link) {
+      alert("Please provide both platform and link");
+      return;
+    }
+    console.log("Submitted formData:", formData);
+    setSocialLinks([...socialLinks, formData]);
+    closeAddSocialModal();
+  };
+  const openAddSocialModal = () => {
+    setAddSocialModalOpen(true);
+  };
+
+  const closeAddSocialModal = () => {
+    setAddSocialModalOpen(false);
+  };
+  const editSocialLink = (index) => {
+    const editedSocialLinks = [...socialLinks];
+    const newPlatform = prompt("Enter new platform:");
+    const newLink = prompt("Enter new link:");
+    if (newPlatform && newLink) {
+      editedSocialLinks[index] = { platform: newPlatform, link: newLink };
+      setSocialLinks(editedSocialLinks);
+    }
+  };
+  const deleteSocialLink = (index) => {
+    const updatedSocialLinks = [...socialLinks];
+    updatedSocialLinks.splice(index, 1);
+    setSocialLinks(updatedSocialLinks);
+  };
   return (
     <>
       <div className="bg-gray-200">
@@ -173,11 +207,66 @@ function Editemployerabout() {
                     required
                   />
                 </div>
-                <div className="w-full border-2 h-16 border-[#444B88] flex justify-center items-center">
-                  <button className="p-2 px-5 bg-[#8B95EE]">
-                    + Add Social link
-                  </button>
-                </div>
+                <div className=" border-2 h-16 border-[#444B88] flex justify-center items-center">
+                    <div>
+                      {" "}
+                      {socialLinks.map((link, index) => (
+                        <div
+                          key={index}
+                          className="flex items-center justify-between mt-4 "
+                        >
+                          <div>
+                            {/* <a href="" onClick={() => editSocialLink(index)}>
+                              {link.platform}
+                            </a> */}
+                          </div>
+                          <div>
+                            <a href={link.link}>{link.link}</a>
+                          </div>
+                          <div>
+                            <button
+                              onClick={() => editSocialLink(index)}
+                            ></button>
+
+                            <button
+                              onClick={() => deleteSocialLink(index)}
+                              className="text-red-500 hover:text-red-700"
+                            >
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                className="h-5 w-5"
+                                viewBox="0 0 20 20"
+                              >
+                                <path
+                                  fillRule="evenodd"
+                                  d="M5.293 5.293a1 1 0 011.414 0L10 8.586l3.293-3.293a1 1 0 111.414 1.414L11.414 10l3.293 3.293a1 1 0 01-1.414 1.414L10 11.414l-3.293 3.293a1 1 0 01-1.414-1.414L8.586 10 5.293 6.707a1 1 0 010-1.414z"
+                                  clipRule="evenodd"
+                                />
+                              </svg>
+                            </button>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                    <button
+                      className="p-2 px-5 bg-[#8B95EE]"
+                      onClick={openAddSocialModal}
+                    >
+                      + Add Social link
+                    </button>
+                  </div>
+                {isAddSocialModalOpen && (
+                    <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
+                      <div className="bg-white p-4 rounded-md">
+                      {/* {add Social`1} */}
+                       <AddSocial
+                          onClose={closeAddSocialModal}
+                          onSubmit={onSubmitSocialMedia}
+                        />
+                      </div>
+                    </div>
+                  )}
+
                 <div className="flex flex-col justify-center items-start">
                   <h1 className="text-lg">Website</h1>
                   <input
