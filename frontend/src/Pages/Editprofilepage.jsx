@@ -6,6 +6,7 @@ import profile from "../images/profilee.png";
 import { FaSquareXTwitter } from "react-icons/fa6";
 import { FaLinkedin } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
+import { IoCloseOutline } from "react-icons/io5";
 
 function editprofile() {
   const [selectedImage, setSelectedImage] = useState(null);
@@ -22,16 +23,16 @@ function editprofile() {
       reader.readAsDataURL(file);
     }
   };
-  
-  const clickedit = (e) =>{
+
+  const clickedit = (e) => {
     e.preventDefault();
-    navigate("/editapplicantprofilepage")
-  }
+    navigate("/editapplicantprofilepage");
+  };
 
   return (
     <>
       <NavbarLoggedIn />
-      <div className="bg-gray-100 mx-auto h-[1100px]">
+      <div className="bg-gray-100 mx-auto pb-20">
         <div className="container mx-auto">
           <img
             src={banner}
@@ -134,7 +135,10 @@ function editprofile() {
                     </div>
                   </div>
                 </div>
-                <button className="w-full bg-[#444B88] border-[#BCBCBC] border-2 p-2 text-white rounded-b-lg" onClick={clickedit}>
+                <button
+                  className="w-full bg-[#444B88] border-[#BCBCBC] border-2 p-2 text-white rounded-b-lg"
+                  onClick={clickedit}
+                >
                   Edit
                 </button>
               </div>
@@ -161,8 +165,52 @@ function editprofile() {
                     </div>
                   </div>
                   <div className="rounded-xl">
-                    <div className="bg-white p-4 text-xl flex justify-center border-2 border-gray-300">
+                    <div className="bg-white p-4 text-xl flex flex-col items-center justify-center border-2 border-gray-300 gap-3">
                       <h1 className="text-[#444B88] font-base">Education</h1>
+                      <div className="w-full bg-white hover:bg-[#BAD2FF] border-2 border-[#444B88] flex justify-between items-center">
+                        <div className="w-full flex flex-col gap-3 p-5">
+                          <div className="flex items-center gap-3 w-full">
+                            <p className="text-2xl text-[#444B88]">
+                              School Name
+                            </p>
+                            <p className="text-sm">Start-date-End-date</p>
+                          </div>
+                          <div className="text-xl">Degree-Program</div>
+                        </div>
+                        <button>
+                          <IoCloseOutline size={50} />
+                        </button>
+                      </div>
+                      <div className="w-full bg-white hover:bg-[#BAD2FF] border-2 border-[#444B88] flex justify-between items-center">
+                        <div className="w-full flex flex-col gap-3 p-5">
+                          <div className="flex items-center gap-3 w-full">
+                            <p className="text-2xl text-[#444B88]">
+                              Caloocan City Business High School
+                            </p>
+                            <p className="text-sm">Start-date-End-date</p>
+                          </div>
+                          <div className="text-xl">Senior-High STEM</div>
+                        </div>
+                        <button>
+                          <IoCloseOutline size={50} />
+                        </button>
+                      </div>
+                      <div className="w-full bg-white hover:bg-[#BAD2FF] border-2 border-[#444B88] flex justify-between items-center">
+                        <div className="w-full flex flex-col gap-3 p-5">
+                          <div className="flex items-center gap-3 w-full">
+                            <p className="text-2xl text-[#444B88]">
+                              University of Caloocan City
+                            </p>
+                            <p className="text-sm">Start-date-End-date</p>
+                          </div>
+                          <div className="text-xl">
+                            Bachelor of Science - Computer Science
+                          </div>
+                        </div>
+                        <button>
+                          <IoCloseOutline size={50} />
+                        </button>
+                      </div>
                     </div>
                     <div className="w-full">
                       <button className="w-full bg-[#444B88] border-[#BCBCBC] border-1 p-2 text-white rounded-b-lg">
@@ -171,10 +219,61 @@ function editprofile() {
                     </div>
                   </div>
                   <div className="rounded-xl">
-                    <div className="bg-white p-4 text-xl flex justify-center border-2 border-gray-300">
+                    <div className="bg-white p-4 text-xl flex flex-col items-center justify-center border-2 border-gray-300 gap-3">
                       <h1 className="text-[#444B88] font-base">
                         Activities and Involvements
                       </h1>
+                      <div className="w-full bg-white hover:bg-[#BAD2FF] border-2 border-[#444B88] flex justify-between items-center">
+                        <div className="w-full flex flex-col gap-3 p-5">
+                          <div className="flex items-center gap-3 w-full">
+                            <p className="text-2xl text-[#444B88]">Title</p>
+                            <p className="text-xl">Type</p>
+                          </div>
+                          <div className="text-xl">
+                            Company/Organization Name
+                          </div>
+                          <div className="text-sm">
+                            Start-date - End-date, Location
+                          </div>
+                        </div>
+                        <button>
+                          <IoCloseOutline size={50} />
+                        </button>
+                      </div>
+                      <div className="w-full bg-white hover:bg-[#BAD2FF] border-2 border-[#444B88] flex justify-between items-center">
+                        <div className="w-full flex flex-col gap-3 p-5">
+                          <div className="flex items-center gap-3 w-full">
+                            <p className="text-2xl text-[#444B88]">
+                              Associate Software Engineer
+                            </p>
+                            <p className="text-xl">Internship</p>
+                          </div>
+                          <div className="text-xl">Netflix</div>
+                          <div className="text-sm">
+                            Start-date - End-date, Mindanao
+                          </div>
+                        </div>
+                        <button>
+                          <IoCloseOutline size={50} />
+                        </button>
+                      </div>
+                      <div className="w-full bg-white hover:bg-[#BAD2FF] border-2 border-[#444B88] flex justify-between items-center">
+                        <div className="w-full flex flex-col gap-3 p-5">
+                          <div className="flex items-center gap-3 w-full">
+                            <p className="text-2xl text-[#444B88]">
+                              Java Training
+                            </p>
+                            <p className="text-xl">Training</p>
+                          </div>
+                          <div className="text-xl">Tesda</div>
+                          <div className="text-sm">
+                            Start-date - End-date, Quezon City
+                          </div>
+                        </div>
+                        <button>
+                          <IoCloseOutline size={50} />
+                        </button>
+                      </div>
                     </div>
                     <div className="w-full">
                       <button className="w-full bg-[#444B88] border-[#BCBCBC] border-1 p-2 text-white rounded-b-lg">
@@ -183,7 +282,7 @@ function editprofile() {
                     </div>
                   </div>
                   <div className="rounded-xl">
-                    <div className="bg-white p-4 text-xl flex justify-center border-2 border-gray-300">
+                    <div className="bg-white p-4 text-xl flex flex-col items-center justify-center border-2 border-gray-300 gap-3">
                       <h1 className="text-[#444B88] font-base">Projects</h1>
                     </div>
                     <div className="w-full">
@@ -193,8 +292,32 @@ function editprofile() {
                     </div>
                   </div>
                   <div className="rounded-xl">
-                    <div className="bg-white p-4 text-xl flex justify-center border-2 border-gray-300">
+                    <div className="bg-white p-4 text-xl flex flex-col items-center justify-center border-2 border-gray-300 gap-3">
                       <h1 className="text-[#444B88] font-base">Awards</h1>
+                      <div className="w-full bg-white hover:bg-[#BAD2FF] border-2 border-[#444B88] flex justify-between items-center">
+                        <div className="w-full flex flex-col gap-3 p-5">
+                          <div className="flex items-center gap-3 w-full">
+                            <p className="text-2xl text-[#444B88]">Title</p>
+                            <p className="text-sm">Date Received</p>
+                          </div>
+                        </div>
+                        <button>
+                          <IoCloseOutline size={50} />
+                        </button>
+                      </div>
+                      <div className="w-full bg-white hover:bg-[#BAD2FF] border-2 border-[#444B88] flex justify-between items-center">
+                        <div className="w-full flex flex-col gap-3 p-5">
+                          <div className="flex items-center gap-3 w-full">
+                            <p className="text-2xl text-[#444B88]">
+                              Best Thesis
+                            </p>
+                            <p className="text-sm">Date Received</p>
+                          </div>
+                        </div>
+                        <button>
+                          <IoCloseOutline size={50} />
+                        </button>
+                      </div>
                     </div>
                     <div className="w-full">
                       <button className="w-full bg-[#444B88] border-[#BCBCBC] border-1 p-2 text-white rounded-b-lg">
@@ -203,8 +326,32 @@ function editprofile() {
                     </div>
                   </div>
                   <div className="rounded-xl">
-                    <div className="bg-white p-4 text-xl flex justify-center border-2 border-gray-300">
+                    <div className="bg-white p-4 text-xl flex flex-col items-center justify-center border-2 border-gray-300 gap-3">
                       <h1 className="text-[#444B88] font-base">Certificates</h1>
+                      <div className="w-full bg-white hover:bg-[#BAD2FF] border-2 border-[#444B88] flex justify-between items-center">
+                        <div className="w-full flex flex-col gap-3 p-5">
+                          <div className="flex items-center gap-3 w-full">
+                            <p className="text-2xl text-[#444B88]">Title</p>
+                            <p className="text-sm">Date Received</p>
+                          </div>
+                        </div>
+                        <button>
+                          <IoCloseOutline size={50} />
+                        </button>
+                      </div>
+                      <div className="w-full bg-white hover:bg-[#BAD2FF] border-2 border-[#444B88] flex justify-between items-center">
+                        <div className="w-full flex flex-col gap-3 p-5">
+                          <div className="flex items-center gap-3 w-full">
+                            <p className="text-2xl text-[#444B88]">
+                              Tailwind CSS
+                            </p>
+                            <p className="text-sm">Date Received</p>
+                          </div>
+                        </div>
+                        <button>
+                          <IoCloseOutline size={50} />
+                        </button>
+                      </div>
                     </div>
                     <div className="w-full">
                       <button className="w-full bg-[#444B88] border-[#BCBCBC] border-1 p-2 text-white rounded-b-lg">
