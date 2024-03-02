@@ -4,11 +4,12 @@ import React, { useState } from "react";
 const placeholderImage =
   "https://imgs.search.brave.com/q02hpLETIRmEBEpeaZkCKOUDubZ65X3ccxNLb1WxvY0/rs:fit:860:0:0/g:ce/aHR0cHM6Ly90My5m/dGNkbi5uZXQvanBn/LzAyLzk5LzczLzI2/LzM2MF9GXzI5OTcz/MjY2OF9nWnFLVmJ1/Mktqcm9MWXRUOWhS/WmZFMzdBWldGSEpR/bi5qcGc"; // Provide your placeholder image URL here
 import Footer from "../Components/Footer";
+import { useNavigate } from "react-router-dom";
 
 function Editemployerabout() {
   const [selectedImage, setSelectedImage] = useState(null);
   const [selectedBanner, setSelectedBanner] = useState(null);
-  const navigate= useNavigate();
+  const navigate = useNavigate();
 
   const handleBannerChange = (e) => {
     const file = e.target.files[0];
@@ -31,7 +32,6 @@ function Editemployerabout() {
       reader.readAsDataURL(file);
     }
   };
-
 
   return (
     <>
@@ -179,51 +179,52 @@ function Editemployerabout() {
                   </button>
                 </div>
                 <div className="flex flex-col justify-center items-start">
-                    <h1 className="text-lg">Website</h1>
-                  <input type="text" className="text-base border-2 border-[#444B88] p-2 w-full" required />
+                  <h1 className="text-lg">Website</h1>
+                  <input
+                    type="text"
+                    className="text-base border-2 border-[#444B88] p-2 w-full"
+                    required
+                  />
                 </div>
               </div>
               <div className="flex flex-col justify-center items-center w-1/4">
-                  <input
-                    type="file"
-                    id="imageInput"
-                    accept="image/*"
-                    style={{ display: "none" }}
-                    onChange={handleImageChange}
+                <input
+                  type="file"
+                  id="imageInput"
+                  accept="image/*"
+                  style={{ display: "none" }}
+                  onChange={handleImageChange}
+                />
+                <label htmlFor="imageInput" className="cursor-pointer mt-10">
+                  <img
+                    src={selectedImage || placeholderImage}
+                    alt=""
+                    className="w-40 h-40 rounded-full border-4 border-black"
                   />
-                  <label htmlFor="imageInput" className="cursor-pointer mt-10">
-                    <img
-                      src={selectedImage || placeholderImage}
-                      alt=""
-                      className="w-40 h-40 rounded-full border-4 border-black"
-                    />
-                  </label>
-                  {!selectedImage && (
-                    <div
-                      onClick={() =>
-                        document.getElementById("imageInput").click()
-                      }
-                      className="inset-0 cursor-pointer"
-                      style={{ zIndex: 1 }}
-                    ></div>
-                  )}
-                  <div className="w-full h-full mt-5">
-                  </div>
-                  <div className="flex justify-around w-full pb-5">
-                    <button className="text-lg border border-black py-1 px-1 rounded-sm">
-                      Cancel
-                    </button>
-                    <button
-                      className="text-lg bg-[#8B95EE] border border-[#444B88] hover:bg-blue-600 py-1 rounded-sm"
-                    >
-                      Save Changes
-                    </button>
-                  </div>
+                </label>
+                {!selectedImage && (
+                  <div
+                    onClick={() =>
+                      document.getElementById("imageInput").click()
+                    }
+                    className="inset-0 cursor-pointer"
+                    style={{ zIndex: 1 }}
+                  ></div>
+                )}
+                <div className="w-full h-full mt-5"></div>
+                <div className="flex justify-around w-full pb-5">
+                  <button className="text-lg border border-black py-1 px-1 rounded-sm">
+                    Cancel
+                  </button>
+                  <button className="text-lg bg-[#8B95EE] border border-[#444B88] hover:bg-blue-600 py-1 rounded-sm">
+                    Save Changes
+                  </button>
                 </div>
+              </div>
             </div>
           </div>
         </div>
-        <Footer/>
+        <Footer />
       </div>
     </>
   );

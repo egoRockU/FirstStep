@@ -7,6 +7,7 @@ import { FaSquareXTwitter } from "react-icons/fa6";
 import { FaLinkedin } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { IoCloseOutline } from "react-icons/io5";
+import Addeduc from "../Modals/Edit Profile/Addeducmodal";
 
 function editprofile() {
   const [selectedImage, setSelectedImage] = useState(null);
@@ -22,6 +23,44 @@ function editprofile() {
       };
       reader.readAsDataURL(file);
     }
+  };
+
+  const [formData, setFormData] = useState();
+  const [formIndex, setFormIndex] = useState();
+
+  //education
+  const [educationData, setEducationData] = useState([]);
+  const [showEducationModal, setShowEducationModal] = useState(false);
+
+  const handleEducSubmit = (data) => {
+    console.log(data);
+    setEducationData((prevEducationData) => {
+      const updatedEducationData = [...prevEducationData, data];
+      updateProfileElement("education", updatedEducationData);
+      return updatedEducationData;
+    });
+    setShowModal(false);
+  };
+
+  const handleEducDelete = (index) => {
+    const updatedEducationData = [...educationData];
+    updatedEducationData.splice(index, 1);
+    updateProfileElement("education", updatedEducationData);
+    setEducationData(updatedEducationData);
+  };
+
+  const handleEducEdit = (index) => {
+    const educationToEdit = educationData[index];
+    setFormData(educationToEdit);
+    setFormIndex(index);
+    setShowModal(true);
+  };
+
+  const editEducationData = (index, newValue) => {
+    const updatedEducationData = [...educationData];
+    updatedEducationData[index] = newValue;
+    updateProfileElement("education", updatedEducationData);
+    setEducationData(updatedEducationData);
   };
 
   const clickedit = (e) => {
@@ -213,9 +252,26 @@ function editprofile() {
                       </div>
                     </div>
                     <div className="w-full">
-                      <button className="w-full bg-[#444B88] border-[#BCBCBC] border-1 p-2 text-white rounded-b-lg">
+                      <button
+                        className="w-full bg-[#444B88] border-[#BCBCBC] border-1 p-2 text-white rounded-b-lg"
+                        onClick={() => setShowEducationModal(true)}
+                      >
                         Add
                       </button>
+                      {/* TODO finish add education modal */}
+                      {showEducationModal && (
+                        <Addeduc
+                          onClose={() => {
+                            setFormData();
+                            setShowEducationModal(false);
+                          }}
+                          onSubmit={handleEducSubmit}
+                          onEdit={editEducationData}
+                          initialData={formData}
+                          formIndex={formIndex}
+                          setFormData={setFormData}
+                        />
+                      )}
                     </div>
                   </div>
                   <div className="rounded-xl">
