@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-function AddIndustries({ onClose, suggestions }) {
+function AddIndustries({ onClose, suggestions, onSubmit }) {
   const [industries, setIndustries] = useState('');
   const [suggestedIndustries, setSuggestedIndustries] = useState([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
@@ -40,6 +40,9 @@ function AddIndustries({ onClose, suggestions }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    onSubmit(industries);
+
     onClose();
     console.log('Industries:', industries);
   };

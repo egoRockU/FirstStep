@@ -33,17 +33,25 @@ function CreateApplicantProfilepage() {
   const closeAddSocialModal = () => {
     setAddSocialModalOpen(false);
   };
+  const editSocialLink = (index) => {
+    const editedSocialLinks = [...socialLinks];
+    const newPlatform = prompt("Enter new platform:");
+    const newLink = prompt("Enter new link:");
+    if (newPlatform && newLink) {
+      editedSocialLinks[index] = { platform: newPlatform, link: newLink };
+      setSocialLinks(editedSocialLinks);
+    }
+  };
+  const deleteSocialLink = (index) => {
+    const updatedSocialLinks = [...socialLinks];
+    updatedSocialLinks.splice(index, 1);
+    setSocialLinks(updatedSocialLinks);
+  };
 
   //industry
+  const [industries, setIndustries] = useState([]);
   const [isAddIndustryModalOpen, setAddIndustryModalOpen] = useState(false);
-  const openAddIndustryModal = () => {
-    setAddIndustryModalOpen(true);
-  };
-
-  const closeAddIndustryModal = () => {
-    setAddIndustryModalOpen(false);
-  };
-  const [industrySuggestions, setIndustrySuggestions] = useState([
+  const [industrySuggestions] = useState([
     "Web Developer",
     "Game Developer",
     "Graphic Designer",
@@ -53,21 +61,36 @@ function CreateApplicantProfilepage() {
     "Artificial Intelligence and Machine Learning",
     "Mobile App Development",
   ]);
+  const onSubmitIndustries = (formData) => {
+    setIndustries([...industries, formData]);
+    closeAddIndustryModal();
+  };
+  
+  
 
-  const addIndustry = (industry) => {
-    setIndustrySuggestions([...industrySuggestions, industry]);
+  const openAddIndustryModal = () => {
+    setAddIndustryModalOpen(true);
   };
 
+  const closeAddIndustryModal = () => {
+    setAddIndustryModalOpen(false);
+  };
   const editIndustry = (index, industry) => {
-    const updatedIndustries = [...industrySuggestions];
+    const updatedIndustries = [...industries];
     updatedIndustries[index] = industry;
-    setIndustrySuggestions(updatedIndustries);
+    setIndustries(updatedIndustries);
   };
 
   const deleteIndustry = (index) => {
-    const updatedIndustries = industrySuggestions.filter((_, i) => i !== index);
-    setIndustrySuggestions(updatedIndustries);
+    const updatedIndustries = [...industries];
+    updatedIndustries.splice(index, 1);
+    setIndustries(updatedIndustries);
   };
+
+
+ 
+
+ 
 
   //end
 
@@ -92,19 +115,22 @@ function CreateApplicantProfilepage() {
     "Ruby",
   ]);
 
-  const addSkill = (skill) => {
-    setSkillSuggestions([...skillSuggestions, skill]);
+  const onSubmitSkills = (formData) => {
+    setSkills([...skills, formData]);
+    closeAddSkillModal();
   };
+
+  
 
   const editSkill = (index, skill) => {
     const updatedSkills = [...skillSuggestions];
     updatedSkills[index] = skill;
     setSkillSuggestions(updatedSkills);
   };
-
   const deleteSkill = (index) => {
-    const updatedSkills = skillSuggestions.filter((_, i) => i !== index);
-    setSkillSuggestions(updatedSkills);
+    const updatedSkills = [...skills];
+    updatedSkills.splice(index, 1);
+    setSkills(updatedSkills);
   };
 
   //end
@@ -390,32 +416,47 @@ function CreateApplicantProfilepage() {
                     />
                   </div>
 
-                  <div className="w-full border-2 h-16 border-[#444B88] flex justify-center items-center">
-                    {socialLinks.map((link, index) => (
-                      <div
-                        key={index}
-                        className="flex items-center justify-between mt-4 "
-                      >
-                        <div>
-                          <a href="`1" onClick={() => editSocialLink(index)}>
-                            {link.platform}
-                          </a>
-                        </div>
-                        <div>
-                          <a href={link.link}>{link.link}</a>
-                        </div>
-                        <div>
-                          <button onClick={() => editSocialLink(index)}>
-                            Edit
-                          </button>
+                  <div className=" border-2 h-16 border-[#444B88] flex justify-center items-center">
+                    <div>
+                      {" "}
+                      {socialLinks.map((link, index) => (
+                        <div
+                          key={index}
+                          className="flex items-center justify-between mt-4 "
+                        >
+                          <div>
+                            {/* <a href="" onClick={() => editSocialLink(index)}>
+                              {link.platform}
+                            </a> */}
+                          </div>
+                          <div>
+                            <a href={link.link}>{link.link}</a>
+                          </div>
+                          <div>
+                            <button
+                              onClick={() => editSocialLink(index)}
+                            ></button>
 
-                          <button onClick={() => deleteSocialLink(index)}>
-                            X
-                          </button>
+                            <button
+                              onClick={() => deleteSocialLink(index)}
+                              className="text-red-500 hover:text-red-700"
+                            >
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                className="h-5 w-5"
+                                viewBox="0 0 20 20"
+                              >
+                                <path
+                                  fillRule="evenodd"
+                                  d="M5.293 5.293a1 1 0 011.414 0L10 8.586l3.293-3.293a1 1 0 111.414 1.414L11.414 10l3.293 3.293a1 1 0 01-1.414 1.414L10 11.414l-3.293 3.293a1 1 0 01-1.414-1.414L8.586 10 5.293 6.707a1 1 0 010-1.414z"
+                                  clipRule="evenodd"
+                                />
+                              </svg>
+                            </button>
+                          </div>
                         </div>
-                      </div>
-                    ))}
-
+                      ))}
+                    </div>
                     <button
                       className="p-2 px-5 bg-[#8B95EE]"
                       onClick={openAddSocialModal}
@@ -426,7 +467,8 @@ function CreateApplicantProfilepage() {
                   {isAddSocialModalOpen && (
                     <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
                       <div className="bg-white p-4 rounded-md">
-                        <AddSocial
+                      {/* {add Social`1} */}
+                       <AddSocial
                           onClose={closeAddSocialModal}
                           onSubmit={onSubmitSocialMedia}
                         />
@@ -434,25 +476,36 @@ function CreateApplicantProfilepage() {
                     </div>
                   )}
 
-                  <div className="w-full border-2 h-16 border-[#444B88] flex justify-center items-center">
+                  <div className=" border-2 h-16 border-[#444B88] flex justify-center items-center">
                     <button
                       className="p-2 px-5 bg-[#8B95EE]"
                       onClick={openAddIndustryModal}
                     >
                       + Add Industries
                     </button>
-
-                    {industrySuggestions.map((index) => (
+                    {industries.map((industry, index) => (
                       <div key={index} className="bg-blue-200 ">
                         <div>
-                          <p className="text-2xl">{"1"}</p>
+                          <p className="text-2xl">{industry}</p>
                         </div>
                         <div></div>
                         <div>
-                          {/*                                         
-                                        <button onClick={() => editIndustry(index)}>Edit</button> */}
-
-                          <button onClick={() => editIndustry(index)}>X</button>
+                          <button
+                            onClick={() => deleteIndustry(index)}
+                            className="text-red-500 hover:text-red-700"
+                          >
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              className="h-5 w-5"
+                              viewBox="0 0 20 20"
+                            >
+                              <path
+                                fillRule="evenodd"
+                                d="M5.293 5.293a1 1 0 011.414 0L10 8.586l3.293-3.293a1 1 0 111.414 1.414L11.414 10l3.293 3.293a1 1 0 01-1.414 1.414L10 11.414l-3.293 3.293a1 1 0 01-1.414-1.414L8.586 10 5.293 6.707a1 1 0 010-1.414z"
+                                clipRule="evenodd"
+                              />
+                            </svg>
+                          </button>
                         </div>
                       </div>
                     ))}
@@ -460,9 +513,11 @@ function CreateApplicantProfilepage() {
                   {isAddIndustryModalOpen && (
                     <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
                       <div className="bg-white p-4 rounded-md">
+                       {/* {add Industries`2} */}
                         <AddIndustry
                           onClose={closeAddIndustryModal}
                           suggestions={industrySuggestions}
+                          onSubmit={onSubmitIndustries}
                         />
                       </div>
                     </div>
@@ -496,38 +551,52 @@ function CreateApplicantProfilepage() {
                   <div className="w-full h-full mt-5">
                     <div className="flex flex-col justify-center items-center w-full">
                       <h1 className="text-2xl ">Skills</h1>
-                      <div className="border-2 p-3 px-5 bg-[#8B95EE] border-[#444B88]">
 
-                        <div> {skillSuggestions.map((index) => (
-                          <div key={index} className>
+                      <div>
+                        {" "}
+                        {skills.map((skill, index) => (
+                          <div key={index}>
                             <div>
-                              <p className="text-2xl">{""}</p>
+                              <p className="text-2xl">{skill}</p>
                             </div>
                             <div></div>
                             <div>
-                              {/*                                         
-                                        <button onClick={() => editIndustry(index)}>Edit</button> */}
-
-                              <button onClick={() => deleteIndustry(index)}>
-                                X
+                              <button
+                                onClick={() => deleteSkill(index)}
+                                className="text-red-500 hover:text-red-700"
+                              >
+                                <svg
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  className="h-5 w-5"
+                                  viewBox="0 0 20 20"
+                                >
+                                  <path
+                                    fillRule="evenodd"
+                                    d="M5.293 5.293a1 1 0 011.414 0L10 8.586l3.293-3.293a1 1 0 111.414 1.414L11.414 10l3.293 3.293a1 1 0 01-1.414 1.414L10 11.414l-3.293 3.293a1 1 0 01-1.414-1.414L8.586 10 5.293 6.707a1 1 0 010-1.414z"
+                                    clipRule="evenodd"
+                                  />
+                                </svg>
                               </button>
                             </div>
                           </div>
-                        ))}</div>
+                        ))}
+                      </div>
+
+                      <div className="border-2 p-3 px-5 bg-[#8B95EE] border-[#444B88]">
                         <h1 onClick={openAddSkillModal}>+ Add Skills</h1>
-                        
                       </div>
 
                       {isAddSkillModalOpen && (
                         <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
                           <div className="bg-white p-4 rounded-md">
+                            {/* {add Skills`3} */}
                             <AddSkill
                               onClose={closeAddSkillModal}
                               suggestions={skillSuggestions}
+                              onSubmit={onSubmitSkills}
                             />
                           </div>
                         </div>
-                        
                       )}
                       <div className="flex flex-wrap"></div>
                     </div>

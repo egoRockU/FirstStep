@@ -49,7 +49,7 @@ function AddSkills({ onClose, suggestions, initialData, formIndex, onSubmit }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     
-    onSubmit(formData);
+    onSubmit(skills);
 
     console.log('Skills:', skills);
     onClose();
