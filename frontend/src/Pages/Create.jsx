@@ -13,6 +13,7 @@ import { FaCamera } from "react-icons/fa";
 import AddSocial from "../Modals/Create Profile/Addsocial";
 import AddIndustry from "../Modals/Create Profile/Addindustry";
 import AddSkill from "../Modals/Create Profile/Addskill";
+import { updateAccountProfileValues } from "../utils/updateAccountProfileValues";
 function CreateApplicantProfilepage() {
   //social
   const [isAddSocialModalOpen, setAddSocialModalOpen] = useState(false);
@@ -65,8 +66,6 @@ function CreateApplicantProfilepage() {
     setIndustries([...industries, formData]);
     closeAddIndustryModal();
   };
-  
-  
 
   const openAddIndustryModal = () => {
     setAddIndustryModalOpen(true);
@@ -86,11 +85,6 @@ function CreateApplicantProfilepage() {
     updatedIndustries.splice(index, 1);
     setIndustries(updatedIndustries);
   };
-
-
- 
-
- 
 
   //end
 
@@ -120,8 +114,6 @@ function CreateApplicantProfilepage() {
     closeAddSkillModal();
   };
 
-  
-
   const editSkill = (index, skill) => {
     const updatedSkills = [...skillSuggestions];
     updatedSkills[index] = skill;
@@ -135,6 +127,7 @@ function CreateApplicantProfilepage() {
 
   //end
 
+  //getting all inputs
   let userObj = JSON.parse(localStorage.getItem("user"));
   let userId = userObj.id;
   let userEmail = userObj.email;
@@ -241,7 +234,8 @@ function CreateApplicantProfilepage() {
           updateAccountProfileValues(
             res.data._id,
             "applicant",
-            userAccountType
+            userAccountType,
+            userEmail
           );
           navigate("/editprofile");
         }
@@ -253,44 +247,6 @@ function CreateApplicantProfilepage() {
         alert(err.response.data.message);
         console.log(err.response.data.errorMessage);
       });
-  };
-
-  const updateAccountProfileValues = (profileId, profileType, accountType) => {
-    const updateInputs = {
-      email: userEmail,
-      profileType,
-      profileId,
-    };
-
-    if (accountType == "google") {
-      axios
-        .post("/api/googleaccounts/addprofile", updateInputs, {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        })
-        .then((res) => {
-          localStorage.setItem("user", JSON.stringify(res.data.user));
-        })
-        .catch((err) => {
-          console.log(err.message);
-        });
-    }
-
-    if (accountType == "local") {
-      axios
-        .post("/api/localaccounts/addprofile", updateInputs, {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        })
-        .then((res) => {
-          localStorage.setItem("user", JSON.stringify(res.data.user));
-        })
-        .catch((err) => {
-          console.log(err.message);
-        });
-    }
   };
 
   return (
@@ -467,8 +423,8 @@ function CreateApplicantProfilepage() {
                   {isAddSocialModalOpen && (
                     <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
                       <div className="bg-white p-4 rounded-md">
-                      {/* {add Social`1} */}
-                       <AddSocial
+                        {/* {add Social`1} */}
+                        <AddSocial
                           onClose={closeAddSocialModal}
                           onSubmit={onSubmitSocialMedia}
                         />
@@ -513,7 +469,7 @@ function CreateApplicantProfilepage() {
                   {isAddIndustryModalOpen && (
                     <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
                       <div className="bg-white p-4 rounded-md">
-                       {/* {add Industries`2} */}
+                        {/* {add Industries`2} */}
                         <AddIndustry
                           onClose={closeAddIndustryModal}
                           suggestions={industrySuggestions}
