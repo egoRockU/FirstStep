@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import NavbarLoggedIn from "../Components/NavbarLoggedIn";
 import Footer from "../Components/Footer";
 import profile from "../images/profilee.png";
@@ -6,11 +6,29 @@ import banner from "../images/signBg.jpg";
 import { FaSquareXTwitter } from "react-icons/fa6";
 import { FaLinkedin } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 function Editemployerprofilepage() {
-    const navigate = useNavigate();
+  const navigate = useNavigate();
+  const profileId = JSON.parse(localStorage.getItem("user")).profileId;
+
   const [selectedImage, setSelectedImage] = useState(null);
   const placeholderImage = { profile };
+
+  useEffect(() => {
+    getUserProfile();
+  }, []);
+
+  const [fName, setFName] = useState("");
+  const [lName, setLName] = useState("");
+  const [email, setEmail] = useState("");
+  const [contactNum, setContactNum] = useState("");
+  const [address, setAddress] = useState("");
+  const [companyName, setCompanyName] = useState("");
+  const [bio, setBio] = useState("");
+  const [about, setAbout] = useState("");
+  const [socialLinks, setSocialLinks] = useState([]);
+  const [website, setWebsite] = useState("");
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
@@ -22,12 +40,37 @@ function Editemployerprofilepage() {
       reader.readAsDataURL(file);
     }
   };
-  
+
   const clickedit = (e) => {
-    console.log("Testing")
-    e.preventDefault()
-    navigate("/editemployerabout")
-  }
+    e.preventDefault();
+    navigate("/editemployerabout");
+  };
+
+  const getUserProfile = () => {
+    axios
+      .post(
+        "/api/employerprofile/retrieveone",
+        { profileId },
+        {
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+          },
+        }
+      )
+      .then((res) => {
+        const profileObj = res.data;
+        setFName(profileObj.firstName);
+        setLName(profileObj.lastName);
+        setEmail(profileObj.email);
+        setContactNum(profileObj.contactNum);
+        setAddress(profileObj.address);
+        setCompanyName(profileObj.companyName);
+        setBio(profileObj.bio);
+        setAbout(profileObj.about);
+        setSocialLinks(profileObj.socialLinks);
+        setWebsite(profileObj.website);
+      });
+  };
 
   return (
     <>
@@ -74,57 +117,65 @@ function Editemployerprofilepage() {
                     <div className="flex flex-col w-full p-5 space-y-2">
                       <div className="flex items-center gap-2">
                         <h1 className="text-2xl text-[#8B95EE]">
-                          Firstname Lastname
+                          {fName} {lName}
                         </h1>
-                        <h1 className="text-lg text-[#444B88]">[Company Name]</h1>
+                        <h1 className="text-lg text-[#444B88]">
+                          [{companyName}]
+                        </h1>
                       </div>
                       <div className="flex flex-col">
-                        <h1 className="underline text-[#8B95EE]">
-                          Email.devs.jpg@gmail.com
-                        </h1>
-                        <p>City, Country</p>
-                        <p>0999-999-9112</p>
+                        <h1 className="underline text-[#8B95EE]">{email}</h1>
+                        <p>{address}</p>
+                        <p>{contactNum}</p>
                       </div>
-                      <div>
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                        Neque architecto saepe dignissimos doloribus obcaecati
-                        officiis pariatur quas consequuntur totam numquam
-                        placeat, dolorem voluptate id ea.
-                      </div>
+                      <div>{bio}</div>
                     </div>
                   </div>
                 </div>
-                <button className="px-4 rounded-b-xl border text-white text-lg p-2 bg-[#444B88] w-full" onClick={clickedit}>Edit</button>
+                <button
+                  className="px-4 rounded-b-xl border text-white text-lg p-2 bg-[#444B88] w-full"
+                  onClick={clickedit}
+                >
+                  Edit
+                </button>
               </div>
               <div className="w-[800px]">
                 <div className="grid grid-cols-1 gap-4">
                   <div className="bg-white p-4 rounded-xl flex flex-col items-center gap-2">
                     <h1 className="text-[#444B88] font-base text-xl">About</h1>
-                    <textarea
+                    {/* <textarea
                       name="about"
                       id=""
                       cols="30"
                       rows="5"
                       placeholder="This user did not write anything yet."
                       className="w-full p-2"
-                    ></textarea>
+                    ></textarea> */}
+                    {!about && <p>This user did not write anything yet...</p>}
+                    {about}
                   </div>
                   <div className="bg-white p-4 rounded-xl flex flex-col gap-2 items-center justify-center">
                     <h1 className="text-[#444B88] font-base">Website</h1>
-                    <h1 className="text-lg">www.websitengpogi.com</h1>
+                    <h1 className="text-lg">{website}</h1>
                   </div>
                   <div className="bg-white p-4 rounded-xl text-xl flex flex-col items-center gap-2 justify-center border-2 border-gray-300">
                     <h1 className="text-[#444B88] font-base">Social</h1>
                     <div>
-                        <div className="flex items-center gap-1">
-                          <FaLinkedin size={25} color="blue" />
-                          <p>LinkIn@linkin.com</p>
+                      {socialLinks.map((social, index) => (
+                        <div className="flex items-center gap-1" key={index}>
+                          <p>{social.platform}</p>
+                          <p>{social.link}</p>
                         </div>
-                        <div className="flex gap-1 items-center">
-                          <FaSquareXTwitter size={25} />
-                          <p>TwitterngPogi@twiiter.com</p>
-                        </div>
+                      ))}
+                      {/* <div className="flex items-center gap-1">
+                        <FaLinkedin size={25} color="blue" />
+                        <p>LinkIn@linkin.com</p>
                       </div>
+                      <div className="flex gap-1 items-center">
+                        <FaSquareXTwitter size={25} />
+                        <p>TwitterngPogi@twiiter.com</p>
+                      </div> */}
+                    </div>
                   </div>
                 </div>
               </div>
