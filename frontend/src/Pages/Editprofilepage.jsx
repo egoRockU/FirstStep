@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import banner from "../images/signBg.jpg";
 import NavbarLoggedIn from "../Components/NavbarLoggedIn";
 import Footer from "../Components/Footer";
@@ -11,11 +11,17 @@ import AddEduc from "../Modals/Edit Profile/Addeducmodal";
 import AddAchievement from "../Modals/Edit Profile/Addachievemodal";
 import AddAward from "../Modals/Edit Profile/Addawards";
 import AddCert from "../Modals/Edit Profile/Addcertificates";
+import axios from "axios";
 
 function editprofile() {
   const [selectedImage, setSelectedImage] = useState(null);
   const placeholderImage = { profile };
   const navigate = useNavigate();
+  const profileId = JSON.parse(localStorage.getItem("user")).profileId;
+
+  useEffect(() => {
+    getUserProfile();
+  }, []);
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
@@ -174,7 +180,45 @@ function editprofile() {
 
   const clickedit = (e) => {
     e.preventDefault();
-    navigate("/editapplicantprofilepage");
+    navigate("/editapplicantabout");
+  };
+
+  //get user info
+  const [fName, setFName] = useState("");
+  const [lName, setLName] = useState("");
+  const [email, setEmail] = useState("");
+  const [contactNum, setContactNum] = useState("");
+  const [address, setAddress] = useState("");
+  const [bio, setBio] = useState("");
+  const [about, setAbout] = useState("");
+  const [socialLinks, setSocialLinks] = useState([]);
+  const [skills, setSkills] = useState([]);
+  const [industries, setIndustries] = useState([]);
+
+  const getUserProfile = () => {
+    axios
+      .post(
+        "/api/applicantprofile/retrieveone",
+        { profileId },
+        {
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+          },
+        }
+      )
+      .then((res) => {
+        const profileObj = res.data;
+        setFName(profileObj.firstName);
+        setLName(profileObj.lastName);
+        setEmail(profileObj.email);
+        setContactNum(profileObj.contactNum);
+        setAddress(profileObj.address);
+        setBio(profileObj.bio);
+        setAbout(profileObj.about);
+        setSocialLinks(profileObj.socialLinks);
+        setSkills(profileObj.skills);
+        setIndustries(profileObj.preferredCareer);
+      });
   };
 
   return (
@@ -228,56 +272,46 @@ function editprofile() {
                     <div className="flex flex-col w-full p-5 space-y-2">
                       <div className="flex">
                         <h1 className="text-2xl text-[#8B95EE]">
-                          Firstname Lastname
+                          {fName} {lName}
                         </h1>
                       </div>
                       <div className="flex flex-col">
-                        <h1 className="underline text-[#8B95EE]">
-                          Email.devs.jpg@gmail.com
-                        </h1>
-                        <p>City, Country</p>
-                        <p>0999-999-9112</p>
+                        <h1 className="underline text-[#8B95EE]">{email}</h1>
+                        <p>{address}</p>
+                        <p>{contactNum}</p>
                       </div>
+                      <div>{bio}</div>
                       <div>
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                        Neque architecto saepe dignissimos doloribus obcaecati
-                        officiis pariatur quas consequuntur totam numquam
-                        placeat, dolorem voluptate id ea.
-                      </div>
-                      <div>
-                        <div className="flex items-center gap-1">
-                          <FaLinkedin size={25} color="blue" />
-                          <p>LinkIn@linkin.com</p>
-                        </div>
-                        <div className="flex gap-1 items-center">
-                          <FaSquareXTwitter size={25} />
-                          <p>TwitterngPogi@twiiter.com</p>
-                        </div>
+                        {socialLinks.map((social, index) => (
+                          <div className="flex items-center gap-1" key={index}>
+                            {/* <FaLinkedin size={25} color="blue" /> */}
+                            <p>{social.platform}</p>
+                            <p>{social.link}</p>
+                          </div>
+                        ))}
                       </div>
                       <div className="space-y-2">
                         <h1 className="text-xl">Skills:</h1>
                         <div className="grid grid-cols-3 gap-1">
-                          <p className="p-1 bg-[#BAD2FF] border border-[#8B95EE] rounded-full text-center overflow-hidden whitespace-nowrap">
-                            Python
-                          </p>
-                          <p className="p-1 bg-[#BAD2FF] border border-[#8B95EE] rounded-full text-center overflow-hidden whitespace-nowrap">
-                            Node
-                          </p>
-                          <p className="p-1 bg-[#BAD2FF] border border-[#8B95EE] rounded-full text-center overflow-hidden whitespace-nowrap">
-                            Tailwind css
-                          </p>
-                          <p className="p-1 bg-[#BAD2FF] border border-[#8B95EE] rounded-full text-center overflow-hidden whitespace-nowrap">
-                            PHP
-                          </p>
+                          {skills.map((skill, index) => (
+                            <p
+                              className="p-1 bg-[#BAD2FF] border border-[#8B95EE] rounded-full text-center overflow-hidden whitespace-nowrap"
+                              key={index}
+                            >
+                              {skill}
+                            </p>
+                          ))}
                         </div>
                         <h1 className="text-xl">Industry</h1>
                         <div className="grid grid-cols-3 gap-1">
-                          <p className=" bg-[#BAD2FF] border border-[#8B95EE] rounded-full text-center">
-                            Software Engineering
-                          </p>
-                          <p className="bg-[#BAD2FF] border border-[#8B95EE] rounded-full text-center">
-                            Node
-                          </p>
+                          {industries.map((industry, index) => (
+                            <p
+                              className=" bg-[#BAD2FF] border border-[#8B95EE] rounded-full text-center"
+                              key={index}
+                            >
+                              {industry}
+                            </p>
+                          ))}
                         </div>
                       </div>
                     </div>

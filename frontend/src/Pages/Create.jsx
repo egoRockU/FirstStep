@@ -141,9 +141,6 @@ function CreateApplicantProfilepage() {
   const [country, setCountry] = useState("");
   const [contactNum, setContactNum] = useState("");
   const [bio, setBio] = useState("");
-  const [twitter, setTwitter] = useState("");
-  const [facebook, setFacebook] = useState("");
-  const [youtube, setYoutube] = useState("");
   const [skills, setSkills] = useState([]);
   const [inputs, setInputs] = useState({});
   const navigate = useNavigate();
@@ -154,24 +151,12 @@ function CreateApplicantProfilepage() {
       firstName: fName,
       lastName: lName,
       email: email,
-      phone: contactNum,
+      contactNum,
       address: `${city}, ${country}`,
       bio: bio,
-      socialLinks: [
-        {
-          social: "twitter",
-          link: twitter,
-        },
-        {
-          social: "facebook",
-          link: facebook,
-        },
-        {
-          social: "youtube",
-          link: youtube,
-        },
-      ],
-      skills: skills,
+      socialLinks,
+      skills,
+      preferredCareer: industries,
     });
   }, [
     fName,
@@ -181,10 +166,9 @@ function CreateApplicantProfilepage() {
     city,
     country,
     bio,
-    twitter,
-    facebook,
-    youtube,
+    socialLinks,
     skills,
+    industries,
   ]);
 
   const handleImageChange = (e) => {
@@ -222,6 +206,7 @@ function CreateApplicantProfilepage() {
   };
 
   const createProfile = () => {
+    console.log(inputs);
     axios
       .post("/api/applicantprofile/create", inputs, {
         headers: {
