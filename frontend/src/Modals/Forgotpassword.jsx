@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { IoCloseOutline } from "react-icons/io5";
 
-function Forgotpassword() {
+function Forgotpassword({ onClose,  errorMessage }) {
   const [email, setEmail] = useState("");
-  const [emailExists, setEmailExists] = useState(true); 
+  const [emailExists, setEmailExists] = useState(true);
 
   const handleEmailChange = (event) => {
     setEmail(event.target.value);
@@ -17,23 +17,27 @@ function Forgotpassword() {
   };
 
   return (
-    <div className="h-[100vh] bg-black bg-opacity-50 backdrop-blur-sm">
-      <div className="flex flex-col justify-center items-center w-full h-full">
+    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-80 backdrop-blur-sm">
+      <div className="flex flex-col justify-center items-center w-full h-full bg-black shadow-md rounded-md">
         <div className="w-1/4 bg-white shadow-lg">
           <div className="flex flex-col items-start justify-start h-1/4 px-4 py-4 gap-4">
             <div className="flex flex-col justify-between w-full">
               <div className="flex justify-between w-full">
-                <h1 className="text-xl text-[#444B88] font-bold">Forgot Password</h1>
+                <h1 className="text-xl text-[#444B88] font-bold">
+                  Forgot Password
+                </h1>
                 <div className="flex justify-end">
-                  <IoCloseOutline color="black" size={30} />
+                  <IoCloseOutline
+                    color="black"
+                    size={30}
+                    onClick={onClose} 
+                  />
                 </div>
               </div>
               <hr className="w-full border-gray-400 my-2" />
             </div>
             <div className="w-full gap-5 flex flex-col">
-              <div>
-                Enter your Email
-              </div>
+              <div>Enter your Email</div>
               <input
                 type="email"
                 name=""
@@ -43,7 +47,9 @@ function Forgotpassword() {
                 className="p-2 border-2 border-[#444B88] w-full bg-[#E5E8FF] rounded-lg"
               />
               {!emailExists && (
-                <div className="bg-[#FFB1B1] text-red-500 px-4 py-2 flex justify-center rounded-md">Email does Not exist</div>
+                <div className="bg-[#FFB1B1] text-red-500 px-4 py-2 flex justify-center rounded-md">
+                  {errorMessage}
+                </div>
               )}
             </div>
             <div className="flex flex-col w-full items-end justify-end gap-5">
