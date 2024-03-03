@@ -12,6 +12,7 @@ import AddAchievement from "../Modals/Edit Profile/Addachievemodal";
 import AddAward from "../Modals/Edit Profile/Addawards";
 import AddCert from "../Modals/Edit Profile/Addcertificates";
 import axios from "axios";
+import { convertDate } from "../utils/convertDate";
 
 function editprofile() {
   const [selectedImage, setSelectedImage] = useState(null);
@@ -48,7 +49,7 @@ function editprofile() {
       updateProfileElement("education", updatedEducationData);
       return updatedEducationData;
     });
-    setShowModal(false);
+    setShowEducationModal(false);
   };
 
   const handleEducDelete = (index) => {
@@ -62,7 +63,7 @@ function editprofile() {
     const educationToEdit = educationData[index];
     setFormData(educationToEdit);
     setFormIndex(index);
-    setShowModal(true);
+    setShowEducationModal(true);
   };
 
   const editEducationData = (index, newValue) => {
@@ -218,6 +219,29 @@ function editprofile() {
         setSocialLinks(profileObj.socialLinks);
         setSkills(profileObj.skills);
         setIndustries(profileObj.preferredCareer);
+        setEducationData(profileObj.education);
+        setAchievementsData(profileObj.activitiesAndInvolvements);
+        setAwardData(profileObj.awards);
+        setCertData(profileObj.certs);
+      });
+  };
+
+  const updateProfileElement = (key, value) => {
+    const input = {
+      _id: profileId,
+      set: {
+        [key]: value,
+      },
+    };
+
+    axios
+      .post("/api/applicantprofile/update", input, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+      .then((res) => {
+        console.log(res.data.message);
       });
   };
 
@@ -346,50 +370,33 @@ function editprofile() {
                   <div className="rounded-xl">
                     <div className="bg-white p-4 text-xl flex flex-col items-center justify-center border-2 border-gray-300 gap-3">
                       <h1 className="text-[#444B88] font-base">Education</h1>
-                      <div className="w-full bg-white hover:bg-[#BAD2FF] border-2 border-[#444B88] flex justify-between items-center">
-                        <div className="w-full flex flex-col gap-3 p-5">
-                          <div className="flex items-center gap-3 w-full">
-                            <p className="text-2xl text-[#444B88]">
-                              School Name
-                            </p>
-                            <p className="text-sm">Start-date-End-date</p>
+                      {educationData.map((edu, index) => (
+                        <div
+                          className="w-full bg-white hover:bg-[#BAD2FF] border-2 border-[#444B88] flex justify-between items-center"
+                          key={index}
+                        >
+                          <div
+                            className="w-full flex flex-col gap-3 p-5"
+                            onClick={() => handleEducEdit(index)}
+                          >
+                            <div className="flex items-center gap-3 w-full">
+                              <p className="text-2xl text-[#444B88]">
+                                {edu.schoolName}
+                              </p>
+                              <p className="text-sm">
+                                {convertDate(edu.startDate)} -{" "}
+                                {convertDate(edu.endDate)}
+                              </p>
+                            </div>
+                            <div className="text-xl">
+                              {edu.degree} - {edu.program}
+                            </div>
                           </div>
-                          <div className="text-xl">Degree-Program</div>
+                          <button onClick={() => handleEducDelete(index)}>
+                            <IoCloseOutline size={50} />
+                          </button>
                         </div>
-                        <button>
-                          <IoCloseOutline size={50} />
-                        </button>
-                      </div>
-                      <div className="w-full bg-white hover:bg-[#BAD2FF] border-2 border-[#444B88] flex justify-between items-center">
-                        <div className="w-full flex flex-col gap-3 p-5">
-                          <div className="flex items-center gap-3 w-full">
-                            <p className="text-2xl text-[#444B88]">
-                              Caloocan City Business High School
-                            </p>
-                            <p className="text-sm">Start-date-End-date</p>
-                          </div>
-                          <div className="text-xl">Senior-High STEM</div>
-                        </div>
-                        <button>
-                          <IoCloseOutline size={50} />
-                        </button>
-                      </div>
-                      <div className="w-full bg-white hover:bg-[#BAD2FF] border-2 border-[#444B88] flex justify-between items-center">
-                        <div className="w-full flex flex-col gap-3 p-5">
-                          <div className="flex items-center gap-3 w-full">
-                            <p className="text-2xl text-[#444B88]">
-                              University of Caloocan City
-                            </p>
-                            <p className="text-sm">Start-date-End-date</p>
-                          </div>
-                          <div className="text-xl">
-                            Bachelor of Science - Computer Science
-                          </div>
-                        </div>
-                        <button>
-                          <IoCloseOutline size={50} />
-                        </button>
-                      </div>
+                      ))}
                     </div>
                     <div className="w-full">
                       <button
@@ -398,7 +405,6 @@ function editprofile() {
                       >
                         Add
                       </button>
-                      {/* TODO finish add education modal and functions */}
                       {showEducationModal && (
                         <AddEduc
                           onClose={() => {
@@ -419,57 +425,39 @@ function editprofile() {
                       <h1 className="text-[#444B88] font-base">
                         Activities and Involvements
                       </h1>
-                      <div className="w-full bg-white hover:bg-[#BAD2FF] border-2 border-[#444B88] flex justify-between items-center">
-                        <div className="w-full flex flex-col gap-3 p-5">
-                          <div className="flex items-center gap-3 w-full">
-                            <p className="text-2xl text-[#444B88]">Title</p>
-                            <p className="text-xl">Type</p>
+                      {achievementsData.map((achievement, index) => (
+                        <div
+                          className="w-full bg-white hover:bg-[#BAD2FF] border-2 border-[#444B88] flex justify-between items-center"
+                          key={index}
+                        >
+                          <div
+                            className="w-full flex flex-col gap-3 p-5"
+                            onClick={() => handleEditAchievement(index)}
+                          >
+                            <div className="flex items-center gap-3 w-full">
+                              <p className="text-2xl text-[#444B88]">
+                                {achievement.title}
+                              </p>
+                              <p className="text-xl">
+                                {achievement.typeOfActivity}
+                              </p>
+                            </div>
+                            <div className="text-xl">
+                              {achievement.organizationOrCompanyName}
+                            </div>
+                            <div className="text-sm">
+                              {convertDate(achievement.startDate)} -{" "}
+                              {convertDate(achievement.endDate)},{" "}
+                              {achievement.location}
+                            </div>
                           </div>
-                          <div className="text-xl">
-                            Company/Organization Name
-                          </div>
-                          <div className="text-sm">
-                            Start-date - End-date, Location
-                          </div>
+                          <button
+                            onClick={() => handleDeleteAchievement(index)}
+                          >
+                            <IoCloseOutline size={50} />
+                          </button>
                         </div>
-                        <button>
-                          <IoCloseOutline size={50} />
-                        </button>
-                      </div>
-                      <div className="w-full bg-white hover:bg-[#BAD2FF] border-2 border-[#444B88] flex justify-between items-center">
-                        <div className="w-full flex flex-col gap-3 p-5">
-                          <div className="flex items-center gap-3 w-full">
-                            <p className="text-2xl text-[#444B88]">
-                              Associate Software Engineer
-                            </p>
-                            <p className="text-xl">Internship</p>
-                          </div>
-                          <div className="text-xl">Netflix</div>
-                          <div className="text-sm">
-                            Start-date - End-date, Mindanao
-                          </div>
-                        </div>
-                        <button>
-                          <IoCloseOutline size={50} />
-                        </button>
-                      </div>
-                      <div className="w-full bg-white hover:bg-[#BAD2FF] border-2 border-[#444B88] flex justify-between items-center">
-                        <div className="w-full flex flex-col gap-3 p-5">
-                          <div className="flex items-center gap-3 w-full">
-                            <p className="text-2xl text-[#444B88]">
-                              Java Training
-                            </p>
-                            <p className="text-xl">Training</p>
-                          </div>
-                          <div className="text-xl">Tesda</div>
-                          <div className="text-sm">
-                            Start-date - End-date, Quezon City
-                          </div>
-                        </div>
-                        <button>
-                          <IoCloseOutline size={50} />
-                        </button>
-                      </div>
+                      ))}
                     </div>
                     <div className="w-full">
                       <button
@@ -478,7 +466,6 @@ function editprofile() {
                       >
                         Add
                       </button>
-                      {/* TODO finish add achievements modal and functions / add close button*/}
                       {showAchievementModal && (
                         <AddAchievement
                           onClose={() => {
@@ -495,6 +482,7 @@ function editprofile() {
                     </div>
                   </div>
                   <div className="rounded-xl">
+                    {/* TODO Projects */}
                     <div className="bg-white p-4 text-xl flex flex-col items-center justify-center border-2 border-gray-300 gap-3">
                       <h1 className="text-[#444B88] font-base">Projects</h1>
                     </div>
@@ -507,30 +495,29 @@ function editprofile() {
                   <div className="rounded-xl">
                     <div className="bg-white p-4 text-xl flex flex-col items-center justify-center border-2 border-gray-300 gap-3">
                       <h1 className="text-[#444B88] font-base">Awards</h1>
-                      <div className="w-full bg-white hover:bg-[#BAD2FF] border-2 border-[#444B88] flex justify-between items-center">
-                        <div className="w-full flex flex-col gap-3 p-5">
-                          <div className="flex items-center gap-3 w-full">
-                            <p className="text-2xl text-[#444B88]">Title</p>
-                            <p className="text-sm">Date Received</p>
+                      {awardData.map((award, index) => (
+                        <div
+                          className="w-full bg-white hover:bg-[#BAD2FF] border-2 border-[#444B88] flex justify-between items-center"
+                          key={index}
+                        >
+                          <div
+                            className="w-full flex flex-col gap-3 p-5"
+                            onClick={() => handleEditAward(index)}
+                          >
+                            <div className="flex items-center gap-3 w-full">
+                              <p className="text-2xl text-[#444B88]">
+                                {award.title}
+                              </p>
+                              <p className="text-sm">
+                                {convertDate(award.dateReceived)}
+                              </p>
+                            </div>
                           </div>
+                          <button onClick={() => handleDeleteAward(index)}>
+                            <IoCloseOutline size={50} />
+                          </button>
                         </div>
-                        <button>
-                          <IoCloseOutline size={50} />
-                        </button>
-                      </div>
-                      <div className="w-full bg-white hover:bg-[#BAD2FF] border-2 border-[#444B88] flex justify-between items-center">
-                        <div className="w-full flex flex-col gap-3 p-5">
-                          <div className="flex items-center gap-3 w-full">
-                            <p className="text-2xl text-[#444B88]">
-                              Best Thesis
-                            </p>
-                            <p className="text-sm">Date Received</p>
-                          </div>
-                        </div>
-                        <button>
-                          <IoCloseOutline size={50} />
-                        </button>
-                      </div>
+                      ))}
                     </div>
                     <div className="w-full">
                       <button
@@ -539,7 +526,6 @@ function editprofile() {
                       >
                         Add
                       </button>
-                      {/* TODO finish add awards modal and functions / add close button*/}
                       {showAwardModal && (
                         <AddAward
                           onClose={() => {
@@ -558,30 +544,29 @@ function editprofile() {
                   <div className="rounded-xl">
                     <div className="bg-white p-4 text-xl flex flex-col items-center justify-center border-2 border-gray-300 gap-3">
                       <h1 className="text-[#444B88] font-base">Certificates</h1>
-                      <div className="w-full bg-white hover:bg-[#BAD2FF] border-2 border-[#444B88] flex justify-between items-center">
-                        <div className="w-full flex flex-col gap-3 p-5">
-                          <div className="flex items-center gap-3 w-full">
-                            <p className="text-2xl text-[#444B88]">Title</p>
-                            <p className="text-sm">Date Received</p>
+                      {certData.map((cert, index) => (
+                        <div
+                          className="w-full bg-white hover:bg-[#BAD2FF] border-2 border-[#444B88] flex justify-between items-center"
+                          key={index}
+                        >
+                          <div
+                            className="w-full flex flex-col gap-3 p-5"
+                            onClick={() => handleEditCert(index)}
+                          >
+                            <div className="flex items-center gap-3 w-full">
+                              <p className="text-2xl text-[#444B88]">
+                                {cert.title}
+                              </p>
+                              <p className="text-sm">
+                                {convertDate(cert.dateReceived)}
+                              </p>
+                            </div>
                           </div>
+                          <button onClick={() => handleDeleteCert(index)}>
+                            <IoCloseOutline size={50} />
+                          </button>
                         </div>
-                        <button>
-                          <IoCloseOutline size={50} />
-                        </button>
-                      </div>
-                      <div className="w-full bg-white hover:bg-[#BAD2FF] border-2 border-[#444B88] flex justify-between items-center">
-                        <div className="w-full flex flex-col gap-3 p-5">
-                          <div className="flex items-center gap-3 w-full">
-                            <p className="text-2xl text-[#444B88]">
-                              Tailwind CSS
-                            </p>
-                            <p className="text-sm">Date Received</p>
-                          </div>
-                        </div>
-                        <button>
-                          <IoCloseOutline size={50} />
-                        </button>
-                      </div>
+                      ))}
                     </div>
                     <div className="w-full">
                       <button
