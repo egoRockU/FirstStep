@@ -1,59 +1,82 @@
-// imageuploadUtils.js
-import { uploadImage, createAccountWithImage } from '../controllers/imageuploadController.js';
+import { getStorage, ref, uploadBytesResumable } from "firebase/storage";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../config/firebase.config.js";
+import { getDownloadURL } from "firebase/storage";
+import sharp from "sharp";
+import Account from "../models/ApplicantProfileModel.js";
 
-export const handleImageUpload = async (req, res) => {
-    if (!req.file) {
-        return res.status(400).send({
-            status: "ERROR",
-            message: "No file uploaded",
-        });
+async function uploadImage(file) {
+  if (!file || !file.originalname) {
+    throw new Error("File object or originalname is missing");
+  }
+
+  const storageFB = getStorage();
+
+  await signInWithEmailAndPassword(
+    auth,
+    process.env.FIREBASE_USER,
+    process.env.FIREBASE_AUTH
+  );
+
+  const dateTime = Date.now();
+  const fileName = `lasttest/${dateTime}`;
+  const storageRef = ref(storageFB, fileName);
+
+  const contentType = getFileContentType(file.originalname);
+
+  const metadata = {
+    contentType: contentType,
+  };
+
+  const resizedBuffer = await sharp(file.buffer)
+    .resize({ fit: "inside", width: 500, height: 500 })
+    .toBuffer();
+
+  await uploadBytesResumable(storageRef, resizedBuffer, metadata);
+  const downloadURL = await getDownloadURL(storageRef);
+  console.log("Uploaded Image URL:", downloadURL);
+  return { fileName, downloadURL };
+}
+
+function getFileContentType(fileName) {
+  if (!fileName) {
+    throw new Error("File name is undefined or null");
+  }
+
+  const extension = fileName.split(".").pop().toLowerCase();
+  switch (extension) {
+    case "jpeg":
+    case "jpg":
+      return "image/jpeg";
+    case "png":
+      return "image/png";
+    default:
+      return "application/octet-stream";
+  }
+}
+
+async function createAccountWithImage(firstName, lastName, file) {
+  let imageUrl = "";
+
+  try {
+    if (file) {
+      const uploadedImage = await uploadImage(file);
+      imageUrl = uploadedImage.downloadURL;
     }
+    console.log("Image URL in createAccountWithImage:", imageUrl);
 
-    const file = {
-        type: req.file.mimetype,
-        buffer: req.file.buffer
-    };
-
-    try {
-        console.log('Uploading image');
-        const buildImage = await uploadImage(file);
-        console.log('Image uploaded successfully:', buildImage);
-            return res.status(200).json({
-             status: "Success",
-            imageName: buildImage,
+    const newAccount = new Account({
+      firstName,
+      lastName,
+      profileImg: imageUrl || "",
     });
 
-    } catch (err) {
-        console.error('Error uploading image:', err);
-        throw {
-            status: "ERROR",
-            message: "Failed to upload image",
-        };
-    }
-};
-export const createAccount = async (req, res) => {
-    try {
-        // Reuse the logic from handleImageUpload
-        
-        // Check for missing required fields
-        if (!req.body.firstName || !req.body.lastName) {
-            return res.status(400).send({
-                status: "ERROR",
-                message: "Missing required fields",
-            });
-        }
+    const savedAccount = await newAccount.save();
+    return savedAccount;
+  } catch (err) {
+    console.error(`Failed to create account: ${err.message}`);
+    throw err;
+  }
+}
 
-        // Create account with image
-        const createdAccount = await createAccountWithImage(req.body.firstName, req.body.lastName, req.file);
-
-        // Send success response
-        res.status(201).json({
-            status: "Success",
-            message: "Account created successfully",
-            account: createdAccount,
-        });
-    } catch (err) {
-        console.error('Error creating account:', err);
-        res.status(500).send({ status: "ERROR", message: "Internal server error" });
-    }
-};
+export { uploadImage, createAccountWithImage };
