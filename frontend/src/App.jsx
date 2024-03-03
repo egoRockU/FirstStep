@@ -11,7 +11,7 @@ import CreateEmployerpage from "./Pages/Createemployerpage";
 import Employerprofilepage from "./Pages/Employerprofilepage";
 import Editemployerprofilepage from "./Pages/Editemployerprofile";
 import Editemployerabout from "./Pages/EditEmployerabout";
-import EditApplicantAbout from "./Pages/EditApplicantProfilePage";
+import EditApplicantAbout from "./Pages/EditApplicantAbout";
 
 function App() {
   const { user } = useSelector((state) => state.user);

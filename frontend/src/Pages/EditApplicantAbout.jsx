@@ -12,6 +12,16 @@ import AddIndustry from "../Modals/EditApplicant Profile/Addindustry";
 import AddSkill from "../Modals/EditApplicant Profile/Addskill";
 
 function CreateApplicantProfilepage() {
+  const profileId = JSON.parse(localStorage.getItem("user")).profileId;
+  const navigate = useNavigate();
+
+  const [selectedImage, setSelectedImage] = useState(null);
+  const [selectedBanner, setSelectedBanner] = useState(null);
+
+  useEffect(() => {
+    getUserProfile();
+  }, []);
+
   //social
   const [isAddSocialModalOpen, setAddSocialModalOpen] = useState(false);
   const [socialLinks, setSocialLinks] = useState([]);
@@ -87,6 +97,7 @@ function CreateApplicantProfilepage() {
 
   //skill
   const [isAddSkillModalOpen, setAddSkillModalOpen] = useState(false);
+  const [skills, setSkills] = useState([]);
 
   const openAddSkillModal = () => {
     setAddSkillModalOpen(true);
@@ -124,65 +135,6 @@ function CreateApplicantProfilepage() {
 
   //end
 
-  let userObj = JSON.parse(localStorage.getItem("user"));
-  let userId = userObj.id;
-  let userEmail = userObj.email;
-  let userAccountType = userObj.accountType;
-  const [selectedImage, setSelectedImage] = useState(null);
-  const [selectedBanner, setSelectedBanner] = useState(null);
-  const [fName, setFName] = useState("");
-  const [lName, setLName] = useState("");
-  const [email, setEmail] = useState(userEmail);
-  const [city, setCity] = useState("");
-  const [country, setCountry] = useState("");
-  const [contactNum, setContactNum] = useState("");
-  const [bio, setBio] = useState("");
-  const [twitter, setTwitter] = useState("");
-  const [facebook, setFacebook] = useState("");
-  const [youtube, setYoutube] = useState("");
-  const [skills, setSkills] = useState([]);
-  const [inputs, setInputs] = useState({});
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    setInputs({
-      accountId: userId,
-      firstName: fName,
-      lastName: lName,
-      email: email,
-      phone: contactNum,
-      address: `${city}, ${country}`,
-      bio: bio,
-      socialLinks: [
-        {
-          social: "twitter",
-          link: twitter,
-        },
-        {
-          social: "facebook",
-          link: facebook,
-        },
-        {
-          social: "youtube",
-          link: youtube,
-        },
-      ],
-      skills: skills,
-    });
-  }, [
-    fName,
-    lName,
-    email,
-    contactNum,
-    city,
-    country,
-    bio,
-    twitter,
-    facebook,
-    youtube,
-    skills,
-  ]);
-
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -214,72 +166,76 @@ function CreateApplicantProfilepage() {
   };
 
   const goback = () => {
-    navigate("/");
+    navigate(-1);
   };
 
-  const createProfile = () => {
+  const [fName, setFName] = useState("");
+  const [lName, setLName] = useState("");
+  const [email, setEmail] = useState("");
+  const [contactNum, setContactNum] = useState("");
+  const [city, setCity] = useState("");
+  const [country, setCountry] = useState("");
+  const [bio, setBio] = useState("");
+  const [about, setAbout] = useState("");
+
+  const getUserProfile = () => {
     axios
-      .post("/api/applicantprofile/create", inputs, {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      })
+      .post(
+        "/api/applicantprofile/retrieveone",
+        { profileId },
+        {
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+          },
+        }
+      )
       .then((res) => {
-        if (res.data.status == true) {
-          alert(res.data.message);
-          updateAccountProfileValues(
-            res.data._id,
-            "applicant",
-            userAccountType
-          );
-          navigate("/editprofile");
-        }
-        if (res.data.status == false) {
-          alert("Not Inserted");
-        }
-      })
-      .catch((err) => {
-        alert(err.response.data.message);
-        console.log(err.response.data.errorMessage);
+        const profileObj = res.data;
+        setFName(profileObj.firstName);
+        setLName(profileObj.lastName);
+        setEmail(profileObj.email);
+        setContactNum(profileObj.contactNum);
+        setCity(profileObj.address.split(",")[0]);
+        setCountry(profileObj.address.split(", ")[1]);
+        setBio(profileObj.bio);
+        setAbout(profileObj.about);
+        setSocialLinks(profileObj.socialLinks);
+        setSkills(profileObj.skills);
+        setIndustries(profileObj.preferredCareer);
       });
   };
 
-  const updateAccountProfileValues = (profileId, profileType, accountType) => {
-    const updateInputs = {
-      email: userEmail,
-      profileType,
-      profileId,
+  const updateMainInfo = () => {
+    const input = {
+      _id: profileId,
+      set: {
+        firstName: fName,
+        lastName: lName,
+        email,
+        contactNum,
+        address: `${city}, ${country}`,
+        bio,
+        about,
+        socialLinks,
+        skills,
+        preferredCareer: industries,
+      },
     };
 
-    if (accountType == "google") {
-      axios
-        .post("/api/googleaccounts/addprofile", updateInputs, {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        })
-        .then((res) => {
-          localStorage.setItem("user", JSON.stringify(res.data.user));
-        })
-        .catch((err) => {
-          console.log(err.message);
-        });
-    }
+    axios
+      .post("/api/applicantprofile/update", input, {
+        headers: {
+          "Content-type": "application/json",
+        },
+      })
+      .then((res) => {
+        console.log(res.data.message);
+      });
+  };
 
-    if (accountType == "local") {
-      axios
-        .post("/api/localaccounts/addprofile", updateInputs, {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        })
-        .then((res) => {
-          localStorage.setItem("user", JSON.stringify(res.data.user));
-        })
-        .catch((err) => {
-          console.log(err.message);
-        });
-    }
+  const onSave = () => {
+    updateMainInfo();
+    navigate("/editprofile");
   };
 
   return (
@@ -336,6 +292,7 @@ function CreateApplicantProfilepage() {
                       <input
                         type="text"
                         name="name"
+                        value={fName}
                         id=""
                         className="text-base border-2 border-[#444B88] p-2"
                         onChange={(e) => setFName(e.target.value)}
@@ -346,6 +303,7 @@ function CreateApplicantProfilepage() {
                       <input
                         type="text"
                         name="name"
+                        value={lName}
                         id=""
                         className="text-base border-2 border-[#444B88] p-2"
                         onChange={(e) => setLName(e.target.value)}
@@ -368,6 +326,7 @@ function CreateApplicantProfilepage() {
                     <input
                       type="text"
                       name="name"
+                      value={contactNum}
                       id=""
                       className="text-base border-2 border-[#444B88] p-2"
                       onChange={(e) => setContactNum(e.target.value)}
@@ -378,6 +337,7 @@ function CreateApplicantProfilepage() {
                     <input
                       type="text"
                       name="name"
+                      value={city}
                       id=""
                       className="text-base border-2 border-[#444B88] p-2"
                       onChange={(e) => setCity(e.target.value)}
@@ -388,6 +348,7 @@ function CreateApplicantProfilepage() {
                     <input
                       type="text"
                       name="name"
+                      value={country}
                       id=""
                       className="text-base border-2 border-[#444B88] p-2"
                       onChange={(e) => setCountry(e.target.value)}
@@ -398,10 +359,24 @@ function CreateApplicantProfilepage() {
                     <textarea
                       type="text"
                       name="name"
+                      value={bio}
                       id=""
                       className="text-base border-2 border-[#444B88] p-2 h-40"
                       placeholder="Tell me something about yourself.."
                       onChange={(e) => setBio(e.target.value)}
+                    />
+                  </div>
+                  <div className="flex flex-col w-full">
+                    <h1 className="text-lg">About</h1>
+                    <textarea
+                      type="text"
+                      name="name"
+                      value={about}
+                      id=""
+                      className="text-base border-2 border-[#444B88] p-2 h-40"
+                      placeholder="Tell me something about yourself.."
+                      required
+                      onChange={(e) => setAbout(e.target.value)}
                     />
                   </div>
                   <div className="flex flex-col w-full ">
@@ -541,7 +516,6 @@ function CreateApplicantProfilepage() {
                     <div className="flex flex-col justify-center items-center w-full">
                       <h1 className="text-2xl ">Skills</h1>
                       <div className="border-2 p-3 px-5 bg-[#8B95EE] border-[#444B88]">
-                        
                         <div>
                           {" "}
                           {skills.map((skill, index) => (
@@ -572,30 +546,33 @@ function CreateApplicantProfilepage() {
                           ))}
                         </div>
                         <div className="border-2 p-3 px-5 bg-[#8B95EE] border-[#444B88]">
-                        <h1 onClick={openAddSkillModal}>+ Add Skills</h1>
-                      </div>
-                      {isAddSkillModalOpen && (
-                        <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
-                          <div className="bg-white p-4 rounded-md">
-                            {/* {add Skills`3} */}
-                            <AddSkill
-                              onClose={closeAddSkillModal}
-                              suggestions={skillSuggestions}
-                              onSubmit={onSubmitSkills}
-                            />
-                          </div>
+                          <h1 onClick={openAddSkillModal}>+ Add Skills</h1>
                         </div>
-                      )}
+                        {isAddSkillModalOpen && (
+                          <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
+                            <div className="bg-white p-4 rounded-md">
+                              {/* {add Skills`3} */}
+                              <AddSkill
+                                onClose={closeAddSkillModal}
+                                suggestions={skillSuggestions}
+                                onSubmit={onSubmitSkills}
+                              />
+                            </div>
+                          </div>
+                        )}
                       </div>
                     </div>
                   </div>
                   <div className="flex justify-between w-9/12 mb-2">
-                    <button className="text-lg border border-black px-2">
+                    <button
+                      className="text-lg border border-black px-2"
+                      onClick={goback}
+                    >
                       Cancel
                     </button>
                     <button
                       className="text-lg bg-[#8B95EE] border border-[#444B88] hover:bg-blue-600 px-2"
-                      onClick={createProfile}
+                      onClick={onSave}
                     >
                       Save
                     </button>

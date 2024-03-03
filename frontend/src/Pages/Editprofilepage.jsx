@@ -331,17 +331,14 @@ function editprofile() {
                       <h1 className="text-[#444B88] font-base text-xl">
                         About
                       </h1>
-                      <textarea
-                        name="about"
-                        id=""
-                        cols="30"
-                        rows="5"
-                        placeholder="This user did not write anything yet."
-                        className="w-full"
-                      ></textarea>
+                      {!about && <p>This user did not write anything yet...</p>}
+                      {about}
                     </div>
                     <div className="w-full">
-                      <button className="w-full bg-[#444B88] border-[#BCBCBC] border-1 p-2 text-white rounded-b-lg">
+                      <button
+                        className="w-full bg-[#444B88] border-[#BCBCBC] border-1 p-2 text-white rounded-b-lg"
+                        onClick={clickedit}
+                      >
                         Edit
                       </button>
                     </div>
