@@ -249,7 +249,7 @@ function editprofile() {
           <div className="container mx-auto">
             <div className="flex justify-around">
               <div className="w-[500px] h-full">
-                <div className="mx-auto bg-white px-5 py-2 rounded-lg">
+                <div className="mx-auto bg-white px-5 py-2 rounded-t-lg">
                   <div className="flex flex-col">
                     <div className="flex justify-around">
                       <label htmlFor="imageInput" className="cursor-pointer">
@@ -325,7 +325,7 @@ function editprofile() {
               <div className="w-[800px]">
                 <div className="grid grid-cols-1 gap-4">
                   <div className="rounded-xl">
-                    <div className="bg-white p-4 flex flex-col items-center border-2 border-gray-300">
+                    <div className="bg-white p-4 flex flex-col items-center border-2 border-gray-300 rounded-t-lg">
                       <h1 className="text-[#444B88] font-base text-xl">
                         About
                       </h1>
@@ -342,7 +342,7 @@ function editprofile() {
                     </div>
                   </div>
                   <div className="rounded-xl">
-                    <div className="bg-white p-4 text-xl flex flex-col items-center justify-center border-2 border-gray-300 gap-3">
+                    <div className="bg-white p-4 text-xl flex flex-col items-center justify-center border-2 border-gray-300 gap-3 rounded-t-lg">
                       <h1 className="text-[#444B88] font-base">Education</h1>
                       {educationData.map((edu, index) => (
                         <div
@@ -395,7 +395,7 @@ function editprofile() {
                     </div>
                   </div>
                   <div className="rounded-xl">
-                    <div className="bg-white p-4 text-xl flex flex-col items-center justify-center border-2 border-gray-300 gap-3">
+                    <div className="bg-white p-4 text-xl flex flex-col items-center justify-center border-2 border-gray-300 gap-3 rounded-t-lg">
                       <h1 className="text-[#444B88] font-base">
                         Activities and Involvements
                       </h1>
@@ -457,7 +457,7 @@ function editprofile() {
                   </div>
                   <div className="rounded-xl">
                     {/* TODO Projects */}
-                    <div className="bg-white p-4 text-xl flex flex-col items-center justify-center border-2 border-gray-300 gap-3">
+                    <div className="bg-white p-4 text-xl flex flex-col items-center justify-center border-2 border-gray-300 gap-3 rounded-t-lg">
                       <h1 className="text-[#444B88] font-base">Projects</h1>
                     </div>
                     <div className="w-full">
@@ -467,7 +467,7 @@ function editprofile() {
                     </div>
                   </div>
                   <div className="rounded-xl">
-                    <div className="bg-white p-4 text-xl flex flex-col items-center justify-center border-2 border-gray-300 gap-3">
+                    <div className="bg-white p-4 text-xl flex flex-col items-center justify-center border-2 border-gray-300 gap-3 rounded-t-lg">
                       <h1 className="text-[#444B88] font-base">Awards</h1>
                       {awardData.map((award, index) => (
                         <div
@@ -516,7 +516,7 @@ function editprofile() {
                     </div>
                   </div>
                   <div className="rounded-xl">
-                    <div className="bg-white p-4 text-xl flex flex-col items-center justify-center border-2 border-gray-300 gap-3">
+                    <div className="bg-white p-4 text-xl flex flex-col items-center justify-center border-2 border-gray-300 gap-3 rounded-t-lg">
                       <h1 className="text-[#444B88] font-base">Certificates</h1>
                       {certData.map((cert, index) => (
                         <div

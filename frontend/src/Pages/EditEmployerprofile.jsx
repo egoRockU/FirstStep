@@ -34,17 +34,6 @@ function Editemployerprofilepage() {
   const [socialLinks, setSocialLinks] = useState([]);
   const [website, setWebsite] = useState("");
 
-  const handleImageChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = function (e) {
-        setSelectedImage(e.target.result);
-      };
-      reader.readAsDataURL(file);
-    }
-  };
-
   const clickedit = (e) => {
     e.preventDefault();
     navigate("/editemployerabout");
@@ -91,32 +80,16 @@ function Editemployerprofilepage() {
           <div className="container mx-auto">
             <div className="flex justify-around">
               <div className="w-[500px] h-full">
-                <div className="mx-auto bg-white px-5 py-2 rounded-lg">
+                <div className="mx-auto bg-white px-5 py-2 rounded-t-lg">
                   <div className="flex flex-col">
                     <div className="flex justify-start pl-5">
-                      <input
-                        type="file"
-                        id="imageInput"
-                        accept="image/*"
-                        style={{ display: "none" }}
-                        onChange={handleImageChange}
-                      />
                       <label htmlFor="imageInput" className="cursor-pointer">
                         <img
-                          src={selectedImage || placeholderImage.profile}
+                          src={placeholderImage.profile}
                           alt=""
                           className="w-40 h-40 rounded-full border-2"
                         />
                       </label>
-                      {!selectedImage && (
-                        <div
-                          onClick={() =>
-                            document.getElementById("imageInput").click()
-                          }
-                          className="absolute cursor-pointer"
-                          style={{ zIndex: 1 }}
-                        ></div>
-                      )}
                     </div>
                     <div className="flex flex-col w-full p-5 space-y-2">
                       <div className="flex items-center gap-2">
@@ -146,7 +119,7 @@ function Editemployerprofilepage() {
               </div>
               <div className="w-[800px]">
                 <div className="grid grid-cols-1 gap-4">
-                  <div className="bg-white p-4 rounded-xl flex flex-col items-center gap-2">
+                  <div className="bg-white p-4 rounded-xl flex flex-col items-center gap-2 border-2 border-gray-300">
                     <h1 className="text-[#444B88] font-base text-xl">About</h1>
                     {/* <textarea
                       name="about"
@@ -159,7 +132,7 @@ function Editemployerprofilepage() {
                     {!about && <p>This user did not write anything yet...</p>}
                     {about}
                   </div>
-                  <div className="bg-white p-4 rounded-xl flex flex-col gap-2 items-center justify-center">
+                  <div className="bg-white p-4 rounded-xl flex flex-col gap-2 items-center justify-center border-2 border-gray-300">
                     <h1 className="text-[#444B88] font-base">Website</h1>
                     <h1 className="text-lg">{website}</h1>
                   </div>
@@ -168,8 +141,8 @@ function Editemployerprofilepage() {
                     <div>
                       {socialLinks.map((social, index) => (
                         <div className="flex items-center gap-1" key={index}>
-                          <p>{social.platform}</p>
-                          <p>{social.link}</p>
+                          <p className="text-lg">{social.platform}</p>
+                          <p className="text-lg">{social.link}</p>
                         </div>
                       ))}
                       {/* <div className="flex items-center gap-1">

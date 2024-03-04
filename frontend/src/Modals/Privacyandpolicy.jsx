@@ -1,6 +1,6 @@
 import React from 'react'
 
-function Privacyandpolicy( isOpen, onAccept, onDecline ) {
+function Privacyandpolicy( {isOpen, onAccept, onDecline} ) {
   return (
     <>
     {isOpen && (

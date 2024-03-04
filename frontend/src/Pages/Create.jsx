@@ -27,7 +27,7 @@ function CreateApplicantProfilepage() {
   const [socialLinks, setSocialLinks] = useState([]);
   const onSubmitSocialMedia = (formData) => {
     if (!formData.platform || !formData.link) {
-      alert("Please provide both platform and link");
+      toast.error("Please provide both platform and link");
       return;
     }
     console.log("Submitted formData:", formData);
@@ -70,6 +70,10 @@ function CreateApplicantProfilepage() {
     "Mobile App Development",
   ]);
   const onSubmitIndustries = (formData) => {
+    if (!formData) {
+      toast.error("Please provide Industry");
+      return;
+    }
     setIndustries([...industries, formData]);
     closeAddIndustryModal();
   };
@@ -117,6 +121,10 @@ function CreateApplicantProfilepage() {
   ]);
 
   const onSubmitSkills = (formData) => {
+    if (!formData) {
+      toast.error("Please provide Skills");
+      return;
+    }
     setSkills([...skills, formData]);
     closeAddSkillModal();
   };
@@ -366,6 +374,8 @@ function CreateApplicantProfilepage() {
                     />
                   </div>
 
+                  <div className="flex flex-col w-full">
+                    <h1 className="text-lg">Skills</h1>
                   <div className=" border-2 py-2 border-[#444B88] flex flex-col items-center">
                     <div className="flex flex-col items-center">
                       {" "}
@@ -400,6 +410,7 @@ function CreateApplicantProfilepage() {
                       + Add Social link
                     </button>
                   </div>
+                  </div>
                   {isAddSocialModalOpen && (
                     <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
                       <div className="bg-white p-4 rounded-md">
@@ -411,7 +422,8 @@ function CreateApplicantProfilepage() {
                       </div>
                     </div>
                   )}
-
+                <div className="flex flex-col w-full">
+                  <h1 className="text-lg">Industries</h1>
                   <div className="border-2 border-[#444B88] flex py-2 flex-col justify-center items-center gap-2">
                     <div className="flex gap-2 items-center flex-wrap max-w-full p-1">
                       {industries.map((industry, index) => (
@@ -446,7 +458,7 @@ function CreateApplicantProfilepage() {
                     </div>
                   )}
                 </div>
-
+                </div>
                 <div className="flex flex-col justify-center items-center w-1/4">
                   <input
                     type="file"

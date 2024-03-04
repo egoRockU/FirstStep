@@ -11,6 +11,7 @@ import { updateAccountProfileValues } from "../utils/updateAccountProfileValues"
 import { useDispatch } from "react-redux";
 import { updateUser } from "../slices/userSlice";
 import { IoClose } from "react-icons/io5";
+import { toast } from "react-toastify";
 
 
 
@@ -47,7 +48,7 @@ function CreateEmployerpage() {
   const [socialLinks, setSocialLinks] = useState([]);
   const onSubmitSocialMedia = (formData) => {
     if (!formData.platform || !formData.link) {
-      alert("Please provide both platform and link");
+      toast.error("Please provide both platform and link");
       return;
     }
     console.log("Submitted formData:", formData);
@@ -292,6 +293,8 @@ function CreateEmployerpage() {
                     onChange={(e) => setBio(e.target.value)}
                   />
                 </div>
+                <div className="flex flex-col w-full">
+                  <h1 className="text-lg">Skills</h1>
                 <div className=" border-2 py-2 border-[#444B88] flex flex-col items-center">
                   <div className="flex flex-col items-center">
                     {" "}
@@ -337,7 +340,7 @@ function CreateEmployerpage() {
                     </div>
                   </div>
                 )}
-
+              </div>
                 <div className="flex flex-col justify-center items-start">
                   <h1 className="text-lg">Website</h1>
                   <input

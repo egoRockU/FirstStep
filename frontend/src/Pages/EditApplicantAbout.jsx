@@ -29,7 +29,7 @@ function CreateApplicantProfilepage() {
   const [socialLinks, setSocialLinks] = useState([]);
   const onSubmitSocialMedia = (formData) => {
     if (!formData.platform || !formData.link) {
-      alert("Please provide both platform and link");
+      toast.error("Please provide both platform and link");
       return;
     }
     console.log("Submitted formData:", formData);
@@ -72,9 +72,15 @@ function CreateApplicantProfilepage() {
     "Mobile App Development",
   ]);
   const onSubmitIndustries = (formData) => {
+    if (!formData) {
+      toast.error("Please provide Industry");
+      return;
+    }
+    console.log("Submitted formData:", formData);
     setIndustries([...industries, formData]);
     closeAddIndustryModal();
   };
+  
 
   const openAddIndustryModal = () => {
     setAddIndustryModalOpen(true);
@@ -120,6 +126,10 @@ function CreateApplicantProfilepage() {
   ]);
 
   const onSubmitSkills = (formData) => {
+    if (!formData) {
+      toast.error("Please provide Skills");
+      return;
+    }
     setSkills([...skills, formData]);
     closeAddSkillModal();
   };
@@ -412,7 +422,7 @@ function CreateApplicantProfilepage() {
                         ))}
                       </div>
                       <button
-                        className="p-2 px-5 bg-[#8B95EE]"
+                        className="py-1 px-5 bg-[#8B95EE]"
                         onClick={openAddSocialModal}
                       >
                         + Add Social link
@@ -430,7 +440,8 @@ function CreateApplicantProfilepage() {
                       </div>
                     )}
                   </div>
-                  {/* TODO add industry label */}
+                  <div className="flex flex-col w-full">
+                    <h1 className="text-lg">Industries</h1>
                   <div className="border-2 border-[#444B88] flex py-2 flex-col justify-center items-center gap-2">
                     <div className="flex flex-wrap gap-2 justify-center">
                       {industries.map((industry, index) => (
@@ -465,6 +476,7 @@ function CreateApplicantProfilepage() {
                       </div>
                     </div>
                   )}
+                  </div>
                 </div>
                 <div className="flex flex-col justify-center items-center w-1/4">
                   <input

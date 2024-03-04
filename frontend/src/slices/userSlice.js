@@ -29,12 +29,12 @@ export const loginGoogle = createAsyncThunk(
         },
       });
       localStorage.setItem("user", JSON.stringify(res.data.user));
-      alert(res.data.message);
+      toast.success(res.data.message);
       console.log(res.data["user"]);
       return res.data["user"];
     } catch (err) {
       if (err.response.data.emailDoesNotExist) {
-        alert(err.response.data.error);
+        toast.error(err.response.data.error);
         throw new Error(err.response.data.error);
         //return (err.response.data.emailDoesNotExist)
       }
@@ -46,7 +46,7 @@ export const logoutUser = createAsyncThunk("user/logoutUser", async () => {
   try {
     const res = await axios.get("/api/logout");
     localStorage.removeItem("user");
-    alert(res.data.message);
+    toast.success(res.data.message);
   } catch (err) {
     console.log(err.message);
   }

@@ -108,8 +108,6 @@ function Newregister() {
   const [isTermsOpen, setIsTermsOpen] = useState(false);
   const [isPolicyOpen, setIsPolicyOpen] = useState(false);
 
-  co
-
   const handleTermsOpen = () => {
     setIsTermsOpen(true);
   };
@@ -126,8 +124,11 @@ function Newregister() {
     setAgreeTerms(false);
   };
 
-  const handleCheckboxChange = (e) => {
+  const handleTermsCheckboxChange = (e) => {
     setAgreeTerms(e.target.checked);
+  };
+
+  const handlePolicyCheckboxChange = (e) => {
     setAgreeToPrivacyPolicy(e.target.checked);
   };
 
@@ -236,7 +237,7 @@ function Newregister() {
                     >
                       <input
                         type="checkbox"
-                        onChange={handleCheckboxChange}
+                        onChange={handleTermsCheckboxChange}
                         checked={agreeTerms}
                       />{" "}
                       I agree to the <span className="text-blue-400 cursor-pointer">Terms and Conditions</span>
@@ -248,7 +249,7 @@ function Newregister() {
                      >
                     <input
                       type="checkbox"
-                      onChange={handleCheckboxChange}
+                      onChange={handlePolicyCheckboxChange}
                       checked={agreeToPrivacyPolicy}
                     /> {""}
                      I agree to{" "}
