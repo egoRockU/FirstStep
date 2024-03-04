@@ -1,14 +1,19 @@
 import React, { useState, useEffect } from "react";
 import { IoCloseOutline } from "react-icons/io5";
 
-
-function AddCertificates({ onClose, onSubmit, onEdit, formIndex, initialData }) {
+function AddCertificates({
+  onClose,
+  onSubmit,
+  onEdit,
+  formIndex,
+  initialData,
+}) {
   const [formData, setFormData] = useState({
     title: "",
-    image: null, 
+    image: null,
     document: "",
     description: "",
-    dateReceived: '',
+    dateReceived: "",
   });
 
   const [imagePreview, setImagePreview] = useState(null);
@@ -17,7 +22,7 @@ function AddCertificates({ onClose, onSubmit, onEdit, formIndex, initialData }) 
     if (initialData) {
       setFormData(initialData);
     }
-  }, [initialData]);  
+  }, [initialData]);
 
   const handleChange = (e) => {
     if (e.target.name === "image") {
@@ -41,12 +46,12 @@ function AddCertificates({ onClose, onSubmit, onEdit, formIndex, initialData }) 
     e.preventDefault();
     onEdit(formIndex, formData);
     onClose();
-  }
+  };
 
   const handleCancel = () => {
     onClose();
     if (initialData) {
-      setFormData(initialData)
+      setFormData(initialData);
     } else {
       setFormData({
         title: "",
@@ -62,7 +67,9 @@ function AddCertificates({ onClose, onSubmit, onEdit, formIndex, initialData }) 
   return (
     <div className="fixed inset-0 flex justify-center items-center bg-gray-900 bg-opacity-50">
       <div className="bg-white p-5 rounded-xl w-1/2">
-      <div className='flex justify-end'><IoCloseOutline size={25} /></div>
+        <div className="flex justify-end">
+          <IoCloseOutline size={25} onClick={handleCancel} />
+        </div>
         <h2 className="text-xl text-[#444B88]">Add Certificates</h2>
         <form onSubmit={handleSubmit} className="flex flex-col gap-2">
           <div>
@@ -87,7 +94,13 @@ function AddCertificates({ onClose, onSubmit, onEdit, formIndex, initialData }) 
               type="date"
               id="dateReceived"
               name="dateReceived"
-              value={formData.dateReceived ? new Date(formData.dateReceived).toISOString().substring(0, 10) : ''}
+              value={
+                formData.dateReceived
+                  ? new Date(formData.dateReceived)
+                      .toISOString()
+                      .substring(0, 10)
+                  : ""
+              }
               onChange={handleChange}
               className="border border-[#444B88] rounded-md px-2 py-2 w-full"
               required
@@ -103,7 +116,6 @@ function AddCertificates({ onClose, onSubmit, onEdit, formIndex, initialData }) 
               name="image"
               onChange={handleChange}
               className="border border-[#444B88] rounded-md px-2 py-2 w-full"
-              required
             />
           </div>
           <div>
@@ -146,11 +158,14 @@ function AddCertificates({ onClose, onSubmit, onEdit, formIndex, initialData }) 
             >
               Cancel
             </button>
-            {!initialData && 
-              <button type="submit" className="text-[#444B88] bg-[#8B95EE] px-2 py-2 rounded-md">
-              Save
+            {!initialData && (
+              <button
+                type="submit"
+                className="text-[#444B88] bg-[#8B95EE] px-2 py-2 rounded-md"
+              >
+                Save
               </button>
-            }
+            )}
           </div>
         </form>
         <button

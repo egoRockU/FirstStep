@@ -10,8 +10,8 @@ import Editprofilepage from "./Pages/Editprofilepage";
 import CreateEmployerpage from "./Pages/Createemployerpage";
 import Employerprofilepage from "./Pages/Employerprofilepage";
 import Editemployerprofilepage from "./Pages/Editemployerprofile";
-import Editemployerabout from "./Pages/EditEmployerabout"
-import EditApplicantProfilePage from "./Pages/EditApplicantProfilePage";
+import Editemployerabout from "./Pages/EditEmployerabout";
+import EditApplicantAbout from "./Pages/EditApplicantAbout";
 
 function App() {
   const { user } = useSelector((state) => state.user);
@@ -31,17 +31,11 @@ function App() {
         <Route path="/profile" element={<Profilepage />} />
         <Route path="/newlogin" element={<Newlogin />} />
         <Route path="/newregister" element={<Newregister />} />
-        <Route path="/CreateEmployerpage" element={<CreateEmployerpage />} />
+        <Route path="/createemployer" element={<CreateEmployerpage />} />
         <Route path="/employerprofile" element={<Employerprofilepage />} />
-        <Route
-          path="/editemployerprofilepage"
-          element={<Editemployerprofilepage />}
-        />
+        <Route path="/editemployer" element={<Editemployerprofilepage />} />
         <Route path="/editemployerabout" element={<Editemployerabout />} />
-        <Route
-          path="/editapplicantprofilepage"
-          element={<EditApplicantProfilePage />}
-        />
+        <Route path="/editapplicantabout" element={<EditApplicantAbout />} />
       </Routes>
     </BrowserRouter>
   );

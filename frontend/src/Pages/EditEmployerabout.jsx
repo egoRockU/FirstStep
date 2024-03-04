@@ -1,16 +1,23 @@
 import NavbarLoggedIn from "../Components/NavbarLoggedIn";
 import { FaCamera } from "react-icons/fa";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 const placeholderImage =
   "https://imgs.search.brave.com/q02hpLETIRmEBEpeaZkCKOUDubZ65X3ccxNLb1WxvY0/rs:fit:860:0:0/g:ce/aHR0cHM6Ly90My5m/dGNkbi5uZXQvanBn/LzAyLzk5LzczLzI2/LzM2MF9GXzI5OTcz/MjY2OF9nWnFLVmJ1/Mktqcm9MWXRUOWhS/WmZFMzdBWldGSEpR/bi5qcGc"; // Provide your placeholder image URL here
 import Footer from "../Components/Footer";
 import { useNavigate } from "react-router-dom";
 import AddSocial from "../Modals/EditEmployer Profile/Addsocial";
+import axios from "axios";
 
 function Editemployerabout() {
+  const navigate = useNavigate();
+  const profileId = JSON.parse(localStorage.getItem("user")).profileId;
+
   const [selectedImage, setSelectedImage] = useState(null);
   const [selectedBanner, setSelectedBanner] = useState(null);
-  const navigate = useNavigate();
+
+  useEffect(() => {
+    getUserProfile();
+  }, []);
 
   const handleBannerChange = (e) => {
     const file = e.target.files[0];
@@ -33,7 +40,6 @@ function Editemployerabout() {
       reader.readAsDataURL(file);
     }
   };
-
 
   const [isAddSocialModalOpen, setAddSocialModalOpen] = useState(false);
   const [socialLinks, setSocialLinks] = useState([]);
@@ -67,6 +73,77 @@ function Editemployerabout() {
     updatedSocialLinks.splice(index, 1);
     setSocialLinks(updatedSocialLinks);
   };
+
+  const [fName, setFName] = useState("");
+  const [lName, setLName] = useState("");
+  const [email, setEmail] = useState("");
+  const [contactNum, setContactNum] = useState("");
+  const [city, setCity] = useState("");
+  const [country, setCountry] = useState("");
+  const [companyName, setCompanyName] = useState("");
+  const [bio, setBio] = useState("");
+  const [about, setAbout] = useState("");
+  const [website, setWebsite] = useState("");
+
+  const getUserProfile = () => {
+    axios
+      .post(
+        "/api/employerprofile/retrieveone",
+        { profileId },
+        {
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+          },
+        }
+      )
+      .then((res) => {
+        const profileObj = res.data;
+        setFName(profileObj.firstName);
+        setLName(profileObj.lastName);
+        setEmail(profileObj.email);
+        setContactNum(profileObj.contactNum);
+        setCity(profileObj.address.split(",")[0]);
+        setCountry(profileObj.address.split(", ")[1]);
+        setCompanyName(profileObj.companyName);
+        setBio(profileObj.bio);
+        setAbout(profileObj.about);
+        setSocialLinks(profileObj.socialLinks);
+        setWebsite(profileObj.website);
+      });
+  };
+
+  const updateMainInfo = () => {
+    const input = {
+      _id: profileId,
+      set: {
+        firstName: fName,
+        lastName: lName,
+        email,
+        contactNum,
+        address: `${city}, ${country}`,
+        companyName,
+        bio,
+        socialLinks,
+        website,
+      },
+    };
+
+    axios
+      .post("/api/employerprofile/update", input, {
+        headers: {
+          "Content-type": "application/json",
+        },
+      })
+      .then((res) => {
+        console.log(res.data.message);
+      });
+  };
+
+  const onSave = () => {
+    updateMainInfo();
+    navigate("/editemployer");
+  };
+
   return (
     <>
       <div className="bg-gray-200">
@@ -119,9 +196,11 @@ function Editemployerabout() {
                     <input
                       type="text"
                       name="name"
+                      value={fName}
                       id=""
                       className="text-base border-2 border-[#444B88] p-2"
                       required
+                      onChange={(e) => setFName(e.target.value)}
                     />
                   </div>
                   <div className="flex flex-col w-full">
@@ -129,9 +208,11 @@ function Editemployerabout() {
                     <input
                       type="text"
                       name="name"
+                      value={lName}
                       id=""
                       className="text-base border-2 border-[#444B88] p-2"
                       required
+                      onChange={(e) => setLName(e.target.value)}
                     />
                   </div>
                 </div>
@@ -140,9 +221,11 @@ function Editemployerabout() {
                   <input
                     type="text"
                     name="name"
+                    value={email}
                     id=""
                     className="text-base border-2 border-[#444B88] p-2"
                     required
+                    onChange={(e) => setEmail(e.target.value)}
                   />
                 </div>
                 <div className="flex flex-col w-full">
@@ -150,9 +233,11 @@ function Editemployerabout() {
                   <input
                     type="text"
                     name="name"
+                    value={contactNum}
                     id=""
                     className="text-base border-2 border-[#444B88] p-2"
                     required
+                    onChange={(e) => setContactNum(e.target.value)}
                   />
                 </div>
                 <div className="flex flex-col w-full">
@@ -160,9 +245,11 @@ function Editemployerabout() {
                   <input
                     type="text"
                     name="name"
+                    value={city}
                     id=""
                     className="text-base border-2 border-[#444B88] p-2"
                     required
+                    onChange={(e) => setCity(e.target.value)}
                   />
                 </div>
                 <div className="flex flex-col w-full">
@@ -170,9 +257,11 @@ function Editemployerabout() {
                   <input
                     type="text"
                     name="name"
+                    value={country}
                     id=""
                     className="text-base border-2 border-[#444B88] p-2"
                     required
+                    onChange={(e) => setCountry(e.target.value)}
                   />
                 </div>
                 <div className="flex flex-col w-full">
@@ -180,9 +269,11 @@ function Editemployerabout() {
                   <input
                     type="text"
                     name="name"
+                    value={companyName}
                     id=""
                     className="text-base border-2 border-[#444B88] p-2"
                     required
+                    onChange={(e) => setCompanyName(e.target.value)}
                   />
                 </div>
                 <div className="flex flex-col w-full">
@@ -190,10 +281,12 @@ function Editemployerabout() {
                   <textarea
                     type="text"
                     name="name"
+                    value={bio}
                     id=""
                     className="text-base border-2 border-[#444B88] p-2 h-40"
                     placeholder="Tell me something about yourself.."
                     required
+                    onChange={(e) => setBio(e.target.value)}
                   />
                 </div>
                 <div className="flex flex-col w-full">
@@ -201,78 +294,81 @@ function Editemployerabout() {
                   <textarea
                     type="text"
                     name="name"
+                    value={about}
                     id=""
                     className="text-base border-2 border-[#444B88] p-2 h-40"
                     placeholder="Tell me something about yourself.."
                     required
+                    onChange={(e) => setAbout(e.target.value)}
                   />
                 </div>
                 <div className=" border-2 h-16 border-[#444B88] flex justify-center items-center">
-                    <div>
-                      {" "}
-                      {socialLinks.map((link, index) => (
-                        <div
-                          key={index}
-                          className="flex items-center justify-between mt-4 "
-                        >
-                          <div>
-                            {/* <a href="" onClick={() => editSocialLink(index)}>
+                  <div>
+                    {socialLinks.map((link, index) => (
+                      <div
+                        key={index}
+                        className="flex items-center justify-between mt-4 "
+                      >
+                        <div>
+                          {/* <a href="" onClick={() => editSocialLink(index)}>
                               {link.platform}
                             </a> */}
-                          </div>
-                          <div>
-                            <a href={link.link}>{link.link}</a>
-                          </div>
-                          <div>
-                            <button
-                              onClick={() => editSocialLink(index)}
-                            ></button>
-
-                            <button
-                              onClick={() => deleteSocialLink(index)}
-                              className="text-red-500 hover:text-red-700"
-                            >
-                              <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                className="h-5 w-5"
-                                viewBox="0 0 20 20"
-                              >
-                                <path
-                                  fillRule="evenodd"
-                                  d="M5.293 5.293a1 1 0 011.414 0L10 8.586l3.293-3.293a1 1 0 111.414 1.414L11.414 10l3.293 3.293a1 1 0 01-1.414 1.414L10 11.414l-3.293 3.293a1 1 0 01-1.414-1.414L8.586 10 5.293 6.707a1 1 0 010-1.414z"
-                                  clipRule="evenodd"
-                                />
-                              </svg>
-                            </button>
-                          </div>
                         </div>
-                      ))}
-                    </div>
-                    <button
-                      className="p-2 px-5 bg-[#8B95EE]"
-                      onClick={openAddSocialModal}
-                    >
-                      + Add Social link
-                    </button>
-                  </div>
-                {isAddSocialModalOpen && (
-                    <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
-                      <div className="bg-white p-4 rounded-md">
-                      {/* {add Social`1} */}
-                       <AddSocial
-                          onClose={closeAddSocialModal}
-                          onSubmit={onSubmitSocialMedia}
-                        />
+                        <div>
+                          <a href={link.link}>{link.link}</a>
+                        </div>
+                        <div>
+                          <button
+                            onClick={() => editSocialLink(index)}
+                          ></button>
+
+                          <button
+                            onClick={() => deleteSocialLink(index)}
+                            className="text-red-500 hover:text-red-700"
+                          >
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              className="h-5 w-5"
+                              viewBox="0 0 20 20"
+                            >
+                              <path
+                                fillRule="evenodd"
+                                d="M5.293 5.293a1 1 0 011.414 0L10 8.586l3.293-3.293a1 1 0 111.414 1.414L11.414 10l3.293 3.293a1 1 0 01-1.414 1.414L10 11.414l-3.293 3.293a1 1 0 01-1.414-1.414L8.586 10 5.293 6.707a1 1 0 010-1.414z"
+                                clipRule="evenodd"
+                              />
+                            </svg>
+                          </button>
+                        </div>
                       </div>
+                    ))}
+                  </div>
+                  <button
+                    className="p-2 px-5 bg-[#8B95EE]"
+                    onClick={openAddSocialModal}
+                  >
+                    + Add Social link
+                  </button>
+                </div>
+                {isAddSocialModalOpen && (
+                  <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
+                    <div className="bg-white p-4 rounded-md">
+                      {/* {add Social`1} */}
+                      <AddSocial
+                        onClose={closeAddSocialModal}
+                        onSubmit={onSubmitSocialMedia}
+                      />
                     </div>
-                  )}
+                  </div>
+                )}
 
                 <div className="flex flex-col justify-center items-start">
                   <h1 className="text-lg">Website</h1>
                   <input
                     type="text"
+                    value={website}
                     className="text-base border-2 border-[#444B88] p-2 w-full"
                     required
+                    onChange={(e) => setWebsite(e.target.value)}
                   />
                 </div>
               </div>
@@ -302,10 +398,18 @@ function Editemployerabout() {
                 )}
                 <div className="w-full h-full mt-5"></div>
                 <div className="flex justify-around w-full pb-5">
-                  <button className="text-lg border border-black py-1 px-1 rounded-sm">
+                  <button
+                    className="text-lg border border-black py-1 px-1 rounded-sm"
+                    onClick={() => {
+                      navigate("/editemployer");
+                    }}
+                  >
                     Cancel
                   </button>
-                  <button className="text-lg bg-[#8B95EE] border border-[#444B88] hover:bg-blue-600 py-1 rounded-sm">
+                  <button
+                    className="text-lg bg-[#8B95EE] border border-[#444B88] hover:bg-blue-600 py-1 rounded-sm"
+                    onClick={onSave}
+                  >
                     Save Changes
                   </button>
                 </div>

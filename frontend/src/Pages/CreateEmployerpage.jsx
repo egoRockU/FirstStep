@@ -1,12 +1,16 @@
 import NavbarLoggedIn from "../Components/NavbarLoggedIn";
 import { FaCamera } from "react-icons/fa";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 const placeholderImage =
   "https://imgs.search.brave.com/q02hpLETIRmEBEpeaZkCKOUDubZ65X3ccxNLb1WxvY0/rs:fit:860:0:0/g:ce/aHR0cHM6Ly90My5m/dGNkbi5uZXQvanBn/LzAyLzk5LzczLzI2/LzM2MF9GXzI5OTcz/MjY2OF9nWnFLVmJ1/Mktqcm9MWXRUOWhS/WmZFMzdBWldGSEpR/bi5qcGc"; // Provide your placeholder image URL here
 import Footer from "../Components/Footer";
-import AddSocial from "../Modals/EditEmployer Profile/Addsocial"
+import AddSocial from "../Modals/EditEmployer Profile/Addsocial";
+import { updateAccountProfileValues } from "../utils/updateAccountProfileValues";
 
 function CreateEmployerpage() {
+  const navigate = useNavigate();
   const [selectedImage, setSelectedImage] = useState(null);
   const [selectedBanner, setSelectedBanner] = useState(null);
 
@@ -66,6 +70,77 @@ function CreateEmployerpage() {
     setSocialLinks(updatedSocialLinks);
   };
 
+  //getting all inputs
+  let userObj = JSON.parse(localStorage.getItem("user"));
+  let userId = userObj.id;
+  let userEmail = userObj.email;
+  let userAccountType = userObj.accountType;
+
+  const [fName, setFName] = useState("");
+  const [lName, setLName] = useState("");
+  const [email, setEmail] = useState(userEmail);
+  const [city, setCity] = useState("");
+  const [country, setCountry] = useState("");
+  const [contactNum, setContactNum] = useState("");
+  const [companyName, setCompanyName] = useState("");
+  const [bio, setBio] = useState("");
+  const [website, setWebsite] = useState("");
+
+  const [inputs, setInputs] = useState({});
+
+  const createProfile = () => {
+    axios
+      .post("/api/employerprofile/create", inputs, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+      .then((res) => {
+        if (res.data.status == true) {
+          alert(res.data.message);
+          updateAccountProfileValues(
+            res.data._id,
+            "employer",
+            userAccountType,
+            userEmail
+          );
+          navigate("/editemployer");
+        }
+        if (res.data.status == false) {
+          alert("Employer profile not created");
+        }
+      })
+      .catch((err) => {
+        alert(err.response.data.message);
+        console.log(err.response.data.errorMessage);
+      });
+  };
+
+  useEffect(() => {
+    setInputs({
+      accountId: userId,
+      firstName: fName,
+      lastName: lName,
+      email,
+      contactNum,
+      address: `${city}, ${country}`,
+      companyName,
+      bio,
+      socialLinks: socialLinks,
+      website,
+    });
+  }, [
+    fName,
+    lName,
+    email,
+    contactNum,
+    city,
+    country,
+    bio,
+    socialLinks,
+    website,
+  ]);
+
   return (
     <>
       <div className="bg-gray-200">
@@ -121,6 +196,7 @@ function CreateEmployerpage() {
                       id=""
                       className="text-base border-2 border-[#444B88] p-2"
                       required
+                      onChange={(e) => setFName(e.target.value)}
                     />
                   </div>
                   <div className="flex flex-col w-full">
@@ -131,6 +207,7 @@ function CreateEmployerpage() {
                       id=""
                       className="text-base border-2 border-[#444B88] p-2"
                       required
+                      onChange={(e) => setLName(e.target.value)}
                     />
                   </div>
                 </div>
@@ -139,9 +216,11 @@ function CreateEmployerpage() {
                   <input
                     type="text"
                     name="name"
+                    value={email}
                     id=""
                     className="text-base border-2 border-[#444B88] p-2"
                     required
+                    onChange={(e) => setEmail(e.target.value)}
                   />
                 </div>
                 <div className="flex flex-col w-full">
@@ -152,6 +231,7 @@ function CreateEmployerpage() {
                     id=""
                     className="text-base border-2 border-[#444B88] p-2"
                     required
+                    onChange={(e) => setContactNum(e.target.value)}
                   />
                 </div>
                 <div className="flex flex-col w-full">
@@ -162,6 +242,7 @@ function CreateEmployerpage() {
                     id=""
                     className="text-base border-2 border-[#444B88] p-2"
                     required
+                    onChange={(e) => setCity(e.target.value)}
                   />
                 </div>
                 <div className="flex flex-col w-full">
@@ -172,6 +253,7 @@ function CreateEmployerpage() {
                     id=""
                     className="text-base border-2 border-[#444B88] p-2"
                     required
+                    onChange={(e) => setCountry(e.target.value)}
                   />
                 </div>
                 <div className="flex flex-col w-full">
@@ -182,6 +264,7 @@ function CreateEmployerpage() {
                     id=""
                     className="text-base border-2 border-[#444B88] p-2"
                     required
+                    onChange={(e) => setCompanyName(e.target.value)}
                   />
                 </div>
                 <div className="flex flex-col w-full">
@@ -193,6 +276,7 @@ function CreateEmployerpage() {
                     className="text-base border-2 border-[#444B88] p-2 h-40"
                     placeholder="Tell me something about yourself.."
                     required
+                    onChange={(e) => setBio(e.target.value)}
                   />
                 </div>
                 <div className=" border-2 h-16 border-[#444B88] flex justify-center items-center">
@@ -260,6 +344,7 @@ function CreateEmployerpage() {
                     type="text"
                     className="text-base border-2 border-[#444B88] p-2 w-full"
                     required
+                    onChange={(e) => setWebsite(e.target.value)}
                   />
                 </div>
               </div>
@@ -292,7 +377,10 @@ function CreateEmployerpage() {
                   <button className="text-lg border border-black px-2">
                     Cancel
                   </button>
-                  <button className="text-lg bg-[#8B95EE] border border-[#444B88] hover:bg-blue-600 px-2">
+                  <button
+                    className="text-lg bg-[#8B95EE] border border-[#444B88] hover:bg-blue-600 px-2"
+                    onClick={createProfile}
+                  >
                     Save
                   </button>
                 </div>

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import banner from "../images/signBg.jpg";
 import NavbarLoggedIn from "../Components/NavbarLoggedIn";
 import Footer from "../Components/Footer";
@@ -7,12 +7,22 @@ import { FaSquareXTwitter } from "react-icons/fa6";
 import { FaLinkedin } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { IoCloseOutline } from "react-icons/io5";
-import Addeduc from "../Modals/Edit Profile/Addeducmodal";
+import AddEduc from "../Modals/Edit Profile/Addeducmodal";
+import AddAchievement from "../Modals/Edit Profile/Addachievemodal";
+import AddAward from "../Modals/Edit Profile/Addawards";
+import AddCert from "../Modals/Edit Profile/Addcertificates";
+import axios from "axios";
+import { convertDate } from "../utils/convertDate";
 
 function editprofile() {
   const [selectedImage, setSelectedImage] = useState(null);
   const placeholderImage = { profile };
   const navigate = useNavigate();
+  const profileId = JSON.parse(localStorage.getItem("user")).profileId;
+
+  useEffect(() => {
+    getUserProfile();
+  }, []);
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
@@ -39,7 +49,7 @@ function editprofile() {
       updateProfileElement("education", updatedEducationData);
       return updatedEducationData;
     });
-    setShowModal(false);
+    setShowEducationModal(false);
   };
 
   const handleEducDelete = (index) => {
@@ -53,7 +63,7 @@ function editprofile() {
     const educationToEdit = educationData[index];
     setFormData(educationToEdit);
     setFormIndex(index);
-    setShowModal(true);
+    setShowEducationModal(true);
   };
 
   const editEducationData = (index, newValue) => {
@@ -63,9 +73,176 @@ function editprofile() {
     setEducationData(updatedEducationData);
   };
 
+  //activities and involvements
+  const [achievementsData, setAchievementsData] = useState([]);
+  const [showAchievementModal, setShowAchievementModal] = useState(false);
+
+  const handleSubmitAchieve = (formData) => {
+    setAchievementsData((prevAchievementsData) => {
+      const updatedAchievementsData = [...prevAchievementsData, formData];
+      updateProfileElement(
+        "activitiesAndInvolvements",
+        updatedAchievementsData
+      );
+      return updatedAchievementsData;
+    });
+    setShowAchievementModal(false);
+  };
+
+  const handleDeleteAchievement = (index) => {
+    const updatedAchievements = [...achievementsData];
+    updatedAchievements.splice(index, 1);
+    updateProfileElement("activitiesAndInvolvements", updatedAchievements);
+    setAchievementsData(updatedAchievements);
+  };
+
+  const handleEditAchievement = (index) => {
+    const achievementToEdit = achievementsData[index];
+    setFormData(achievementToEdit);
+    setFormIndex(index);
+    setShowAchievementModal(true);
+  };
+
+  const editAchievementsData = (index, newValue) => {
+    const updatedAchievementsData = [...achievementsData];
+    updatedAchievementsData[index] = newValue;
+    updateProfileElement("activitiesAndInvolvements", updatedAchievementsData);
+    setAchievementsData(updatedAchievementsData);
+  };
+
+  //awards
+  const [awardData, setAwardData] = useState([]);
+  const [showAwardModal, setShowAwardModal] = useState(false);
+
+  const handleSubmitAward = (formData) => {
+    setAwardData((prevAwardData) => {
+      const updatedAwardsData = [...prevAwardData, formData];
+      updateProfileElement("awards", updatedAwardsData);
+      return updatedAwardsData;
+    });
+    setShowAwardModal(false);
+  };
+
+  const handleDeleteAward = (index) => {
+    const updatedAward = [...awardData];
+    updatedAward.splice(index, 1);
+    updateProfileElement("awards", updatedAward);
+    setAwardData(updatedAward);
+  };
+
+  const handleEditAward = (index) => {
+    const awardToEdit = awardData[index];
+    setFormData(awardToEdit);
+    setFormIndex(index);
+    setShowAwardModal(true);
+  };
+
+  const editAwardData = (index, newValue) => {
+    const updatedAwardData = [...awardData];
+    updatedAwardData[index] = newValue;
+    updateProfileElement("awards", updatedAwardData);
+    setAwardData(updatedAwardData);
+  };
+
+  //certificate
+  const [certData, setCertData] = useState([]);
+  const [showCertModal, setShowCertModal] = useState(false);
+
+  const handleSubmitCert = (formData) => {
+    console.log("Cert form data:", formData);
+    setCertData((prevCertData) => {
+      const updatedCertData = [...prevCertData, formData];
+      updateProfileElement("certs", updatedCertData);
+      return updatedCertData;
+    });
+    setShowCertModal(false);
+  };
+
+  const handleDeleteCert = (index) => {
+    const updatedCert = [...certData];
+    updatedCert.splice(index, 1);
+    updateProfileElement("certs", updatedCert);
+    setCertData(updatedCert);
+  };
+
+  const handleEditCert = (index) => {
+    const certToEdit = certData[index];
+    setFormData(certToEdit);
+    setFormIndex(index);
+    setShowCertModal(true);
+  };
+
+  const editCertData = (index, newValue) => {
+    const updatedCertData = [...certData];
+    updatedCertData[index] = newValue;
+    updateProfileElement("certs", updatedCertData);
+    setCertData(updatedCertData);
+  };
+
   const clickedit = (e) => {
     e.preventDefault();
-    navigate("/editapplicantprofilepage");
+    navigate("/editapplicantabout");
+  };
+
+  //get user info
+  const [fName, setFName] = useState("");
+  const [lName, setLName] = useState("");
+  const [email, setEmail] = useState("");
+  const [contactNum, setContactNum] = useState("");
+  const [address, setAddress] = useState("");
+  const [bio, setBio] = useState("");
+  const [about, setAbout] = useState("");
+  const [socialLinks, setSocialLinks] = useState([]);
+  const [skills, setSkills] = useState([]);
+  const [industries, setIndustries] = useState([]);
+
+  const getUserProfile = () => {
+    axios
+      .post(
+        "/api/applicantprofile/retrieveone",
+        { profileId },
+        {
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+          },
+        }
+      )
+      .then((res) => {
+        const profileObj = res.data;
+        setFName(profileObj.firstName);
+        setLName(profileObj.lastName);
+        setEmail(profileObj.email);
+        setContactNum(profileObj.contactNum);
+        setAddress(profileObj.address);
+        setBio(profileObj.bio);
+        setAbout(profileObj.about);
+        setSocialLinks(profileObj.socialLinks);
+        setSkills(profileObj.skills);
+        setIndustries(profileObj.preferredCareer);
+        setEducationData(profileObj.education);
+        setAchievementsData(profileObj.activitiesAndInvolvements);
+        setAwardData(profileObj.awards);
+        setCertData(profileObj.certs);
+      });
+  };
+
+  const updateProfileElement = (key, value) => {
+    const input = {
+      _id: profileId,
+      set: {
+        [key]: value,
+      },
+    };
+
+    axios
+      .post("/api/applicantprofile/update", input, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+      .then((res) => {
+        console.log(res.data.message);
+      });
   };
 
   return (
@@ -119,56 +296,46 @@ function editprofile() {
                     <div className="flex flex-col w-full p-5 space-y-2">
                       <div className="flex">
                         <h1 className="text-2xl text-[#8B95EE]">
-                          Firstname Lastname
+                          {fName} {lName}
                         </h1>
                       </div>
                       <div className="flex flex-col">
-                        <h1 className="underline text-[#8B95EE]">
-                          Email.devs.jpg@gmail.com
-                        </h1>
-                        <p>City, Country</p>
-                        <p>0999-999-9112</p>
+                        <h1 className="underline text-[#8B95EE]">{email}</h1>
+                        <p>{address}</p>
+                        <p>{contactNum}</p>
                       </div>
+                      <div>{bio}</div>
                       <div>
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                        Neque architecto saepe dignissimos doloribus obcaecati
-                        officiis pariatur quas consequuntur totam numquam
-                        placeat, dolorem voluptate id ea.
-                      </div>
-                      <div>
-                        <div className="flex items-center gap-1">
-                          <FaLinkedin size={25} color="blue" />
-                          <p>LinkIn@linkin.com</p>
-                        </div>
-                        <div className="flex gap-1 items-center">
-                          <FaSquareXTwitter size={25} />
-                          <p>TwitterngPogi@twiiter.com</p>
-                        </div>
+                        {socialLinks.map((social, index) => (
+                          <div className="flex items-center gap-1" key={index}>
+                            {/* <FaLinkedin size={25} color="blue" /> */}
+                            <p>{social.platform}</p>
+                            <p>{social.link}</p>
+                          </div>
+                        ))}
                       </div>
                       <div className="space-y-2">
                         <h1 className="text-xl">Skills:</h1>
                         <div className="grid grid-cols-3 gap-1">
-                          <p className="p-1 bg-[#BAD2FF] border border-[#8B95EE] rounded-full text-center overflow-hidden whitespace-nowrap">
-                            Python
-                          </p>
-                          <p className="p-1 bg-[#BAD2FF] border border-[#8B95EE] rounded-full text-center overflow-hidden whitespace-nowrap">
-                            Node
-                          </p>
-                          <p className="p-1 bg-[#BAD2FF] border border-[#8B95EE] rounded-full text-center overflow-hidden whitespace-nowrap">
-                            Tailwind css
-                          </p>
-                          <p className="p-1 bg-[#BAD2FF] border border-[#8B95EE] rounded-full text-center overflow-hidden whitespace-nowrap">
-                            PHP
-                          </p>
+                          {skills.map((skill, index) => (
+                            <p
+                              className="p-1 bg-[#BAD2FF] border border-[#8B95EE] rounded-full text-center overflow-hidden whitespace-nowrap"
+                              key={index}
+                            >
+                              {skill}
+                            </p>
+                          ))}
                         </div>
                         <h1 className="text-xl">Industry</h1>
                         <div className="grid grid-cols-3 gap-1">
-                          <p className=" bg-[#BAD2FF] border border-[#8B95EE] rounded-full text-center">
-                            Software Engineering
-                          </p>
-                          <p className="bg-[#BAD2FF] border border-[#8B95EE] rounded-full text-center">
-                            Node
-                          </p>
+                          {industries.map((industry, index) => (
+                            <p
+                              className=" bg-[#BAD2FF] border border-[#8B95EE] rounded-full text-center"
+                              key={index}
+                            >
+                              {industry}
+                            </p>
+                          ))}
                         </div>
                       </div>
                     </div>
@@ -188,17 +355,14 @@ function editprofile() {
                       <h1 className="text-[#444B88] font-base text-xl">
                         About
                       </h1>
-                      <textarea
-                        name="about"
-                        id=""
-                        cols="30"
-                        rows="5"
-                        placeholder="This user did not write anything yet."
-                        className="w-full"
-                      ></textarea>
+                      {!about && <p>This user did not write anything yet...</p>}
+                      {about}
                     </div>
                     <div className="w-full">
-                      <button className="w-full bg-[#444B88] border-[#BCBCBC] border-1 p-2 text-white rounded-b-lg">
+                      <button
+                        className="w-full bg-[#444B88] border-[#BCBCBC] border-1 p-2 text-white rounded-b-lg"
+                        onClick={clickedit}
+                      >
                         Edit
                       </button>
                     </div>
@@ -206,50 +370,33 @@ function editprofile() {
                   <div className="rounded-xl">
                     <div className="bg-white p-4 text-xl flex flex-col items-center justify-center border-2 border-gray-300 gap-3">
                       <h1 className="text-[#444B88] font-base">Education</h1>
-                      <div className="w-full bg-white hover:bg-[#BAD2FF] border-2 border-[#444B88] flex justify-between items-center">
-                        <div className="w-full flex flex-col gap-3 p-5">
-                          <div className="flex items-center gap-3 w-full">
-                            <p className="text-2xl text-[#444B88]">
-                              School Name
-                            </p>
-                            <p className="text-sm">Start-date-End-date</p>
+                      {educationData.map((edu, index) => (
+                        <div
+                          className="w-full bg-white hover:bg-[#BAD2FF] border-2 border-[#444B88] flex justify-between items-center"
+                          key={index}
+                        >
+                          <div
+                            className="w-full flex flex-col gap-3 p-5"
+                            onClick={() => handleEducEdit(index)}
+                          >
+                            <div className="flex items-center gap-3 w-full">
+                              <p className="text-2xl text-[#444B88]">
+                                {edu.schoolName}
+                              </p>
+                              <p className="text-sm">
+                                {convertDate(edu.startDate)} -{" "}
+                                {convertDate(edu.endDate)}
+                              </p>
+                            </div>
+                            <div className="text-xl">
+                              {edu.degree} - {edu.program}
+                            </div>
                           </div>
-                          <div className="text-xl">Degree-Program</div>
+                          <button onClick={() => handleEducDelete(index)}>
+                            <IoCloseOutline size={50} />
+                          </button>
                         </div>
-                        <button>
-                          <IoCloseOutline size={50} />
-                        </button>
-                      </div>
-                      <div className="w-full bg-white hover:bg-[#BAD2FF] border-2 border-[#444B88] flex justify-between items-center">
-                        <div className="w-full flex flex-col gap-3 p-5">
-                          <div className="flex items-center gap-3 w-full">
-                            <p className="text-2xl text-[#444B88]">
-                              Caloocan City Business High School
-                            </p>
-                            <p className="text-sm">Start-date-End-date</p>
-                          </div>
-                          <div className="text-xl">Senior-High STEM</div>
-                        </div>
-                        <button>
-                          <IoCloseOutline size={50} />
-                        </button>
-                      </div>
-                      <div className="w-full bg-white hover:bg-[#BAD2FF] border-2 border-[#444B88] flex justify-between items-center">
-                        <div className="w-full flex flex-col gap-3 p-5">
-                          <div className="flex items-center gap-3 w-full">
-                            <p className="text-2xl text-[#444B88]">
-                              University of Caloocan City
-                            </p>
-                            <p className="text-sm">Start-date-End-date</p>
-                          </div>
-                          <div className="text-xl">
-                            Bachelor of Science - Computer Science
-                          </div>
-                        </div>
-                        <button>
-                          <IoCloseOutline size={50} />
-                        </button>
-                      </div>
+                      ))}
                     </div>
                     <div className="w-full">
                       <button
@@ -258,9 +405,8 @@ function editprofile() {
                       >
                         Add
                       </button>
-                      {/* TODO finish add education modal */}
                       {showEducationModal && (
-                        <Addeduc
+                        <AddEduc
                           onClose={() => {
                             setFormData();
                             setShowEducationModal(false);
@@ -279,65 +425,64 @@ function editprofile() {
                       <h1 className="text-[#444B88] font-base">
                         Activities and Involvements
                       </h1>
-                      <div className="w-full bg-white hover:bg-[#BAD2FF] border-2 border-[#444B88] flex justify-between items-center">
-                        <div className="w-full flex flex-col gap-3 p-5">
-                          <div className="flex items-center gap-3 w-full">
-                            <p className="text-2xl text-[#444B88]">Title</p>
-                            <p className="text-xl">Type</p>
+                      {achievementsData.map((achievement, index) => (
+                        <div
+                          className="w-full bg-white hover:bg-[#BAD2FF] border-2 border-[#444B88] flex justify-between items-center"
+                          key={index}
+                        >
+                          <div
+                            className="w-full flex flex-col gap-3 p-5"
+                            onClick={() => handleEditAchievement(index)}
+                          >
+                            <div className="flex items-center gap-3 w-full">
+                              <p className="text-2xl text-[#444B88]">
+                                {achievement.title}
+                              </p>
+                              <p className="text-xl">
+                                {achievement.typeOfActivity}
+                              </p>
+                            </div>
+                            <div className="text-xl">
+                              {achievement.organizationOrCompanyName}
+                            </div>
+                            <div className="text-sm">
+                              {convertDate(achievement.startDate)} -{" "}
+                              {convertDate(achievement.endDate)},{" "}
+                              {achievement.location}
+                            </div>
                           </div>
-                          <div className="text-xl">
-                            Company/Organization Name
-                          </div>
-                          <div className="text-sm">
-                            Start-date - End-date, Location
-                          </div>
+                          <button
+                            onClick={() => handleDeleteAchievement(index)}
+                          >
+                            <IoCloseOutline size={50} />
+                          </button>
                         </div>
-                        <button>
-                          <IoCloseOutline size={50} />
-                        </button>
-                      </div>
-                      <div className="w-full bg-white hover:bg-[#BAD2FF] border-2 border-[#444B88] flex justify-between items-center">
-                        <div className="w-full flex flex-col gap-3 p-5">
-                          <div className="flex items-center gap-3 w-full">
-                            <p className="text-2xl text-[#444B88]">
-                              Associate Software Engineer
-                            </p>
-                            <p className="text-xl">Internship</p>
-                          </div>
-                          <div className="text-xl">Netflix</div>
-                          <div className="text-sm">
-                            Start-date - End-date, Mindanao
-                          </div>
-                        </div>
-                        <button>
-                          <IoCloseOutline size={50} />
-                        </button>
-                      </div>
-                      <div className="w-full bg-white hover:bg-[#BAD2FF] border-2 border-[#444B88] flex justify-between items-center">
-                        <div className="w-full flex flex-col gap-3 p-5">
-                          <div className="flex items-center gap-3 w-full">
-                            <p className="text-2xl text-[#444B88]">
-                              Java Training
-                            </p>
-                            <p className="text-xl">Training</p>
-                          </div>
-                          <div className="text-xl">Tesda</div>
-                          <div className="text-sm">
-                            Start-date - End-date, Quezon City
-                          </div>
-                        </div>
-                        <button>
-                          <IoCloseOutline size={50} />
-                        </button>
-                      </div>
+                      ))}
                     </div>
                     <div className="w-full">
-                      <button className="w-full bg-[#444B88] border-[#BCBCBC] border-1 p-2 text-white rounded-b-lg">
+                      <button
+                        className="w-full bg-[#444B88] border-[#BCBCBC] border-1 p-2 text-white rounded-b-lg"
+                        onClick={() => setShowAchievementModal(true)}
+                      >
                         Add
                       </button>
+                      {showAchievementModal && (
+                        <AddAchievement
+                          onClose={() => {
+                            setFormData();
+                            setShowAchievementModal(false);
+                          }}
+                          onSubmit={handleSubmitAchieve}
+                          onEdit={editAchievementsData}
+                          initialData={formData}
+                          formIndex={formIndex}
+                          setFormData={setFormData}
+                        />
+                      )}
                     </div>
                   </div>
                   <div className="rounded-xl">
+                    {/* TODO Projects */}
                     <div className="bg-white p-4 text-xl flex flex-col items-center justify-center border-2 border-gray-300 gap-3">
                       <h1 className="text-[#444B88] font-base">Projects</h1>
                     </div>
@@ -350,69 +495,100 @@ function editprofile() {
                   <div className="rounded-xl">
                     <div className="bg-white p-4 text-xl flex flex-col items-center justify-center border-2 border-gray-300 gap-3">
                       <h1 className="text-[#444B88] font-base">Awards</h1>
-                      <div className="w-full bg-white hover:bg-[#BAD2FF] border-2 border-[#444B88] flex justify-between items-center">
-                        <div className="w-full flex flex-col gap-3 p-5">
-                          <div className="flex items-center gap-3 w-full">
-                            <p className="text-2xl text-[#444B88]">Title</p>
-                            <p className="text-sm">Date Received</p>
+                      {awardData.map((award, index) => (
+                        <div
+                          className="w-full bg-white hover:bg-[#BAD2FF] border-2 border-[#444B88] flex justify-between items-center"
+                          key={index}
+                        >
+                          <div
+                            className="w-full flex flex-col gap-3 p-5"
+                            onClick={() => handleEditAward(index)}
+                          >
+                            <div className="flex items-center gap-3 w-full">
+                              <p className="text-2xl text-[#444B88]">
+                                {award.title}
+                              </p>
+                              <p className="text-sm">
+                                {convertDate(award.dateReceived)}
+                              </p>
+                            </div>
                           </div>
+                          <button onClick={() => handleDeleteAward(index)}>
+                            <IoCloseOutline size={50} />
+                          </button>
                         </div>
-                        <button>
-                          <IoCloseOutline size={50} />
-                        </button>
-                      </div>
-                      <div className="w-full bg-white hover:bg-[#BAD2FF] border-2 border-[#444B88] flex justify-between items-center">
-                        <div className="w-full flex flex-col gap-3 p-5">
-                          <div className="flex items-center gap-3 w-full">
-                            <p className="text-2xl text-[#444B88]">
-                              Best Thesis
-                            </p>
-                            <p className="text-sm">Date Received</p>
-                          </div>
-                        </div>
-                        <button>
-                          <IoCloseOutline size={50} />
-                        </button>
-                      </div>
+                      ))}
                     </div>
                     <div className="w-full">
-                      <button className="w-full bg-[#444B88] border-[#BCBCBC] border-1 p-2 text-white rounded-b-lg">
+                      <button
+                        className="w-full bg-[#444B88] border-[#BCBCBC] border-1 p-2 text-white rounded-b-lg"
+                        onClick={() => setShowAwardModal(true)}
+                      >
                         Add
                       </button>
+                      {showAwardModal && (
+                        <AddAward
+                          onClose={() => {
+                            setFormData();
+                            setShowAwardModal(false);
+                          }}
+                          onSubmit={handleSubmitAward}
+                          onEdit={editAwardData}
+                          initialData={formData}
+                          formIndex={formIndex}
+                          setFormData={setFormData}
+                        />
+                      )}
                     </div>
                   </div>
                   <div className="rounded-xl">
                     <div className="bg-white p-4 text-xl flex flex-col items-center justify-center border-2 border-gray-300 gap-3">
                       <h1 className="text-[#444B88] font-base">Certificates</h1>
-                      <div className="w-full bg-white hover:bg-[#BAD2FF] border-2 border-[#444B88] flex justify-between items-center">
-                        <div className="w-full flex flex-col gap-3 p-5">
-                          <div className="flex items-center gap-3 w-full">
-                            <p className="text-2xl text-[#444B88]">Title</p>
-                            <p className="text-sm">Date Received</p>
+                      {certData.map((cert, index) => (
+                        <div
+                          className="w-full bg-white hover:bg-[#BAD2FF] border-2 border-[#444B88] flex justify-between items-center"
+                          key={index}
+                        >
+                          <div
+                            className="w-full flex flex-col gap-3 p-5"
+                            onClick={() => handleEditCert(index)}
+                          >
+                            <div className="flex items-center gap-3 w-full">
+                              <p className="text-2xl text-[#444B88]">
+                                {cert.title}
+                              </p>
+                              <p className="text-sm">
+                                {convertDate(cert.dateReceived)}
+                              </p>
+                            </div>
                           </div>
+                          <button onClick={() => handleDeleteCert(index)}>
+                            <IoCloseOutline size={50} />
+                          </button>
                         </div>
-                        <button>
-                          <IoCloseOutline size={50} />
-                        </button>
-                      </div>
-                      <div className="w-full bg-white hover:bg-[#BAD2FF] border-2 border-[#444B88] flex justify-between items-center">
-                        <div className="w-full flex flex-col gap-3 p-5">
-                          <div className="flex items-center gap-3 w-full">
-                            <p className="text-2xl text-[#444B88]">
-                              Tailwind CSS
-                            </p>
-                            <p className="text-sm">Date Received</p>
-                          </div>
-                        </div>
-                        <button>
-                          <IoCloseOutline size={50} />
-                        </button>
-                      </div>
+                      ))}
                     </div>
                     <div className="w-full">
-                      <button className="w-full bg-[#444B88] border-[#BCBCBC] border-1 p-2 text-white rounded-b-lg">
+                      <button
+                        className="w-full bg-[#444B88] border-[#BCBCBC] border-1 p-2 text-white rounded-b-lg"
+                        onClick={() => setShowCertModal(true)}
+                      >
                         Add
                       </button>
+                      {/* TODO finish add certificates modal and functions / add close button*/}
+                      {showCertModal && (
+                        <AddCert
+                          onClose={() => {
+                            setFormData();
+                            setShowCertModal(false);
+                          }}
+                          onSubmit={handleSubmitCert}
+                          onEdit={editCertData}
+                          initialData={formData}
+                          formIndex={formIndex}
+                          setFormData={setFormData}
+                        />
+                      )}
                     </div>
                   </div>
                 </div>
