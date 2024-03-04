@@ -20,6 +20,7 @@ function Editemployerprofilepage() {
 
   useEffect(() => {
     getUserProfile();
+    window.scrollTo(-10, 0);
   }, []);
 
   const [fName, setFName] = useState("");

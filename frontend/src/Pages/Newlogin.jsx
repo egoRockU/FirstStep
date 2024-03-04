@@ -32,7 +32,7 @@ function Newlogin() {
           alert(res.error.message);
         } else {
           navigate("/");
-          toast.success("Succesfully Logged In")
+          toast.success("Succesfully Logged In");
         }
       });
     } else {
@@ -61,7 +61,7 @@ function Newlogin() {
   };
 
   const clickRegister = () => {
-    navigate("/newregister");
+    navigate("/register");
   };
   const [isModalOpen, setIsModalOpen] = useState(false);
 

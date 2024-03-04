@@ -402,10 +402,6 @@ function CreateApplicantProfilepage() {
                             </div>
                             <div>
                               <button
-                                onClick={() => editSocialLink(index)}
-                              ></button>
-
-                              <button
                                 onClick={() => deleteSocialLink(index)}
                                 className="text-center"
                               >
@@ -434,6 +430,7 @@ function CreateApplicantProfilepage() {
                       </div>
                     )}
                   </div>
+                  {/* TODO add industry label */}
                   <div className="border-2 border-[#444B88] flex py-2 flex-col justify-center items-center gap-2">
                     <div className="flex flex-wrap gap-2 justify-center">
                       {industries.map((industry, index) => (
