@@ -14,6 +14,8 @@ import AddSocial from "../Modals/Create Profile/Addsocial";
 import AddIndustry from "../Modals/Create Profile/Addindustry";
 import AddSkill from "../Modals/Create Profile/Addskill";
 import { updateAccountProfileValues } from "../utils/updateAccountProfileValues";
+import { storage } from "../firebase/firebase";
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 function CreateApplicantProfilepage() {
   //social
   const [isAddSocialModalOpen, setAddSocialModalOpen] = useState(false);
@@ -147,6 +149,8 @@ function CreateApplicantProfilepage() {
 
   useEffect(() => {
     setInputs({
+      profileImg: selectedImage,
+      banner: selectedBanner,
       accountId: userId,
       firstName: fName,
       lastName: lName,
@@ -159,6 +163,8 @@ function CreateApplicantProfilepage() {
       preferredCareer: industries,
     });
   }, [
+    selectedImage,
+    selectedBanner,
     fName,
     lName,
     email,
@@ -172,15 +178,30 @@ function CreateApplicantProfilepage() {
   ]);
 
   const handleImageChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = function (e) {
-        setSelectedImage(e.target.result);
-      };
-      reader.readAsDataURL(file);
+    if (e.target.files[0]) {
+      const imageFile = e.target.files[0];
+      const storageRef = ref(storage, `Profile/${userId}`);
+      
+      uploadBytes(storageRef, imageFile)
+        .then((snapshot) => {
+          getDownloadURL(snapshot.ref)
+            .then((downloadURL) => {
+              setSelectedImage(downloadURL);
+              console.log("Download URL:", downloadURL);
+            })
+            .catch((error) => {
+              console.error("Error getting download URL:", error);
+              alert("Error occurred while getting download URL.");
+            });
+        })
+        .catch((error) => {
+          console.error("Error uploading image:", error);
+          alert("Error occurred while uploading image.");
+        });
     }
-  };
+  }
+  
+
 
   const handleBannerChange = (e) => {
     const file = e.target.files[0];
@@ -206,31 +227,59 @@ function CreateApplicantProfilepage() {
   };
 
   const createProfile = () => {
-    console.log(inputs);
-    axios
-      .post("/api/applicantprofile/create", inputs, {
-        headers: {
-          "Content-Type": "application/json",
-        },
+    if (!selectedImage) {
+      alert("Please select an image");
+      return;
+    }
+  
+    const storageRef = ref(storage, `frontend/${userId}`);
+  
+    uploadBytes(storageRef, selectedImage)
+      .then((snapshot) => {
+        getDownloadURL(snapshot.ref)
+          .then((downloadURL) => {
+            setSelectedImage(downloadURL);
+  
+            console.log("Download URL:", downloadURL);
+            console.log(inputs);
+            // Update inputs with the correct image URL
+            setInputs((prevInputs) => ({
+              ...prevInputs,
+              profileImg: downloadURL,}));
+            axios
+              .post("/api/applicantprofile/create", inputs, {
+                headers: {
+                  "Content-Type": "application/json",
+                },
+              })
+              .then((res) => {
+                if (res.data.status == true) {
+                  alert(res.data.message);
+                  updateAccountProfileValues(
+                    res.data._id,
+                    "applicant",
+                    userAccountType,
+                    userEmail
+                  );
+                  navigate("/editprofile");
+                }
+                if (res.data.status == false) {
+                  alert("Not Inserted");
+                }
+              })
+              .catch((err) => {
+                alert(err.response.data.message);
+                console.log(err.response.data.errorMessage);
+              });
+          })
+          .catch((error) => {
+            console.error("Error getting download URL:", error);
+            alert("Error occurred while getting download URL.");
+          });
       })
-      .then((res) => {
-        if (res.data.status == true) {
-          alert(res.data.message);
-          updateAccountProfileValues(
-            res.data._id,
-            "applicant",
-            userAccountType,
-            userEmail
-          );
-          navigate("/editprofile");
-        }
-        if (res.data.status == false) {
-          alert("Not Inserted");
-        }
-      })
-      .catch((err) => {
-        alert(err.response.data.message);
-        console.log(err.response.data.errorMessage);
+      .catch((error) => {
+        console.error("Error uploading image:", error);
+        alert("Error occurred while uploading image.");
       });
   };
 
