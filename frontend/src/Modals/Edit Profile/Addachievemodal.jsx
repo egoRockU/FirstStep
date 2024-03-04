@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+import { IoCloseOutline } from "react-icons/io5";
+
 
 function Addachievemodal({
   onClose,
@@ -60,9 +62,12 @@ function Addachievemodal({
   return (
     <div className="fixed inset-0 flex justify-center items-center bg-gray-900 bg-opacity-50">
       <div className="bg-white p-8 rounded-sm w-1/2 ">
+        <div className="w-full flex justify-between">
         <h2 className="text-xl text-[#444B88]">
           Add Activities and Involvements
         </h2>
+        <IoCloseOutline size={25} onClick={handleCancel} />
+        </div>
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
             <label htmlFor="title" className="block text-[#444B88]">
@@ -167,15 +172,6 @@ function Addachievemodal({
             />
           </div>
           <div className="text-right">
-            {initialData && (
-              <button
-                type="button"
-                onClick={handleEdit}
-                className="bg-yellow-500 text-white px-4 py-2 rounded-md mr-2"
-              >
-                Edit
-              </button>
-            )}
             <button
               type="button"
               onClick={handleCancel}
@@ -186,9 +182,18 @@ function Addachievemodal({
             {!initialData && (
               <button
                 type="submit"
-                className="bg-[#8B95EE] border border-[#444B88] text-white px-4 py-2 rounded-md"
+                className="bg-[#8B95EE] border border-[#444B88] text-black px-4 py-2 rounded-md"
               >
-                Submit
+                Save
+              </button>
+            )}
+            {initialData && (
+              <button
+                type="button"
+                onClick={handleEdit}
+                className="bg-[#8B95EE] border border-[#444B88] text-black px-4 py-2 rounded-md mr-2"
+              >
+                Save Changes
               </button>
             )}
           </div>

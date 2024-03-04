@@ -9,6 +9,7 @@ import { jwtDecode } from "jwt-decode";
 import { useDispatch, useSelector } from "react-redux";
 import { loginUser, loginGoogle } from "../slices/userSlice";
 import Modal from "../Modals/Forgotpassword";
+import { toast } from "react-toastify";
 function Newlogin() {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
@@ -31,10 +32,11 @@ function Newlogin() {
           alert(res.error.message);
         } else {
           navigate("/");
+          toast.success("Succesfully Logged In")
         }
       });
     } else {
-      alert("Email must be a valid email address");
+      toast.error("Email must be a valid email address");
     }
   };
 

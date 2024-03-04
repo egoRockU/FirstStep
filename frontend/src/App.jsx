@@ -12,11 +12,15 @@ import Employerprofilepage from "./Pages/Employerprofilepage";
 import Editemployerprofilepage from "./Pages/Editemployerprofile";
 import Editemployerabout from "./Pages/EditEmployerabout";
 import EditApplicantAbout from "./Pages/EditApplicantAbout";
+import {ToastContainer} from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
+
 
 function App() {
   const { user } = useSelector((state) => state.user);
 
   return (
+    <>
     <BrowserRouter>
       <Routes>
         {!user && (
@@ -64,6 +68,20 @@ function App() {
         )}
       </Routes>
     </BrowserRouter>
+    
+    <ToastContainer
+    position="top-right"
+    autoClose={2000}
+    hideProgressBar={false}
+    newestOnTop={false}
+    closeOnClick
+    rtl={false}
+    pauseOnFocusLoss
+    draggable
+    pauseOnHover
+    theme="dark"
+   />
+</>
   );
 }
 

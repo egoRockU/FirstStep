@@ -9,6 +9,7 @@ import { GoogleLogin, GoogleOAuthProvider } from "@react-oauth/google";
 import { jwtDecode } from "jwt-decode";
 import "../Fonts.css";
 import Terms from '../Modals/Terms.jsx';
+import { toast } from "react-toastify";
 
 
 function Newregister() {
@@ -62,7 +63,7 @@ function Newregister() {
           },
         })
         .then((res) => {
-          alert("Account has been successfully created.");
+          toast.success("Account has been successfully created.");
           navigate("/login");
         })
         .catch((err) => {
@@ -90,7 +91,7 @@ function Newregister() {
         },
       })
       .then((res) => {
-        alert("Account has been successfully created.");
+        toast.success("Account has been successfully created.");
         navigate("/login");
       })
       .catch((err) => {

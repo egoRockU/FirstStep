@@ -10,16 +10,6 @@ function Create() {
   const [selectedImage, setSelectedImage] = useState(null);
   const placeholderImage = { profile };
 
-  const handleImageChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = function (e) {
-        setSelectedImage(e.target.result);
-      };
-      reader.readAsDataURL(file);
-    }
-  };
 
   return (
     <>
@@ -38,30 +28,14 @@ function Create() {
               <div className="w-[500px] h-full">
                 <div className="mx-auto bg-white px-5 py-2 rounded-lg">
                   <div className="flex flex-col">
-                    <div className="flex justify-around w-auto">
-                      <input
-                        type="file"
-                        id="imageInput"
-                        accept="image/*"
-                        style={{ display: "none" }}
-                        onChange={handleImageChange}
-                      />
+                    <div className="flex justify-around">
                       <label htmlFor="imageInput" className="cursor-pointer">
                         <img
-                          src={selectedImage || placeholderImage.profile}
+                          src={placeholderImage.profile}
                           alt=""
                           className="w-40 h-40 rounded-full border-2"
                         />
                       </label>
-                      {!selectedImage && (
-                        <div
-                          onClick={() =>
-                            document.getElementById("imageInput").click()
-                          }
-                          className="absolute inset-0 cursor-pointer"
-                          style={{ zIndex: 1 }}
-                        ></div>
-                      )}
                       <div className="flex justify-center items-center">
                         <button className="p-1 px-4 rounded-2xl border border-[#444B88] bg-[#8B95EE]">
                           Message
@@ -113,14 +87,16 @@ function Create() {
                             PHP
                           </p>
                         </div>
-                        <h1 className="text-xl">Industry</h1>
-                        <div className="grid grid-cols-3 gap-1">
-                          <p className=" bg-[#BAD2FF] border border-[#8B95EE] rounded-full text-center">
-                            Software Engineering
-                          </p>
-                          <p className="bg-[#BAD2FF] border border-[#8B95EE] rounded-full text-center">
-                            Node
-                          </p>
+                        <div className="flex flex-col gap-1 flex-wrap">
+                          <h1 className="text-xl">Industry</h1>
+                          <div>
+                            <p className="bg-[#BAD2FF] border border-[#8B95EE] rounded-full text-center whitespace-nowrap p-1 px-2 inline-block">
+                              Software Engineering
+                            </p>
+                            <p className="bg-[#BAD2FF] border border-[#8B95EE] rounded-full text-center whitespace-nowrap p-1 px-2 inline-block">
+                              Node
+                            </p>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -131,13 +107,22 @@ function Create() {
                 <div className="grid grid-cols-1 gap-4">
                   <div className="bg-white p-4 rounded-xl flex flex-col items-center border-2 border-gray-300">
                     <h1 className="text-[#444B88] font-base text-xl">About</h1>
-                    <textarea name="about" id="" cols="30" rows="5" placeholder="This user did not write anything yet." className="w-full"></textarea>
+                    <textarea
+                      name="about"
+                      id=""
+                      cols="30"
+                      rows="5"
+                      placeholder="This user did not write anything yet."
+                      className="w-full"
+                    ></textarea>
                   </div>
                   <div className="bg-white p-4 rounded-xl text-xl flex justify-center border-2 border-gray-300">
                     <h1 className="text-[#444B88] font-base">Education</h1>
                   </div>
                   <div className="bg-white p-4 rounded-xl text-xl flex justify-center border-2 border-gray-300">
-                    <h1 className="text-[#444B88] font-base">Activities and Involvements</h1>
+                    <h1 className="text-[#444B88] font-base">
+                      Activities and Involvements
+                    </h1>
                   </div>
                   <div className="bg-white p-4 rounded-xl text-xl flex justify-center border-2 border-gray-300">
                     <h1 className="text-[#444B88] font-base">Projects</h1>
@@ -154,7 +139,7 @@ function Create() {
           </div>
         </div>
       </div>
-      <Footer/>
+      <Footer />
     </>
   );
 }

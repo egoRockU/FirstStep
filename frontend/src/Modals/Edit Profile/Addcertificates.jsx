@@ -67,10 +67,10 @@ function AddCertificates({
   return (
     <div className="fixed inset-0 flex justify-center items-center bg-gray-900 bg-opacity-50">
       <div className="bg-white p-5 rounded-xl w-1/2">
-        <div className="flex justify-end">
-          <IoCloseOutline size={25} onClick={handleCancel} />
-        </div>
+        <div className="flex justify-between w-full">
         <h2 className="text-xl text-[#444B88]">Add Certificates</h2>
+        <IoCloseOutline size={25} onClick={handleCancel} />
+        </div>
         <form onSubmit={handleSubmit} className="flex flex-col gap-2">
           <div>
             <label htmlFor="title" className="block text-[#444B88]">
@@ -142,15 +142,6 @@ function AddCertificates({
             />
           </div>
           <div className="text-right flex gap-2 justify-end">
-            {initialData && (
-              <button
-                type="button"
-                onClick={handleEdit}
-                className="bg-yellow-500 text-white px-4 py-2 rounded-md mr-2"
-              >
-                Edit
-              </button>
-            )}
             <button
               type="button"
               onClick={handleCancel}
@@ -164,6 +155,15 @@ function AddCertificates({
                 className="text-[#444B88] bg-[#8B95EE] px-2 py-2 rounded-md"
               >
                 Save
+              </button>
+            )}
+            {initialData && (
+              <button
+                type="button"
+                onClick={handleEdit}
+                className="bg-[#8B95EE] border border-[#444B88] text-black px-4 py-2 rounded-md mr-2"
+              >
+                Save Changes
               </button>
             )}
           </div>
@@ -188,6 +188,7 @@ function AddCertificates({
         </button>
       </div>
     </div>
+    
   );
 }
 

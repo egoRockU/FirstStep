@@ -2,8 +2,8 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { logoutUser } from "../slices/userSlice";
-import { BsBell, BsPerson } from "react-icons/bs"; // Import icons for notification and profile
 import profile from "../images/profileicon.png";
+import { toast } from "react-toastify";
 
 const DropdownMenu = () => {
   const navigate = useNavigate();
@@ -67,7 +67,7 @@ const DropdownMenu = () => {
               className="block px-4 py-2 text-lg text-gray-700 hover:bg-gray-100 w-full text-left"
               role="menuitem"
             >
-              View Profile
+              Profile
             </button>
             <button
               onClick={clickLogout}

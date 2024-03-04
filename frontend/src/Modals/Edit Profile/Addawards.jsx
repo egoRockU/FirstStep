@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+import { IoCloseOutline } from "react-icons/io5";
+
 
 function AddAwards({ onClose, onSubmit, onEdit, formIndex, initialData }) {
   const [formData, setFormData] = useState({
@@ -46,7 +48,10 @@ function AddAwards({ onClose, onSubmit, onEdit, formIndex, initialData }) {
   return (
     <div className="fixed inset-0 flex justify-center items-center bg-gray-900 bg-opacity-50 shadow-xl">
       <div className="bg-white p-8 rounded-sm w-1/3">
+        <div className="w-full flex justify-between">
         <h2 className="text-xl">Add Award</h2>
+        <IoCloseOutline size={25} onClick={handleCancel} />
+        </div>
         <form onSubmit={handleSubmit} className="flex flex-col gap-2">
           <div className="">
             <label htmlFor="title" className="block text-[#444B88]" required>
@@ -94,15 +99,6 @@ function AddAwards({ onClose, onSubmit, onEdit, formIndex, initialData }) {
               className="border border-[#444B88] rounded-md px-4 py-2 w-full"
             />
           </div>
-          {initialData && (
-            <button
-              type="button"
-              onClick={handleEdit}
-              className="bg-yellow-500 text-white px-4 py-2 rounded-md mr-2"
-            >
-              Edit
-            </button>
-          )}
           <div className="flex justify-end gap-2">
             <button
               type="button"
@@ -119,6 +115,15 @@ function AddAwards({ onClose, onSubmit, onEdit, formIndex, initialData }) {
                 Submit
               </button>
             )}
+            {initialData && (
+            <button
+              type="button"
+              onClick={handleEdit}
+              className="bg-[#8B95EE] border border-[#444B88]  text-black px-4 py-2 rounded-md mr-2"
+            >
+              Save Changes
+            </button>
+          )}
           </div>
         </form>
         <button

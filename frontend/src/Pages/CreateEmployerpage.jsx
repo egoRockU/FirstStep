@@ -122,6 +122,10 @@ function CreateEmployerpage() {
       });
   };
 
+  const goback = () => {
+    navigate("/");
+  };
+
   useEffect(() => {
     setInputs({
       accountId: userId,
@@ -380,7 +384,10 @@ function CreateEmployerpage() {
                 )}
                 <div className="w-full h-full mt-5"></div>
                 <div className="flex justify-between w-9/12 mb-2">
-                  <button className="text-lg border border-black px-2">
+                  <button
+                    className="text-lg border border-black px-2"
+                    onClick={goback}
+                  >
                     Cancel
                   </button>
                   <button

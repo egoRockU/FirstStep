@@ -24,17 +24,6 @@ function editprofile() {
     getUserProfile();
   }, []);
 
-  const handleImageChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = function (e) {
-        setSelectedImage(e.target.result);
-      };
-      reader.readAsDataURL(file);
-    }
-  };
-
   const [formData, setFormData] = useState();
   const [formIndex, setFormIndex] = useState();
 
@@ -263,28 +252,12 @@ function editprofile() {
                 <div className="mx-auto bg-white px-5 py-2 rounded-lg">
                   <div className="flex flex-col">
                     <div className="flex justify-around">
-                      <input
-                        type="file"
-                        id="imageInput"
-                        accept="image/*"
-                        style={{ display: "none" }}
-                        onChange={handleImageChange}
-                      />
                       <label htmlFor="imageInput" className="cursor-pointer">
                         <img
-                          src={selectedImage || placeholderImage.profile}
+                          src={placeholderImage.profile}
                           alt=""
                           className="w-40 h-40 rounded-full border-2"
                         />
-                        {!selectedImage && (
-                          <div
-                            onClick={() =>
-                              document.getElementById("imageInput").click()
-                            }
-                            className="absolute cursor-pointer"
-                            style={{ zIndex: 1 }}
-                          ></div>
-                        )}
                       </label>
                       <div className="flex justify-center items-center">
                         <button className="p-1 px-4 rounded-2xl border border-[#444B88] bg-[#8B95EE]">
@@ -327,10 +300,11 @@ function editprofile() {
                           ))}
                         </div>
                         <h1 className="text-xl">Industry</h1>
-                        <div className="grid grid-cols-3 gap-1">
+                        <div className="flex gap-1 flex-wrap">
+                          {" "}
                           {industries.map((industry, index) => (
                             <p
-                              className=" bg-[#BAD2FF] border border-[#8B95EE] rounded-full text-center"
+                              className="bg-[#BAD2FF] border border-[#8B95EE] rounded-full text-center whitespace-nowrap p-1"
                               key={index}
                             >
                               {industry}
