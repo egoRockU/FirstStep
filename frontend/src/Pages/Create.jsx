@@ -394,7 +394,7 @@ function CreateApplicantProfilepage() {
                   <img
                     src={selectedBanner}
                     alt=""
-                    className="w-full h-60 bg-blue-200"
+                    className="w-full h-60 bg-blue-200 object-cover"
                     
                   />
                 </label>
@@ -624,7 +624,7 @@ function CreateApplicantProfilepage() {
                     <img
                       src={selectedImage || placeholderImage}
                       alt=""
-                      className="w-40 h-40 rounded-full border-4 border-black"
+                      className="w-40 h-40 rounded-full border-4 border-black object-cover"
                       onLoad={() => setUploadProgress(100)}
                     />
                   </label>
