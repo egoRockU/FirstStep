@@ -106,12 +106,19 @@ function Newlogin() {
               required
             />
             <div className="flex items-start w-1/2 mx-auto">
-              <h1 className="cursor-pointer hover:underline" button onClick={openModal}> 
+              <h1
+                className="cursor-pointer hover:underline"
+                button
+                onClick={openModal}
+              >
                 Forgot password?
               </h1>
               {isModalOpen && (
-        <Modal onClose={closeModal} errorMessage="Email does not exist" />
-      )}
+                <Modal
+                  onClose={closeModal}
+                  errorMessage="Email does not exist"
+                />
+              )}
             </div>
             <button
               className="w-1/2 mx-auto p-2 rounded-full bg-blue-500 text-white "
@@ -125,17 +132,20 @@ function Newlogin() {
               <h1 className="text-lg">OR</h1>
               <div className="h-[1px] bg-black w-48"></div>
             </div>
-            <div className={`flex items-center w-1/2 mx-auto ${isModalOpen ? 'hidden' : ''}`}>
-
-            <GoogleOAuthProvider clientId={googleClientId}>
-              <GoogleLogin
-                onSuccess={handleGoogleLogin}
-                type="buttton"
-                size="large"
-                text="signin_with"
-                shape="pill"
-              />
-            </GoogleOAuthProvider>
+            <div
+              className={`flex items-center w-1/2 mx-auto ${
+                isModalOpen ? "hidden" : ""
+              }`}
+            >
+              <GoogleOAuthProvider clientId={googleClientId}>
+                <GoogleLogin
+                  onSuccess={handleGoogleLogin}
+                  type="buttton"
+                  size="large"
+                  text="signin_with"
+                  shape="pill"
+                />
+              </GoogleOAuthProvider>
             </div>
 
             <div className="flex items-start w-1/2 mx-auto">
