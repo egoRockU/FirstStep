@@ -8,9 +8,12 @@ const placeholderImage =
 import Footer from "../Components/Footer";
 import AddSocial from "../Modals/EditEmployer Profile/Addsocial";
 import { updateAccountProfileValues } from "../utils/updateAccountProfileValues";
+import { useDispatch } from "react-redux";
+import { updateUser } from "../slices/userSlice";
 
 function CreateEmployerpage() {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [selectedImage, setSelectedImage] = useState(null);
   const [selectedBanner, setSelectedBanner] = useState(null);
 
@@ -103,14 +106,17 @@ function CreateEmployerpage() {
             "employer",
             userAccountType,
             userEmail
-          );
-          navigate("/editemployer");
+          ).then((newUserData) => {
+            dispatch(updateUser(newUserData));
+            navigate("/editemployer");
+          });
         }
         if (res.data.status == false) {
           alert("Employer profile not created");
         }
       })
       .catch((err) => {
+        console.log(err);
         alert(err.response.data.message);
         console.log(err.response.data.errorMessage);
       });

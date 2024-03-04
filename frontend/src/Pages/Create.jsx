@@ -14,7 +14,12 @@ import AddSocial from "../Modals/Create Profile/Addsocial";
 import AddIndustry from "../Modals/Create Profile/Addindustry";
 import AddSkill from "../Modals/Create Profile/Addskill";
 import { updateAccountProfileValues } from "../utils/updateAccountProfileValues";
+import { useDispatch } from "react-redux";
+import { updateUser } from "../slices/userSlice";
+
 function CreateApplicantProfilepage() {
+  const dispatch = useDispatch();
+
   //social
   const [isAddSocialModalOpen, setAddSocialModalOpen] = useState(false);
   const [socialLinks, setSocialLinks] = useState([]);
@@ -221,8 +226,10 @@ function CreateApplicantProfilepage() {
             "applicant",
             userAccountType,
             userEmail
-          );
-          navigate("/editprofile");
+          ).then((newUserData) => {
+            dispatch(updateUser(newUserData));
+            navigate("/editprofile");
+          });
         }
         if (res.data.status == false) {
           alert("Not Inserted");

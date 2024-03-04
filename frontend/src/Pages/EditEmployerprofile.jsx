@@ -7,10 +7,13 @@ import { FaSquareXTwitter } from "react-icons/fa6";
 import { FaLinkedin } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { useSelector } from "react-redux";
 
 function Editemployerprofilepage() {
   const navigate = useNavigate();
-  const profileId = JSON.parse(localStorage.getItem("user")).profileId;
+  const { user } = useSelector((state) => state.user);
+  //const profileId = JSON.parse(localStorage.getItem("user")).profileId;
+  const profileId = user.profileId;
 
   const [selectedImage, setSelectedImage] = useState(null);
   const placeholderImage = { profile };

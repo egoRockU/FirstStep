@@ -19,23 +19,49 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<NewLanding />} />
-        <Route path="/login" element={<Newlogin />} />
-        <Route
-          path="/register"
-          element={!user ? <Newregister /> : <NewLanding />}
-        />
-        <Route path="/choose" element={user ? <Choose /> : <Newlogin />} />
-        <Route path="/create" element={user ? <Create /> : <Newlogin />} />
-        <Route path="/editprofile" element={<Editprofilepage />} />
-        <Route path="/profile" element={<Profilepage />} />
-        <Route path="/newlogin" element={<Newlogin />} />
-        <Route path="/newregister" element={<Newregister />} />
-        <Route path="/createemployer" element={<CreateEmployerpage />} />
-        <Route path="/employerprofile" element={<Employerprofilepage />} />
-        <Route path="/editemployer" element={<Editemployerprofilepage />} />
-        <Route path="/editemployerabout" element={<Editemployerabout />} />
-        <Route path="/editapplicantabout" element={<EditApplicantAbout />} />
+        {!user && (
+          <>
+            <Route path="/" element={<NewLanding />} />
+            <Route path="/login" element={<Newlogin />} />
+            <Route path="/register" element={<Newregister />} />
+            <Route path="*" element={<Newlogin />} />
+          </>
+        )}
+
+        {user && (
+          <>
+            <Route path="/" element={<NewLanding />} />
+            <Route path="/create" element={<Create />} />
+            <Route path="/createemployer" element={<CreateEmployerpage />} />
+            <Route path="/profile" element={<Profilepage />} />
+            <Route path="/employerprofile" element={<Employerprofilepage />} />
+
+            {!user.profileType && <Route path="/choose" element={<Choose />} />}
+
+            {user.profileType === "applicant" && (
+              <>
+                <Route path="/editprofile" element={<Editprofilepage />} />
+                <Route
+                  path="/editapplicantabout"
+                  element={<EditApplicantAbout />}
+                />
+              </>
+            )}
+
+            {user.profileType === "employer" && (
+              <>
+                <Route
+                  path="/editemployer"
+                  element={<Editemployerprofilepage />}
+                />
+                <Route
+                  path="/editemployerabout"
+                  element={<Editemployerabout />}
+                />
+              </>
+            )}
+          </>
+        )}
       </Routes>
     </BrowserRouter>
   );

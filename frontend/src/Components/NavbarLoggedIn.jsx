@@ -1,36 +1,14 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import logo from "../images/newlogo.png";
-import { BsBell } from "react-icons/bs"; // Import icons for notification and profile
-import { useDispatch } from "react-redux";
-import { logoutUser } from "../slices/userSlice";
 import DropdownMenu from "./DropdownMenu";
 import bell from "../images/bell.png";
 
 function NavbarLoggedIn() {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const [isOpen, setIsOpen] = useState(false);
-  let userObj = JSON.parse(localStorage.getItem("user"));
 
   const clickLanding = () => {
     navigate("/");
-  };
-
-  const clickLogout = () => {
-    dispatch(logoutUser());
-    navigate("/");
-  };
-
-  const clickProfile = () => {
-    let userAccountType = userObj.profileType;
-    let userAccountId = userObj.profileId;
-
-    if (userAccountId && userAccountType) {
-      navigate("/editprofile");
-    } else {
-      navigate("/choose");
-    }
   };
 
   return (
