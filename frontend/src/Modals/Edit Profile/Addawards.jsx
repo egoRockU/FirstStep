@@ -49,7 +49,7 @@ function AddAwards({ onClose, onSubmit, onEdit, formIndex, initialData }) {
         <h2 className="text-xl">Add Award</h2>
         <form onSubmit={handleSubmit} className="flex flex-col gap-2">
           <div className="">
-            <label htmlFor="title" className="block text-[#444B88]">
+            <label htmlFor="title" className="block text-[#444B88]" required>
               Title:
             </label>
             <input
@@ -59,6 +59,7 @@ function AddAwards({ onClose, onSubmit, onEdit, formIndex, initialData }) {
               value={formData.title}
               onChange={handleChange}
               className="border border-[#444B88] rounded-md px-4 py-2 w-full"
+              required
             />
           </div>
           <div className="">
@@ -78,6 +79,7 @@ function AddAwards({ onClose, onSubmit, onEdit, formIndex, initialData }) {
               }
               onChange={handleChange}
               className="border border-[#444B88] rounded-md px-4 py-2 w-full"
+              required
             />
           </div>
           <div className="">
