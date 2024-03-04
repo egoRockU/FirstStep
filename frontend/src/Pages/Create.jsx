@@ -15,7 +15,14 @@ import AddIndustry from "../Modals/Create Profile/Addindustry";
 import AddSkill from "../Modals/Create Profile/Addskill";
 import { updateAccountProfileValues } from "../utils/updateAccountProfileValues";
 import { storage } from "../firebase/firebase";
-import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import {
+  ref,
+  uploadBytes,
+  getDownloadURL,
+  uploadBytesResumable,
+  deleteObject,
+} from "firebase/storage";
+
 function CreateApplicantProfilepage() {
   //social
   const [isAddSocialModalOpen, setAddSocialModalOpen] = useState(false);
@@ -177,40 +184,120 @@ function CreateApplicantProfilepage() {
     industries,
   ]);
 
-  const handleImageChange = (e) => {
-    if (e.target.files[0]) {
-      const imageFile = e.target.files[0];
-      const storageRef = ref(storage, `Profile/${userId}`);
-      
-      uploadBytes(storageRef, imageFile)
-        .then((snapshot) => {
-          getDownloadURL(snapshot.ref)
+  const [uploadProgress, setUploadProgress] = useState(0);
+  const [bannerImageUploadProgress, setBannerImageUploadProgress] = useState(0);
+
+  const handleImageChange = async (e) => {
+    const imageFile = e.target.files[0];
+
+    if (!imageFile) {
+      return;
+    }
+
+    const timestamp = new Date().getTime();
+    const filename = `${timestamp}_${imageFile.name}`;
+    const storageRef = ref(storage, `Profile/${filename}`);
+
+    try {
+      setSelectedImage(null);
+      setUploadProgress(0);
+
+      if (selectedImage) {
+        const prevImageRef = ref(storage, selectedImage);
+        await deleteObject(prevImageRef);
+        console.log("Previous image deleted successfully");
+      }
+
+      const uploadTask = uploadBytesResumable(storageRef, imageFile);
+
+      uploadTask.on(
+        "state_changed",
+        (snapshot) => {
+          const progress = Math.round(
+            (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+          );
+          setUploadProgress(progress);
+          console.log("Upload progress:", progress);
+        },
+        (error) => {
+          console.error("Error uploading image:", error);
+          alert("Error occurred while uploading image.");
+        },
+        () => {
+          getDownloadURL(uploadTask.snapshot.ref)
             .then((downloadURL) => {
               setSelectedImage(downloadURL);
               console.log("Download URL:", downloadURL);
+
+              setInputs((prevInputs) => ({
+                ...prevInputs,
+                profileImg: downloadURL,
+              }));
             })
             .catch((error) => {
               console.error("Error getting download URL:", error);
               alert("Error occurred while getting download URL.");
             });
-        })
-        .catch((error) => {
-          console.error("Error uploading image:", error);
-          alert("Error occurred while uploading image.");
-        });
+        }
+      );
+    } catch (error) {
+      console.error("Error handling image change:", error);
+      alert("Error occurred while handling image change.");
     }
-  }
-  
-
+  };
 
   const handleBannerChange = (e) => {
     const file = e.target.files[0];
     if (file) {
-      const reader = new FileReader();
-      reader.onload = function (e) {
-        setSelectedBanner(e.target.result);
-      };
-      reader.readAsDataURL(file);
+      const timestamp = new Date().getTime();
+      const filename = `${timestamp}_${file.name}`;
+      const storageRef = ref(storage, `Banner/${filename}`);
+
+      setSelectedBanner(null);
+
+      if (selectedBanner) {
+        const prevBannerRef = ref(storage, selectedBanner);
+        deleteObject(prevBannerRef)
+          .then(() => {
+            console.log("Previous banner deleted successfully");
+          })
+          .catch((error) => {
+            console.error("Error deleting previous banner:", error);
+          });
+      }
+
+      const uploadTask = uploadBytesResumable(storageRef, file);
+
+      uploadTask.on(
+        "state_changed",
+        (snapshot) => {
+          const progress = Math.round(
+            (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+          );
+          setBannerImageUploadProgress(progress);
+          console.log("Upload progress:", progress);
+        },
+        (error) => {
+          console.error("Error uploading banner image:", error);
+          alert("Error occurred while uploading banner image.");
+        },
+        () => {
+          getDownloadURL(uploadTask.snapshot.ref)
+            .then((downloadURL) => {
+              setSelectedBanner(downloadURL);
+              console.log("Banner Download URL:", downloadURL);
+
+              setInputs((prevInputs) => ({
+                ...prevInputs,
+                banner: downloadURL,
+              }));
+            })
+            .catch((error) => {
+              console.error("Error getting banner download URL:", error);
+              alert("Error occurred while getting banner download URL.");
+            });
+        }
+      );
     }
   };
 
@@ -231,21 +318,22 @@ function CreateApplicantProfilepage() {
       alert("Please select an image");
       return;
     }
-  
+
     const storageRef = ref(storage, `frontend/${userId}`);
-  
+
     uploadBytes(storageRef, selectedImage)
       .then((snapshot) => {
         getDownloadURL(snapshot.ref)
           .then((downloadURL) => {
             setSelectedImage(downloadURL);
-  
+
             console.log("Download URL:", downloadURL);
             console.log(inputs);
-            // Update inputs with the correct image URL
+
             setInputs((prevInputs) => ({
               ...prevInputs,
-              profileImg: downloadURL,}));
+              profileImg: downloadURL,
+            }));
             axios
               .post("/api/applicantprofile/create", inputs, {
                 headers: {
@@ -297,6 +385,7 @@ function CreateApplicantProfilepage() {
                   accept="image/*"
                   style={{ display: "none" }}
                   onChange={handleBannerChange}
+                  onLoad={() => setUploadProgress(100)}
                 />
                 <label
                   htmlFor="imageInputbanner"
@@ -306,8 +395,10 @@ function CreateApplicantProfilepage() {
                     src={selectedBanner}
                     alt=""
                     className="w-full h-60 bg-blue-200"
+                    
                   />
                 </label>
+
                 {!selectedBanner && (
                   <button
                     onClick={() =>
@@ -316,6 +407,13 @@ function CreateApplicantProfilepage() {
                     className="absolute cursor-pointer text-lg bg-white p-2 rounded-full"
                     style={{ zIndex: 1, bottom: 20, right: 30 }}
                   >
+                    {bannerImageUploadProgress > 0 &&
+                      bannerImageUploadProgress < 100 && (
+                        <div className="progress-container">
+                          <span>{bannerImageUploadProgress}%</span>
+                        </div>
+                      )}
+
                     <FaCamera />
                   </button>
                 )}
@@ -416,8 +514,8 @@ function CreateApplicantProfilepage() {
                         >
                           <div>
                             {/* <a href="" onClick={() => editSocialLink(index)}>
-                              {link.platform}
-                            </a> */}
+                                {link.platform}
+                              </a> */}
                           </div>
                           <div>
                             <a href={link.link}>{link.link}</a>
@@ -527,6 +625,7 @@ function CreateApplicantProfilepage() {
                       src={selectedImage || placeholderImage}
                       alt=""
                       className="w-40 h-40 rounded-full border-4 border-black"
+                      onLoad={() => setUploadProgress(100)}
                     />
                   </label>
                   {!selectedImage && (
@@ -538,6 +637,12 @@ function CreateApplicantProfilepage() {
                       style={{ zIndex: 1 }}
                     ></div>
                   )}
+                  {uploadProgress > 0 && uploadProgress < 100 && (
+                    <div className="progress-container">
+                      <span>{uploadProgress}%</span>
+                    </div>
+                  )}
+
                   <div className="w-full h-full mt-5">
                     <div className="flex flex-col justify-center items-center w-full">
                       <h1 className="text-2xl ">Skills</h1>
