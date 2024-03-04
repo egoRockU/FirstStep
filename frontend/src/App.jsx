@@ -7,7 +7,7 @@ import NewLanding from "./Pages/NewLanding";
 import Newlogin from "./Pages/Newlogin";
 import Newregister from "./Pages/Newregister";
 import Editprofilepage from "./Pages/Editprofilepage";
-import CreateEmployerpage from "./Pages/Createemployerpage";
+import CreateEmployerpage from "./Pages/CreateEmployerpage";
 import Employerprofilepage from "./Pages/Employerprofilepage";
 import Editemployerprofilepage from "./Pages/Editemployerprofile";
 import Editemployerabout from "./Pages/EditEmployerabout";
