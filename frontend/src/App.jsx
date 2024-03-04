@@ -9,7 +9,7 @@ import Newregister from "./Pages/Newregister";
 import Editprofilepage from "./Pages/Editprofilepage";
 import CreateEmployerpage from "./Pages/CreateEmployerpage";
 import Employerprofilepage from "./Pages/Employerprofilepage";
-import Editemployerprofilepage from "./Pages/Editemployerprofile";
+import Editemployerprofilepage from "./Pages/EditEmployerprofile";
 import Editemployerabout from "./Pages/EditEmployerabout";
 import EditApplicantAbout from "./Pages/EditApplicantAbout";
 import { ToastContainer } from "react-toastify";
