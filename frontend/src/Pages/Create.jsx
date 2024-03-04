@@ -14,6 +14,8 @@ import AddSocial from "../Modals/Create Profile/Addsocial";
 import AddIndustry from "../Modals/Create Profile/Addindustry";
 import AddSkill from "../Modals/Create Profile/Addskill";
 import { updateAccountProfileValues } from "../utils/updateAccountProfileValues";
+import { IoClose } from "react-icons/io5";
+
 function CreateApplicantProfilepage() {
   //social
   const [isAddSocialModalOpen, setAddSocialModalOpen] = useState(false);
@@ -357,13 +359,13 @@ function CreateApplicantProfilepage() {
                     />
                   </div>
 
-                  <div className=" border-2 h-16 border-[#444B88] flex justify-center items-center">
-                    <div>
+                  <div className=" border-2 py-2 border-[#444B88] flex flex-col items-center">
+                    <div className="flex flex-col items-center">
                       {" "}
                       {socialLinks.map((link, index) => (
                         <div
                           key={index}
-                          className="flex items-center justify-between mt-4 "
+                          className="flex items-center py-2 justify-center"
                         >
                           <div>
                             {/* <a href="" onClick={() => editSocialLink(index)}>
@@ -371,35 +373,21 @@ function CreateApplicantProfilepage() {
                             </a> */}
                           </div>
                           <div>
-                            <a href={link.link}>{link.link}</a>
+                          <a href={link.link}>{link.link}</a>
                           </div>
                           <div>
                             <button
                               onClick={() => editSocialLink(index)}
                             ></button>
-
-                            <button
-                              onClick={() => deleteSocialLink(index)}
-                              className="text-red-500 hover:text-red-700"
-                            >
-                              <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                className="h-5 w-5"
-                                viewBox="0 0 20 20"
-                              >
-                                <path
-                                  fillRule="evenodd"
-                                  d="M5.293 5.293a1 1 0 011.414 0L10 8.586l3.293-3.293a1 1 0 111.414 1.414L11.414 10l3.293 3.293a1 1 0 01-1.414 1.414L10 11.414l-3.293 3.293a1 1 0 01-1.414-1.414L8.586 10 5.293 6.707a1 1 0 010-1.414z"
-                                  clipRule="evenodd"
-                                />
-                              </svg>
+                            <button onClick={() => deleteSocialLink(index)}>
+                              <IoClose size={30} />
                             </button>
                           </div>
                         </div>
                       ))}
                     </div>
                     <button
-                      className="p-2 px-5 bg-[#8B95EE]"
+                      className="p-2 px-5 bg-[#8B95EE] w-1/3"
                       onClick={openAddSocialModal}
                     >
                       + Add Social link
@@ -417,43 +405,33 @@ function CreateApplicantProfilepage() {
                     </div>
                   )}
 
-                  <div className=" border-2 h-16 border-[#444B88] flex justify-center items-center">
+                  <div className="border-2 py-2 border-[#444B88] flex justify-center items-center">
+                    <div className="flex flex-col w-full items-center">
+                  {industries.map((industry, index) => (
+                      <div key={index} className="flex items-center bg-red-300">
+                        <div className=" flex text-center bg-[#BAD2FF] p-1 rounded-full">
+                          <p>{industry}</p>
+                        
+                        <div>
+                          <button
+                            onClick={() => deleteIndustry(index)}>
+                          <IoClose size={25} />
+                          </button>
+                        </div>
+                        </div>
+                      </div>
+                    ))}
                     <button
                       className="p-2 px-5 bg-[#8B95EE]"
                       onClick={openAddIndustryModal}
                     >
                       + Add Industries
                     </button>
-                    {industries.map((industry, index) => (
-                      <div key={index} className="bg-blue-200 ">
-                        <div>
-                          <p className="text-2xl">{industry}</p>
-                        </div>
-                        <div></div>
-                        <div>
-                          <button
-                            onClick={() => deleteIndustry(index)}
-                            className="text-red-500 hover:text-red-700"
-                          >
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              className="h-5 w-5"
-                              viewBox="0 0 20 20"
-                            >
-                              <path
-                                fillRule="evenodd"
-                                d="M5.293 5.293a1 1 0 011.414 0L10 8.586l3.293-3.293a1 1 0 111.414 1.414L11.414 10l3.293 3.293a1 1 0 01-1.414 1.414L10 11.414l-3.293 3.293a1 1 0 01-1.414-1.414L8.586 10 5.293 6.707a1 1 0 010-1.414z"
-                                clipRule="evenodd"
-                              />
-                            </svg>
-                          </button>
-                        </div>
-                      </div>
-                    ))}
+                    </div>
                   </div>
                   {isAddIndustryModalOpen && (
                     <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
-                      <div className="bg-white p-4 rounded-md">
+                      <div>
                         {/* {add Industries`2} */}
                         <AddIndustry
                           onClose={closeAddIndustryModal}

@@ -116,6 +116,7 @@ function Newlogin() {
             <button
               className="w-1/2 mx-auto p-2 rounded-full bg-blue-500 text-white "
               type="submit"
+              onClick={login}
             >
               Log In
             </button>

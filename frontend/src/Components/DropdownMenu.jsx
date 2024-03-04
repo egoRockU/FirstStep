@@ -58,7 +58,7 @@ const DropdownMenu = () => {
               className="block px-4 py-2 text-lg text-gray-700 hover:bg-gray-100 w-full text-left"
               role="menuitem"
             >
-              View Profile
+              Profile
             </button>
             <button
               onClick={clickLogout}
