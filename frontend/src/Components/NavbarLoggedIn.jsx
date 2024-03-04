@@ -6,6 +6,7 @@ import { useDispatch } from "react-redux";
 import { logoutUser } from "../slices/userSlice";
 import DropdownMenu from "./DropdownMenu";
 import bell from "../images/bell.png";
+import { toast } from "react-toastify";
 
 function NavbarLoggedIn() {
   const navigate = useNavigate();

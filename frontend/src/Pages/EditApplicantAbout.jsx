@@ -10,6 +10,8 @@ import { FaCamera } from "react-icons/fa";
 import AddSocial from "../Modals/EditApplicant Profile/Addsocial";
 import AddIndustry from "../Modals/EditApplicant Profile/Addindustry";
 import AddSkill from "../Modals/EditApplicant Profile/Addskill";
+import { IoMdClose } from "react-icons/io";
+import { toast } from "react-toastify";
 
 function CreateApplicantProfilepage() {
   const profileId = JSON.parse(localStorage.getItem("user")).profileId;
@@ -237,7 +239,6 @@ function CreateApplicantProfilepage() {
     updateMainInfo();
     navigate("/editprofile");
   };
-
   return (
     <div className="bg-gray-100">
       <NavbarLoggedIn />
@@ -354,40 +355,42 @@ function CreateApplicantProfilepage() {
                       onChange={(e) => setCountry(e.target.value)}
                     />
                   </div>
-                  <div className="flex flex-col w-full">
+                  <div className="flex flex-col">
                     <h1 className="text-lg">Bio</h1>
                     <textarea
                       type="text"
                       name="name"
                       value={bio}
                       id=""
-                      className="text-base border-2 border-[#444B88] p-2 h-40"
+                      className="text-base border-2 border-[#444B88] p-2"
                       placeholder="Tell me something about yourself.."
                       onChange={(e) => setBio(e.target.value)}
+                      rows={5}
                     />
                   </div>
-                  <div className="flex flex-col w-full">
+                  <div className="flex flex-col">
                     <h1 className="text-lg">About</h1>
                     <textarea
                       type="text"
                       name="name"
                       value={about}
                       id=""
-                      className="text-base border-2 border-[#444B88] p-2 h-40"
+                      className="text-base border-2 border-[#444B88] p-2"
                       placeholder="Tell me something about yourself.."
+                      rows={10}
                       required
                       onChange={(e) => setAbout(e.target.value)}
                     />
                   </div>
                   <div className="flex flex-col w-full ">
                     <h1 className="text-lg">Social</h1>
-                    <div className=" border-2 h-16 border-[#444B88] flex justify-center items-center">
-                      <div>
+                    <div className=" border-2 border-[#444B88] flex py-2 flex-col justify-center items-center">
+                      <div className="flex flex-col items-center">
                         {" "}
                         {socialLinks.map((link, index) => (
                           <div
                             key={index}
-                            className="flex items-center justify-between mt-4 "
+                            className="flex items-center py-2 justify-between "
                           >
                             <div>
                               {/* <a href="" onClick={() => editSocialLink(index)}>
@@ -404,19 +407,9 @@ function CreateApplicantProfilepage() {
 
                               <button
                                 onClick={() => deleteSocialLink(index)}
-                                className="text-red-500 hover:text-red-700"
+                                className="text-center"
                               >
-                                <svg
-                                  xmlns="http://www.w3.org/2000/svg"
-                                  className="h-5 w-5"
-                                  viewBox="0 0 20 20"
-                                >
-                                  <path
-                                    fillRule="evenodd"
-                                    d="M5.293 5.293a1 1 0 011.414 0L10 8.586l3.293-3.293a1 1 0 111.414 1.414L11.414 10l3.293 3.293a1 1 0 01-1.414 1.414L10 11.414l-3.293 3.293a1 1 0 01-1.414-1.414L8.586 10 5.293 6.707a1 1 0 010-1.414z"
-                                    clipRule="evenodd"
-                                  />
-                                </svg>
+                                <IoMdClose size={25} />
                               </button>
                             </div>
                           </div>
@@ -441,40 +434,28 @@ function CreateApplicantProfilepage() {
                       </div>
                     )}
                   </div>
-                  <div className=" border-2 h-16 border-[#444B88] flex justify-center items-center">
+                  <div className="border-2 border-[#444B88] flex py-2 flex-col justify-center items-center gap-2">
+                    <div className="flex flex-wrap gap-2 justify-center">
+                      {industries.map((industry, index) => (
+                        <div
+                          key={index}
+                          className="flex items-center text-center bg-[#BAD2FF] p-1 rounded-full"
+                        >
+                          <p className="whitespace-nowrap">{industry}</p>
+                          <button onClick={() => deleteIndustry(index)}>
+                            <IoMdClose size={25} />
+                          </button>
+                        </div>
+                      ))}
+                    </div>
                     <button
                       className="p-2 px-5 bg-[#8B95EE]"
                       onClick={openAddIndustryModal}
                     >
                       + Add Industries
                     </button>
-                    {industries.map((industry, index) => (
-                      <div key={index} className="bg-blue-200 ">
-                        <div>
-                          <p className="text-2xl">{industry}</p>
-                        </div>
-                        <div></div>
-                        <div>
-                          <button
-                            onClick={() => deleteIndustry(index)}
-                            className="text-red-500 hover:text-red-700"
-                          >
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              className="h-5 w-5"
-                              viewBox="0 0 20 20"
-                            >
-                              <path
-                                fillRule="evenodd"
-                                d="M5.293 5.293a1 1 0 011.414 0L10 8.586l3.293-3.293a1 1 0 111.414 1.414L11.414 10l3.293 3.293a1 1 0 01-1.414 1.414L10 11.414l-3.293 3.293a1 1 0 01-1.414-1.414L8.586 10 5.293 6.707a1 1 0 010-1.414z"
-                                clipRule="evenodd"
-                              />
-                            </svg>
-                          </button>
-                        </div>
-                      </div>
-                    ))}
                   </div>
+
                   {isAddIndustryModalOpen && (
                     <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
                       <div className="bg-white p-4 rounded-md">
@@ -515,31 +496,18 @@ function CreateApplicantProfilepage() {
                   <div className="w-full h-full mt-5">
                     <div className="flex flex-col justify-center items-center w-full">
                       <h1 className="text-2xl ">Skills</h1>
-                      <div className="border-2 p-3 px-5 bg-[#8B95EE] border-[#444B88]">
+                      <div className="border-2 p-3 px-5 border-[#444B88]">
                         <div>
                           {" "}
                           {skills.map((skill, index) => (
-                            <div key={index}>
+                            <div key={index} className="flex items-center">
                               <div>
-                                <p className="text-2xl">{skill}</p>
+                                <p className="text-lg">{skill}</p>
                               </div>
                               <div></div>
                               <div>
-                                <button
-                                  onClick={() => deleteSkill(index)}
-                                  className="text-red-500 hover:text-red-700"
-                                >
-                                  <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    className="h-5 w-5"
-                                    viewBox="0 0 20 20"
-                                  >
-                                    <path
-                                      fillRule="evenodd"
-                                      d="M5.293 5.293a1 1 0 011.414 0L10 8.586l3.293-3.293a1 1 0 111.414 1.414L11.414 10l3.293 3.293a1 1 0 01-1.414 1.414L10 11.414l-3.293 3.293a1 1 0 01-1.414-1.414L8.586 10 5.293 6.707a1 1 0 010-1.414z"
-                                      clipRule="evenodd"
-                                    />
-                                  </svg>
+                                <button onClick={() => deleteSkill(index)}>
+                                  <IoMdClose size={25} />
                                 </button>
                               </div>
                             </div>

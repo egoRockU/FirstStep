@@ -53,11 +53,9 @@ function Addeduc({ onClose, onSubmit, onEdit, formIndex, initialData }) {
   return (
     <div className="fixed inset-0 flex justify-center items-center bg-gray-900 bg-opacity-50">
       <div className="bg-white p-8 rounded-sm w-1/2 flex flex-col gap-4">
-        <div className="flex justify-end">
-          <IoCloseOutline size={25} onClick={handleCancel} />
-        </div>
-        <div>
+        <div className="flex w-full justify-between">
           <h2 className="text-xl text-[#444B88]">Add education</h2>
+          <IoCloseOutline size={25} onClick={handleCancel} />
         </div>
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
@@ -153,15 +151,7 @@ function Addeduc({ onClose, onSubmit, onEdit, formIndex, initialData }) {
             />
           </div>
           <div className="flex justify-end mb-4">
-            {initialData && (
-              <button
-                type="button"
-                onClick={handleEdit}
-                className="bg-yellow-500 text-white px-4 py-2 rounded-md mr-2"
-              >
-                Edit
-              </button>
-            )}
+            
             <button
               type="button"
               onClick={handleCancel}
@@ -176,6 +166,15 @@ function Addeduc({ onClose, onSubmit, onEdit, formIndex, initialData }) {
                 className="bg-[#8B95EE] border border-[#444B88] text-white px-4 py-2 rounded-md"
               >
                 Submit
+              </button>
+            )}
+            {initialData && (
+              <button
+                type="button"
+                onClick={handleEdit}
+                className="bg-[#8B95EE] border border-[#444B88] text-black px-4 py-2 rounded-md mr-2"
+              >
+                Save Changes
               </button>
             )}
           </div>
