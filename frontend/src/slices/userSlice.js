@@ -80,7 +80,7 @@ const userSlice = createSlice({
       .addCase(loginUser.fulfilled, (state, action) => {
         state.loading = false;
         //console.log('payload: ' + JSON.stringify(action.payload))
-        state.user = JSON.stringify(action.payload);
+        state.user = action.payload;
         state.error = null;
       })
       .addCase(loginUser.rejected, (state, action) => {
@@ -97,7 +97,7 @@ const userSlice = createSlice({
       .addCase(loginGoogle.fulfilled, (state, action) => {
         state.loading = false;
         //console.log('payload: ' + JSON.stringify(action.payload))
-        state.user = JSON.stringify(action.payload);
+        state.user = action.payload;
         state.error = null;
       })
       .addCase(loginGoogle.rejected, (state, action) => {
