@@ -79,3 +79,67 @@ describe("Applicant Profile routes", ()=>{
         })
     })
 })
+
+describe("Employer Profile routes", ()=>{
+    let testId;
+
+    test("GET /employerprofile/retrieve ==> should return json", async ()=>{
+        return request(app)
+            .get("/employerprofile/retrieve")
+            .expect('Content-type', /json/)
+            .expect(200)
+            .then((res)=>{
+                if (res.error) throw new Error("Error: "+ res.error)
+            })
+    })
+
+    test("POST /employerprofile/create ==> should return status true", async ()=>{
+        return request(app)
+            .post("/employerprofile/create")
+            .set({'Content-Type': 'application/x-www-form-urlencoded'})
+            .send({
+                firstName: "Jest",
+                lastName: "Supertest" 
+            })
+            .expect('Content-type', /json/)
+            .expect(201)
+            .then((res)=>{
+                expect(res.body.status).toBe(true)
+                expect(res.body._id).not.toBeUndefined()
+                testId = res.body._id
+                if (res.error) throw new Error("Error: "+ res.error)
+            })
+    })
+
+    test("POST /employerprofile/update ==> should return status true", async()=>{
+        return request(app)
+        .post("/employerprofile/update")
+        .set({'Content-Type': 'application/json'})
+        .send({
+            _id: testId,
+            set: {
+                website: "www.website.com"
+            }
+        })
+        .expect('Content-type', /json/)
+        .expect(200)
+        .then((res)=>{
+            expect(res.body.status).toBe(true)
+        })
+    })
+
+    test("POST /employerprofile/delete ==> should return status true", async()=>{
+        return request(app)
+        .post("/employerprofile/delete")
+        .set({'Content-Type': 'application/x-www-form-urlencoded'})
+        .send({
+            _id: testId
+        })
+        .expect('Content-type', /json/)
+        .expect(200)
+        .then((res)=>{
+            expect(res.body.status).toBe(true)
+            if (res.error) throw new Error("Error: "+ res.error)
+        })
+    })
+})

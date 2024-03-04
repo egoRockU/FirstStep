@@ -1,118 +1,118 @@
-import LocalAccount from './localAccountModel.js';
-import GoogleAccount from './googleAccountModel.js';
-import mongoose from 'mongoose';
+import LocalAccount from "./localAccountModel.js";
+import GoogleAccount from "./googleAccountModel.js";
+import mongoose from "mongoose";
 
 const { Schema } = mongoose;
 
 const EducationSchema = new Schema({
   schoolName: {
     type: String,
-    required: true
+    required: true,
   },
   degree: {
     type: String,
-    required: true
+    required: true,
   },
   program: {
     type: String,
     required: false,
-    default: ""
+    default: "",
   },
   startDate: {
     type: Date,
-    required: true
+    required: true,
   },
   endDate: {
     type: Date,
-    required: false
+    required: false,
   },
   grade: {
     type: String,
-    required: true
-  }
-})
+    required: true,
+  },
+});
 
 const ActivitesAndInvolvementsSchema = new Schema({
   title: {
     type: String,
-    required: true
+    required: true,
   },
   typeOfActivity: {
     type: String,
-    required: true
+    required: true,
   },
   organizationOrCompanyName: {
     type: String,
-    required: true
+    required: true,
   },
   location: {
     type: String,
-    required: true
+    required: true,
   },
   startDate: {
     type: Date,
-    required: true
+    required: true,
   },
   endDate: {
     type: Date,
-    required: false
+    required: false,
   },
   description: {
     type: String,
     required: false,
-    default: ""
-  }
-})
+    default: "",
+  },
+});
 
 const AwardsSchema = new Schema({
   title: {
     type: String,
-    required: true
+    required: true,
   },
   dateReceived: {
     type: Date,
-    required: true
+    required: true,
   },
   description: {
     type: String,
     required: false,
-    default: ""
-  }
-})
+    default: "",
+  },
+});
 
 const CertificatesSchema = new Schema({
   title: {
     type: String,
-    required: true
+    required: true,
   },
   image: {
     type: String,
     required: false,
-    default: ""
+    default: "",
   },
   documentFile: {
     type: String,
     required: false,
-    default: ""
+    default: "",
   },
   description: {
     type: String,
     required: false,
-    default: ""
+    default: "",
   },
   dateReceived: {
     type: Date,
     required: true,
     set: function (date) {
-      const parsedDate = new Date(date)
-      console.log("dateTime" + parsedDate)
-      parsedDate.setHours(0, 0, 0, 0)
-      console.log("date: " + parsedDate)
-      console.log(parsedDate)
-      return parsedDate                       
-    }
-  }
-})
+      const parsedDate = new Date(date);
+      console.log("dateTime" + parsedDate);
+      parsedDate.setHours(0, 0, 0, 0);
+      console.log("date: " + parsedDate);
+      console.log(parsedDate);
+      return parsedDate;
+    },
+  },
+});
 
 const ApplicantProfileSchema = new Schema({
   accountId: {
@@ -122,118 +122,126 @@ const ApplicantProfileSchema = new Schema({
   profileImg: {
     type: String,
     required: false,
-    default: ''
+    default: "",
   },
   banner: {
     type: String,
     required: false,
-    default: ''
+    default: "",
   },
   firstName: {
     type: String,
-    required: true
+    required: true,
   },
   lastName: {
     type: String,
-    required: true
+    required: true,
   },
   email: {
     type: String,
-    required: false
+    required: false,
   },
-  phone: {
+  contactNum: {
     type: String,
     required: false,
-    default: ''
+    default: "",
   },
   address: {
     type: String,
     required: false,
-    default: ''
+    default: "",
   },
   bio: {
     type: String,
     required: false,
-    default: ''
+    default: "",
   },
   about: {
     type: String,
     required: false,
-    default: ''
+    default: "",
   },
   socialLinks: {
-    type: [{
-      social: String,
-      link: String
-    }],
+    type: [
+      {
+        platform: String,
+        link: String,
+      },
+    ],
     required: false,
-    default: []
+    default: [],
   },
   skills: {
     type: [String],
     required: false,
-    default: []
+    default: [],
   },
   preferredCareer: {
-    type: [Schema.Types.ObjectId],
+    type: [String],
     required: false,
-    default: []
+    default: [],
   },
   education: {
     type: [EducationSchema],
     required: false,
-    default: []
+    default: [],
   },
   activitiesAndInvolvements: {
     type: [ActivitesAndInvolvementsSchema],
     required: false,
-    default: []
+    default: [],
   },
   awards: {
     type: [AwardsSchema],
     required: false,
-    default: []
+    default: [],
   },
   certs: {
     type: [CertificatesSchema],
     required: false,
-    default: []
+    default: [],
   },
   projects: {
     type: [Schema.Types.ObjectId],
     required: false,
-    default: []
+    default: [],
   },
   resume: {
     type: String,
     required: false,
-    default: ''
+    default: "",
   },
   portfolioStyle: {
     type: String,
     required: false,
-    default: ''
+    default: "",
   },
   messages: {
     type: [Schema.Types.ObjectId],
     required: false,
-    default: []
+    default: [],
   },
-  
 });
 
-ApplicantProfileSchema.pre('remove', {document: true}, async function(){
+ApplicantProfileSchema.pre("remove", { document: true }, async function () {
   try {
-    await LocalAccount.updateMany({profileId: this._id}, {$set: {profileId: null, profileType: ""}})
-    await GoogleAccount.updateMany({profileId: this._id}, {$set: {profileId: null, profileType: ""}})
-    next()
+    await LocalAccount.updateMany(
+      { profileId: this._id },
+      { $set: { profileId: null, profileType: "" } }
+    );
+    await GoogleAccount.updateMany(
+      { profileId: this._id },
+      { $set: { profileId: null, profileType: "" } }
+    );
+    next();
   } catch (err) {
-    next(err)
+    next(err);
   }
-})
+});
 
-const ApplicantProfile = mongoose.model('ApplicantProfile', ApplicantProfileSchema);
-
-
+const ApplicantProfile = mongoose.model(
+  "ApplicantProfile",
+  ApplicantProfileSchema
+);
 
 export default ApplicantProfile;

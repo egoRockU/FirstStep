@@ -3,16 +3,17 @@ import cors from 'cors'
 import localAccountRoutes from './routes/localAccountRoutes.js'
 import googleAccountRoutes from './routes/googleAccountRoutes.js'
 import ApplicantProfileRoutes from './routes/ApplicantProfileRoutes.js';
-import verifyEmail from './controllers/verifyEmail.js'
+import EmployerPriofileRoutes from './routes/EmployerProfileRoutes.js'
+import {verifyEmail, requestAnotherEmail} from './controllers/verifyEmail.js'
 import logout from './routes/logout.js'
 import cookieParser from 'cookie-parser'
 import dotenv from 'dotenv'
 dotenv.config()
 import connectDB from './db/db.js'
 import { errorHandler } from './middlewares/errorMiddlewares.js'
+import routes from './routes/routes.js';
 
 const app = express()
-const port = process.env.PORT || 8000
 connectDB()
 
 app.use(cors())
@@ -25,9 +26,11 @@ app.use(express.urlencoded({ extended: false }))
 app.use('/localaccounts', localAccountRoutes)
 app.use('/googleaccounts', googleAccountRoutes)
 app.use('/logout', logout)
-app.get('/verify/:uniqueString', verifyEmail)
-app.use('/applicantprofile', ApplicantProfileRoutes);
-
+app.get('/verify/:urlToken', verifyEmail)
+app.get('/requestverifylink/:email', requestAnotherEmail)
+app.use('/applicantprofile', ApplicantProfileRoutes)
+app.use('/employerprofile', EmployerPriofileRoutes)
+app.use('/',routes);
 
 app.use(errorHandler)
 

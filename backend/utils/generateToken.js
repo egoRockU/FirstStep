@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken'
 
-const generateToken = (email, res) => {
+const generateAuthToken = (email, res) => {
     const user = { email }
     const accessToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {
         expiresIn: '7d'
@@ -12,4 +12,12 @@ const generateToken = (email, res) => {
     })
 }
 
-export default generateToken
+const generateToken = (payload) => {
+    const token = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, {
+        expiresIn: '3d'
+    })
+    return token
+}
+
+export { generateAuthToken,
+        generateToken}

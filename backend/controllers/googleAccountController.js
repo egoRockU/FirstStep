@@ -2,7 +2,7 @@ import asyncHandler from 'express-async-handler'
 import GoogleAccount from '../models/googleAccountModel.js'
 import checkIfEmailExist from '../utils/checkIfEmailExists.js'
 import LocalAccount from '../models/localAccountModel.js'
-import generateToken from '../utils/generateToken.js'
+import { generateAuthToken, generateToken } from '../utils/generateToken.js'
 import bcrypt from 'bcrypt'
 import crypto from 'crypto'
 import sendVerificationEmail from '../utils/sendVerificationEmail.js'
@@ -39,10 +39,15 @@ const createGoogleAccount = asyncHandler(async (req, res) => {
 
     const subHash = await bcrypt.hash(sub, saltRounds)
     const uniqueString = crypto.randomBytes(64).toString('hex')
+    const jwtPayload = {
+        email,
+        uniqueString
+    }
+    const urlToken = generateToken(jwtPayload)
 
     const insertResult = await GoogleAccount.create({email, sub: subHash, uniqueString})
     if (!insertResult) throw new Error ('Error creating account')
-    sendVerificationEmail(email, uniqueString)
+    sendVerificationEmail(email, urlToken)
 
     res.status(201).json({
         message: 'success!',
@@ -68,7 +73,7 @@ const loginGoogle = asyncHandler(async (req, res) => {
         throw new Error('Invalid sub string.')
     }
 
-    generateToken(email, res)
+    generateAuthToken(email, res)
     const user = {
         email: emailExist.email,
         id: emailExist._id.toString(),

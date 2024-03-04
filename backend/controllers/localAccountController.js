@@ -2,7 +2,7 @@ import asyncHandler from 'express-async-handler'
 import LocalAccount from '../models/localAccountModel.js'
 import bcrypt from 'bcrypt'
 import checkIfEmailExist from '../utils/checkIfEmailExists.js'
-import generateToken from '../utils/generateToken.js'
+import { generateAuthToken, generateToken } from '../utils/generateToken.js'
 import GoogleAccount from '../models/googleAccountModel.js'
 import crypto from 'crypto'
 import sendVerificationEmail from '../utils/sendVerificationEmail.js'
@@ -38,11 +38,15 @@ const createLocalAccount = asyncHandler(async (req, res) => {
 
     const passwordHash = await bcrypt.hash(password, saltRounds)
     const uniqueString = crypto.randomBytes(64).toString('hex')
-
+    const jwtPayload = {
+        email,
+        uniqueString
+    }
+    const urlToken = generateToken(jwtPayload)
     const insertResult = await LocalAccount.create({email, password: passwordHash, uniqueString})
     if (!insertResult) throw new Error ('Error creating account')
 
-    sendVerificationEmail(email, uniqueString)
+    sendVerificationEmail(email, urlToken)
 
     res.status(201).json({
         message: 'success!',
@@ -64,7 +68,7 @@ const loginLocal = asyncHandler(async (req, res)=>{
     const correctPassword = await bcrypt.compare(password, emailExists.password)
     
     if (correctPassword) {
-        generateToken(email, res)
+        generateAuthToken(email, res)
         const user = {
             email: emailExists.email,
             id: emailExists._id.toString(),

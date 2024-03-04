@@ -1,12 +1,19 @@
 import React, { useState, useEffect } from "react";
+import { IoCloseOutline } from "react-icons/io5";
 
-function Certificates({ onClose, onSubmit, onEdit, formIndex, initialData }) {
+function AddCertificates({
+  onClose,
+  onSubmit,
+  onEdit,
+  formIndex,
+  initialData,
+}) {
   const [formData, setFormData] = useState({
     title: "",
-    image: null, 
+    image: null,
     document: "",
     description: "",
-    dateReceived: '',
+    dateReceived: "",
   });
 
   const [imagePreview, setImagePreview] = useState(null);
@@ -15,7 +22,7 @@ function Certificates({ onClose, onSubmit, onEdit, formIndex, initialData }) {
     if (initialData) {
       setFormData(initialData);
     }
-  }, [initialData]);  
+  }, [initialData]);
 
   const handleChange = (e) => {
     if (e.target.name === "image") {
@@ -31,7 +38,7 @@ function Certificates({ onClose, onSubmit, onEdit, formIndex, initialData }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     onSubmit(formData);
-    setImagePreview(null); // Reset image preview
+    setImagePreview(null);
     onClose();
   };
 
@@ -39,12 +46,12 @@ function Certificates({ onClose, onSubmit, onEdit, formIndex, initialData }) {
     e.preventDefault();
     onEdit(formIndex, formData);
     onClose();
-  }
+  };
 
   const handleCancel = () => {
     onClose();
     if (initialData) {
-      setFormData(initialData)
+      setFormData(initialData);
     } else {
       setFormData({
         title: "",
@@ -59,11 +66,14 @@ function Certificates({ onClose, onSubmit, onEdit, formIndex, initialData }) {
 
   return (
     <div className="fixed inset-0 flex justify-center items-center bg-gray-900 bg-opacity-50">
-      <div className="bg-white p-8 rounded-xl w-1/4">
-        <h2 className="text-2xl font-semibold mb-4">Awards</h2>
-        <form onSubmit={handleSubmit}>
-          <div className="mb-4">
-            <label htmlFor="title" className="block font-semibold">
+      <div className="bg-white p-5 rounded-xl w-1/2">
+        <div className="flex justify-between w-full">
+        <h2 className="text-xl text-[#444B88]">Add Certificates</h2>
+        <IoCloseOutline size={25} onClick={handleCancel} />
+        </div>
+        <form onSubmit={handleSubmit} className="flex flex-col gap-2">
+          <div>
+            <label htmlFor="title" className="block text-[#444B88]">
               Title:
             </label>
             <input
@@ -72,24 +82,32 @@ function Certificates({ onClose, onSubmit, onEdit, formIndex, initialData }) {
               name="title"
               value={formData.title}
               onChange={handleChange}
-              className="border border-gray-300 rounded-md px-4 py-2 w-full"
+              className="border border-[#444B88] rounded-md px-2 py-2 w-full"
+              required
             />
           </div>
-          <div className="mb-4">
-            <label htmlFor="dateReceived" className="block font-semibold">
+          <div>
+            <label htmlFor="dateReceived" className="block text-[#444B88]">
               Date Received:
             </label>
             <input
               type="date"
               id="dateReceived"
               name="dateReceived"
-              value={formData.dateReceived ? new Date(formData.dateReceived).toISOString().substring(0, 10) : ''}
+              value={
+                formData.dateReceived
+                  ? new Date(formData.dateReceived)
+                      .toISOString()
+                      .substring(0, 10)
+                  : ""
+              }
               onChange={handleChange}
-              className="border border-gray-300 rounded-md px-4 py-2 w-full"
+              className="border border-[#444B88] rounded-md px-2 py-2 w-full"
+              required
             />
           </div>
-          <div className="mb-4">
-            <label htmlFor="image" className="block font-semibold">
+          <div>
+            <label htmlFor="image" className="block text-[#444B88]">
               Image:
             </label>
             <input
@@ -97,10 +115,10 @@ function Certificates({ onClose, onSubmit, onEdit, formIndex, initialData }) {
               id="image"
               name="image"
               onChange={handleChange}
-              className="border border-gray-300 rounded-md px-4 py-2 w-full"
+              className="border border-[#444B88] rounded-md px-2 py-2 w-full"
             />
           </div>
-          <div className="mb-4">
+          <div>
             {imagePreview && (
               <img
                 src={imagePreview}
@@ -110,7 +128,7 @@ function Certificates({ onClose, onSubmit, onEdit, formIndex, initialData }) {
             )}
           </div>
           <div className="mb-4">
-            <label htmlFor="description" className="block font-semibold">
+            <label htmlFor="description" className="block text-[#444B88]">
               Description:
             </label>
             <textarea
@@ -118,31 +136,36 @@ function Certificates({ onClose, onSubmit, onEdit, formIndex, initialData }) {
               name="description"
               value={formData.description}
               onChange={handleChange}
-              className="border border-gray-300 rounded-md px-4 py-2 w-full"
+              className="border border-[#444B88] rounded-md px-2 py-2 w-full"
+              required
+              rows={8}
             />
           </div>
-          <div className="text-right">
+          <div className="text-right flex gap-2 justify-end">
+            <button
+              type="button"
+              onClick={handleCancel}
+              className="px-2 py-2 rounded-md border border-[#444B88]"
+            >
+              Cancel
+            </button>
+            {!initialData && (
+              <button
+                type="submit"
+                className="text-[#444B88] bg-[#8B95EE] px-2 py-2 rounded-md"
+              >
+                Save
+              </button>
+            )}
             {initialData && (
               <button
                 type="button"
                 onClick={handleEdit}
-                className="bg-yellow-500 text-white px-4 py-2 rounded-md mr-2"
+                className="bg-[#8B95EE] border border-[#444B88] text-black px-4 py-2 rounded-md mr-2"
               >
-                Edit
+                Save Changes
               </button>
             )}
-            <button
-              type="button"
-              onClick={handleCancel}
-              className="mr-4 text-gray-600 hover:text-gray-800 focus:outline-none"
-            >
-              Cancel
-            </button>
-            {!initialData && 
-              <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded-md">
-              Submit
-              </button>
-            }
           </div>
         </form>
         <button
@@ -165,7 +188,8 @@ function Certificates({ onClose, onSubmit, onEdit, formIndex, initialData }) {
         </button>
       </div>
     </div>
+    
   );
 }
 
-export default Certificates;
+export default AddCertificates;
