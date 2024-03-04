@@ -132,10 +132,11 @@ function Editemployerprofilepage() {
                         <p>{address}</p>
                         <p>{contactNum}</p>
                       </div>
-                      <div>{bio}</div>
+                      <div className="w-full break-words">{bio}</div>
                     </div>
                   </div>
                 </div>
+
                 <button
                   className="px-4 rounded-b-xl border text-white text-lg p-2 bg-[#444B88] w-full"
                   onClick={clickedit}

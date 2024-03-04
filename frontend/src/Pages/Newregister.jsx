@@ -9,6 +9,7 @@ import { GoogleLogin, GoogleOAuthProvider } from "@react-oauth/google";
 import { jwtDecode } from "jwt-decode";
 import "../Fonts.css";
 import Terms from '../Modals/Terms.jsx';
+import Privacyandpolicy from '../Modals/Privacyandpolicy.jsx'
 import { toast } from "react-toastify";
 
 
@@ -105,17 +106,29 @@ function Newregister() {
   const [agreeTerms, setAgreeTerms] = useState(false);
   const [agreeToPrivacyPolicy, setAgreeToPrivacyPolicy] = useState(false);
   const [isTermsOpen, setIsTermsOpen] = useState(false);
+  const [isPolicyOpen, setIsPolicyOpen] = useState(false);
+
+  co
 
   const handleTermsOpen = () => {
     setIsTermsOpen(true);
+  };
+
+  const handlePolicyOpen = () => {
+    setIsPolicyOpen(true);
   };
 
   const handleTermsClose = () => {
     setIsTermsOpen(false);
   };
 
+  const handlePolicyClose = () => {
+    setAgreeTerms(false);
+  };
+
   const handleCheckboxChange = (e) => {
     setAgreeTerms(e.target.checked);
+    setAgreeToPrivacyPolicy(e.target.checked);
   };
 
   const clickLogin = () => {
@@ -136,11 +149,23 @@ function Newregister() {
     setAgreeTerms(true);
     setIsTermsOpen(false); 
   };
+
+  const handleAcceptPolicy = () => {
+    setAgreeToPrivacyPolicy(true);
+    setIsPolicyOpen(false);
+  }
+  
   
   const handleDeclineTerms = () => {
     setAgreeTerms(false);
     setIsTermsOpen(false); 
   };
+
+  const handleDeclinePolicy = () =>{
+    setAgreeToPrivacyPolicy(false);
+    setIsPolicyOpen(false);
+  }
+
 
   return (
     <div style={bgStyle} className="flex flex-col">
@@ -207,7 +232,6 @@ function Newregister() {
                 <div className="form-group flex flex-col gap-2">
                   <label>
                     <span
-                      className="text-blue-400 cursor-pointer"
                       onClick={handleTermsOpen}
                     >
                       <input
@@ -215,20 +239,22 @@ function Newregister() {
                         onChange={handleCheckboxChange}
                         checked={agreeTerms}
                       />{" "}
-                      I agree to the Terms and Conditions
+                      I agree to the <span className="text-blue-400 cursor-pointer">Terms and Conditions</span>
                     </span>
                   </label>
                   <label>
+                    <span 
+                     onClick={handlePolicyOpen}
+                     >
                     <input
                       type="checkbox"
-                      onChange={(e) =>
-                        setAgreeToPrivacyPolicy(e.target.checked)
-                      }
+                      onChange={handleCheckboxChange}
                       checked={agreeToPrivacyPolicy}
-                    />
-                    {""} I agree to{" "}
+                    /> {""}
+                     I agree to{" "}
                     <span className="text-blue-400 cursor-pointer">
                       Privacy Policy
+                    </span>
                     </span>
                   </label>
                 </div>
@@ -271,6 +297,11 @@ function Newregister() {
   onClose={handleTermsClose} 
   onAccept={handleAcceptTerms} 
   onDecline={handleDeclineTerms}   />
+  <Privacyandpolicy isOpen={isPolicyOpen}
+  onClose={handlePolicyClose}
+  onAccept={handleAcceptPolicy}
+  onDecline={handleDeclinePolicy}
+  />
     </div>
   );
 }

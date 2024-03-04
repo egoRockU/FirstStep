@@ -10,6 +10,9 @@ import AddSocial from "../Modals/EditEmployer Profile/Addsocial";
 import { updateAccountProfileValues } from "../utils/updateAccountProfileValues";
 import { useDispatch } from "react-redux";
 import { updateUser } from "../slices/userSlice";
+import { IoClose } from "react-icons/io5";
+
+
 
 function CreateEmployerpage() {
   const navigate = useNavigate();
@@ -289,13 +292,13 @@ function CreateEmployerpage() {
                     onChange={(e) => setBio(e.target.value)}
                   />
                 </div>
-                <div className=" border-2 h-16 border-[#444B88] flex justify-center items-center">
-                  <div>
+                <div className=" border-2 py-2 border-[#444B88] flex flex-col items-center">
+                  <div className="flex flex-col items-center">
                     {" "}
                     {socialLinks.map((link, index) => (
                       <div
                         key={index}
-                        className="flex items-center justify-between mt-4 "
+                        className="flex items-center py-1 text-center "
                       >
                         <div>
                           {/* <a href="" onClick={() => editSocialLink(index)}>
@@ -309,22 +312,9 @@ function CreateEmployerpage() {
                           <button
                             onClick={() => editSocialLink(index)}
                           ></button>
-
                           <button
-                            onClick={() => deleteSocialLink(index)}
-                            className="text-red-500 hover:text-red-700"
-                          >
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              className="h-5 w-5"
-                              viewBox="0 0 20 20"
-                            >
-                              <path
-                                fillRule="evenodd"
-                                d="M5.293 5.293a1 1 0 011.414 0L10 8.586l3.293-3.293a1 1 0 111.414 1.414L11.414 10l3.293 3.293a1 1 0 01-1.414 1.414L10 11.414l-3.293 3.293a1 1 0 01-1.414-1.414L8.586 10 5.293 6.707a1 1 0 010-1.414z"
-                                clipRule="evenodd"
-                              />
-                            </svg>
+                            onClick={() => deleteSocialLink(index)}>
+                              <IoClose size={25} />
                           </button>
                         </div>
                       </div>

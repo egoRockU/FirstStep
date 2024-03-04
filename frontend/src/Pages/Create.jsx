@@ -372,7 +372,7 @@ function CreateApplicantProfilepage() {
                       {socialLinks.map((link, index) => (
                         <div
                           key={index}
-                          className="flex items-center py-2 justify-center"
+                          className="flex items-center py-1 justify-center"
                         >
                           <div>
                             {/* <a href="" onClick={() => editSocialLink(index)}>
