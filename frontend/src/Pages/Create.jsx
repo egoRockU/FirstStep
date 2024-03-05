@@ -14,14 +14,7 @@ import AddSocial from "../Modals/Create Profile/Addsocial";
 import AddIndustry from "../Modals/Create Profile/Addindustry";
 import AddSkill from "../Modals/Create Profile/Addskill";
 import { updateAccountProfileValues } from "../utils/updateAccountProfileValues";
-import { storage } from "../firebase/firebase";
-import {
-  ref,
-  uploadBytes,
-  getDownloadURL,
-  uploadBytesResumable,
-  deleteObject,
-} from "firebase/storage";
+import { uploadBanner, uploadImage } from "../utils/imageUpload";
 
 function CreateApplicantProfilepage() {
   //social
@@ -43,6 +36,7 @@ function CreateApplicantProfilepage() {
   const closeAddSocialModal = () => {
     setAddSocialModalOpen(false);
   };
+
   const editSocialLink = (index) => {
     const editedSocialLinks = [...socialLinks];
     const newPlatform = prompt("Enter new platform:");
@@ -133,6 +127,13 @@ function CreateApplicantProfilepage() {
     updatedSkills.splice(index, 1);
     setSkills(updatedSkills);
   };
+  const updateSkillsState = (index, value) => {
+    setSkills((skills) => {
+      const newSkills = [...skills];
+      newSkills[index] = value;
+      return newSkills;
+    });
+  };
 
   //end
 
@@ -153,6 +154,9 @@ function CreateApplicantProfilepage() {
   const [skills, setSkills] = useState([]);
   const [inputs, setInputs] = useState({});
   const navigate = useNavigate();
+  const goback = () => {
+    navigate("/");
+  };
 
   useEffect(() => {
     setInputs({
@@ -183,191 +187,64 @@ function CreateApplicantProfilepage() {
     skills,
     industries,
   ]);
-
+  //Image Upload to firebase storage
   const [uploadProgress, setUploadProgress] = useState(0);
   const [bannerImageUploadProgress, setBannerImageUploadProgress] = useState(0);
 
   const handleImageChange = async (e) => {
     const imageFile = e.target.files[0];
-
-    if (!imageFile) {
-      return;
-    }
-
-    const timestamp = new Date().getTime();
-    const filename = `${timestamp}_${imageFile.name}`;
-    const storageRef = ref(storage, `Profile/${filename}`);
-
-    try {
-      setSelectedImage(null);
-      setUploadProgress(0);
-
-      if (selectedImage) {
-        const prevImageRef = ref(storage, selectedImage);
-        await deleteObject(prevImageRef);
-        console.log("Previous image deleted successfully");
-      }
-
-      const uploadTask = uploadBytesResumable(storageRef, imageFile);
-
-      uploadTask.on(
-        "state_changed",
-        (snapshot) => {
-          const progress = Math.round(
-            (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-          );
-          setUploadProgress(progress);
-          console.log("Upload progress:", progress);
-        },
-        (error) => {
-          console.error("Error uploading image:", error);
-          alert("Error occurred while uploading image.");
-        },
-        () => {
-          getDownloadURL(uploadTask.snapshot.ref)
-            .then((downloadURL) => {
-              setSelectedImage(downloadURL);
-              console.log("Download URL:", downloadURL);
-
-              setInputs((prevInputs) => ({
-                ...prevInputs,
-                profileImg: downloadURL,
-              }));
-            })
-            .catch((error) => {
-              console.error("Error getting download URL:", error);
-              alert("Error occurred while getting download URL.");
-            });
-        }
-      );
-    } catch (error) {
-      console.error("Error handling image change:", error);
-      alert("Error occurred while handling image change.");
-    }
+    await uploadImage(
+      imageFile,
+      selectedImage,
+      setUploadProgress,
+      setSelectedImage,
+      setInputs
+    );
   };
 
-  const handleBannerChange = (e) => {
+  const handleBannerChange = async (e) => {
     const file = e.target.files[0];
-    if (file) {
-      const timestamp = new Date().getTime();
-      const filename = `${timestamp}_${file.name}`;
-      const storageRef = ref(storage, `Banner/${filename}`);
-
-      setSelectedBanner(null);
-
-      if (selectedBanner) {
-        const prevBannerRef = ref(storage, selectedBanner);
-        deleteObject(prevBannerRef)
-          .then(() => {
-            console.log("Previous banner deleted successfully");
-          })
-          .catch((error) => {
-            console.error("Error deleting previous banner:", error);
-          });
-      }
-
-      const uploadTask = uploadBytesResumable(storageRef, file);
-
-      uploadTask.on(
-        "state_changed",
-        (snapshot) => {
-          const progress = Math.round(
-            (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-          );
-          setBannerImageUploadProgress(progress);
-          console.log("Upload progress:", progress);
-        },
-        (error) => {
-          console.error("Error uploading banner image:", error);
-          alert("Error occurred while uploading banner image.");
-        },
-        () => {
-          getDownloadURL(uploadTask.snapshot.ref)
-            .then((downloadURL) => {
-              setSelectedBanner(downloadURL);
-              console.log("Banner Download URL:", downloadURL);
-
-              setInputs((prevInputs) => ({
-                ...prevInputs,
-                banner: downloadURL,
-              }));
-            })
-            .catch((error) => {
-              console.error("Error getting banner download URL:", error);
-              alert("Error occurred while getting banner download URL.");
-            });
-        }
-      );
-    }
+    await uploadBanner(
+      file,
+      selectedBanner,
+      setBannerImageUploadProgress,
+      setSelectedBanner,
+      setInputs
+    );
   };
-
-  const updateSkillsState = (index, value) => {
-    setSkills((skills) => {
-      const newSkills = [...skills];
-      newSkills[index] = value;
-      return newSkills;
-    });
-  };
-
-  const goback = () => {
-    navigate("/");
-  };
-
+  
   const createProfile = () => {
     if (!selectedImage) {
       alert("Please select an image");
       return;
     }
 
-    const storageRef = ref(storage, `frontend/${userId}`);
+    console.log(inputs);
 
-    uploadBytes(storageRef, selectedImage)
-      .then((snapshot) => {
-        getDownloadURL(snapshot.ref)
-          .then((downloadURL) => {
-            setSelectedImage(downloadURL);
-
-            console.log("Download URL:", downloadURL);
-            console.log(inputs);
-
-            setInputs((prevInputs) => ({
-              ...prevInputs,
-              profileImg: downloadURL,
-            }));
-            axios
-              .post("/api/applicantprofile/create", inputs, {
-                headers: {
-                  "Content-Type": "application/json",
-                },
-              })
-              .then((res) => {
-                if (res.data.status == true) {
-                  alert(res.data.message);
-                  updateAccountProfileValues(
-                    res.data._id,
-                    "applicant",
-                    userAccountType,
-                    userEmail
-                  );
-                  navigate("/editprofile");
-                }
-                if (res.data.status == false) {
-                  alert("Not Inserted");
-                }
-              })
-              .catch((err) => {
-                alert(err.response.data.message);
-                console.log(err.response.data.errorMessage);
-              });
-          })
-          .catch((error) => {
-            console.error("Error getting download URL:", error);
-            alert("Error occurred while getting download URL.");
-          });
+    axios
+      .post("/api/applicantprofile/create", inputs, {
+        headers: {
+          "Content-Type": "application/json",
+        },
       })
-      .catch((error) => {
-        console.error("Error uploading image:", error);
-        alert("Error occurred while uploading image.");
+      .then((res) => {
+        if (res.data.status == true) {
+          alert(res.data.message);
+          updateAccountProfileValues(
+            res.data._id,
+            "applicant",
+            userAccountType,
+            userEmail
+          );
+          navigate("/editprofile");
+        }
+        if (res.data.status == false) {
+          alert("Not Inserted");
+        }
+      })
+      .catch((err) => {
+        alert(err.response.data.message);
+        console.log(err.response.data.errorMessage);
       });
   };
 
@@ -379,6 +256,7 @@ function CreateApplicantProfilepage() {
           <div className="h-full w-full">
             <div className="w-full" style={{ position: "relative" }}>
               <div>
+                {/* BannerInput */}
                 <input
                   type="file"
                   id="imageInputbanner"
@@ -395,7 +273,6 @@ function CreateApplicantProfilepage() {
                     src={selectedBanner}
                     alt=""
                     className="w-full h-60 bg-blue-200 object-cover"
-                    
                   />
                 </label>
 
@@ -611,7 +488,7 @@ function CreateApplicantProfilepage() {
                     </div>
                   )}
                 </div>
-
+                {/* Image */}
                 <div className="flex flex-col justify-center items-center w-1/4">
                   <input
                     type="file"
