@@ -333,25 +333,26 @@ function Editemployerabout() {
                           </div>
                         </div>
                       ))}
-                    </div> 
-                  <button
-                    className=" py-1 px-5 bg-[#8B95EE]"
-                    onClick={openAddSocialModal}>
-                    + Add Social link
-                  </button>
-                  </div>
-                {isAddSocialModalOpen && (
-                  <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
-                    <div className="bg-white p-4 rounded-md">
-                      {/* {add Social`1} */}
-                      <AddSocial
-                        onClose={closeAddSocialModal}
-                        onSubmit={onSubmitSocialMedia}
-                      />
                     </div>
+                    <button
+                      className=" py-1 px-5 bg-[#8B95EE]"
+                      onClick={openAddSocialModal}
+                    >
+                      + Add Social link
+                    </button>
                   </div>
-                )}
-              </div>
+                  {isAddSocialModalOpen && (
+                    <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
+                      <div className="bg-white p-4 rounded-md">
+                        {/* {add Social`1} */}
+                        <AddSocial
+                          onClose={closeAddSocialModal}
+                          onSubmit={onSubmitSocialMedia}
+                        />
+                      </div>
+                    </div>
+                  )}
+                </div>
                 <div className="flex flex-col justify-center items-start">
                   <h1 className="text-lg">Website</h1>
                   <input
