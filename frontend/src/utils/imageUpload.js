@@ -1,7 +1,8 @@
+
 import { ref, uploadBytesResumable, getDownloadURL, deleteObject } from "firebase/storage";
 import { storage } from "../firebase/firebase";
 
-export const uploadImage = async (file, previousImage, setUploadProgress, setSelectedImage, setInputs) => {
+export const uploadImage = async (file, previousImage, setSelectedImage, setInputs) => {
   try {
     if (!file) {
       return;
@@ -15,8 +16,6 @@ export const uploadImage = async (file, previousImage, setUploadProgress, setSel
     const filename = `${timestamp}_${file.name}`;
     const storageRef = ref(storage, `Profile/${filename}`);
 
-    setUploadProgress(0);
-
     if (previousImage) {
       const prevImageRef = ref(storage, previousImage);
       await deleteObject(prevImageRef);
@@ -27,13 +26,7 @@ export const uploadImage = async (file, previousImage, setUploadProgress, setSel
 
     uploadTask.on(
       "state_changed",
-      (snapshot) => {
-        const progress = Math.round(
-          (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-        );
-        setUploadProgress(progress);
-        console.log("Upload progress:", progress);
-      },
+      null,
       (error) => {
         console.error("Error uploading image:", error);
         alert("Error occurred while uploading image.");
@@ -62,7 +55,7 @@ export const uploadImage = async (file, previousImage, setUploadProgress, setSel
 };
 
 //banner
-export const uploadBanner = async (file, previousBanner, setBannerUploadProgress, setSelectedBanner, setInputs) => {
+export const uploadBanner = async (file, previousBanner, setSelectedBanner, setInputs) => {
   try {
     if (!file) {
       return;
@@ -76,8 +69,6 @@ export const uploadBanner = async (file, previousBanner, setBannerUploadProgress
     const filename = `${timestamp}_${file.name}`;
     const storageRef = ref(storage, `Banner/${filename}`);
 
-    setBannerUploadProgress(0);
-
     if (previousBanner) {
       const prevBannerRef = ref(storage, previousBanner);
       await deleteObject(prevBannerRef);
@@ -88,13 +79,7 @@ export const uploadBanner = async (file, previousBanner, setBannerUploadProgress
 
     uploadTask.on(
       "state_changed",
-      (snapshot) => {
-        const progress = Math.round(
-          (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-        );
-        setBannerUploadProgress(progress);
-        console.log("Banner Upload progress:", progress);
-      },
+      null,
       (error) => {
         console.error("Error uploading banner image:", error);
         alert("Error occurred while uploading banner image.");

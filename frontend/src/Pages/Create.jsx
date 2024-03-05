@@ -188,15 +188,12 @@ function CreateApplicantProfilepage() {
     industries,
   ]);
   //Image Upload to firebase storage
-  const [uploadProgress, setUploadProgress] = useState(0);
-  const [bannerImageUploadProgress, setBannerImageUploadProgress] = useState(0);
-
+  
   const handleImageChange = async (e) => {
     const imageFile = e.target.files[0];
     await uploadImage(
       imageFile,
       selectedImage,
-      setUploadProgress,
       setSelectedImage,
       setInputs
     );
@@ -207,7 +204,6 @@ function CreateApplicantProfilepage() {
     await uploadBanner(
       file,
       selectedBanner,
-      setBannerImageUploadProgress,
       setSelectedBanner,
       setInputs
     );
@@ -263,7 +259,7 @@ function CreateApplicantProfilepage() {
                   accept="image/*"
                   style={{ display: "none" }}
                   onChange={handleBannerChange}
-                  onLoad={() => setUploadProgress(100)}
+              
                 />
                 <label
                   htmlFor="imageInputbanner"
@@ -284,12 +280,7 @@ function CreateApplicantProfilepage() {
                     className="absolute cursor-pointer text-lg bg-white p-2 rounded-full"
                     style={{ zIndex: 1, bottom: 20, right: 30 }}
                   >
-                    {bannerImageUploadProgress > 0 &&
-                      bannerImageUploadProgress < 100 && (
-                        <div className="progress-container">
-                          <span>{bannerImageUploadProgress}%</span>
-                        </div>
-                      )}
+                   
 
                     <FaCamera />
                   </button>
@@ -502,7 +493,7 @@ function CreateApplicantProfilepage() {
                       src={selectedImage || placeholderImage}
                       alt=""
                       className="w-40 h-40 rounded-full border-4 border-black object-cover"
-                      onLoad={() => setUploadProgress(100)}
+                     
                     />
                   </label>
                   {!selectedImage && (
@@ -514,11 +505,7 @@ function CreateApplicantProfilepage() {
                       style={{ zIndex: 1 }}
                     ></div>
                   )}
-                  {uploadProgress > 0 && uploadProgress < 100 && (
-                    <div className="progress-container">
-                      <span>{uploadProgress}%</span>
-                    </div>
-                  )}
+                  
 
                   <div className="w-full h-full mt-5">
                     <div className="flex flex-col justify-center items-center w-full">
