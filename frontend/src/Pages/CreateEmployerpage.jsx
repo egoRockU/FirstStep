@@ -8,34 +8,9 @@ const placeholderImage =
 import Footer from "../Components/Footer";
 import AddSocial from "../Modals/EditEmployer Profile/Addsocial";
 import { updateAccountProfileValues } from "../utils/updateAccountProfileValues";
-
+import { uploadBanner, uploadImage } from "../utils/imageEmpUpload";
 function CreateEmployerpage() {
   const navigate = useNavigate();
-  const [selectedImage, setSelectedImage] = useState(null);
-  const [selectedBanner, setSelectedBanner] = useState(null);
-
-  const handleBannerChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = function (e) {
-        setSelectedBanner(e.target.result);
-      };
-      reader.readAsDataURL(file);
-    }
-  };
-
-  const handleImageChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = function (e) {
-        setSelectedImage(e.target.result);
-      };
-      reader.readAsDataURL(file);
-    }
-  };
-
   //social
   const [isAddSocialModalOpen, setAddSocialModalOpen] = useState(false);
   const [socialLinks, setSocialLinks] = useState([]);
@@ -85,39 +60,16 @@ function CreateEmployerpage() {
   const [companyName, setCompanyName] = useState("");
   const [bio, setBio] = useState("");
   const [website, setWebsite] = useState("");
-
   const [inputs, setInputs] = useState({});
-
-  const createProfile = () => {
-    axios
-      .post("/api/employerprofile/create", inputs, {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      })
-      .then((res) => {
-        if (res.data.status == true) {
-          alert(res.data.message);
-          updateAccountProfileValues(
-            res.data._id,
-            "employer",
-            userAccountType,
-            userEmail
-          );
-          navigate("/editemployer");
-        }
-        if (res.data.status == false) {
-          alert("Employer profile not created");
-        }
-      })
-      .catch((err) => {
-        alert(err.response.data.message);
-        console.log(err.response.data.errorMessage);
-      });
-  };
+  const [selectedImage, setSelectedImage] = useState(null);
+  const [selectedBanner, setSelectedBanner] = useState(null);
+  const [selectedImageFile, setSelectedImageFile] = useState(null);
+  const [selectedBannerFile, setSelectedBannerFile] = useState(null);
 
   useEffect(() => {
     setInputs({
+      profileImg: selectedImage,
+      banner: selectedBanner,
       accountId: userId,
       firstName: fName,
       lastName: lName,
@@ -130,6 +82,8 @@ function CreateEmployerpage() {
       website,
     });
   }, [
+    selectedImage,
+    selectedBanner,
     fName,
     lName,
     email,
@@ -140,6 +94,73 @@ function CreateEmployerpage() {
     socialLinks,
     website,
   ]);
+
+  //image
+  const handleImageChange = (e) => {
+    const imageFile = e.target.files[0];
+    if (!imageFile) return;
+
+    // Show preview of the image
+    const reader = new FileReader();
+    reader.onload = () => {
+      setSelectedImage(reader.result);
+    };
+    reader.readAsDataURL(imageFile);
+
+    // Set the selected image file in state
+    setSelectedImageFile(imageFile);
+  };
+
+  const handleBannerChange = (e) => {
+    const file = e.target.files[0];
+    setSelectedBannerFile(file);
+
+    // Show preview of the image
+    const reader = new FileReader();
+    reader.onload = () => {
+      setSelectedBanner(reader.result);
+    };
+    reader.readAsDataURL(file);
+  };
+
+  const createProfile = async () => {
+    try {
+      if (!selectedImageFile) {
+        alert("Please select  profile image");
+        return;
+      }
+
+      const profileImageURL = await uploadImage(selectedImageFile);
+      const bannerImageURL = await uploadBanner(selectedBannerFile);
+
+      // Set the image URLs into the state
+      setSelectedImage(profileImageURL);
+      setSelectedBanner(bannerImageURL);
+
+      const res = await axios.post("/api/employerprofile/create", {
+        ...inputs,
+        profileImg: profileImageURL,
+        banner: bannerImageURL,
+      });
+      console.log(inputs);
+
+      if (res.data.status) {
+        alert(res.data.message);
+        updateAccountProfileValues(
+          res.data._id,
+          "employer",
+          userAccountType,
+          userEmail
+        );
+        navigate("/editemployer");
+      } else {
+        alert("Profile creation failed");
+      }
+    } catch (error) {
+      console.error("Error creating profile:", error);
+      alert("An error occurred while creating the profile");
+    }
+  };
 
   return (
     <>

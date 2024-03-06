@@ -193,23 +193,22 @@ function CreateApplicantProfilepage() {
   const handleImageChange = (e) => {
     const imageFile = e.target.files[0];
     if (!imageFile) return;
-  
+
     // Show preview of the image
     const reader = new FileReader();
     reader.onload = () => {
       setSelectedImage(reader.result);
     };
     reader.readAsDataURL(imageFile);
-  
+
     // Set the selected image file in state
     setSelectedImageFile(imageFile);
   };
-  
 
   const handleBannerChange = (e) => {
     const file = e.target.files[0];
     setSelectedBannerFile(file);
-  
+
     // Show preview of the image
     const reader = new FileReader();
     reader.onload = () => {
@@ -217,30 +216,28 @@ function CreateApplicantProfilepage() {
     };
     reader.readAsDataURL(file);
   };
-  
-  
+
   const createProfile = async () => {
     try {
-      if (!selectedImageFile || !selectedBannerFile) {
-        alert("Please select both profile and banner images");
+      if (!selectedImageFile) {
+        alert("Please select both profile images");
         return;
       }
-  
-      // Upload the images to Firebase Storage
+
       const profileImageURL = await uploadImage(selectedImageFile);
       const bannerImageURL = await uploadBanner(selectedBannerFile);
-  
+
       // Set the image URLs into the state
       setSelectedImage(profileImageURL);
       setSelectedBanner(bannerImageURL);
-  
-      // Make the API call to create the profile
+
       const res = await axios.post("/api/applicantprofile/create", {
         ...inputs,
         profileImg: profileImageURL,
         banner: bannerImageURL,
       });
-  
+      console.log(inputs);
+
       if (res.data.status) {
         alert(res.data.message);
         updateAccountProfileValues(
@@ -258,8 +255,6 @@ function CreateApplicantProfilepage() {
       alert("An error occurred while creating the profile");
     }
   };
-  
-
   return (
     <div className="bg-gray-100">
       <NavbarLoggedIn />
@@ -275,7 +270,6 @@ function CreateApplicantProfilepage() {
                   accept="image/*"
                   style={{ display: "none" }}
                   onChange={handleBannerChange}
-              
                 />
                 <label
                   htmlFor="imageInputbanner"
@@ -296,8 +290,6 @@ function CreateApplicantProfilepage() {
                     className="absolute cursor-pointer text-lg bg-white p-2 rounded-full"
                     style={{ zIndex: 1, bottom: 20, right: 30 }}
                   >
-                   
-
                     <FaCamera />
                   </button>
                 )}
@@ -509,7 +501,6 @@ function CreateApplicantProfilepage() {
                       src={selectedImage || placeholderImage}
                       alt=""
                       className="w-40 h-40 rounded-full border-4 border-black object-cover"
-                     
                     />
                   </label>
                   {!selectedImage && (
@@ -521,7 +512,6 @@ function CreateApplicantProfilepage() {
                       style={{ zIndex: 1 }}
                     ></div>
                   )}
-                  
 
                   <div className="w-full h-full mt-5">
                     <div className="flex flex-col justify-center items-center w-full">
