@@ -1,8 +1,7 @@
 
-import { ref, uploadBytesResumable, getDownloadURL, deleteObject } from "firebase/storage";
+import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { storage } from "../firebase/firebase";
-
-export const uploadImage = async (file, previousImage, setSelectedImage, setInputs) => {
+export const uploadImage = async (file, setSelectedImage, setInputs) => {
   try {
     if (!file) {
       return;
@@ -15,12 +14,6 @@ export const uploadImage = async (file, previousImage, setSelectedImage, setInpu
     const timestamp = new Date().getTime();
     const filename = `${timestamp}_${file.name}`;
     const storageRef = ref(storage, `Profile/${filename}`);
-
-    if (previousImage) {
-      const prevImageRef = ref(storage, previousImage);
-      await deleteObject(prevImageRef);
-      console.log("Previous image deleted successfully");
-    }
 
     const uploadTask = uploadBytesResumable(storageRef, file);
 
@@ -54,8 +47,9 @@ export const uploadImage = async (file, previousImage, setSelectedImage, setInpu
   }
 };
 
+
 //banner
-export const uploadBanner = async (file, previousBanner, setSelectedBanner, setInputs) => {
+export const uploadBanner = async (file, setSelectedBanner, setInputs) => {
   try {
     if (!file) {
       return;
@@ -68,12 +62,6 @@ export const uploadBanner = async (file, previousBanner, setSelectedBanner, setI
     const timestamp = new Date().getTime();
     const filename = `${timestamp}_${file.name}`;
     const storageRef = ref(storage, `Banner/${filename}`);
-
-    if (previousBanner) {
-      const prevBannerRef = ref(storage, previousBanner);
-      await deleteObject(prevBannerRef);
-      console.log("Previous banner deleted successfully");
-    }
 
     const uploadTask = uploadBytesResumable(storageRef, file);
 

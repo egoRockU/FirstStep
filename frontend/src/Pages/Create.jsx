@@ -188,60 +188,79 @@ function CreateApplicantProfilepage() {
     industries,
   ]);
   //Image Upload to firebase storage
-  
-  const handleImageChange = async (e) => {
+  const [selectedImageFile, setSelectedImageFile] = useState(null);
+  const [selectedBannerFile, setSelectedBannerFile] = useState(null);
+  const handleImageChange = (e) => {
     const imageFile = e.target.files[0];
-    await uploadImage(
-      imageFile,
-      selectedImage,
-      setSelectedImage,
-      setInputs
-    );
-  };
-
-  const handleBannerChange = async (e) => {
-    const file = e.target.files[0];
-    await uploadBanner(
-      file,
-      selectedBanner,
-      setSelectedBanner,
-      setInputs
-    );
+    if (!imageFile) return;
+  
+    // Show preview of the image
+    const reader = new FileReader();
+    reader.onload = () => {
+      setSelectedImage(reader.result);
+    };
+    reader.readAsDataURL(imageFile);
+  
+    // Set the selected image file in state
+    setSelectedImageFile(imageFile);
   };
   
-  const createProfile = () => {
-    if (!selectedImage) {
+
+  const handleBannerChange = (e) => {
+    const file = e.target.files[0];
+    setSelectedBannerFile(file);
+  
+    // Show preview of the image
+    const reader = new FileReader();
+    reader.onload = () => {
+      setSelectedBanner(reader.result);
+    };
+    reader.readAsDataURL(file);
+  };
+  
+  
+  const createProfile = async () => {
+    if (!selectedImageFile) {
       alert("Please select an image");
       return;
     }
-
+  
+    // Upload the image to the server
+    const profileImageURL = await uploadImage(selectedImageFile, setSelectedImage, setInputs);
+    const bannerImageURL = await uploadBanner(selectedBannerFile, setSelectedBanner, setInputs);
+  
+    setInputs((prevInputs) => ({
+      ...prevInputs,
+      profileImg: profileImageURL,
+      banner: bannerImageURL
+    }));
+  
     console.log(inputs);
-
-    axios
-      .post("/api/applicantprofile/create", inputs, {
+  
+    // Now, make the API call
+    try {
+      const res = await axios.post("/api/applicantprofile/create", inputs, {
         headers: {
           "Content-Type": "application/json",
         },
-      })
-      .then((res) => {
-        if (res.data.status == true) {
-          alert(res.data.message);
-          updateAccountProfileValues(
-            res.data._id,
-            "applicant",
-            userAccountType,
-            userEmail
-          );
-          navigate("/editprofile");
-        }
-        if (res.data.status == false) {
-          alert("Not Inserted");
-        }
-      })
-      .catch((err) => {
-        alert(err.response.data.message);
-        console.log(err.response.data.errorMessage);
       });
+  
+      if (res.data.status == true) {
+        alert(res.data.message);
+        updateAccountProfileValues(
+          res.data._id,
+          "applicant",
+          userAccountType,
+          userEmail
+        );
+        navigate("/editprofile");
+      } else {
+        alert("Not Inserted");
+      }
+    } catch (err) {
+      alert(err.response.data.message);
+      console.log(err.response.data.errorMessage);
+    }
   };
 
   return (
