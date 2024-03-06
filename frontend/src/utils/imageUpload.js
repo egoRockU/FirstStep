@@ -1,14 +1,13 @@
-
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { storage } from "../firebase/firebase";
-export const uploadImage = async (file, setSelectedImage, setInputs) => {
+
+export const uploadImage = async (file) => {
   try {
     if (!file) {
-      return;
+      throw new Error("No image file provided");
     }
     if (file.size > 1 * 1024 * 1024) {
-      alert("Please select an image that is 1MB or less in size.");
-      return;
+      throw new Error("Image size exceeds the limit (1MB)");
     }
 
     const timestamp = new Date().getTime();
@@ -17,46 +16,24 @@ export const uploadImage = async (file, setSelectedImage, setInputs) => {
 
     const uploadTask = uploadBytesResumable(storageRef, file);
 
-    uploadTask.on(
-      "state_changed",
-      null,
-      (error) => {
-        console.error("Error uploading image:", error);
-        alert("Error occurred while uploading image.");
-      },
-      () => {
-        getDownloadURL(uploadTask.snapshot.ref)
-          .then((downloadURL) => {
-            setSelectedImage(downloadURL);
-            console.log("Download URL:", downloadURL);
+    await uploadTask;
 
-            setInputs((prevInputs) => ({
-              ...prevInputs,
-              profileImg: downloadURL,
-            }));
-          })
-          .catch((error) => {
-            console.error("Error getting download URL:", error);
-            alert("Error occurred while getting download URL.");
-          });
-      }
-    );
+    const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
+    console.log("Download URL:", downloadURL);
+    return downloadURL;
   } catch (error) {
     console.error("Error handling image upload:", error);
-    alert("Error occurred while handling image upload.");
+    throw new Error("Error occurred while handling image upload");
   }
 };
 
-
-//banner
-export const uploadBanner = async (file, setSelectedBanner, setInputs) => {
+export const uploadBanner = async (file) => {
   try {
     if (!file) {
-      return;
+      throw new Error("No banner image file provided");
     }
     if (file.size > 1 * 1024 * 1024) {
-      alert("Please select a banner image that is 1MB or less in size.");
-      return;
+      throw new Error("Banner image size exceeds the limit (1MB)");
     }
 
     const timestamp = new Date().getTime();
@@ -65,32 +42,13 @@ export const uploadBanner = async (file, setSelectedBanner, setInputs) => {
 
     const uploadTask = uploadBytesResumable(storageRef, file);
 
-    uploadTask.on(
-      "state_changed",
-      null,
-      (error) => {
-        console.error("Error uploading banner image:", error);
-        alert("Error occurred while uploading banner image.");
-      },
-      () => {
-        getDownloadURL(uploadTask.snapshot.ref)
-          .then((downloadURL) => {
-            setSelectedBanner(downloadURL);
-            console.log("Banner Download URL:", downloadURL);
+    await uploadTask;
 
-            setInputs((prevInputs) => ({
-              ...prevInputs,
-              banner: downloadURL,
-            }));
-          })
-          .catch((error) => {
-            console.error("Error getting banner download URL:", error);
-            alert("Error occurred while getting banner download URL.");
-          });
-      }
-    );
+    const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
+    console.log("Banner Download URL:", downloadURL);
+    return downloadURL;
   } catch (error) {
     console.error("Error handling banner upload:", error);
-    alert("Error occurred while handling banner upload.");
+    throw new Error("Error occurred while handling banner upload");
   }
 };

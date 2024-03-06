@@ -220,32 +220,28 @@ function CreateApplicantProfilepage() {
   
   
   const createProfile = async () => {
-    if (!selectedImageFile) {
-      alert("Please select an image");
-      return;
-    }
-  
-    // Upload the image to the server
-    const profileImageURL = await uploadImage(selectedImageFile, setSelectedImage, setInputs);
-    const bannerImageURL = await uploadBanner(selectedBannerFile, setSelectedBanner, setInputs);
-  
-    setInputs((prevInputs) => ({
-      ...prevInputs,
-      profileImg: profileImageURL,
-      banner: bannerImageURL
-    }));
-  
-    console.log(inputs);
-  
-    // Now, make the API call
     try {
-      const res = await axios.post("/api/applicantprofile/create", inputs, {
-        headers: {
-          "Content-Type": "application/json",
-        },
+      if (!selectedImageFile || !selectedBannerFile) {
+        alert("Please select both profile and banner images");
+        return;
+      }
+  
+      // Upload the images to Firebase Storage
+      const profileImageURL = await uploadImage(selectedImageFile);
+      const bannerImageURL = await uploadBanner(selectedBannerFile);
+  
+      // Set the image URLs into the state
+      setSelectedImage(profileImageURL);
+      setSelectedBanner(bannerImageURL);
+  
+      // Make the API call to create the profile
+      const res = await axios.post("/api/applicantprofile/create", {
+        ...inputs,
+        profileImg: profileImageURL,
+        banner: bannerImageURL,
       });
   
-      if (res.data.status == true) {
+      if (res.data.status) {
         alert(res.data.message);
         updateAccountProfileValues(
           res.data._id,
@@ -255,13 +251,14 @@ function CreateApplicantProfilepage() {
         );
         navigate("/editprofile");
       } else {
-        alert("Not Inserted");
+        alert("Profile creation failed");
       }
-    } catch (err) {
-      alert(err.response.data.message);
-      console.log(err.response.data.errorMessage);
+    } catch (error) {
+      console.error("Error creating profile:", error);
+      alert("An error occurred while creating the profile");
     }
   };
+  
 
   return (
     <div className="bg-gray-100">
