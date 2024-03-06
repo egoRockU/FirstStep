@@ -168,6 +168,7 @@ function CreateEmployerpage() {
         <NavbarLoggedIn />
         <div className="max-w-screen-2xl mx-auto px-4 w-1/2">
           <div className="w-full" style={{ position: "relative" }}>
+                           {/* BannerInput */}
             <div>
               <input
                 type="file"
@@ -183,7 +184,7 @@ function CreateEmployerpage() {
                 <img
                   src={selectedBanner}
                   alt=""
-                  className="w-full h-60 bg-blue-200"
+                  className="w-full h-60 bg-blue-200 object-cover"
                 />
               </label>
               {!selectedBanner && (
@@ -369,6 +370,7 @@ function CreateEmployerpage() {
                   />
                 </div>
               </div>
+                              {/* ImageInput */}
               <div className="flex flex-col justify-center items-center w-1/4">
                 <input
                   type="file"
@@ -381,7 +383,7 @@ function CreateEmployerpage() {
                   <img
                     src={selectedImage || placeholderImage}
                     alt=""
-                    className="w-40 h-40 rounded-full border-4 border-black"
+                    className="w-40 h-40 rounded-full border-4 border-black object-cover"
                   />
                 </label>
                 {!selectedImage && (

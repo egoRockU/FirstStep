@@ -487,7 +487,7 @@ function CreateApplicantProfilepage() {
                     </div>
                   )}
                 </div>
-                {/* Image */}
+                {/* Image Input */}
                 <div className="flex flex-col justify-center items-center w-1/4">
                   <input
                     type="file"
