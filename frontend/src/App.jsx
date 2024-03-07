@@ -12,7 +12,6 @@ import Employerprofilepage from "./Pages/Employerprofilepage";
 import Editemployerprofilepage from "./Pages/Editemployerprofile";
 import Editemployerabout from "./Pages/EditEmployerabout";
 import EditApplicantAbout from "./Pages/EditApplicantAbout";
-import Previewproject from "./Modals/Edit Profile/Previewproject";
 import {ToastContainer} from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -24,7 +23,6 @@ function App() {
     <>
     <BrowserRouter>
       <Routes>
-        <Route path="/previewproject" element={<Previewproject/>}/>
         {!user && (
           <>
             <Route path="/" element={<NewLanding />} />
