@@ -202,6 +202,8 @@ function CreateApplicantProfilepage() {
         setSocialLinks(profileObj.socialLinks);
         setSkills(profileObj.skills);
         setIndustries(profileObj.preferredCareer);
+        setSelectedImage(profileObj.profileImg); 
+        setSelectedBanner(profileObj.banner);
       });
   };
 
@@ -219,6 +221,8 @@ function CreateApplicantProfilepage() {
         socialLinks,
         skills,
         preferredCareer: industries,
+        profileImg: selectedImage,
+      banner: selectedBanner,
       },
     };
 
