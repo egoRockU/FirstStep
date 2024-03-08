@@ -7,7 +7,7 @@ import Footer from "../Components/Footer";
 import { useNavigate } from "react-router-dom";
 import AddSocial from "../Modals/EditEmployer Profile/Addsocial";
 import axios from "axios";
-import { updateProfileImage, updateBannerImage } from "../utils/updateImageUpload";
+import { updateProfileImage, updateBannerImage } from "../utils/updateEmpImageUpload";
 
 function Editemployerabout() {
   const navigate = useNavigate();
