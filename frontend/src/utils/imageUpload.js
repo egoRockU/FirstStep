@@ -6,7 +6,7 @@ export const uploadImage = async (file) => {
     if (!file) {
       throw new Error("No image file provided");
     }
-    if (file.size > 1 * 1024 * 1024) {
+    if (file.size > 2 * 1024 * 1024) {
       throw new Error("Image size exceeds the limit (1MB)");
     }
 
@@ -32,7 +32,7 @@ export const uploadBanner = async (file) => {
     if (!file) {
       throw new Error("No banner image file provided");
     }
-    if (file.size > 1 * 1024 * 1024) {
+    if (file.size > 2 * 1024 * 1024) {
       throw new Error("Banner image size exceeds the limit (1MB)");
     }
 
