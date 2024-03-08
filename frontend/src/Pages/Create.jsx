@@ -18,6 +18,8 @@ import { useDispatch } from "react-redux";
 import { updateUser } from "../slices/userSlice";
 import { IoClose } from "react-icons/io5";
 import { toast } from "react-toastify";
+import { updateAccountProfileValues } from "../utils/updateAccountProfileValues";
+import { uploadBanner, uploadImage } from "../utils/imageUpload";
 
 function CreateApplicantProfilepage() {
   const dispatch = useDispatch();
