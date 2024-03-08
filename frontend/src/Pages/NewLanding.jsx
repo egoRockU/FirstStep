@@ -281,10 +281,10 @@ function NewLanding() {
             </div>
             <div className="w-2/3">
               <div className=" rounded-xl p-6">
-                <h1 className="text-3xl mb-4 text-indigo-500 font-bold font-semibold">
+                <h1 className="text-3xl mb-4 text-indigo-500 font-semibold">
                   Construct Your Resume
                 </h1>
-                <h2 className="text-xl font-semibold mb-4 leading-relaxed font-semibold">
+                <h2 className="text-xl  mb-4 leading-relaxed font-semibold">
                   Applicant Profile is all you need to have a good resume. You
                   don’t have to worry about the formatting or layout. We take
                   care that for you. All you need to do is choose a template and
@@ -303,10 +303,10 @@ function NewLanding() {
           <div className="relative top-[100px] w-[60%] mx-auto h-[600px] p-10 rounded-2xl flex items-center">
             <div className="w-2/3 pr-12">
               <div className="rounded-xl p-6">
-                <h1 className="text-3xl mb-4 text-indigo-500 font-bold font-semibold">
+                <h1 className="text-3xl mb-4 text-indigo-500 font-semibold">
                   Choose Your Portfolio
                 </h1>
-                <h2 className="text-xl font-semibold mb-4 leading-relaxed font-semibold">
+                <h2 className="text-xl  mb-4 leading-relaxed font-semibold">
                   Just like in resume, we create your portfolio based on your
                   Applicant Profile. You don’t have to worry about design and
                   layout. We will handle that for you. We already have designs
@@ -351,10 +351,10 @@ function NewLanding() {
             </div>
             <div className="w-2/3">
               <div className="rounded-xl p-6">
-                <h1 className="text-3xl mb-4 text-indigo-500 font-bold font-semibold">
+                <h1 className="text-3xl mb-4 text-indigo-500 font-semibold">
                   Look For Applicants
                 </h1>
-                <h2 className="text-xl font-semibold mb-4 leading-relaxed font-semibold">
+                <h2 className="text-xl mb-4 leading-relaxed font-semibold">
                   Are you an employer? Create an Employer Profile so that you
                   can reach out to applicants. You can choose depending on what
                   skills or positions you are looking for and view their
