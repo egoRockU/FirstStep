@@ -7,40 +7,19 @@ import Footer from "../Components/Footer";
 import { useNavigate } from "react-router-dom";
 import AddSocial from "../Modals/EditEmployer Profile/Addsocial";
 import axios from "axios";
+import { updateProfileImage, updateBannerImage } from "../utils/updateImageUpload";
 
 function Editemployerabout() {
   const navigate = useNavigate();
   const profileId = JSON.parse(localStorage.getItem("user")).profileId;
 
-  const [selectedImage, setSelectedImage] = useState(null);
-  const [selectedBanner, setSelectedBanner] = useState(null);
+
 
   useEffect(() => {
     getUserProfile();
   }, []);
 
-  const handleBannerChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = function (e) {
-        setSelectedBanner(e.target.result);
-      };
-      reader.readAsDataURL(file);
-    }
-  };
-
-  const handleImageChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = function (e) {
-        setSelectedImage(e.target.result);
-      };
-      reader.readAsDataURL(file);
-    }
-  };
-
+  
   const [isAddSocialModalOpen, setAddSocialModalOpen] = useState(false);
   const [socialLinks, setSocialLinks] = useState([]);
   const onSubmitSocialMedia = (formData) => {
@@ -73,7 +52,33 @@ function Editemployerabout() {
     updatedSocialLinks.splice(index, 1);
     setSocialLinks(updatedSocialLinks);
   };
+  const handleImageChange = async (e) => {
+    const file = e.target.files[0];
+    if (file) {
+        try {
+            const imageURL = await updateProfileImage(file, selectedImage, setSelectedImage);
+            setSelectedImage(imageURL);
+        } catch (error) {
+            console.error("Error updating profile image:", error);
+        }
+    }
+};
 
+
+  const handleBannerChange = async (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      try {
+        const bannerURL = await updateBannerImage(file, selectedBanner, setSelectedBanner);
+        setSelectedBanner(bannerURL);
+      } catch (error) {
+        console.error("Error updating banner image:", error);
+      }
+    }
+  };
+
+  const [selectedImage, setSelectedImage] = useState(null);
+  const [selectedBanner, setSelectedBanner] = useState(null);
   const [fName, setFName] = useState("");
   const [lName, setLName] = useState("");
   const [email, setEmail] = useState("");
@@ -84,6 +89,9 @@ function Editemployerabout() {
   const [bio, setBio] = useState("");
   const [about, setAbout] = useState("");
   const [website, setWebsite] = useState("");
+
+ 
+
 
   const getUserProfile = () => {
     axios
@@ -109,6 +117,8 @@ function Editemployerabout() {
         setAbout(profileObj.about);
         setSocialLinks(profileObj.socialLinks);
         setWebsite(profileObj.website);
+        setSelectedImage(profileObj.profileImg); 
+        setSelectedBanner(profileObj.banner);
       });
   };
 
@@ -125,6 +135,8 @@ function Editemployerabout() {
         bio,
         socialLinks,
         website,
+        profileImg: selectedImage,
+      banner: selectedBanner,
       },
     };
 
@@ -165,7 +177,7 @@ function Editemployerabout() {
                 <img
                   src={selectedBanner}
                   alt=""
-                  className="w-full h-60 bg-blue-200"
+                  className="w-full h-60 bg-blue-200 object-cover"
                 />
               </label>
               {!selectedBanner && (
@@ -384,7 +396,7 @@ function Editemployerabout() {
                   <img
                     src={selectedImage || placeholderImage}
                     alt=""
-                    className="w-40 h-40 rounded-full border-4 border-black"
+                    className="w-40 h-40 rounded-full border-4 border-black object-cover"
                   />
                 </label>
                 {!selectedImage && (
@@ -399,7 +411,7 @@ function Editemployerabout() {
                 <div className="w-full h-full mt-5"></div>
                 <div className="flex justify-around w-full pb-5">
                   <button
-                    className="text-lg border border-black py-1 px-1 rounded-sm"
+                    className="text-lg border border-black py-1 px-1 rounded-sm object-cover"
                     onClick={() => {
                       navigate("/editemployer");
                     }}

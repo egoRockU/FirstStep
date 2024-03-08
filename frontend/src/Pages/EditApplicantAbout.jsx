@@ -14,18 +14,13 @@ import { updateProfileImage, updateBannerImage } from "../utils/updateImageUploa
 function CreateApplicantProfilepage() {
   const profileId = JSON.parse(localStorage.getItem("user")).profileId;
   const navigate = useNavigate();
-
-  const [selectedImage, setSelectedImage] = useState(null);
-  const [selectedBanner, setSelectedBanner] = useState(null);
-
   useEffect(() => {
     getUserProfile();
   }, []);
 
   //social
-  const [isAddSocialModalOpen, setAddSocialModalOpen] = useState(false);
-  const [socialLinks, setSocialLinks] = useState([]);
-  const onSubmitSocialMedia = (formData) => {
+  
+const onSubmitSocialMedia = (formData) => {
     if (!formData.platform || !formData.link) {
       alert("Please provide both platform and link");
       return;
@@ -170,7 +165,8 @@ function CreateApplicantProfilepage() {
   const goback = () => {
     navigate(-1);
   };
-
+  const [selectedImage, setSelectedImage] = useState(null);
+  const [selectedBanner, setSelectedBanner] = useState(null);
   const [fName, setFName] = useState("");
   const [lName, setLName] = useState("");
   const [email, setEmail] = useState("");
@@ -179,7 +175,8 @@ function CreateApplicantProfilepage() {
   const [country, setCountry] = useState("");
   const [bio, setBio] = useState("");
   const [about, setAbout] = useState("");
-
+  const [isAddSocialModalOpen, setAddSocialModalOpen] = useState(false);
+  const [socialLinks, setSocialLinks] = useState([]);
   const getUserProfile = () => {
     axios
       .post(
