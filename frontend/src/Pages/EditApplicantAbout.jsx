@@ -12,6 +12,7 @@ import AddIndustry from "../Modals/EditApplicant Profile/Addindustry";
 import AddSkill from "../Modals/EditApplicant Profile/Addskill";
 import { IoMdClose } from "react-icons/io";
 import { toast } from "react-toastify";
+import { updateProfileImage, updateBannerImage } from "../utils/updateImageUpload";
 
 function CreateApplicantProfilepage() {
   const profileId = JSON.parse(localStorage.getItem("user")).profileId;
@@ -147,25 +148,28 @@ function CreateApplicantProfilepage() {
 
   //end
 
-  const handleImageChange = (e) => {
+  const handleImageChange = async (e) => {
     const file = e.target.files[0];
     if (file) {
-      const reader = new FileReader();
-      reader.onload = function (e) {
-        setSelectedImage(e.target.result);
-      };
-      reader.readAsDataURL(file);
+        try {
+            const imageURL = await updateProfileImage(file, selectedImage, setSelectedImage);
+            setSelectedImage(imageURL);
+        } catch (error) {
+            console.error("Error updating profile image:", error);
+        }
     }
-  };
+};
 
-  const handleBannerChange = (e) => {
+
+  const handleBannerChange = async (e) => {
     const file = e.target.files[0];
     if (file) {
-      const reader = new FileReader();
-      reader.onload = function (e) {
-        setSelectedBanner(e.target.result);
-      };
-      reader.readAsDataURL(file);
+      try {
+        const bannerURL = await updateBannerImage(file, selectedBanner, setSelectedBanner);
+        setSelectedBanner(bannerURL);
+      } catch (error) {
+        console.error("Error updating banner image:", error);
+      }
     }
   };
 
@@ -214,6 +218,8 @@ function CreateApplicantProfilepage() {
         setSocialLinks(profileObj.socialLinks);
         setSkills(profileObj.skills);
         setIndustries(profileObj.preferredCareer);
+        setSelectedImage(profileObj.profileImg); 
+        setSelectedBanner(profileObj.banner);
       });
   };
 
@@ -231,6 +237,8 @@ function CreateApplicantProfilepage() {
         socialLinks,
         skills,
         preferredCareer: industries,
+        profileImg: selectedImage,
+      banner: selectedBanner,
       },
     };
 
@@ -271,7 +279,7 @@ function CreateApplicantProfilepage() {
                   <img
                     src={selectedBanner}
                     alt=""
-                    className="w-full h-60 bg-blue-200"
+                    className="w-full h-60 bg-blue-200 object-cover"
                   />
                 </label>
                 {!selectedBanner && (
@@ -490,7 +498,8 @@ function CreateApplicantProfilepage() {
                     <img
                       src={selectedImage || placeholderImage}
                       alt=""
-                      className="w-40 h-40 rounded-full border-4 border-black"
+                      className="w-40 h-40 rounded-full border-4 border-black object-cover
+                      "
                     />
                   </label>
                   {!selectedImage && (
