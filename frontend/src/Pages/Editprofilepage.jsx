@@ -214,7 +214,7 @@ function editprofile() {
         setAchievementsData(profileObj.activitiesAndInvolvements);
         setAwardData(profileObj.awards);
         setCertData(profileObj.certs);
-        setSelectedImage(profileObj.profileImg); 
+        setSelectedImage(profileObj.profileImg);
         setSelectedBanner(profileObj.banner);
       });
   };
