@@ -2,7 +2,7 @@
     import { IoMdClose } from "react-icons/io";
     import { IoMdAdd } from "react-icons/io";
 
-    function Addprojects() {
+    function Addprojects({onClose}) {
         const [imagePreviews, setImagePreviews] = useState([]);
 
         const handleImageChange = (e) => {
@@ -29,12 +29,15 @@
             );
           };
 
+          const handlecancel = () => {
+            onClose();
+          };
     return (
         <div className="fixed inset-0 flex justify-center items-center bg-gray-900 bg-opacity-50 py-5">
         <div className="bg-white w-2/5 h-full p-4 overflow-y-scroll shadow-lg rounded-md">
             <div className="flex w-full justify-between">
             <h1 className="text-lg text-black">Add Projects</h1>
-            <IoMdClose size={25} />
+            <IoMdClose size={25}   onClick={handlecancel}/>
             </div>
             <div className="mt-4 px-3">
             <div className="flex items-center">

@@ -11,12 +11,25 @@ import AddEduc from "../Modals/Edit Profile/Addeducmodal";
 import AddAchievement from "../Modals/Edit Profile/Addachievemodal";
 import AddAward from "../Modals/Edit Profile/Addawards";
 import AddCert from "../Modals/Edit Profile/Addcertificates";
+import Addprojects from "../Modals/Edit Profile/Addprojects"
 import axios from "axios";
 import { convertDate } from "../utils/convertDate";
 
 function editprofile() {
   const [selectedImage, setSelectedImage] = useState(null);
   const [selectedBanner, setSelectedBanner] = useState(null);
+
+  const handleShowAddProjectsModal = () => {
+    setShowAddProjectsModal(true);
+  };
+
+  const handleCloseAddProjectsModal = () => {
+    setShowAddProjectsModal(false);
+  };
+  const [showAddProjectsModal, setShowAddProjectsModal] = useState(false);
+
+
+
 
   const placeholderImage = { profile };
   const navigate = useNavigate();
@@ -465,9 +478,13 @@ function editprofile() {
                       <h1 className="text-[#444B88] font-base">Projects</h1>
                     </div>
                     <div className="w-full">
-                      <button className="w-full bg-[#444B88] border-[#BCBCBC] border-1 p-2 text-white rounded-b-lg">
+                      <button className="w-full bg-[#444B88] border-[#BCBCBC] border-1 p-2 text-white rounded-b-lg" onClick={handleShowAddProjectsModal}>
+                        
                         Add
                       </button>
+                      {showAddProjectsModal && (
+          <Addprojects onClose={handleCloseAddProjectsModal} />
+        )}
                     </div>
                   </div>
                   <div className="rounded-xl">
