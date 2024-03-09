@@ -259,13 +259,14 @@ function CreateApplicantProfilepage() {
       })
       .then((res) => {
         console.log(res.data.message);
+        navigate("/editprofile");
       });
   };
 
   const onSave = () => {
     updateMainInfo();
-    navigate("/editprofile");
   };
+
   return (
     <div className="bg-gray-100">
       <NavbarLoggedIn />

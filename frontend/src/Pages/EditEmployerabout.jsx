@@ -9,7 +9,10 @@ import AddSocial from "../Modals/EditEmployer Profile/Addsocial";
 import axios from "axios";
 import { IoMdClose } from "react-icons/io";
 import { toast } from "react-toastify";
-import { updateProfileImage, updateBannerImage } from "../utils/updateEmpImageUpload";
+import {
+  updateProfileImage,
+  updateBannerImage,
+} from "../utils/updateEmpImageUpload";
 
 function Editemployerabout() {
   const navigate = useNavigate();
@@ -26,7 +29,11 @@ function Editemployerabout() {
     const file = e.target.files[0];
     if (file) {
       try {
-        const bannerURL = await updateBannerImage(file, selectedBanner, setSelectedBanner);
+        const bannerURL = await updateBannerImage(
+          file,
+          selectedBanner,
+          setSelectedBanner
+        );
         setSelectedBanner(bannerURL);
       } catch (error) {
         console.error("Error updating banner image:", error);
@@ -37,14 +44,18 @@ function Editemployerabout() {
   const handleImageChange = async (e) => {
     const file = e.target.files[0];
     if (file) {
-        try {
-            const imageURL = await updateProfileImage(file, selectedImage, setSelectedImage);
-            setSelectedImage(imageURL);
-        } catch (error) {
-            console.error("Error updating profile image:", error);
-        }
+      try {
+        const imageURL = await updateProfileImage(
+          file,
+          selectedImage,
+          setSelectedImage
+        );
+        setSelectedImage(imageURL);
+      } catch (error) {
+        console.error("Error updating profile image:", error);
+      }
     }
-};
+  };
   const [isAddSocialModalOpen, setAddSocialModalOpen] = useState(false);
   const [socialLinks, setSocialLinks] = useState([]);
   const onSubmitSocialMedia = (formData) => {
@@ -113,7 +124,7 @@ function Editemployerabout() {
         setAbout(profileObj.about);
         setSocialLinks(profileObj.socialLinks);
         setWebsite(profileObj.website);
-        setSelectedImage(profileObj.profileImg); 
+        setSelectedImage(profileObj.profileImg);
         setSelectedBanner(profileObj.banner);
       });
   };
@@ -144,12 +155,12 @@ function Editemployerabout() {
       })
       .then((res) => {
         console.log(res.data.message);
+        navigate("/editemployer");
       });
   };
 
   const onSave = () => {
     updateMainInfo();
-    navigate("/editemployer");
   };
 
   return (
