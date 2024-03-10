@@ -8,3 +8,30 @@
 .swiper-button-prev{
     color: white;
 }
+
+.Toastify__toast--success {
+    background-color: white !important;
+  }
+  
+  .Toastify__toast--error {
+    background-color: white !important;
+  }
+  
+.Toastify__progress-bar .Toastify__toast--success {
+    background-color: blue !important; /* Change to your desired color */
+  }
+
+.Toastify__progress-bar .Toastify__toast--error {
+    background-color: blue !important; /* Change to your desired color */
+  }
+
+.Toastify__toast--success .Toastify__toast-body {
+    color: black !important;
+  }
+  
+  .Toastify__toast--error .Toastify__toast-body {
+    color: black !important;
+  }
+  
+  
+  
