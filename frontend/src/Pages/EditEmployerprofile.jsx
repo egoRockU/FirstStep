@@ -16,7 +16,10 @@ function Editemployerprofilepage() {
   const profileId = user.profileId;
 
   const [selectedImage, setSelectedImage] = useState(null);
+  const [selectedBanner, setSelectedBanner] = useState(null);
+
   const placeholderImage = { profile };
+  
 
   useEffect(() => {
     getUserProfile();
@@ -62,6 +65,8 @@ function Editemployerprofilepage() {
         setAbout(profileObj.about);
         setSocialLinks(profileObj.socialLinks);
         setWebsite(profileObj.website);
+        setSelectedImage(profileObj.profileImg); 
+        setSelectedBanner(profileObj.banner);
       });
   };
 
@@ -71,9 +76,9 @@ function Editemployerprofilepage() {
       <div className="bg-gray-100 mx-auto h-[1000px]">
         <div className="container mx-auto">
           <img
-            src={banner}
+            src={selectedBanner}
             alt=""
-            className="w-full h-80 object-cover rounded-xl"
+            className="w-full h-80 object-cover rounded-xl object-cover"
           />
         </div>
         <div className="flex mt-[-60px]">
@@ -85,9 +90,9 @@ function Editemployerprofilepage() {
                     <div className="flex justify-start pl-5">
                       <label htmlFor="imageInput" className="cursor-pointer">
                         <img
-                          src={placeholderImage.profile}
+                          src={selectedImage || placeholderImage.profile}
                           alt=""
-                          className="w-40 h-40 rounded-full border-2"
+                          className="w-40 h-40 rounded-full border-2 object-cover"
                         />
                       </label>
                     </div>

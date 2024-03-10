@@ -18,6 +18,8 @@ import { useDispatch } from "react-redux";
 import { updateUser } from "../slices/userSlice";
 import { IoClose } from "react-icons/io5";
 import { toast } from "react-toastify";
+import { uploadBanner, uploadImage } from "../utils/imageUpload";
+import { getDownloadURL } from "firebase/storage";
 
 function CreateApplicantProfilepage() {
   const dispatch = useDispatch();
@@ -162,6 +164,8 @@ function CreateApplicantProfilepage() {
 
   useEffect(() => {
     setInputs({
+      profileImg: selectedImage,
+      banner: selectedBanner,
       accountId: userId,
       firstName: fName,
       lastName: lName,
@@ -174,6 +178,8 @@ function CreateApplicantProfilepage() {
       preferredCareer: industries,
     });
   }, [
+    selectedImage,
+    selectedBanner,
     fName,
     lName,
     email,
@@ -185,49 +191,61 @@ function CreateApplicantProfilepage() {
     skills,
     industries,
   ]);
-
+//Image Upload Process to firebase
+const [selectedImageFile, setSelectedImageFile] = useState(null);
+  const [selectedBannerFile, setSelectedBannerFile] = useState(null);
   const handleImageChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = function (e) {
-        setSelectedImage(e.target.result);
-      };
-      reader.readAsDataURL(file);
-    }
+    const imageFile = e.target.files[0];
+    if (!imageFile) return;
+
+    // Show preview of the image
+    const reader = new FileReader();
+    reader.onload = () => {
+      setSelectedImage(reader.result);
+    };
+    reader.readAsDataURL(imageFile);
+
+    // Set the selected image file in state
+    setSelectedImageFile(imageFile);
   };
 
   const handleBannerChange = (e) => {
     const file = e.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = function (e) {
-        setSelectedBanner(e.target.result);
-      };
-      reader.readAsDataURL(file);
-    }
+    setSelectedBannerFile(file);
+
+    // Show preview of the image
+    const reader = new FileReader();
+    reader.onload = () => {
+      setSelectedBanner(reader.result);
+    };
+    reader.readAsDataURL(file);
   };
 
-  const updateSkillsState = (index, value) => {
-    setSkills((skills) => {
-      const newSkills = [...skills];
-      newSkills[index] = value;
-      return newSkills;
-    });
-  };
+
 
   const goback = () => {
     navigate("/");
   };
 
-  const createProfile = () => {
+  const createProfile = async () => {
+    const profileImageURL = await uploadImage(selectedImageFile, getDownloadURL);
+    const bannerImageURL = await uploadBanner(selectedBannerFile, getDownloadURL);
+
+    setSelectedImage(profileImageURL);
+    setSelectedBanner(bannerImageURL);
+    const updatedInputs = {
+      ...inputs,
+      profileImg: profileImageURL,
+      banner: bannerImageURL
+    };
+
     console.log(inputs);
-    axios
-      .post("/api/applicantprofile/create", inputs, {
+    axios.post("/api/applicantprofile/create", updatedInputs, {
         headers: {
           "Content-Type": "application/json",
         },
       })
+      
       .then((res) => {
         if (res.data.status == true) {
           toast.success(res.data.message);
@@ -273,7 +291,7 @@ function CreateApplicantProfilepage() {
                   <img
                     src={selectedBanner}
                     alt=""
-                    className="w-full h-60 bg-blue-200"
+                    className="w-full h-60 bg-blue-200 object-cover"
                   />
                 </label>
                 {!selectedBanner && (
@@ -471,7 +489,7 @@ function CreateApplicantProfilepage() {
                     <img
                       src={selectedImage || placeholderImage}
                       alt=""
-                      className="w-40 h-40 rounded-full border-4 border-black"
+                      className="w-40 h-40 rounded-full border-4 border-black object-cover"
                     />
                   </label>
                   {!selectedImage && (
