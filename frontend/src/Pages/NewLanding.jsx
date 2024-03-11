@@ -24,16 +24,10 @@ function NewLanding() {
   const navigate = useNavigate();
 
   const clickjoin = () => {
-    navigate("/newlogin");
+    navigate("/login");
   };
 
   const { user } = useSelector((state) => state.user);
-
-  const [openDropdown, setOpenDropdown] = useState(null);
-
-  const toggleDropdown = (index) => {
-    setOpenDropdown((prevIndex) => (prevIndex === index ? null : index));
-  };
 
   const editProfile = () => {
     const profileType = user.profileType;
