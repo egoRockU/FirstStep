@@ -12,6 +12,7 @@ import sendEmailSentPage from "../pages/emailSent.js";
 
 const verifyEmail = asyncHandler(async (req, res) => {
   const { urlToken } = req.params;
+  let appDomain = process.env.APP_DOMAIN;
 
   try {
     const decoded = jwt.verify(urlToken, process.env.ACCESS_TOKEN_SECRET);
@@ -36,7 +37,7 @@ const verifyEmail = asyncHandler(async (req, res) => {
     if (err.name === "TokenExpiredError") {
       const decode = jwt.decode(urlToken);
       const email = decode.email;
-      const url = `http://localhost:8000/requestverifylink/${email}`;
+      const url = `${appDomain}/requestverifylink/${email}`;
 
       sendEmailLinkExpiredPage(res, url);
     } else {
@@ -45,7 +46,7 @@ const verifyEmail = asyncHandler(async (req, res) => {
   }
 });
 
-const requestAnotherEmail = async (req, res, next) => {
+const requestAnotherEmail = async (req, res) => {
   const { email } = req.params;
   const uniqueString = crypto.randomBytes(64).toString("hex");
 

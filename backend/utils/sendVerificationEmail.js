@@ -3,7 +3,8 @@ import dotenv from "dotenv";
 dotenv.config();
 
 const sendVerificationEmail = (email, urlToken) => {
-  const url = `http://localhost:8000/verify/${urlToken}`;
+  let appDomain = process.env.APP_DOMAIN;
+  const url = `${appDomain}/verify/${urlToken}`;
 
   let transporter = nodemailer.createTransport({
     service: "gmail",
