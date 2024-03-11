@@ -63,6 +63,7 @@ function Newlogin() {
   const clickRegister = () => {
     navigate("/register");
   };
+
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const openModal = () => {
