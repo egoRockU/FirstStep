@@ -3,6 +3,10 @@
     {
       "source": "/api/:path*",
       "destination": "https://teal-silly-tick.cyclic.app/:path*"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/"
     }
   ]
 }
