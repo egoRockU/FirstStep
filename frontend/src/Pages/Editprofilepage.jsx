@@ -11,11 +11,14 @@ import AddEduc from "../Modals/Edit Profile/Addeducmodal";
 import AddAchievement from "../Modals/Edit Profile/Addachievemodal";
 import AddAward from "../Modals/Edit Profile/Addawards";
 import AddCert from "../Modals/Edit Profile/Addcertificates";
+import Addprojects from "../Modals/Edit Profile/Addprojects";
 import axios from "axios";
 import { convertDate } from "../utils/convertDate";
 
 function editprofile() {
   const [selectedImage, setSelectedImage] = useState(null);
+  const [selectedBanner, setSelectedBanner] = useState(null);
+
   const placeholderImage = { profile };
   const navigate = useNavigate();
   const profileId = JSON.parse(localStorage.getItem("user")).profileId;
@@ -97,6 +100,40 @@ function editprofile() {
     updatedAchievementsData[index] = newValue;
     updateProfileElement("activitiesAndInvolvements", updatedAchievementsData);
     setAchievementsData(updatedAchievementsData);
+  };
+
+  //projects
+  const [projectsData, setProjectsData] = useState([]);
+  const [showAddProjectsModal, setShowAddProjectsModal] = useState(false);
+
+  const handleSubmitProjects = (formData) => {
+    setProjectsData((prevProjectsData) => {
+      const updatedProjectsData = [...prevProjectsData, formData];
+      updateProfileElement("projects", updatedProjectsData);
+      return updatedProjectsData;
+    });
+    setShowAddProjectsModal(false);
+  };
+
+  const handleDeleteProjects = (index) => {
+    const updatedProjects = [...projectsData];
+    updatedProjects.splice(index, 1);
+    updateProfileElement("projects", updatedProjects);
+    setProjectsData(updatedProjects);
+  };
+
+  const handleEditProjects = (index) => {
+    const projectToEdit = projectsData[index];
+    setFormData(projectToEdit);
+    setFormIndex(index);
+    setShowAddProjectsModal(true);
+  };
+
+  const editProjectsData = (index, newValue) => {
+    const updatedProjectsData = [...projectsData];
+    updatedProjectsData[index] = newValue;
+    updateProfileElement("projects", updatedProjectsData);
+    setProjectsData(updatedProjectsData);
   };
 
   //awards
@@ -210,8 +247,11 @@ function editprofile() {
         setIndustries(profileObj.preferredCareer);
         setEducationData(profileObj.education);
         setAchievementsData(profileObj.activitiesAndInvolvements);
+        setProjectsData(profileObj.projects);
         setAwardData(profileObj.awards);
         setCertData(profileObj.certs);
+        setSelectedImage(profileObj.profileImg);
+        setSelectedBanner(profileObj.banner);
       });
   };
 
@@ -240,7 +280,7 @@ function editprofile() {
       <div className="bg-gray-100 mx-auto pb-20">
         <div className="container mx-auto">
           <img
-            src={banner}
+            src={selectedBanner}
             alt=""
             className="w-full h-80 object-cover rounded-xl"
           />
@@ -251,19 +291,14 @@ function editprofile() {
               <div className="w-[500px] h-full">
                 <div className="mx-auto bg-white px-5 py-2 rounded-t-lg">
                   <div className="flex flex-col">
-                    <div className="flex justify-around">
+                    <div className="flex justify-start pl-10">
                       <label htmlFor="imageInput" className="cursor-pointer">
                         <img
-                          src={placeholderImage.profile}
+                          src={selectedImage}
                           alt=""
-                          className="w-40 h-40 rounded-full border-2"
+                          className="w-40 h-40 rounded-full border-2 object-cover"
                         />
                       </label>
-                      <div className="flex justify-center items-center">
-                        <button className="p-1 px-4 rounded-2xl border border-[#444B88] bg-[#8B95EE]">
-                          Message
-                        </button>
-                      </div>
                     </div>
 
                     <div className="flex flex-col w-full p-5 space-y-2">
@@ -273,7 +308,7 @@ function editprofile() {
                         </h1>
                       </div>
                       <div className="flex flex-col">
-                        <h1 className="underline text-[#8B95EE]">{email}</h1>
+                        <h1 className="underline cursor-pointer text-[#8B95EE]">{email}</h1>
                         <p>{address}</p>
                         <p>{contactNum}</p>
                       </div>
@@ -459,11 +494,55 @@ function editprofile() {
                     {/* TODO Projects */}
                     <div className="bg-white p-4 text-xl flex flex-col items-center justify-center border-2 border-gray-300 gap-3 rounded-t-lg">
                       <h1 className="text-[#444B88] font-base">Projects</h1>
+                      {projectsData.map((project, index) => (
+                        <div
+                          className="w-full bg-white hover:bg-[#BAD2FF] border-2 border-[#444B88] flex justify-between items-center"
+                          key={index}
+                        >
+                          <div
+                            className="w-full flex flex-col gap-3 p-5"
+                            onClick={() => handleEditProjects(index)}
+                          >
+                            <div className="flex items-center gap-3 w-full">
+                              <p className="text-3xl text-[#444B88] font-bold">
+                                {project.projectTitle}
+                              </p>
+                              <p className="text-sm">
+                                {convertDate(project.startDate)} -{" "}
+                                {convertDate(project.endDate)}
+                              </p>
+                            </div>
+                            <div className="text-lg ">{project.subTitle}</div>
+                            <div className="text-sm italic">
+                              {project.technologiesUsed}
+                            </div>
+                          </div>
+                          <button onClick={() => handleDeleteProjects(index)}>
+                            <IoCloseOutline size={50} />
+                          </button>
+                        </div>
+                      ))}
                     </div>
                     <div className="w-full">
-                      <button className="w-full bg-[#444B88] border-[#BCBCBC] border-1 p-2 text-white rounded-b-lg">
+                      <button
+                        className="w-full bg-[#444B88] border-[#BCBCBC] border-1 p-2 text-white rounded-b-lg"
+                        onClick={() => setShowAddProjectsModal(true)}
+                      >
                         Add
                       </button>
+                      {showAddProjectsModal && (
+                        <Addprojects
+                          onClose={() => {
+                            setFormData();
+                            setShowAddProjectsModal(false);
+                          }}
+                          onSubmit={handleSubmitProjects}
+                          onEdit={editProjectsData}
+                          initialData={formData}
+                          formIndex={formIndex}
+                          setFormData={setFormData}
+                        />
+                      )}
                     </div>
                   </div>
                   <div className="rounded-xl">

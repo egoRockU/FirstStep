@@ -64,6 +64,48 @@ const ActivitesAndInvolvementsSchema = new Schema({
   },
 });
 
+const ProjectsSchema = new Schema({
+  previewImages: {
+    type: [String],
+    required: false,
+    default: [],
+  },
+  projectTitle: {
+    type: String,
+    required: true,
+  },
+  subTitle: {
+    type: String,
+    required: true,
+  },
+  technologiesUsed: {
+    type: String,
+    required: true,
+  },
+  startDate: {
+    type: Date,
+    required: false,
+  },
+  endDate: {
+    type: Date,
+    required: false,
+  },
+  description: {
+    type: String,
+    required: true,
+  },
+  githubLink: {
+    type: String,
+    required: false,
+    default: "",
+  },
+  projectLink: {
+    type: String,
+    required: false,
+    default: "",
+  },
+});
+
 const AwardsSchema = new Schema({
   title: {
     type: String,
@@ -202,7 +244,7 @@ const ApplicantProfileSchema = new Schema({
     default: [],
   },
   projects: {
-    type: [Schema.Types.ObjectId],
+    type: [ProjectsSchema],
     required: false,
     default: [],
   },

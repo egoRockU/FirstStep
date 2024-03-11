@@ -1,5 +1,4 @@
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
 import { useSelector } from "react-redux";
 import Bg from "../images/newlandingbg.png";
 import Newnavbar from "../Components/Newnavbar";
@@ -15,6 +14,7 @@ import portfolio2 from "../images/choose-your-portfolio.jpg";
 import resume2 from "../images/create-your-resume.jpg";
 
 function NewLanding() {
+  const { user } = useSelector((state) => state.user);
   const landingStyle = {
     background: `url(${Bg}) center/cover no-repeat`,
     fontFamily: "Montserrat, sans-serif",
@@ -24,15 +24,14 @@ function NewLanding() {
   const navigate = useNavigate();
 
   const clickjoin = () => {
-    navigate("/newlogin");
+    navigate("/login");
   };
 
-  const { user } = useSelector((state) => state.user);
-
-  const [openDropdown, setOpenDropdown] = useState(null);
-
-  const toggleDropdown = (index) => {
-    setOpenDropdown((prevIndex) => (prevIndex === index ? null : index));
+  const scrollToSection = (sectionId) => {
+    const section = document.getElementById(sectionId);
+    if (section) {
+      section.scrollIntoView({ behavior: "smooth" });
+    }
   };
 
   const editProfile = () => {
@@ -121,36 +120,22 @@ function NewLanding() {
             className="absolute inset-x-0 bottom-80 flex flex-col items-center justify-center"
             style={{ zIndex: 10 }}
           >
-            {!user && (
-              <button
-                className="bg-blue-300 py-4 px-32 rounded-full text-white hover:bg-blue-600"
-                onClick={clickjoin}
-              >
-                Join Today!
-              </button>
-            )}
-            {user && (
-              <button
-                className="bg-blue-300 py-4 px-32 rounded-full text-white hover:bg-blue-600"
-                onClick={editProfile}
-              >
-                Edit your Profile!
-              </button>
-            )}
+            <button className="bg-blue-300 py-4 px-32 rounded-full text-white relative hover:bg-blue-600">
+              Join Today!
+            </button>
           </div>
         </div>
 
         <div
           style={{
             background: "#ffffff",
-            height: "3900px",
+            height: "4300px",
           }}
           className="relative"
         >
           <div className="h-[1200px] bg-gradient-to-b from-black to-transparent relative flex flex-col items-center">
             <div className="absolute top-60 w-[70%] h-[700px] lg:h-[800px] rounded-2xl">
               <div className="p-4 space-y-5 text-center">
-                {/* <h1 className="text-5xl font-bold text-white">FirstStep</h1> */}
                 <h1 className="text-2xl font-semibold text-white">
                   Build your best Brand, Get Hired Faster, Hire Smarter
                 </h1>
@@ -162,21 +147,11 @@ function NewLanding() {
                     backgroundImage: `url(${resume})`,
                     position: "relative",
                   }}
+                  onClick={() => scrollToSection("resume")}
                 >
-                  <a
-                    href="#resume"
-                    style={{
-                      position: "absolute",
-                      top: 0,
-                      left: 0,
-                      width: "100%",
-                      height: "100%",
-                    }}
-                  >
-                    <h1 className="md:text-2xl lg:text-4xl text-white mt-6 ml-6">
-                      Resume
-                    </h1>
-                  </a>
+                  <h1 className="md:text-2xl lg:text-4xl text-white mt-6 ml-6">
+                    Resume
+                  </h1>
                 </div>
 
                 <div
@@ -185,28 +160,20 @@ function NewLanding() {
                     backgroundImage: `url(${portfolio})`,
                     position: "relative",
                   }}
+                  onClick={() => scrollToSection("portfolio")}
                 >
-                  <a
-                    href="#portfolio"
-                    style={{
-                      position: "absolute",
-                      top: 0,
-                      left: 0,
-                      width: "100%",
-                      height: "100%",
-                    }}
-                  >
-                    <h1 className="md:text-2xl lg:text-4xl text-white mt-4 ml-6">
-                      Portfolio
-                    </h1>
-                  </a>
+                  <h1 className="md:text-2xl lg:text-4xl text-white mt-4 ml-6">
+                    Portfolio
+                  </h1>
                 </div>
+
                 <div
                   className="w-1/4 h-full bg-cover bg-center relative hover:w-1/3 hover:h-auto transition-all duration-300"
                   style={{
                     backgroundImage: `url(${applicants})`,
                     position: "relative",
                   }}
+                  onClick={() => scrollToSection("applicants")}
                 >
                   <a
                     href="#Applicants"
@@ -227,43 +194,7 @@ function NewLanding() {
             </div>
           </div>
 
-          {/*
-          <div className="relative top-[500px] w-[70%] mx-auto h-[600px] p-10 rounded-2xl">
-            <h1 className="text-3xl">Frequently Asked Questions</h1>
-            <div className="flex flex-col h-full justify-around">
-              <div className="bg-white h-24 w-full rounded-xl text-center">
-                <p>
-                  Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ex
-                  quis aperiam, hic veniam aut est ea consequuntur dolorem
-                  laborum dignissimos?
-                </p>
-              </div>
-              <div className="bg-white h-24 w-full rounded-xl text-center">
-                <p>
-                  Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ex
-                  quis aperiam, hic veniam aut est ea consequuntur dolorem
-                  laborum dignissimos?
-                </p>
-              </div>
-              <div className="bg-white h-24 w-full rounded-xl text-center">
-                <p>
-                  Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ex
-                  quis aperiam, hic veniam aut est ea consequuntur dolorem
-                  laborum dignissimos?
-                </p>
-              </div>
-              <div className="bg-white h-24 w-full rounded-xl text-center">
-                <p>
-                  Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ex
-                  quis aperiam, hic veniam aut est ea consequuntur dolorem
-                  laborum dignissimos?
-                </p>
-              </div>
-            </div>
-          </div>
-          */}
-
-          <a name="resume"></a>
+          <a id="resume"></a>
 
           <div className="relative top-[0px] w-[60%] mx-auto h-[600px] p-10 rounded-2xl flex items-center">
             <div className="w-2/3 mr-10">
@@ -299,7 +230,7 @@ function NewLanding() {
 
           <hr class="my-40 border-t-2 border-gray-300"></hr>
 
-          <a name="portfolio"></a>
+          <a id="portfolio"></a>
           <div className="relative top-[100px] w-[60%] mx-auto h-[600px] p-10 rounded-2xl flex items-center">
             <div className="w-2/3 pr-12">
               <div className="rounded-xl p-6">
@@ -334,7 +265,7 @@ function NewLanding() {
 
           <hr class="my-72 border-t-2 border-gray-300"></hr>
 
-          <a name="Applicants"></a>
+          <a id="applicants"></a>
           <div className="relative top-[30px] w-[60%] mx-auto h-[600px] p-10 rounded-2xl flex items-center">
             <div className="w-2/3 mr-10">
               <img

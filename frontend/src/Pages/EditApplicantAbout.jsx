@@ -12,6 +12,10 @@ import AddIndustry from "../Modals/EditApplicant Profile/Addindustry";
 import AddSkill from "../Modals/EditApplicant Profile/Addskill";
 import { IoMdClose } from "react-icons/io";
 import { toast } from "react-toastify";
+import {
+  updateProfileImage,
+  updateBannerImage,
+} from "../utils/updateImageUpload";
 
 function CreateApplicantProfilepage() {
   const profileId = JSON.parse(localStorage.getItem("user")).profileId;
@@ -80,7 +84,6 @@ function CreateApplicantProfilepage() {
     setIndustries([...industries, formData]);
     closeAddIndustryModal();
   };
-  
 
   const openAddIndustryModal = () => {
     setAddIndustryModalOpen(true);
@@ -147,25 +150,35 @@ function CreateApplicantProfilepage() {
 
   //end
 
-  const handleImageChange = (e) => {
+  const handleImageChange = async (e) => {
     const file = e.target.files[0];
     if (file) {
-      const reader = new FileReader();
-      reader.onload = function (e) {
-        setSelectedImage(e.target.result);
-      };
-      reader.readAsDataURL(file);
+      try {
+        const imageURL = await updateProfileImage(
+          file,
+          selectedImage,
+          setSelectedImage
+        );
+        setSelectedImage(imageURL);
+      } catch (error) {
+        console.error("Error updating profile image:", error);
+      }
     }
   };
 
-  const handleBannerChange = (e) => {
+  const handleBannerChange = async (e) => {
     const file = e.target.files[0];
     if (file) {
-      const reader = new FileReader();
-      reader.onload = function (e) {
-        setSelectedBanner(e.target.result);
-      };
-      reader.readAsDataURL(file);
+      try {
+        const bannerURL = await updateBannerImage(
+          file,
+          selectedBanner,
+          setSelectedBanner
+        );
+        setSelectedBanner(bannerURL);
+      } catch (error) {
+        console.error("Error updating banner image:", error);
+      }
     }
   };
 
@@ -214,6 +227,8 @@ function CreateApplicantProfilepage() {
         setSocialLinks(profileObj.socialLinks);
         setSkills(profileObj.skills);
         setIndustries(profileObj.preferredCareer);
+        setSelectedImage(profileObj.profileImg);
+        setSelectedBanner(profileObj.banner);
       });
   };
 
@@ -231,6 +246,8 @@ function CreateApplicantProfilepage() {
         socialLinks,
         skills,
         preferredCareer: industries,
+        profileImg: selectedImage,
+        banner: selectedBanner,
       },
     };
 
@@ -242,13 +259,14 @@ function CreateApplicantProfilepage() {
       })
       .then((res) => {
         console.log(res.data.message);
+        navigate("/editprofile");
       });
   };
 
   const onSave = () => {
     updateMainInfo();
-    navigate("/editprofile");
   };
+
   return (
     <div className="bg-gray-100">
       <NavbarLoggedIn />
@@ -271,7 +289,7 @@ function CreateApplicantProfilepage() {
                   <img
                     src={selectedBanner}
                     alt=""
-                    className="w-full h-60 bg-blue-200"
+                    className="w-full h-60 bg-blue-200 object-cover"
                   />
                 </label>
                 {!selectedBanner && (
@@ -442,40 +460,40 @@ function CreateApplicantProfilepage() {
                   </div>
                   <div className="flex flex-col w-full">
                     <h1 className="text-lg">Industries</h1>
-                  <div className="border-2 border-[#444B88] flex py-2 flex-col justify-center items-center gap-2">
-                    <div className="flex flex-wrap gap-2 justify-center">
-                      {industries.map((industry, index) => (
-                        <div
-                          key={index}
-                          className="flex items-center text-center bg-[#BAD2FF] p-1 rounded-full"
-                        >
-                          <p className="whitespace-nowrap">{industry}</p>
-                          <button onClick={() => deleteIndustry(index)}>
-                            <IoMdClose size={25} />
-                          </button>
-                        </div>
-                      ))}
-                    </div>
-                    <button
-                      className="p-2 px-5 bg-[#8B95EE]"
-                      onClick={openAddIndustryModal}
-                    >
-                      + Add Industries
-                    </button>
-                  </div>
-
-                  {isAddIndustryModalOpen && (
-                    <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
-                      <div className="bg-white p-4 rounded-md">
-                        {/* {add Industries`2} */}
-                        <AddIndustry
-                          onClose={closeAddIndustryModal}
-                          suggestions={industrySuggestions}
-                          onSubmit={onSubmitIndustries}
-                        />
+                    <div className="border-2 border-[#444B88] flex py-2 flex-col justify-center items-center gap-2">
+                      <div className="flex flex-wrap gap-2 justify-center">
+                        {industries.map((industry, index) => (
+                          <div
+                            key={index}
+                            className="flex items-center text-center bg-[#BAD2FF] p-1 rounded-full"
+                          >
+                            <p className="whitespace-nowrap">{industry}</p>
+                            <button onClick={() => deleteIndustry(index)}>
+                              <IoMdClose size={25} />
+                            </button>
+                          </div>
+                        ))}
                       </div>
+                      <button
+                        className="p-2 px-5 bg-[#8B95EE]"
+                        onClick={openAddIndustryModal}
+                      >
+                        + Add Industries
+                      </button>
                     </div>
-                  )}
+
+                    {isAddIndustryModalOpen && (
+                      <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
+                        <div className="bg-white p-4 rounded-md">
+                          {/* {add Industries`2} */}
+                          <AddIndustry
+                            onClose={closeAddIndustryModal}
+                            suggestions={industrySuggestions}
+                            onSubmit={onSubmitIndustries}
+                          />
+                        </div>
+                      </div>
+                    )}
                   </div>
                 </div>
                 <div className="flex flex-col justify-center items-center w-1/4">
@@ -490,7 +508,8 @@ function CreateApplicantProfilepage() {
                     <img
                       src={selectedImage || placeholderImage}
                       alt=""
-                      className="w-40 h-40 rounded-full border-4 border-black"
+                      className="w-40 h-40 rounded-full border-4 border-black object-cover
+                      "
                     />
                   </label>
                   {!selectedImage && (

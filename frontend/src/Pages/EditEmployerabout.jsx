@@ -9,6 +9,10 @@ import AddSocial from "../Modals/EditEmployer Profile/Addsocial";
 import axios from "axios";
 import { IoMdClose } from "react-icons/io";
 import { toast } from "react-toastify";
+import {
+  updateProfileImage,
+  updateBannerImage,
+} from "../utils/updateEmpImageUpload";
 
 function Editemployerabout() {
   const navigate = useNavigate();
@@ -21,28 +25,37 @@ function Editemployerabout() {
     getUserProfile();
   }, []);
 
-  const handleBannerChange = (e) => {
+  const handleBannerChange = async (e) => {
     const file = e.target.files[0];
     if (file) {
-      const reader = new FileReader();
-      reader.onload = function (e) {
-        setSelectedBanner(e.target.result);
-      };
-      reader.readAsDataURL(file);
+      try {
+        const bannerURL = await updateBannerImage(
+          file,
+          selectedBanner,
+          setSelectedBanner
+        );
+        setSelectedBanner(bannerURL);
+      } catch (error) {
+        console.error("Error updating banner image:", error);
+      }
     }
   };
 
-  const handleImageChange = (e) => {
+  const handleImageChange = async (e) => {
     const file = e.target.files[0];
     if (file) {
-      const reader = new FileReader();
-      reader.onload = function (e) {
-        setSelectedImage(e.target.result);
-      };
-      reader.readAsDataURL(file);
+      try {
+        const imageURL = await updateProfileImage(
+          file,
+          selectedImage,
+          setSelectedImage
+        );
+        setSelectedImage(imageURL);
+      } catch (error) {
+        console.error("Error updating profile image:", error);
+      }
     }
   };
-
   const [isAddSocialModalOpen, setAddSocialModalOpen] = useState(false);
   const [socialLinks, setSocialLinks] = useState([]);
   const onSubmitSocialMedia = (formData) => {
@@ -111,6 +124,8 @@ function Editemployerabout() {
         setAbout(profileObj.about);
         setSocialLinks(profileObj.socialLinks);
         setWebsite(profileObj.website);
+        setSelectedImage(profileObj.profileImg);
+        setSelectedBanner(profileObj.banner);
       });
   };
 
@@ -127,6 +142,8 @@ function Editemployerabout() {
         bio,
         socialLinks,
         website,
+        profileImg: selectedImage,
+        banner: selectedBanner,
       },
     };
 
@@ -138,12 +155,12 @@ function Editemployerabout() {
       })
       .then((res) => {
         console.log(res.data.message);
+        navigate("/editemployer");
       });
   };
 
   const onSave = () => {
     updateMainInfo();
-    navigate("/editemployer");
   };
 
   return (
@@ -167,7 +184,7 @@ function Editemployerabout() {
                 <img
                   src={selectedBanner}
                   alt=""
-                  className="w-full h-60 bg-blue-200"
+                  className="w-full h-60 bg-blue-200 object-cover"
                 />
               </label>
               {!selectedBanner && (
@@ -333,25 +350,26 @@ function Editemployerabout() {
                           </div>
                         </div>
                       ))}
-                    </div> 
-                  <button
-                    className=" py-1 px-5 bg-[#8B95EE]"
-                    onClick={openAddSocialModal}>
-                    + Add Social link
-                  </button>
-                  </div>
-                {isAddSocialModalOpen && (
-                  <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
-                    <div className="bg-white p-4 rounded-md">
-                      {/* {add Social`1} */}
-                      <AddSocial
-                        onClose={closeAddSocialModal}
-                        onSubmit={onSubmitSocialMedia}
-                      />
                     </div>
+                    <button
+                      className=" py-1 px-5 bg-[#8B95EE]"
+                      onClick={openAddSocialModal}
+                    >
+                      + Add Social link
+                    </button>
                   </div>
-                )}
-              </div>
+                  {isAddSocialModalOpen && (
+                    <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
+                      <div className="bg-white p-4 rounded-md">
+                        {/* {add Social`1} */}
+                        <AddSocial
+                          onClose={closeAddSocialModal}
+                          onSubmit={onSubmitSocialMedia}
+                        />
+                      </div>
+                    </div>
+                  )}
+                </div>
                 <div className="flex flex-col justify-center items-start">
                   <h1 className="text-lg">Website</h1>
                   <input
@@ -375,7 +393,7 @@ function Editemployerabout() {
                   <img
                     src={selectedImage || placeholderImage}
                     alt=""
-                    className="w-40 h-40 rounded-full border-4 border-black"
+                    className="w-40 h-40 rounded-full border-4 border-black  object-cover"
                   />
                 </label>
                 {!selectedImage && (
