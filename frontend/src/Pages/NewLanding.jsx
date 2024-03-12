@@ -143,30 +143,26 @@ function NewLanding() {
         <div
           style={{
             background: "#ffffff",
-            height: "3900px",
           }}
           className="relative"
         >
-          <div className="h-[1200px] bg-gradient-to-b from-black to-transparent relative flex flex-col items-center">
-            <div className="absolute top-60 w-[70%] h-[700px] lg:h-[800px] rounded-2xl">
-              <div className="p-4 space-y-5 text-center">
-                {/* <h1 className="text-5xl font-bold text-white">FirstStep</h1> */}
+          <div className="bg-gradient-to-b from-black to-transparent relative flex flex-col items-center">
+            <div className="w-[70%] h-[700px] lg:h-[800px] rounded-2xl justify-center items-center mt-36">
+              <div className="text-center">
                 <h1 className="text-2xl font-semibold text-white">
                   Build your best Brand, Get Hired Faster, Hire Smarter
                 </h1>
               </div>
-              <div className="flex justify-center space-x-4 md:h-3/5 lg:h-3/4">
+              <div className="flex justify-center gap-5 h-3/4">
                 <div
-                  className="w-1/4 h-full bg-cover bg-center relative hover:w-1/3 hover:h-auto transition-all duration-300"
+                  className="w-1/3 h-full bg-cover bg-center relative hover:w-2/3 hover:h-auto transition-all duration-300"
                   style={{
                     backgroundImage: `url(${resume})`,
-                    position: "relative",
                   }}
                 >
                   <a
                     href="#resume"
                     style={{
-                      position: "absolute",
                       top: 0,
                       left: 0,
                       width: "100%",
@@ -180,7 +176,7 @@ function NewLanding() {
                 </div>
 
                 <div
-                  className="w-1/4 h-full bg-cover bg-center relative hover:w-1/3 hover:h-auto transition-all duration-300"
+                  className="w-1/3 h-full bg-cover bg-center relative hover:w-2/3 hover:h-auto transition-all duration-300"
                   style={{
                     backgroundImage: `url(${portfolio})`,
                     position: "relative",
@@ -189,7 +185,6 @@ function NewLanding() {
                   <a
                     href="#portfolio"
                     style={{
-                      position: "absolute",
                       top: 0,
                       left: 0,
                       width: "100%",
@@ -202,7 +197,7 @@ function NewLanding() {
                   </a>
                 </div>
                 <div
-                  className="w-1/4 h-full bg-cover bg-center relative hover:w-1/3 hover:h-auto transition-all duration-300"
+                  className="w-1/3 h-full bg-cover bg-center relative hover:w-2/3 hover:h-auto transition-all duration-300"
                   style={{
                     backgroundImage: `url(${applicants})`,
                     position: "relative",
@@ -263,106 +258,107 @@ function NewLanding() {
           </div>
           */}
 
-          <a name="resume"></a>
-
-          <div className="relative top-[0px] w-[60%] mx-auto h-[600px] rounded-2xl flex gap-5 md:flex-col lg:flex-row items-center">
-            <div>
-              <img
-                src={resume2}
-                alt="Construct your image"
-                className="rounded-lg"
-                style={{
-                  maxWidth: "500px",
-                  maxHeight: "350px",
-                  width: "auto",
-                  height: "auto",
-                }}
-              />
-            </div>
-            <div>
-              <div className="rounded-xl">
-                <h1 className="text-3xl  text-indigo-500 font-semibold">
-                  Construct Your Resume
-                </h1>
-                <h2 className="text-xl leading-relaxed font-semibold">
-                  Applicant Profile is all you need to have a good resume. You
-                  don’t have to worry about the formatting or layout. We take
-                  care that for you. All you need to do is choose a template and
-                  finalize your inputs and we will handle it.
-                </h2>
-                <button className="bg-transparent border border-black text-black py-3 px-6 rounded-lg hover:bg-black hover:text-white font-semibold">
-                  Try it
-                </button>
+          <div className="mx-auto flex gap-20 flex-col pb-36">
+            <a name="resume"></a>
+            <div className=" w-[70%] mx-auto rounded-2xl flex gap-5 md:flex-col lg:flex-row items-center">
+              <div>
+                <img
+                  src={resume2}
+                  alt="Construct your image"
+                  className="rounded-lg"
+                  style={{
+                    maxWidth: "500px",
+                    maxHeight: "350px",
+                    width: "auto",
+                    height: "auto",
+                  }}
+                />
+              </div>
+              <div>
+                <div className="rounded-xl flex flex-col md:items-center lg:items-start">
+                  <h1 className="text-3xl  text-indigo-500 font-semibold">
+                    Construct Your Resume
+                  </h1>
+                  <h2 className="text-xl leading-relaxed font-semibold">
+                    Applicant Profile is all you need to have a good resume. You
+                    don’t have to worry about the formatting or layout. We take
+                    care that for you. All you need to do is choose a template
+                    and finalize your inputs and we will handle it.
+                  </h2>
+                  <button className="bg-transparent border border-black text-black py-3 px-6 rounded-lg hover:bg-black hover:text-white font-semibold">
+                    Try it
+                  </button>
+                </div>
               </div>
             </div>
-          </div>
 
-          <hr class="my-40 border-t-2 border-gray-300"></hr>
+            <hr class="border-t-2 border-gray-300"></hr>
 
-          <a name="portfolio"></a>
-          <div className="relative top-[100px] w-[60%] mx-auto h-[600px] rounded-2xl flex gap-5 md:flex-col lg:flex-row items-center">
-            <div>
-              <div className="rounded-xl">
-                <h1 className="text-3xl text-indigo-500 font-semibold">
-                  Choose Your Portfolio
-                </h1>
-                <h2 className="text-xl leading-relaxed font-semibold">
-                  Just like in resume, we create your portfolio based on your
-                  Applicant Profile. You don’t have to worry about design and
-                  layout. We will handle that for you. We already have designs
-                  that will surely fit to your liking!
-                </h2>
-                <button className="bg-transparent border border-black text-black py-3 px-6 rounded-lg hover:bg-black hover:text-white font-semibold">
-                  Try it
-                </button>
+            <a name="portfolio"></a>
+            <div className="w-[70%] mx-auto rounded-2xl flex gap-5 md:flex-col lg:flex-row items-center">
+              <div>
+                <div className="rounded-xl flex flex-col md:items-center lg:items-start">
+                  <h1 className="text-3xl text-indigo-500 font-semibold">
+                    Choose Your Portfolio
+                  </h1>
+                  <h2 className="text-xl leading-relaxed font-semibold">
+                    Just like in resume, we create your portfolio based on your
+                    Applicant Profile. You don’t have to worry about design and
+                    layout. We will handle that for you. We already have designs
+                    that will surely fit to your liking!
+                  </h2>
+                  <button className="bg-transparent border border-black text-black py-3 px-6 rounded-lg hover:bg-black hover:text-white font-semibold">
+                    Try it
+                  </button>
+                </div>
+              </div>
+              <div>
+                <img
+                  src={portfolio2}
+                  alt="Construct your image"
+                  className="rounded-lg"
+                  style={{
+                    maxWidth: "500px",
+                    maxHeight: "350px",
+                    width: "auto",
+                    height: "auto",
+                  }}
+                />
               </div>
             </div>
-            <div>
-              <img
-                src={portfolio2}
-                alt="Construct your image"
-                className="rounded-lg"
-                style={{
-                  maxWidth: "500px",
-                  maxHeight: "350px",
-                  width: "auto",
-                  height: "auto",
-                }}
-              />
-            </div>
-          </div>
 
-          <hr class="my-72 border-t-2 border-gray-300"></hr>
+            <hr class="border-t-2 border-gray-300"></hr>
 
-          <a name="Applicants"></a>
-          <div className="relative top-[30px] w-[60%] mx-auto h-[600px] p-10 rounded-2xl flex items-center">
-            <div className="w-2/3 mr-10">
-              <img
-                src={applicants2}
-                alt="Construct your image"
-                className="rounded-lg"
-                style={{
-                  maxWidth: "500px",
-                  maxHeight: "350px",
-                  width: "auto",
-                  height: "auto",
-                }}
-              />
-            </div>
-            <div className="w-2/3">
-              <div className="rounded-xl p-6">
-                <h1 className="text-3xl mb-4 text-indigo-500 font-semibold">
-                  Look For Applicants
-                </h1>
-                <h2 className="text-xl mb-4 leading-relaxed font-semibold">
-                  Are you an employer? Create an Employer Profile so that you
-                  can reach out to applicants. You can choose depending on what
-                  skills or positions you are looking for and view their
-                  profile, resume, or portfolio.
-                </h2>
-                <button className="bg-transparent border border-black text-black py-3 px-6 rounded-lg hover:bg-black hover:text-white font-semibold">
-                  Try it
-                </button>
+            <a name="Applicants"></a>
+            <div className="w-[70%] mx-auto rounded-2xl flex gap-5 md:flex-col lg:flex-row items-center">
+              <div>
+                <img
+                  src={applicants2}
+                  alt="Construct your image"
+                  className="rounded-lg"
+                  style={{
+                    maxWidth: "500px",
+                    maxHeight: "350px",
+                    width: "auto",
+                    height: "auto",
+                  }}
+                />
+              </div>
+              <div>
+                <div className="rounded-xl flex flex-col md:items-center lg:items-start">
+                  <h1 className="text-3xl text-indigo-500 font-semibold">
+                    Look For Applicants
+                  </h1>
+                  <h2 className="text-xl mb-4 leading-relaxed font-semibold">
+                    Are you an employer? Create an Employer Profile so that you
+                    can reach out to applicants. You can choose depending on
+                    what skills or positions you are looking for and view their
+                    profile, resume, or portfolio.
+                  </h2>
+                  <button className="bg-transparent border border-black text-black py-3 px-6 rounded-lg hover:bg-black hover:text-white font-semibold">
+                    Try it
+                  </button>
+                </div>
               </div>
             </div>
           </div>
