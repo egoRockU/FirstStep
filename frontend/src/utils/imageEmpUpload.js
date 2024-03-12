@@ -1,12 +1,14 @@
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { storage } from "../firebase/firebase";
+import { toast } from 'react-toastify';
 
 export const uploadImage = async (file) => {
   try {
     if (!file) {
       throw new Error("No image file provided");
     }
-    if (file.size > 2 * 1024 * 1024) {
+    if (file.size > 1 * 1024 * 1024) {
+      toast.error("Image size exceeds the limit (1MB)");
       throw new Error("Image size exceeds the limit (1MB)");
     }
 
@@ -32,7 +34,8 @@ export const uploadBanner = async (file) => {
     if (!file) {
       throw new Error("No banner image file provided");
     }
-    if (file.size > 2 * 1024 * 1024) {
+    if (file.size > 1 * 1024 * 1024) {
+      toast.error("Image size exceeds the limit (1MB)");
       throw new Error("Banner image size exceeds the limit (1MB)");
     }
 

@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
 import { IoMdClose } from "react-icons/io";
 import { IoMdAdd } from "react-icons/io";
+import { projectImagesUpload } from "../../utils/projectimageUpload";
 
-function Addprojects({ onClose, onSubmit, onEdit, formIndex, initialData }) {
+function Addprojects({ onClose, onSubmit, onEdit, formIndex, initialData}) {
   const [formData, setFormData] = useState({
     projectTitle: "",
     subTitle: "",
@@ -12,6 +13,7 @@ function Addprojects({ onClose, onSubmit, onEdit, formIndex, initialData }) {
     description: "",
     githubLink: "",
     projectLink: "",
+    
   });
 
   useEffect(() => {
@@ -51,11 +53,42 @@ function Addprojects({ onClose, onSubmit, onEdit, formIndex, initialData }) {
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    onSubmit(formData);
-    setFormData(formData);
+    console.log("handleSubmit called");
+    try {
+      console.log("Uploading image.");
+      const imageUrls = await projectImagesUpload(imagePreviews);
+    
+      console.log("Image URLs:", imageUrls);
+    
+      const updatedFormData = {
+        ...formData,
+        previewImages: imageUrls, 
+      };
+    
+      console.log("Calling onSubmit with updated formData...");
+      onSubmit(updatedFormData);
+    
+      console.log("Resetting formData...");
+      setFormData({
+        projectTitle: "",
+        subTitle: "",
+        technologiesUsed: "",
+        startDate: "",
+        endDate: "",
+        description: "",
+        githubLink: "",
+        projectLink: "",
+      });
+    
+      console.log("Successfully updated!");
+    } catch (error) {
+      console.error("Error uploading project images:", error);
+    }
   };
+  
+  
 
   const handleEdit = (e) => {
     e.preventDefault();
