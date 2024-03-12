@@ -5,9 +5,11 @@ import {
   projectImagesUpload,
   deleteImageFromFirebase,
 } from "../../utils/projectimageUpload";
+import { editProject } from '../../utils/projectimageEdit';
 
 function Addprojects({ onClose, onSubmit, onEdit, formIndex, initialData }) {
   const [imagePreviews, setImagePreviews] = useState([]);
+  const [loading, setLoading] = useState(false); // Define loading state here
 
   const [formData, setFormData] = useState({
     projectTitle: "",
@@ -146,23 +148,26 @@ function Addprojects({ onClose, onSubmit, onEdit, formIndex, initialData }) {
   // };
   const handleEdit = async (e) => {
     e.preventDefault();
-    onClose();
+  
+    // Set a loading state to indicate that the process is ongoing
+    setLoading(true);
   
     try {
-     
-      const deletedImageUrls = initialData.previewImages.filter(imageUrl => !formData.previewImages.includes(imageUrl));
-      
-  
-      for (const imageUrl of deletedImageUrls) {
-        await deleteImageFromFirebase(imageUrl);
-      }
-  
-      
-      onEdit(formIndex, formData);
-    } catch (error) {
-      console.error("Error editing project:", error);
+      // Call the editProject function passing necessary parameters
+      await editProject(
+        initialData,
+        formData,
+        imagePreviews,
+        onEdit,
+        onClose,
+        formIndex
+      );
+    } finally {
+      // Reset loading state regardless of success or failure
+      setLoading(false);
     }
   };
+  
   
   
   

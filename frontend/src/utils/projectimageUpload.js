@@ -1,6 +1,10 @@
-
 import { storage } from "../firebase/firebase";
-import { ref, getDownloadURL, uploadString, deleteObject } from "firebase/storage";
+import {
+  ref,
+  getDownloadURL,
+  uploadString,
+  deleteObject,
+} from "firebase/storage";
 
 export const projectImagesUpload = async (imagePreviews) => {
   const imageUrls = [];
@@ -13,7 +17,7 @@ export const projectImagesUpload = async (imagePreviews) => {
     const image = imagePreviews[i];
     const imageRef = ref(storageRef, `${i}`);
 
-    await uploadString(imageRef, image, 'data_url');
+    await uploadString(imageRef, image, "data_url");
 
     const imageUrl = await getDownloadURL(imageRef);
     imageUrls.push(imageUrl);
@@ -28,10 +32,8 @@ export const deleteImageFromFirebase = async (imageUrl) => {
     
     const imagePath = imageUrl.split("?")[0];
 
-
     const imageRef = ref(storage, imagePath);
 
-  
     await deleteObject(imageRef);
 
     console.log("Image deleted from Firebase Storage:", imageUrl);
@@ -40,5 +42,3 @@ export const deleteImageFromFirebase = async (imageUrl) => {
     throw error;
   }
 };
-
-
