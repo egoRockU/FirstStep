@@ -49,12 +49,16 @@ function Addprojects({ onClose, onSubmit, onEdit, formIndex, initialData }) {
   const handleDeleteImage = async (index) => {
     try {
       if (initialData && initialData.previewImages[index]) {
-        await deleteImageFromFirebase(initialData.previewImages[index]);
+        await deleteImageFromFirebase(
+          initialData.previewImages[index],
+          setImagePreviews,
+          imagePreviews
+        );
       }
       const updatedPreviews = [...imagePreviews];
       updatedPreviews.splice(index, 1);
       setImagePreviews(updatedPreviews);
-
+  
       const updatedFormData = {
         ...formData,
         previewImages: formData.previewImages.filter((_, i) => i !== index),
@@ -64,7 +68,7 @@ function Addprojects({ onClose, onSubmit, onEdit, formIndex, initialData }) {
       console.error("Error deleting image:", error);
     }
   };
-
+  
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
