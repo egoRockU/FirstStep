@@ -23,19 +23,22 @@ export const projectImagesUpload = async (imagePreviews) => {
 };
 
 
-export const deleteImageFromFirebase = async (imageUrl, setImagePreviews, imagePreviews) => {
+export const deleteImageFromFirebase = async (imageUrl) => {
   try {
+    
     const imagePath = imageUrl.split("?")[0];
+
+
     const imageRef = ref(storage, imagePath);
 
+  
     await deleteObject(imageRef);
-    console.log("Image deleted from Firebase storage.");
 
-   
-    const updatedPreviews = imagePreviews.filter(image => image !== imageUrl);
-    setImagePreviews(updatedPreviews);
+    console.log("Image deleted from Firebase Storage:", imageUrl);
   } catch (error) {
-    console.error("Error deleting image from Firebase storage:", error);
+    console.error("Error deleting image from Firebase Storage:", error);
     throw error;
   }
 };
+
+

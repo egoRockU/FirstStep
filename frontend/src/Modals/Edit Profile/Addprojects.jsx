@@ -46,15 +46,24 @@ function Addprojects({ onClose, onSubmit, onEdit, formIndex, initialData }) {
     }
   };
 
-  const handleDeleteImage = async (index) => {
+  // const handleDeleteImage =  async  (index) => {
+  //   try {
+  //     const updatedPreviews = [...imagePreviews];
+  //     updatedPreviews.splice(index, 1);
+  //     setImagePreviews(updatedPreviews);
+  
+  //     const updatedFormData = {
+  //       ...formData,
+  //       previewImages: formData.previewImages.filter((_, i) => i !== index),
+  //     };
+  //     setFormData(updatedFormData);
+  //   } catch (error) {
+  //     console.error("Error deleting image:", error);
+  //   }
+  // };
+  
+  const handleDeleteImage = (index) => {
     try {
-      if (initialData && initialData.previewImages[index]) {
-        await deleteImageFromFirebase(
-          initialData.previewImages[index],
-          setImagePreviews,
-          imagePreviews
-        );
-      }
       const updatedPreviews = [...imagePreviews];
       updatedPreviews.splice(index, 1);
       setImagePreviews(updatedPreviews);
@@ -69,6 +78,8 @@ function Addprojects({ onClose, onSubmit, onEdit, formIndex, initialData }) {
     }
   };
   
+    
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
@@ -113,12 +124,50 @@ function Addprojects({ onClose, onSubmit, onEdit, formIndex, initialData }) {
     }
   };
 
-  const handleEdit = (e) => {
+  // const handleEdit = async (e) => {
+  //   e.preventDefault();
+  //   onEdit(formIndex, formData);
+  //   onClose();
+  
+  //   try {
+  //     const selectedImageUrls = [];
+  //     imagePreviews.forEach((preview, index) => {
+  //       if (formData.previewImages.includes(preview)) {
+  //         selectedImageUrls.push(formData.previewImages[index]);
+  //       }
+  //     });
+  
+  //     for (const imageUrl of selectedImageUrls) {
+  //       await deleteImageFromFirebase(imageUrl, setImagePreviews, imagePreviews);
+  //     }
+  //   } catch (error) {
+  //     console.error("Error deleting images from Firebase:", error);
+  //   }
+  // };
+  const handleEdit = async (e) => {
     e.preventDefault();
-    onEdit(formIndex, formData);
     onClose();
+  
+    try {
+     
+      const deletedImageUrls = initialData.previewImages.filter(imageUrl => !formData.previewImages.includes(imageUrl));
+      
+  
+      for (const imageUrl of deletedImageUrls) {
+        await deleteImageFromFirebase(imageUrl);
+      }
+  
+      
+      onEdit(formIndex, formData);
+    } catch (error) {
+      console.error("Error editing project:", error);
+    }
   };
-
+  
+  
+  
+  
+  
   const handleCancel = () => {
     onClose();
   };
