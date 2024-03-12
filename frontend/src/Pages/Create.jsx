@@ -20,6 +20,7 @@ import { IoClose } from "react-icons/io5";
 import { toast } from "react-toastify";
 import { uploadBanner, uploadImage } from "../utils/imageUpload";
 import { getDownloadURL } from "firebase/storage";
+import Loader from "../Components/Loader";
 
 function CreateApplicantProfilepage() {
   const dispatch = useDispatch();
@@ -161,6 +162,7 @@ function CreateApplicantProfilepage() {
   const [skills, setSkills] = useState([]);
   const [inputs, setInputs] = useState({});
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     setInputs({
@@ -226,8 +228,10 @@ const [selectedImageFile, setSelectedImageFile] = useState(null);
   const goback = () => {
     navigate("/");
   };
+  
 
   const createProfile = async () => {
+    setLoading(true);
     const profileImageURL = await uploadImage(selectedImageFile, getDownloadURL);
     const bannerImageURL = await uploadBanner(selectedBannerFile, getDownloadURL);
 
@@ -249,6 +253,7 @@ const [selectedImageFile, setSelectedImageFile] = useState(null);
       .then((res) => {
         if (res.data.status == true) {
           toast.success(res.data.message);
+          setLoading(false);
           updateAccountProfileValues(
             res.data._id,
             "applicant",
@@ -264,10 +269,15 @@ const [selectedImageFile, setSelectedImageFile] = useState(null);
         }
       })
       .catch((err) => {
-        toast.success(err.response.data.message);
+        toast.error(err.response.data.message);
+        setLoading(false);
         console.log(err.response.data.errorMessage);
       });
   };
+
+  if(loading){
+    return<Loader/>
+  }
 
   return (
     <div className="bg-gray-100">

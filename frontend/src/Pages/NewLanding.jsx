@@ -53,7 +53,7 @@ function NewLanding() {
     <div style={landingStyle}>
       <>
         {user ? <NavbarLoggedIn /> : <Newnavbar />}
-        <div className="sm:h-3/4 lg:h-3/4 w-full flex flex-col lg:justify-around mt-20">
+        <div className="sm:h-3/4 lg:h-3/4 w-full flex flex-col lg:justify-around pt-20">
           <div className="w-full flex flex-col sm:items-center lg:items-start h-[80%] justify-around text-center pl-20">
             <div className="flex flex-col sm:w-full  md:w-1/2">
               <h1 className="sm:text-xl md:text-6xl text-white font-semibold">
@@ -265,8 +265,8 @@ function NewLanding() {
 
           <a name="resume"></a>
 
-          <div className="relative top-[0px] w-[60%] mx-auto h-[600px] p-10 rounded-2xl flex items-center">
-            <div className="w-2/3 mr-10">
+          <div className="relative top-[0px] w-[60%] mx-auto h-[600px] rounded-2xl flex gap-5 md:flex-col lg:flex-row items-center">
+            <div>
               <img
                 src={resume2}
                 alt="Construct your image"
@@ -279,12 +279,12 @@ function NewLanding() {
                 }}
               />
             </div>
-            <div className="w-2/3">
-              <div className=" rounded-xl p-6">
-                <h1 className="text-3xl mb-4 text-indigo-500 font-semibold">
+            <div>
+              <div className="rounded-xl">
+                <h1 className="text-3xl  text-indigo-500 font-semibold">
                   Construct Your Resume
                 </h1>
-                <h2 className="text-xl  mb-4 leading-relaxed font-semibold">
+                <h2 className="text-xl leading-relaxed font-semibold">
                   Applicant Profile is all you need to have a good resume. You
                   don’t have to worry about the formatting or layout. We take
                   care that for you. All you need to do is choose a template and
@@ -300,13 +300,13 @@ function NewLanding() {
           <hr class="my-40 border-t-2 border-gray-300"></hr>
 
           <a name="portfolio"></a>
-          <div className="relative top-[100px] w-[60%] mx-auto h-[600px] p-10 rounded-2xl flex items-center">
-            <div className="w-2/3 pr-12">
-              <div className="rounded-xl p-6">
-                <h1 className="text-3xl mb-4 text-indigo-500 font-semibold">
+          <div className="relative top-[100px] w-[60%] mx-auto h-[600px] rounded-2xl flex gap-5 md:flex-col lg:flex-row items-center">
+            <div>
+              <div className="rounded-xl">
+                <h1 className="text-3xl text-indigo-500 font-semibold">
                   Choose Your Portfolio
                 </h1>
-                <h2 className="text-xl  mb-4 leading-relaxed font-semibold">
+                <h2 className="text-xl leading-relaxed font-semibold">
                   Just like in resume, we create your portfolio based on your
                   Applicant Profile. You don’t have to worry about design and
                   layout. We will handle that for you. We already have designs
@@ -317,7 +317,7 @@ function NewLanding() {
                 </button>
               </div>
             </div>
-            <div className="w-1/3 ml-6">
+            <div>
               <img
                 src={portfolio2}
                 alt="Construct your image"

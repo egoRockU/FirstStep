@@ -13,7 +13,7 @@ function NavbarLoggedIn() {
   };
 
   return (
-    <nav className="bg-white py-2.5">
+    <nav className="bg-white py-2.5 fixed w-full z-50 top-0">
       <div className="flex w-[60%] justify-between mx-auto">
         <div className="flex items-center gap-1" onClick={clickLanding}>
           <img src={logo} alt="" className="w-6 h-6 hover:scale-125" />
