@@ -1,9 +1,14 @@
 import { useState, useEffect } from "react";
 import { IoMdClose } from "react-icons/io";
 import { IoMdAdd } from "react-icons/io";
-import { projectImagesUpload } from "../../utils/projectimageUpload";
+import {
+  projectImagesUpload,
+  deleteImageFromFirebase,
+} from "../../utils/projectimageUpload";
 
-function Addprojects({ onClose, onSubmit, onEdit, formIndex, initialData}) {
+function Addprojects({ onClose, onSubmit, onEdit, formIndex, initialData }) {
+  const [imagePreviews, setImagePreviews] = useState([]);
+
   const [formData, setFormData] = useState({
     projectTitle: "",
     subTitle: "",
@@ -13,16 +18,15 @@ function Addprojects({ onClose, onSubmit, onEdit, formIndex, initialData}) {
     description: "",
     githubLink: "",
     projectLink: "",
-    
+    previewImages: [],
   });
-
   useEffect(() => {
     if (initialData) {
       setFormData(initialData);
+      setImagePreviews(initialData.previewImages);
+      console.log(initialData);
     }
   }, [initialData]);
-
-  const [imagePreviews, setImagePreviews] = useState([]);
 
   const handleImageChange = (e) => {
     const files = e.target.files;
@@ -42,10 +46,23 @@ function Addprojects({ onClose, onSubmit, onEdit, formIndex, initialData}) {
     }
   };
 
-  const handleDeleteImage = (index) => {
-    setImagePreviews((prevPreviews) =>
-      prevPreviews.filter((_, i) => i !== index)
-    );
+  const handleDeleteImage = async (index) => {
+    try {
+      if (initialData && initialData.previewImages[index]) {
+        await deleteImageFromFirebase(initialData.previewImages[index]);
+      }
+      const updatedPreviews = [...imagePreviews];
+      updatedPreviews.splice(index, 1);
+      setImagePreviews(updatedPreviews);
+
+      const updatedFormData = {
+        ...formData,
+        previewImages: formData.previewImages.filter((_, i) => i !== index),
+      };
+      setFormData(updatedFormData);
+    } catch (error) {
+      console.error("Error deleting image:", error);
+    }
   };
 
   const handleChange = (e) => {
@@ -59,17 +76,21 @@ function Addprojects({ onClose, onSubmit, onEdit, formIndex, initialData}) {
     try {
       console.log("Uploading image.");
       const imageUrls = await projectImagesUpload(imagePreviews);
-    
+
       console.log("Image URLs:", imageUrls);
-    
+
       const updatedFormData = {
         ...formData,
-        previewImages: imageUrls, 
+        previewImages: imageUrls,
       };
-    
+
       console.log("Calling onSubmit with updated formData...");
-      onSubmit(updatedFormData);
-    
+      if (initialData) {
+        onSubmit({ ...initialData, ...updatedFormData });
+      } else {
+        onSubmit(updatedFormData);
+      }
+
       console.log("Resetting formData...");
       setFormData({
         projectTitle: "",
@@ -81,14 +102,12 @@ function Addprojects({ onClose, onSubmit, onEdit, formIndex, initialData}) {
         githubLink: "",
         projectLink: "",
       });
-    
+
       console.log("Successfully updated!");
     } catch (error) {
       console.error("Error uploading project images:", error);
     }
   };
-  
-  
 
   const handleEdit = (e) => {
     e.preventDefault();
@@ -113,6 +132,7 @@ function Addprojects({ onClose, onSubmit, onEdit, formIndex, initialData}) {
               <p>{imagePreviews.length}/5</p>
             </div>
             <div className="grid grid-cols-3 gap-4">
+              {console.log(imagePreviews)}
               {imagePreviews.map((preview, index) => (
                 <div key={index} className="w-full relative">
                   <img
@@ -127,6 +147,7 @@ function Addprojects({ onClose, onSubmit, onEdit, formIndex, initialData}) {
                   />
                 </div>
               ))}
+
               {imagePreviews.length < 5 && (
                 <label
                   htmlFor="imginput"
