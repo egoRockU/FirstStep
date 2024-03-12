@@ -3,9 +3,12 @@ import { IoMdClose } from "react-icons/io";
 import { IoMdAdd } from "react-icons/io";
 import {
   projectImagesUpload,
-  deleteImageFromFirebase,
 } from "../../utils/projectimageUpload";
-import { editProject } from '../../utils/projectimageEdit';
+import { editProject } from "../../utils/projectimageEdit";
+import {  toast } from "react-toastify";
+
+
+import "react-toastify/dist/ReactToastify.css";
 
 function Addprojects({ onClose, onSubmit, onEdit, formIndex, initialData }) {
   const [imagePreviews, setImagePreviews] = useState([]);
@@ -53,7 +56,7 @@ function Addprojects({ onClose, onSubmit, onEdit, formIndex, initialData }) {
   //     const updatedPreviews = [...imagePreviews];
   //     updatedPreviews.splice(index, 1);
   //     setImagePreviews(updatedPreviews);
-  
+
   //     const updatedFormData = {
   //       ...formData,
   //       previewImages: formData.previewImages.filter((_, i) => i !== index),
@@ -63,13 +66,13 @@ function Addprojects({ onClose, onSubmit, onEdit, formIndex, initialData }) {
   //     console.error("Error deleting image:", error);
   //   }
   // };
-  
+
   const handleDeleteImage = (index) => {
     try {
       const updatedPreviews = [...imagePreviews];
       updatedPreviews.splice(index, 1);
       setImagePreviews(updatedPreviews);
-  
+
       const updatedFormData = {
         ...formData,
         previewImages: formData.previewImages.filter((_, i) => i !== index),
@@ -77,10 +80,9 @@ function Addprojects({ onClose, onSubmit, onEdit, formIndex, initialData }) {
       setFormData(updatedFormData);
     } catch (error) {
       console.error("Error deleting image:", error);
+      toast.error("Failed to delete. Please try again.");
     }
   };
-  
-    
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -91,6 +93,9 @@ function Addprojects({ onClose, onSubmit, onEdit, formIndex, initialData }) {
     e.preventDefault();
     console.log("handleSubmit called");
     try {
+      
+      toast.info("Please wait for uploading.");
+
       console.log("Uploading image.");
       const imageUrls = await projectImagesUpload(imagePreviews);
 
@@ -120,9 +125,10 @@ function Addprojects({ onClose, onSubmit, onEdit, formIndex, initialData }) {
         projectLink: "",
       });
 
-      console.log("Successfully updated!");
+      toast.success("Successfully saved!");
     } catch (error) {
       console.error("Error uploading project images:", error);
+      toast.error("Failed to save. Please try again.");
     }
   };
 
@@ -130,7 +136,7 @@ function Addprojects({ onClose, onSubmit, onEdit, formIndex, initialData }) {
   //   e.preventDefault();
   //   onEdit(formIndex, formData);
   //   onClose();
-  
+
   //   try {
   //     const selectedImageUrls = [];
   //     imagePreviews.forEach((preview, index) => {
@@ -138,7 +144,7 @@ function Addprojects({ onClose, onSubmit, onEdit, formIndex, initialData }) {
   //         selectedImageUrls.push(formData.previewImages[index]);
   //       }
   //     });
-  
+
   //     for (const imageUrl of selectedImageUrls) {
   //       await deleteImageFromFirebase(imageUrl, setImagePreviews, imagePreviews);
   //     }
@@ -153,6 +159,9 @@ function Addprojects({ onClose, onSubmit, onEdit, formIndex, initialData }) {
     setLoading(true);
   
     try {
+      // Show a toast to remind the user to wait for uploading
+      toast.info("Please wait!");
+  
       // Call the editProject function passing necessary parameters
       await editProject(
         initialData,
@@ -162,17 +171,17 @@ function Addprojects({ onClose, onSubmit, onEdit, formIndex, initialData }) {
         onClose,
         formIndex
       );
+      
+      toast.success("Changes saved successfully!");
+    } catch (error) {
+      console.error("Error editing project:", error);
+      toast.error("Failed to save changes. Please try again.");
     } finally {
-      // Reset loading state regardless of success or failure
       setLoading(false);
     }
   };
   
-  
-  
-  
-  
-  
+
   const handleCancel = () => {
     onClose();
   };
