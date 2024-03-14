@@ -13,7 +13,7 @@ import { updateUser } from "../slices/userSlice";
 import { IoClose } from "react-icons/io5";
 import { toast } from "react-toastify";
 import { uploadBanner, uploadImage } from "../utils/imageEmpUpload";
-
+import { getDownloadURL } from "firebase/storage";
 
 function CreateEmployerpage() {
   const navigate = useNavigate();
