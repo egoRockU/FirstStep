@@ -2,7 +2,7 @@ import nodemailer from "nodemailer";
 import dotenv from "dotenv";
 dotenv.config();
 
-const sendVerificationEmail = (email, urlToken) => {
+const sendVerificationEmail = async (email, urlToken) => {
   let appDomain = process.env.APP_DOMAIN;
   const url = `${appDomain}/verify/${urlToken}`;
 
@@ -37,7 +37,7 @@ const sendVerificationEmail = (email, urlToken) => {
             `,
   };
 
-  transporter.sendMail(options, (err, res) => {
+  await transporter.sendMail(options, (err, res) => {
     if (err) {
       console.log(err.message);
     } else {
