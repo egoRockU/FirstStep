@@ -11,7 +11,7 @@ export const updateProfileImage = async (file, previousImage, setSelectedImage) 
       console.log("Previous image deleted successfully");
     }
 
-    if (file.size > 10 * 1024 * 1024) {
+    if (file.size > 1 * 1024 * 1024) {
       toast.error("Image size exceeds the limit (1MB)");
       throw new Error("Image size exceeds the limit (1MB)");
     }
@@ -54,7 +54,7 @@ export const updateBannerImage = async (file, oldImageUrl, setBannerImage) => {
       console.log("Previous banner image deleted successfully");
     }
 
-    if (file.size > 10 * 1024 * 1024) {
+    if (file.size > 1 * 1024 * 1024) {
       toast.error("Banner image size exceeds the limit (1MB)");
       throw new Error("Banner image size exceeds the limit (1MB)");
     }
