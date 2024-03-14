@@ -102,9 +102,16 @@ function CreateEmployerpage() {
   const [inputs, setInputs] = useState({});
 
   const createProfile = async () => {
-    const profileImageURL = await uploadImage(selectedImageFile);
-    const bannerImageURL = await uploadBanner(selectedBannerFile);
-
+    let profileImageURL = "";
+    let bannerImageURL = "";
+  
+    if (selectedImageFile) {
+      profileImageURL = await uploadImage(selectedImageFile, getDownloadURL);
+    }
+  
+    if (selectedBannerFile) {
+      bannerImageURL = await uploadBanner(selectedBannerFile, getDownloadURL);
+    }
     setSelectedImage(profileImageURL);
     setSelectedBanner(bannerImageURL);
     const updatedInputs = {

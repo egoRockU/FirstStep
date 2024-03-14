@@ -308,7 +308,9 @@ function editprofile() {
                         </h1>
                       </div>
                       <div className="flex flex-col">
-                        <h1 className="underline cursor-pointer text-[#8B95EE]">{email}</h1>
+                        <h1 className="underline cursor-pointer text-[#8B95EE]">
+                          {email}
+                        </h1>
                         <p>{address}</p>
                         <p>{contactNum}</p>
                       </div>
@@ -379,6 +381,7 @@ function editprofile() {
                   <div className="rounded-xl">
                     <div className="bg-white p-4 text-xl flex flex-col items-center justify-center border-2 border-gray-300 gap-3 rounded-t-lg">
                       <h1 className="text-[#444B88] font-base">Education</h1>
+                      {/* EDUCATION CARD */}
                       {educationData.map((edu, index) => (
                         <div
                           className="w-full bg-white hover:bg-[#BAD2FF] border-2 border-[#444B88] flex justify-between items-center"
@@ -434,6 +437,7 @@ function editprofile() {
                       <h1 className="text-[#444B88] font-base">
                         Activities and Involvements
                       </h1>
+                      {/* ACTIVITIES AND INVOLVEMENTS CARD */}
                       {achievementsData.map((achievement, index) => (
                         <div
                           className="w-full bg-white hover:bg-[#BAD2FF] border-2 border-[#444B88] flex justify-between items-center"
@@ -491,9 +495,9 @@ function editprofile() {
                     </div>
                   </div>
                   <div className="rounded-xl">
-                    {/* TODO Projects */}
                     <div className="bg-white p-4 text-xl flex flex-col items-center justify-center border-2 border-gray-300 gap-3 rounded-t-lg">
                       <h1 className="text-[#444B88] font-base">Projects</h1>
+                      {/* PROJECTS CARD */}
                       {projectsData.map((project, index) => (
                         <div
                           className="w-full bg-white hover:bg-[#BAD2FF] border-2 border-[#444B88] flex justify-between items-center"
@@ -548,6 +552,7 @@ function editprofile() {
                   <div className="rounded-xl">
                     <div className="bg-white p-4 text-xl flex flex-col items-center justify-center border-2 border-gray-300 gap-3 rounded-t-lg">
                       <h1 className="text-[#444B88] font-base">Awards</h1>
+                      {/* AWARDS CARD */}
                       {awardData.map((award, index) => (
                         <div
                           className="w-full bg-white hover:bg-[#BAD2FF] border-2 border-[#444B88] flex justify-between items-center"
@@ -597,6 +602,7 @@ function editprofile() {
                   <div className="rounded-xl">
                     <div className="bg-white p-4 text-xl flex flex-col items-center justify-center border-2 border-gray-300 gap-3 rounded-t-lg">
                       <h1 className="text-[#444B88] font-base">Certificates</h1>
+                      {/* CERTIFICATES CARD */}
                       {certData.map((cert, index) => (
                         <div
                           className="w-full bg-white hover:bg-[#BAD2FF] border-2 border-[#444B88] flex justify-between items-center"
@@ -628,7 +634,6 @@ function editprofile() {
                       >
                         Add
                       </button>
-                      {/* TODO finish add certificates modal and functions / add close button*/}
                       {showCertModal && (
                         <AddCert
                           onClose={() => {

@@ -228,9 +228,16 @@ const [selectedImageFile, setSelectedImageFile] = useState(null);
   };
 
   const createProfile = async () => {
-    const profileImageURL = await uploadImage(selectedImageFile, getDownloadURL);
-    const bannerImageURL = await uploadBanner(selectedBannerFile, getDownloadURL);
-
+    let profileImageURL = "";
+    let bannerImageURL = "";
+  
+    if (selectedImageFile) {
+      profileImageURL = await uploadImage(selectedImageFile, getDownloadURL);
+    }
+  
+    if (selectedBannerFile) {
+      bannerImageURL = await uploadBanner(selectedBannerFile, getDownloadURL);
+    }
     setSelectedImage(profileImageURL);
     setSelectedBanner(bannerImageURL);
     const updatedInputs = {

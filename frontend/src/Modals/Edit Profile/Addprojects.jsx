@@ -1,8 +1,16 @@
 import { useState, useEffect } from "react";
 import { IoMdClose } from "react-icons/io";
 import { IoMdAdd } from "react-icons/io";
+import {
+  projectImagesUpload,
+  deleteImageFromFirebase,
+} from "../../utils/projectimageUpload";
+import { editProject } from '../../utils/projectimageEdit';
 
 function Addprojects({ onClose, onSubmit, onEdit, formIndex, initialData }) {
+  const [imagePreviews, setImagePreviews] = useState([]);
+  const [loading, setLoading] = useState(false); // Define loading state here
+
   const [formData, setFormData] = useState({
     projectTitle: "",
     subTitle: "",
@@ -12,15 +20,15 @@ function Addprojects({ onClose, onSubmit, onEdit, formIndex, initialData }) {
     description: "",
     githubLink: "",
     projectLink: "",
+    previewImages: [],
   });
-
   useEffect(() => {
     if (initialData) {
       setFormData(initialData);
+      setImagePreviews(initialData.previewImages);
+      console.log(initialData);
     }
   }, [initialData]);
-
-  const [imagePreviews, setImagePreviews] = useState([]);
 
   const handleImageChange = (e) => {
     const files = e.target.files;
@@ -40,29 +48,131 @@ function Addprojects({ onClose, onSubmit, onEdit, formIndex, initialData }) {
     }
   };
 
+  // const handleDeleteImage =  async  (index) => {
+  //   try {
+  //     const updatedPreviews = [...imagePreviews];
+  //     updatedPreviews.splice(index, 1);
+  //     setImagePreviews(updatedPreviews);
+  
+  //     const updatedFormData = {
+  //       ...formData,
+  //       previewImages: formData.previewImages.filter((_, i) => i !== index),
+  //     };
+  //     setFormData(updatedFormData);
+  //   } catch (error) {
+  //     console.error("Error deleting image:", error);
+  //   }
+  // };
+  
   const handleDeleteImage = (index) => {
-    setImagePreviews((prevPreviews) =>
-      prevPreviews.filter((_, i) => i !== index)
-    );
+    try {
+      const updatedPreviews = [...imagePreviews];
+      updatedPreviews.splice(index, 1);
+      setImagePreviews(updatedPreviews);
+  
+      const updatedFormData = {
+        ...formData,
+        previewImages: formData.previewImages.filter((_, i) => i !== index),
+      };
+      setFormData(updatedFormData);
+    } catch (error) {
+      console.error("Error deleting image:", error);
+    }
   };
+  
+    
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    onSubmit(formData);
-    setFormData(formData);
+    console.log("handleSubmit called");
+    try {
+      console.log("Uploading image.");
+      const imageUrls = await projectImagesUpload(imagePreviews);
+
+      console.log("Image URLs:", imageUrls);
+
+      const updatedFormData = {
+        ...formData,
+        previewImages: imageUrls,
+      };
+
+      console.log("Calling onSubmit with updated formData...");
+      if (initialData) {
+        onSubmit({ ...initialData, ...updatedFormData });
+      } else {
+        onSubmit(updatedFormData);
+      }
+
+      console.log("Resetting formData...");
+      setFormData({
+        projectTitle: "",
+        subTitle: "",
+        technologiesUsed: "",
+        startDate: "",
+        endDate: "",
+        description: "",
+        githubLink: "",
+        projectLink: "",
+      });
+
+      console.log("Successfully updated!");
+    } catch (error) {
+      console.error("Error uploading project images:", error);
+    }
   };
 
-  const handleEdit = (e) => {
+  // const handleEdit = async (e) => {
+  //   e.preventDefault();
+  //   onEdit(formIndex, formData);
+  //   onClose();
+  
+  //   try {
+  //     const selectedImageUrls = [];
+  //     imagePreviews.forEach((preview, index) => {
+  //       if (formData.previewImages.includes(preview)) {
+  //         selectedImageUrls.push(formData.previewImages[index]);
+  //       }
+  //     });
+  
+  //     for (const imageUrl of selectedImageUrls) {
+  //       await deleteImageFromFirebase(imageUrl, setImagePreviews, imagePreviews);
+  //     }
+  //   } catch (error) {
+  //     console.error("Error deleting images from Firebase:", error);
+  //   }
+  // };
+  const handleEdit = async (e) => {
     e.preventDefault();
-    onEdit(formIndex, formData);
-    onClose();
+  
+    // Set a loading state to indicate that the process is ongoing
+    setLoading(true);
+  
+    try {
+      // Call the editProject function passing necessary parameters
+      await editProject(
+        initialData,
+        formData,
+        imagePreviews,
+        onEdit,
+        onClose,
+        formIndex
+      );
+    } finally {
+      // Reset loading state regardless of success or failure
+      setLoading(false);
+    }
   };
-
+  
+  
+  
+  
+  
+  
   const handleCancel = () => {
     onClose();
   };
@@ -80,6 +190,7 @@ function Addprojects({ onClose, onSubmit, onEdit, formIndex, initialData }) {
               <p>{imagePreviews.length}/5</p>
             </div>
             <div className="grid grid-cols-3 gap-4">
+              {console.log(imagePreviews)}
               {imagePreviews.map((preview, index) => (
                 <div key={index} className="w-full relative">
                   <img
@@ -94,6 +205,7 @@ function Addprojects({ onClose, onSubmit, onEdit, formIndex, initialData }) {
                   />
                 </div>
               ))}
+
               {imagePreviews.length < 5 && (
                 <label
                   htmlFor="imginput"
