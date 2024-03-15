@@ -1,12 +1,9 @@
 import { useState, useEffect } from "react";
 import { IoMdClose } from "react-icons/io";
 import { IoMdAdd } from "react-icons/io";
-import {
-  projectImagesUpload,
-} from "../../utils/projectimageUpload";
+import { projectImagesUpload } from "../../utils/projectimageUpload";
 import { editProject } from "../../utils/projectimageEdit";
-import {  toast } from "react-toastify";
-
+import { toast } from "react-toastify";
 
 import "react-toastify/dist/ReactToastify.css";
 
@@ -93,7 +90,6 @@ function Addprojects({ onClose, onSubmit, onEdit, formIndex, initialData }) {
     e.preventDefault();
     console.log("handleSubmit called");
     try {
-      
       toast.info("Please wait for uploading.");
 
       console.log("Uploading image.");
@@ -154,14 +150,14 @@ function Addprojects({ onClose, onSubmit, onEdit, formIndex, initialData }) {
   // };
   const handleEdit = async (e) => {
     e.preventDefault();
-  
+
     // Set a loading state to indicate that the process is ongoing
     setLoading(true);
-  
+
     try {
       // Show a toast to remind the user to wait for uploading
       toast.info("Please wait!");
-  
+
       // Call the editProject function passing necessary parameters
       await editProject(
         initialData,
@@ -171,7 +167,7 @@ function Addprojects({ onClose, onSubmit, onEdit, formIndex, initialData }) {
         onClose,
         formIndex
       );
-      
+
       toast.success("Changes saved successfully!");
     } catch (error) {
       console.error("Error editing project:", error);
@@ -180,7 +176,6 @@ function Addprojects({ onClose, onSubmit, onEdit, formIndex, initialData }) {
       setLoading(false);
     }
   };
-  
 
   const handleCancel = () => {
     onClose();
@@ -199,21 +194,25 @@ function Addprojects({ onClose, onSubmit, onEdit, formIndex, initialData }) {
               <p>{imagePreviews.length}/5</p>
             </div>
             <div className="grid grid-cols-3 gap-12">
-  {imagePreviews.map((preview, index) => (
-    <div key={index} className="w-full relative" style={{ width: "170px", height: "150px",  }}>
-      <div className="w-full h-full flex justify-center items-center overflow-hidden relative">
-        <img
-          src={preview}
-          alt={`Preview ${index + 1}`}
-          className="w-full h-full object-cover rounded-lg"
-        />
-      </div>
-      <IoMdClose
-        size={25}
-        onClick={() => handleDeleteImage(index)}
-        className="absolute top-1 right-1 m-1 text-black bg-white rounded-full p-1 cursor-pointer"
-      />
-    </div>
+              {imagePreviews.map((preview, index) => (
+                <div
+                  key={index}
+                  className="w-full relative"
+                  style={{ width: "170px", height: "150px" }}
+                >
+                  <div className="w-full h-full flex justify-center items-center overflow-hidden relative">
+                    <img
+                      src={preview}
+                      alt={`Preview ${index + 1}`}
+                      className="w-full h-full object-cover rounded-lg"
+                    />
+                  </div>
+                  <IoMdClose
+                    size={25}
+                    onClick={() => handleDeleteImage(index)}
+                    className="absolute top-1 right-1 m-1 text-black bg-white rounded-full p-1 cursor-pointer"
+                  />
+                </div>
               ))}
 
               {imagePreviews.length < 5 && (
