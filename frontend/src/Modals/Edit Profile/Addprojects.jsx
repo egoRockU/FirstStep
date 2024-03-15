@@ -198,30 +198,31 @@ function Addprojects({ onClose, onSubmit, onEdit, formIndex, initialData }) {
               <h1 className="mr-2">Preview Images:</h1>
               <p>{imagePreviews.length}/5</p>
             </div>
-            <div className="grid grid-cols-3 gap-4">
-              {console.log(imagePreviews)}
-              {imagePreviews.map((preview, index) => (
-                <div key={index} className="w-full relative">
-                  <img
-                    src={preview}
-                    alt={`Preview ${index + 1}`}
-                    className="w-full h-full object-cover rounded-lg"
-                  />
-                  <IoMdClose
-                    size={25}
-                    onClick={() => handleDeleteImage(index)}
-                    className="absolute top-2 right-2 text-black bg-white rounded-full p-1"
-                  />
-                </div>
+            <div className="grid grid-cols-3 gap-12">
+  {imagePreviews.map((preview, index) => (
+    <div key={index} className="w-full relative" style={{ width: "170px", height: "150px",  }}>
+      <div className="w-full h-full flex justify-center items-center overflow-hidden relative">
+        <img
+          src={preview}
+          alt={`Preview ${index + 1}`}
+          className="w-full h-full object-cover rounded-lg"
+        />
+      </div>
+      <IoMdClose
+        size={25}
+        onClick={() => handleDeleteImage(index)}
+        className="absolute top-1 right-1 m-1 text-black bg-white rounded-full p-1 cursor-pointer"
+      />
+    </div>
               ))}
 
               {imagePreviews.length < 5 && (
                 <label
                   htmlFor="imginput"
-                  className="w-[240px] h-[140px] cursor-pointer"
+                  className="w-[190px] h-[140px] cursor-pointer "
                 >
                   <div className="w-full h-full flex justify-center items-center border-2 border-[#8B95EE] rounded-lg">
-                    <IoMdAdd size={20} color="8B95EE" />
+                    <IoMdAdd size={15} color="8B95EE" />
                   </div>
                   <input
                     type="file"
