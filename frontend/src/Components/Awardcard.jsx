@@ -3,10 +3,10 @@ import { IoCloseOutline } from "react-icons/io5";
 import { convertDate } from "../utils/convertDate";
 
 const AwardCard = ({ award, onDelete, onEdit }) => {
-    const handleDeleteClick = (e) => {
-        e.stopPropagation();
-        onDelete(); 
-      };
+  const handleDeleteClick = (e) => {
+    e.stopPropagation();
+    onDelete();
+  };
   return (
     <div className="w-full bg-white hover:bg-[#BAD2FF] border-2 border-[#444B88] flex justify-between items-center">
       <div className="w-full flex flex-col gap-3 p-5" onClick={onEdit}>

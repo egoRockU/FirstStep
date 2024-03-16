@@ -5,7 +5,7 @@ import { convertDate } from "../utils/convertDate";
 function ActivitiesCard({ activity, onDelete, onEdit }) {
   const handleDeleteClick = (e) => {
     e.stopPropagation();
-    onDelete(); 
+    onDelete();
   };
   return (
     <div className="w-full bg-white hover:bg-[#BAD2FF] border-2 border-[#444B88] flex justify-between items-center">
