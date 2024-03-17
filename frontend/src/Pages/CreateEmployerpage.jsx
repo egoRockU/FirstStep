@@ -14,6 +14,8 @@ import { IoClose } from "react-icons/io5";
 import { toast } from "react-toastify";
 import { uploadBanner, uploadImage } from "../utils/imageEmpUpload";
 import { getDownloadURL } from "firebase/storage";
+import { SocialCard} from "../Components/Employercard";
+
 
 function CreateEmployerpage() {
   const navigate = useNavigate();
@@ -321,34 +323,11 @@ function CreateEmployerpage() {
                   />
                 </div>
                 <div className="flex flex-col w-full">
-                  <h1 className="text-lg">Skills</h1>
+                  <h1 className="text-lg">Social Links</h1>
                 <div className=" border-2 py-2 border-[#444B88] flex flex-col items-center">
                   <div className="flex flex-col items-center">
                     {" "}
-                    {socialLinks.map((link, index) => (
-                      <div
-                        key={index}
-                        className="flex items-center py-1 text-center "
-                      >
-                        <div>
-                          {/* <a href="" onClick={() => editSocialLink(index)}>
-                              {link.platform}
-                            </a> */}
-                        </div>
-                        <div>
-                          <a href={link.link}>{link.link}</a>
-                        </div>
-                        <div>
-                          <button
-                            onClick={() => editSocialLink(index)}
-                          ></button>
-                          <button
-                            onClick={() => deleteSocialLink(index)}>
-                              <IoClose size={25} />
-                          </button>
-                        </div>
-                      </div>
-                    ))}
+                    <SocialCard socialLinks={socialLinks} onDelete={deleteSocialLink} />
                   </div>
                   <button
                     className="p-2 px-5 bg-[#8B95EE]"
