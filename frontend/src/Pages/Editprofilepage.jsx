@@ -13,12 +13,9 @@ import AddAward from "../Modals/Edit Profile/Addawards";
 import AddCert from "../Modals/Edit Profile/Addcertificates";
 import Addprojects from "../Modals/Edit Profile/Addprojects";
 import axios from "axios";
+import { ActivitiesCard, AwardCard, CertificateCard, EducationCard, ProjectsCard } from "../Components/Cardcomponents";
 import { convertDate } from "../utils/convertDate";
-import EducationCard from "../Components/Educationcard";
-import ActivitiesCard from "../Components/ActandInvolcard";
-import ProjectsCard from "../Components/Projectscard";
-import AwardCard from "../Components/Awardcard";
-import CertificateCard from "../Components/Certificatecard";
+
 function editprofile() {
   const [selectedImage, setSelectedImage] = useState(null);
   const [selectedBanner, setSelectedBanner] = useState(null);
