@@ -155,7 +155,7 @@ function NewLanding() {
               </div>
               <div className="flex justify-center gap-5 h-3/4">
                 <div
-                  className="w-1/3 h-full bg-cover bg-center relative hover:w-2/3 hover:h-auto transition-all duration-300"
+                  className="w-1/3 h-full bg-cover bg-center relative hover:w-[45%] hover:h-auto transition-all duration-300"
                   style={{
                     backgroundImage: `url(${resume})`,
                   }}
@@ -176,7 +176,7 @@ function NewLanding() {
                 </div>
 
                 <div
-                  className="w-1/3 h-full bg-cover bg-center relative hover:w-2/3 hover:h-auto transition-all duration-300"
+                  className="w-1/3 h-full bg-cover bg-center relative hover:w-[45%] hover:h-auto transition-all duration-300"
                   style={{
                     backgroundImage: `url(${portfolio})`,
                     position: "relative",
@@ -197,7 +197,7 @@ function NewLanding() {
                   </a>
                 </div>
                 <div
-                  className="w-1/3 h-full bg-cover bg-center relative hover:w-2/3 hover:h-auto transition-all duration-300"
+                  className="w-1/3 h-full bg-cover bg-center relative hover:w-[45%] hover:h-auto transition-all duration-300"
                   style={{
                     backgroundImage: `url(${applicants})`,
                     position: "relative",
