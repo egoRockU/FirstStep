@@ -13,6 +13,7 @@ import AddAward from "../Modals/Edit Profile/Addawards";
 import AddCert from "../Modals/Edit Profile/Addcertificates";
 import Addprojects from "../Modals/Edit Profile/Addprojects";
 import axios from "axios";
+import { ActivitiesCard, AwardCard, CertificateCard, EducationCard, ProjectsCard } from "../Components/Cardcomponents";
 import { convertDate } from "../utils/convertDate";
 
 function editprofile() {
@@ -308,7 +309,9 @@ function editprofile() {
                         </h1>
                       </div>
                       <div className="flex flex-col">
-                        <h1 className="underline cursor-pointer text-[#8B95EE]">{email}</h1>
+                        <h1 className="underline cursor-pointer text-[#8B95EE]">
+                          {email}
+                        </h1>
                         <p>{address}</p>
                         <p>{contactNum}</p>
                       </div>
@@ -379,32 +382,14 @@ function editprofile() {
                   <div className="rounded-xl">
                     <div className="bg-white p-4 text-xl flex flex-col items-center justify-center border-2 border-gray-300 gap-3 rounded-t-lg">
                       <h1 className="text-[#444B88] font-base">Education</h1>
+                      {/* EDUCATION CARD */}
                       {educationData.map((edu, index) => (
-                        <div
-                          className="w-full bg-white hover:bg-[#BAD2FF] border-2 border-[#444B88] flex justify-between items-center"
+                        <EducationCard
                           key={index}
-                        >
-                          <div
-                            className="w-full flex flex-col gap-3 p-5"
-                            onClick={() => handleEducEdit(index)}
-                          >
-                            <div className="flex items-center gap-3 w-full">
-                              <p className="text-2xl text-[#444B88]">
-                                {edu.schoolName}
-                              </p>
-                              <p className="text-sm">
-                                {convertDate(edu.startDate)} -{" "}
-                                {convertDate(edu.endDate)}
-                              </p>
-                            </div>
-                            <div className="text-xl">
-                              {edu.degree} - {edu.program}
-                            </div>
-                          </div>
-                          <button onClick={() => handleEducDelete(index)}>
-                            <IoCloseOutline size={50} />
-                          </button>
-                        </div>
+                          education={edu}
+                          onDelete={() => handleEducDelete(index)}
+                          onEdit={() => handleEducEdit(index)}
+                        />
                       ))}
                     </div>
                     <div className="w-full">
@@ -434,38 +419,14 @@ function editprofile() {
                       <h1 className="text-[#444B88] font-base">
                         Activities and Involvements
                       </h1>
+                      {/* ACTIVITIES AND INVOLVEMENTS CARD */}
                       {achievementsData.map((achievement, index) => (
-                        <div
-                          className="w-full bg-white hover:bg-[#BAD2FF] border-2 border-[#444B88] flex justify-between items-center"
+                        <ActivitiesCard
                           key={index}
-                        >
-                          <div
-                            className="w-full flex flex-col gap-3 p-5"
-                            onClick={() => handleEditAchievement(index)}
-                          >
-                            <div className="flex items-center gap-3 w-full">
-                              <p className="text-2xl text-[#444B88]">
-                                {achievement.title}
-                              </p>
-                              <p className="text-xl">
-                                {achievement.typeOfActivity}
-                              </p>
-                            </div>
-                            <div className="text-xl">
-                              {achievement.organizationOrCompanyName}
-                            </div>
-                            <div className="text-sm">
-                              {convertDate(achievement.startDate)} -{" "}
-                              {convertDate(achievement.endDate)},{" "}
-                              {achievement.location}
-                            </div>
-                          </div>
-                          <button
-                            onClick={() => handleDeleteAchievement(index)}
-                          >
-                            <IoCloseOutline size={50} />
-                          </button>
-                        </div>
+                          activity={achievement}
+                          onDelete={() => handleDeleteAchievement(index)}
+                          onEdit={() => handleEditAchievement(index)}
+                        />
                       ))}
                     </div>
                     <div className="w-full">
@@ -491,36 +452,16 @@ function editprofile() {
                     </div>
                   </div>
                   <div className="rounded-xl">
-                    {/* TODO Projects */}
                     <div className="bg-white p-4 text-xl flex flex-col items-center justify-center border-2 border-gray-300 gap-3 rounded-t-lg">
                       <h1 className="text-[#444B88] font-base">Projects</h1>
+                      {/* PROJECTS CARD */}
                       {projectsData.map((project, index) => (
-                        <div
-                          className="w-full bg-white hover:bg-[#BAD2FF] border-2 border-[#444B88] flex justify-between items-center"
+                        <ProjectsCard
                           key={index}
-                        >
-                          <div
-                            className="w-full flex flex-col gap-3 p-5"
-                            onClick={() => handleEditProjects(index)}
-                          >
-                            <div className="flex items-center gap-3 w-full">
-                              <p className="text-3xl text-[#444B88] font-bold">
-                                {project.projectTitle}
-                              </p>
-                              <p className="text-sm">
-                                {convertDate(project.startDate)} -{" "}
-                                {convertDate(project.endDate)}
-                              </p>
-                            </div>
-                            <div className="text-lg ">{project.subTitle}</div>
-                            <div className="text-sm italic">
-                              {project.technologiesUsed}
-                            </div>
-                          </div>
-                          <button onClick={() => handleDeleteProjects(index)}>
-                            <IoCloseOutline size={50} />
-                          </button>
-                        </div>
+                          projectsData={project}
+                          onDelete={() => handleDeleteProjects(index)}
+                          onEdit={() => handleEditProjects(index)}
+                        />
                       ))}
                     </div>
                     <div className="w-full">
@@ -548,28 +489,14 @@ function editprofile() {
                   <div className="rounded-xl">
                     <div className="bg-white p-4 text-xl flex flex-col items-center justify-center border-2 border-gray-300 gap-3 rounded-t-lg">
                       <h1 className="text-[#444B88] font-base">Awards</h1>
+                      {/* AWARDS CARD */}
                       {awardData.map((award, index) => (
-                        <div
-                          className="w-full bg-white hover:bg-[#BAD2FF] border-2 border-[#444B88] flex justify-between items-center"
+                        <AwardCard
                           key={index}
-                        >
-                          <div
-                            className="w-full flex flex-col gap-3 p-5"
-                            onClick={() => handleEditAward(index)}
-                          >
-                            <div className="flex items-center gap-3 w-full">
-                              <p className="text-2xl text-[#444B88]">
-                                {award.title}
-                              </p>
-                              <p className="text-sm">
-                                {convertDate(award.dateReceived)}
-                              </p>
-                            </div>
-                          </div>
-                          <button onClick={() => handleDeleteAward(index)}>
-                            <IoCloseOutline size={50} />
-                          </button>
-                        </div>
+                          award={award}
+                          onDelete={() => handleDeleteAward(index)}
+                          onEdit={() => handleEditAward(index)}
+                        />
                       ))}
                     </div>
                     <div className="w-full">
@@ -597,28 +524,14 @@ function editprofile() {
                   <div className="rounded-xl">
                     <div className="bg-white p-4 text-xl flex flex-col items-center justify-center border-2 border-gray-300 gap-3 rounded-t-lg">
                       <h1 className="text-[#444B88] font-base">Certificates</h1>
+                      {/* CERTIFICATES CARD */}
                       {certData.map((cert, index) => (
-                        <div
-                          className="w-full bg-white hover:bg-[#BAD2FF] border-2 border-[#444B88] flex justify-between items-center"
+                        <CertificateCard
                           key={index}
-                        >
-                          <div
-                            className="w-full flex flex-col gap-3 p-5"
-                            onClick={() => handleEditCert(index)}
-                          >
-                            <div className="flex items-center gap-3 w-full">
-                              <p className="text-2xl text-[#444B88]">
-                                {cert.title}
-                              </p>
-                              <p className="text-sm">
-                                {convertDate(cert.dateReceived)}
-                              </p>
-                            </div>
-                          </div>
-                          <button onClick={() => handleDeleteCert(index)}>
-                            <IoCloseOutline size={50} />
-                          </button>
-                        </div>
+                          cert={cert}
+                          onDelete={() => handleDeleteCert(index)}
+                          onEdit={() => handleEditCert(index)}
+                        />
                       ))}
                     </div>
                     <div className="w-full">
@@ -628,7 +541,6 @@ function editprofile() {
                       >
                         Add
                       </button>
-                      {/* TODO finish add certificates modal and functions / add close button*/}
                       {showCertModal && (
                         <AddCert
                           onClose={() => {

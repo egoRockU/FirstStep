@@ -1,24 +1,24 @@
-import nodemailer from 'nodemailer'
-import dotenv from 'dotenv'
-dotenv.config()
+import nodemailer from "nodemailer";
+import dotenv from "dotenv";
+dotenv.config();
 
-const sendVerificationEmail = (email, urlToken) => {
+const sendVerificationEmail = async (email, urlToken) => {
+  let appDomain = process.env.APP_DOMAIN;
+  const url = `${appDomain}/verify/${urlToken}`;
 
-    const url = `http://localhost:8000/verify/${urlToken}`
+  let transporter = nodemailer.createTransport({
+    service: "gmail",
+    auth: {
+      user: process.env.GMAIL_USER,
+      pass: process.env.GMAIL_APP_PASS,
+    },
+  });
 
-    let transporter = nodemailer.createTransport({
-        service: "gmail",
-        auth: {
-            user: process.env.GMAIL_USER,
-            pass: process.env.GMAIL_APP_PASS
-        }
-    })
-
-    let options = {
-        from: process.env.GMAIL_USER,
-        to: email,
-        subject: 'FirstStep Email Verification',
-        html: `<p>Thank you for signing up in FirstStep!</p> 
+  let options = {
+    from: process.env.GMAIL_USER,
+    to: email,
+    subject: "FirstStep Email Verification",
+    html: `<p>Thank you for signing up in FirstStep!</p> 
             <p>By verifying your Email, we can confirm that: </p>
             <ul>
                 <li>You're a real person.</li>
@@ -27,23 +27,23 @@ const sendVerificationEmail = (email, urlToken) => {
             </ul>
             <p>Click the button below to verify your email!.</p>
             <a href=${url}>
-                <button style="background-color: #CB8A8A; color: white; padding: 10px 24px; border: 1px solid; border-radius: 8px; cursor: pointer">
+                <button style="background-color: #8B95EE; color: white; padding: 10px 24px; border: 1px solid; border-radius: 8px; cursor: pointer">
                     Verify Email
                 </button>
             </a>
 
             <p>If the button does not work, copy the link and use it to your browser.</p>
             <p>${url}</p>
-            `
+            `,
+  };
+
+  await transporter.sendMail(options, (err, res) => {
+    if (err) {
+      console.log(err.message);
+    } else {
+      console.log("Email Sent!");
     }
+  });
+};
 
-    transporter.sendMail(options, (err, res) => {
-        if (err) {
-            console.log(err.message)
-        } else {
-            console.log("Email Sent!")
-        }
-    })
-}
-
-export default sendVerificationEmail
+export default sendVerificationEmail;

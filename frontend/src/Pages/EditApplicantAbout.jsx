@@ -16,6 +16,7 @@ import {
   updateProfileImage,
   updateBannerImage,
 } from "../utils/updateImageUpload";
+import { SocialCard, IndustriesCard, SkillsCard } from "../Components/Aplicantcardcomponent";
 
 function CreateApplicantProfilepage() {
   const profileId = JSON.parse(localStorage.getItem("user")).profileId;
@@ -415,29 +416,9 @@ function CreateApplicantProfilepage() {
                     <div className=" border-2 border-[#444B88] flex py-2 flex-col justify-center items-center">
                       <div className="flex flex-col items-center">
                         {" "}
-                        {socialLinks.map((link, index) => (
-                          <div
-                            key={index}
-                            className="flex items-center py-2 justify-between "
-                          >
-                            <div>
-                              {/* <a href="" onClick={() => editSocialLink(index)}>
-                              {link.platform}
-                            </a> */}
-                            </div>
-                            <div>
-                              <a href={link.link}>{link.link}</a>
-                            </div>
-                            <div>
-                              <button
-                                onClick={() => deleteSocialLink(index)}
-                                className="text-center"
-                              >
-                                <IoMdClose size={25} />
-                              </button>
-                            </div>
-                          </div>
-                        ))}
+                         {/* social card*/}
+                        <SocialCard socialLinks={socialLinks} onDelete={deleteSocialLink} />
+
                       </div>
                       <button
                         className="py-1 px-5 bg-[#8B95EE]"
@@ -462,17 +443,8 @@ function CreateApplicantProfilepage() {
                     <h1 className="text-lg">Industries</h1>
                     <div className="border-2 border-[#444B88] flex py-2 flex-col justify-center items-center gap-2">
                       <div className="flex flex-wrap gap-2 justify-center">
-                        {industries.map((industry, index) => (
-                          <div
-                            key={index}
-                            className="flex items-center text-center bg-[#BAD2FF] p-1 rounded-full"
-                          >
-                            <p className="whitespace-nowrap">{industry}</p>
-                            <button onClick={() => deleteIndustry(index)}>
-                              <IoMdClose size={25} />
-                            </button>
-                          </div>
-                        ))}
+                         {/* industries card*/}
+                    <IndustriesCard industries={industries} onDelete={deleteIndustry} />
                       </div>
                       <button
                         className="p-2 px-5 bg-[#8B95EE]"
@@ -527,19 +499,8 @@ function CreateApplicantProfilepage() {
                       <div className="border-2 p-3 px-5 border-[#444B88]">
                         <div>
                           {" "}
-                          {skills.map((skill, index) => (
-                            <div key={index} className="flex items-center">
-                              <div>
-                                <p className="text-lg">{skill}</p>
-                              </div>
-                              <div></div>
-                              <div>
-                                <button onClick={() => deleteSkill(index)}>
-                                  <IoMdClose size={25} />
-                                </button>
-                              </div>
-                            </div>
-                          ))}
+                          {/* skill  card*/}
+                          <SkillsCard skills={skills} onDelete={deleteSkill} />
                         </div>
                         <div className="border-2 p-3 px-5 bg-[#8B95EE] border-[#444B88]">
                           <h1 onClick={openAddSkillModal}>+ Add Skills</h1>

@@ -14,6 +14,8 @@ import Editemployerabout from "./Pages/EditEmployerabout";
 import EditApplicantAbout from "./Pages/EditApplicantAbout";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Createresume from "./Pages/Createresume";
+
 
 function App() {
   const { user } = useSelector((state) => state.user);
@@ -22,6 +24,7 @@ function App() {
     <>
       <BrowserRouter>
         <Routes>
+          <Route path="/createresume" element={<Createresume/>}/>
           {!user && (
             <>
               <Route path="/" element={<NewLanding />} />

@@ -55,6 +55,7 @@ export const logoutUser = createAsyncThunk("user/logoutUser", async () => {
 export const updateUser = createAsyncThunk("user/updateUser", async (data) => {
   try {
     console.log(data);
+    localStorage.setItem("user", JSON.stringify(data));
     return data;
   } catch (err) {
     console.log(err.message);

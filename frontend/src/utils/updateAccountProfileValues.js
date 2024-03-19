@@ -22,7 +22,6 @@ export const updateAccountProfileValues = (
           },
         })
         .then((res) => {
-          localStorage.setItem("user", JSON.stringify(res.data.user));
           newUserData = res.data.user;
           resolve(newUserData);
         })

@@ -1,8 +1,16 @@
 import { useState, useEffect } from "react";
 import { IoMdClose } from "react-icons/io";
 import { IoMdAdd } from "react-icons/io";
+import { projectImagesUpload } from "../../utils/projectimageUpload";
+import { editProject } from "../../utils/projectimageEdit";
+import { toast } from "react-toastify";
+
+import "react-toastify/dist/ReactToastify.css";
 
 function Addprojects({ onClose, onSubmit, onEdit, formIndex, initialData }) {
+  const [imagePreviews, setImagePreviews] = useState([]);
+  const [loading, setLoading] = useState(false); // Define loading state here
+
   const [formData, setFormData] = useState({
     projectTitle: "",
     subTitle: "",
@@ -12,15 +20,15 @@ function Addprojects({ onClose, onSubmit, onEdit, formIndex, initialData }) {
     description: "",
     githubLink: "",
     projectLink: "",
+    previewImages: [],
   });
-
   useEffect(() => {
     if (initialData) {
       setFormData(initialData);
+      setImagePreviews(initialData.previewImages);
+      console.log(initialData);
     }
   }, [initialData]);
-
-  const [imagePreviews, setImagePreviews] = useState([]);
 
   const handleImageChange = (e) => {
     const files = e.target.files;
@@ -40,10 +48,37 @@ function Addprojects({ onClose, onSubmit, onEdit, formIndex, initialData }) {
     }
   };
 
+  // const handleDeleteImage =  async  (index) => {
+  //   try {
+  //     const updatedPreviews = [...imagePreviews];
+  //     updatedPreviews.splice(index, 1);
+  //     setImagePreviews(updatedPreviews);
+
+  //     const updatedFormData = {
+  //       ...formData,
+  //       previewImages: formData.previewImages.filter((_, i) => i !== index),
+  //     };
+  //     setFormData(updatedFormData);
+  //   } catch (error) {
+  //     console.error("Error deleting image:", error);
+  //   }
+  // };
+
   const handleDeleteImage = (index) => {
-    setImagePreviews((prevPreviews) =>
-      prevPreviews.filter((_, i) => i !== index)
-    );
+    try {
+      const updatedPreviews = [...imagePreviews];
+      updatedPreviews.splice(index, 1);
+      setImagePreviews(updatedPreviews);
+
+      const updatedFormData = {
+        ...formData,
+        previewImages: formData.previewImages.filter((_, i) => i !== index),
+      };
+      setFormData(updatedFormData);
+    } catch (error) {
+      console.error("Error deleting image:", error);
+      toast.error("Failed to delete. Please try again.");
+    }
   };
 
   const handleChange = (e) => {
@@ -51,16 +86,95 @@ function Addprojects({ onClose, onSubmit, onEdit, formIndex, initialData }) {
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    onSubmit(formData);
-    setFormData(formData);
+    console.log("handleSubmit called");
+    try {
+      toast.info("Please wait for uploading.");
+
+      console.log("Uploading image.");
+      const imageUrls = await projectImagesUpload(imagePreviews);
+
+      console.log("Image URLs:", imageUrls);
+
+      const updatedFormData = {
+        ...formData,
+        previewImages: imageUrls,
+      };
+
+      console.log("Calling onSubmit with updated formData...");
+      if (initialData) {
+        onSubmit({ ...initialData, ...updatedFormData });
+      } else {
+        onSubmit(updatedFormData);
+      }
+
+      console.log("Resetting formData...");
+      setFormData({
+        projectTitle: "",
+        subTitle: "",
+        technologiesUsed: "",
+        startDate: "",
+        endDate: "",
+        description: "",
+        githubLink: "",
+        projectLink: "",
+      });
+
+      toast.success("Successfully saved!");
+    } catch (error) {
+      console.error("Error uploading project images:", error);
+      toast.error("Failed to save. Please try again.");
+    }
   };
 
-  const handleEdit = (e) => {
+  // const handleEdit = async (e) => {
+  //   e.preventDefault();
+  //   onEdit(formIndex, formData);
+  //   onClose();
+
+  //   try {
+  //     const selectedImageUrls = [];
+  //     imagePreviews.forEach((preview, index) => {
+  //       if (formData.previewImages.includes(preview)) {
+  //         selectedImageUrls.push(formData.previewImages[index]);
+  //       }
+  //     });
+
+  //     for (const imageUrl of selectedImageUrls) {
+  //       await deleteImageFromFirebase(imageUrl, setImagePreviews, imagePreviews);
+  //     }
+  //   } catch (error) {
+  //     console.error("Error deleting images from Firebase:", error);
+  //   }
+  // };
+  const handleEdit = async (e) => {
     e.preventDefault();
-    onEdit(formIndex, formData);
-    onClose();
+
+    // Set a loading state to indicate that the process is ongoing
+    setLoading(true);
+
+    try {
+      // Show a toast to remind the user to wait for uploading
+      toast.info("Please wait!");
+
+      // Call the editProject function passing necessary parameters
+      await editProject(
+        initialData,
+        formData,
+        imagePreviews,
+        onEdit,
+        onClose,
+        formIndex
+      );
+
+      toast.success("Changes saved successfully!");
+    } catch (error) {
+      console.error("Error editing project:", error);
+      toast.error("Failed to save changes. Please try again.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleCancel = () => {
@@ -79,28 +193,35 @@ function Addprojects({ onClose, onSubmit, onEdit, formIndex, initialData }) {
               <h1 className="mr-2">Preview Images:</h1>
               <p>{imagePreviews.length}/5</p>
             </div>
-            <div className="grid grid-cols-3 gap-4">
+            <div className="grid grid-cols-3 gap-12">
               {imagePreviews.map((preview, index) => (
-                <div key={index} className="w-full relative">
-                  <img
-                    src={preview}
-                    alt={`Preview ${index + 1}`}
-                    className="w-full h-full object-cover rounded-lg"
-                  />
+                <div
+                  key={index}
+                  className="w-full relative"
+                  style={{ width: "170px", height: "150px" }}
+                >
+                  <div className="w-full h-full flex justify-center items-center overflow-hidden relative">
+                    <img
+                      src={preview}
+                      alt={`Preview ${index + 1}`}
+                      className="w-full h-full object-cover rounded-lg"
+                    />
+                  </div>
                   <IoMdClose
                     size={25}
                     onClick={() => handleDeleteImage(index)}
-                    className="absolute top-2 right-2 text-black bg-white rounded-full p-1"
+                    className="absolute top-1 right-1 m-1 text-black bg-white rounded-full p-1 cursor-pointer"
                   />
                 </div>
               ))}
+
               {imagePreviews.length < 5 && (
                 <label
                   htmlFor="imginput"
-                  className="w-[240px] h-[140px] cursor-pointer"
+                  className="w-[190px] h-[140px] cursor-pointer "
                 >
                   <div className="w-full h-full flex justify-center items-center border-2 border-[#8B95EE] rounded-lg">
-                    <IoMdAdd size={20} color="8B95EE" />
+                    <IoMdAdd size={15} color="8B95EE" />
                   </div>
                   <input
                     type="file"

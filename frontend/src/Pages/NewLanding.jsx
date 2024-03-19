@@ -15,6 +15,7 @@ import portfolio2 from "../images/choose-your-portfolio.jpg";
 import resume2 from "../images/create-your-resume.jpg";
 
 function NewLanding() {
+  const { user } = useSelector((state) => state.user);
   const landingStyle = {
     background: `url(${Bg}) center/cover no-repeat`,
     fontFamily: "Montserrat, sans-serif",
@@ -27,12 +28,11 @@ function NewLanding() {
     navigate("/newlogin");
   };
 
-  const { user } = useSelector((state) => state.user);
-
-  const [openDropdown, setOpenDropdown] = useState(null);
-
-  const toggleDropdown = (index) => {
-    setOpenDropdown((prevIndex) => (prevIndex === index ? null : index));
+  const scrollToSection = (sectionId) => {
+    const section = document.getElementById(sectionId);
+    if (section) {
+      section.scrollIntoView({ behavior: "smooth" });
+    }
   };
 
   const editProfile = () => {
@@ -53,21 +53,21 @@ function NewLanding() {
     <div style={landingStyle}>
       <>
         {user ? <NavbarLoggedIn /> : <Newnavbar />}
-        <div className="sm:h-3/4 lg:h-3/4 w-full flex flex-col lg:justify-around pt-20">
-          <div className="w-full flex flex-col sm:items-center lg:items-start h-[80%] justify-around text-center pl-20">
+        <div className="h-3/4 w-full flex flex-col lg:justify-around pt-20">
+          <div className="w-full flex flex-col items-center lg:items-start h-[80%] justify-around text-center">
             <div className="flex flex-col sm:w-full  md:w-1/2">
-              <h1 className="sm:text-xl md:text-6xl text-white font-semibold">
+              <h1 className="text-5xl md:text-6xl text-white font-semibold">
                 Craft Your Tomorrow
               </h1>
-              <h1 className="sm:text-xl md:text-6xl text-white font-semibold">
+              <h1 className="text-xl md:text-6xl text-white font-semibold">
                 Shape Your Dreams
               </h1>
-              <h1 className="sm:text-lg md:text-4xl text-white font-semibold opacity-60">
+              <h1 className="text-lg md:text-4xl text-white font-semibold opacity-60">
                 Explore Your Future With Us
               </h1>
             </div>
             <div className="flex flex-col w-1/2">
-              <h1 className="text-base text-white md:leading-10">
+              <h1 className="text-base text-white leading-8">
                 Unleash your hidden talents! Build a winning resume & portfolio,
                 showcase your skills, and get noticed by dream employers. Take
                 control of your career journey, start today!
@@ -76,7 +76,7 @@ function NewLanding() {
             <div className="w-1/2 flex flex-col items-center">
               {!user && (
                 <button
-                  className="bg-blue-300 py-4 px-32 rounded-full text-white hover:bg-blue-600"
+                  className="bg-blue-300 py-4 px-32 rounded-full whitespace-nowrap text-white hover:bg-blue-600"
                   onClick={clickjoin}
                 >
                   Join Today!
@@ -84,7 +84,7 @@ function NewLanding() {
               )}
               {user && (
                 <button
-                  className="bg-blue-300 py-4 px-32 rounded-full text-white hover:bg-blue-600"
+                  className="bg-blue-300 py-4 px-32 rounded-full whitespace-nowrap text-white hover:bg-blue-600"
                   onClick={editProfile}
                 >
                   Edit your Profile!
@@ -107,7 +107,7 @@ function NewLanding() {
           <div className="absolute inset-0 bg-black bg-opacity-50 blur flex items-center justify-center"></div>
 
           <div className="absolute inset-0 flex flex-col items-center justify-center">
-            <h1 className="text-5xl text-white font-semibold">
+            <h1 className="text-5xl text-white font-semibold text-center">
               Explore Potential Hires Today!
             </h1>
             <p className="text-base text-white leading-10 lg:w-4/5 text-center">
@@ -147,7 +147,7 @@ function NewLanding() {
           className="relative"
         >
           <div className="bg-gradient-to-b from-black to-transparent relative flex flex-col items-center">
-            <div className="w-[70%] h-[700px] lg:h-[800px] rounded-2xl justify-center items-center mt-36">
+            <div className="md:w-[70%] h-[500px] md:h-[700px] lg:h-[800px] rounded-2xl justify-center items-center pt-36">
               <div className="text-center">
                 <h1 className="text-2xl font-semibold text-white">
                   Build your best Brand, Get Hired Faster, Hire Smarter
@@ -176,11 +176,13 @@ function NewLanding() {
                 </div>
 
                 <div
-                  className="w-1/3 h-full bg-cover bg-center relative hover:w-[45%] hover:h-auto transition-all duration-300"
+                  className="w-1/3 h-full bg-cover bg-center relative hover:w-[45%  
+                  ] hover:h-auto transition-all duration-300"
                   style={{
                     backgroundImage: `url(${portfolio})`,
                     position: "relative",
-                  }}
+                  }}onClick={() => scrollToSection("portfolio")}
+
                 >
                   <a
                     href="#portfolio"
@@ -197,11 +199,13 @@ function NewLanding() {
                   </a>
                 </div>
                 <div
-                  className="w-1/3 h-full bg-cover bg-center relative hover:w-[45%] hover:h-auto transition-all duration-300"
+                  className="w-1/3 h-full bg-cover bg-center relative hover:w-[45%  
+                  ] hover:h-auto transition-all duration-300"
                   style={{
                     backgroundImage: `url(${applicants})`,
                     position: "relative",
                   }}
+                  onClick={() => scrollToSection("applicants")}
                 >
                   <a
                     href="#Applicants"
@@ -260,7 +264,7 @@ function NewLanding() {
 
           <div className="mx-auto flex gap-20 flex-col pb-36">
             <a name="resume"></a>
-            <div className=" w-[70%] mx-auto rounded-2xl flex gap-5 md:flex-col lg:flex-row items-center">
+            <div className=" w-[70%] mx-auto rounded-2xl flex gap-5 flex-col lg:flex-row items-center">
               <div>
                 <img
                   src={resume2}
@@ -291,11 +295,10 @@ function NewLanding() {
                 </div>
               </div>
             </div>
-
             <hr class="border-t-2 border-gray-300"></hr>
 
             <a name="portfolio"></a>
-            <div className="w-[70%] mx-auto rounded-2xl flex gap-5 md:flex-col lg:flex-row items-center">
+            <div className="w-[70%] mx-auto rounded-2xl flex gap-5 flex-col lg:flex-row items-center">
               <div>
                 <div className="rounded-xl flex flex-col md:items-center lg:items-start">
                   <h1 className="text-3xl text-indigo-500 font-semibold">
@@ -330,7 +333,7 @@ function NewLanding() {
             <hr class="border-t-2 border-gray-300"></hr>
 
             <a name="Applicants"></a>
-            <div className="w-[70%] mx-auto rounded-2xl flex gap-5 md:flex-col lg:flex-row items-center">
+            <div className="w-[70%] mx-auto rounded-2xl flex gap-5 flex-col lg:flex-row items-center">
               <div>
                 <img
                   src={applicants2}

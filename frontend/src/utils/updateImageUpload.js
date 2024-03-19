@@ -1,13 +1,19 @@
-import { ref, uploadBytesResumable, getDownloadURL,deleteObject,} from "firebase/storage";
+import { ref, uploadBytesResumable, getDownloadURL, deleteObject } from "firebase/storage";
 import { storage } from "../firebase/firebase";
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
-export const updateProfileImage = async (file,previousImage, setSelectedImage) => {
-  
-    try {
+export const updateProfileImage = async (file, previousImage, setSelectedImage) => {
+  try {
     if (previousImage) {
       const prevImageRef = ref(storage, previousImage);
       await deleteObject(prevImageRef);
       console.log("Previous image deleted successfully");
+    }
+
+    if (file.size > 1 * 1024 * 1024) {
+      toast.error("Image size exceeds the limit (1MB)");
+      throw new Error("Image size exceeds the limit (1MB)");
     }
 
     const newImageRef = ref(storage, `Profile/${file.name}`);
@@ -19,33 +25,38 @@ export const updateProfileImage = async (file,previousImage, setSelectedImage) =
       null,
       (error) => {
         console.error("Error uploading image:", error);
-        alert("Error occurred while uploading image.");
+        toast.error("Error occurred while uploading image.");
       },
-      () => {
-        getDownloadURL(uploadTask.snapshot.ref)
-          .then((downloadURL) => {
-            console.log("Download URL:", downloadURL);
+      async () => {
+        try {
+          const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
+          console.log("Download URL:", downloadURL);
 
-            setSelectedImage(downloadURL);
-            console.log("Profile image updated successfully");
-          })
-          .catch((error) => {
-            console.error("Error getting download URL:", error);
-            alert("Error occurred while getting download URL.");
-          });
+          setSelectedImage(downloadURL);
+          toast.success("Profile image updated successfully");
+        } catch (error) {
+          console.error("Error getting download URL:", error);
+          toast.error("Error occurred while getting download URL.");
+        }
       }
     );
   } catch (error) {
     console.error("Error updating profile image:", error);
-    alert("Error occurred while updating profile image.");
+    toast.error("Error occurred while updating profile image.");
   }
 };
+
 export const updateBannerImage = async (file, oldImageUrl, setBannerImage) => {
   try {
     if (oldImageUrl) {
       const oldImageRef = ref(storage, oldImageUrl);
       await deleteObject(oldImageRef);
       console.log("Previous banner image deleted successfully");
+    }
+
+    if (file.size > 1 * 1024 * 1024) {
+      toast.error("Banner image size exceeds the limit (1MB)");
+      throw new Error("Banner image size exceeds the limit (1MB)");
     }
 
     const newImageRef = ref(storage, `Banner/${file.name}`);
@@ -57,7 +68,7 @@ export const updateBannerImage = async (file, oldImageUrl, setBannerImage) => {
       null,
       (error) => {
         console.error("Error uploading banner image:", error);
-        alert("Error occurred while uploading banner image.");
+        toast.error("Error occurred while uploading banner image.");
       },
       async () => {
         try {
@@ -65,15 +76,15 @@ export const updateBannerImage = async (file, oldImageUrl, setBannerImage) => {
           console.log("New Banner Image Download URL:", downloadURL);
 
           setBannerImage(downloadURL);
-          console.log("Banner image updated successfully");
+          toast.success("Banner image updated successfully");
         } catch (error) {
           console.error("Error getting download URL:", error);
-          alert("Error occurred while getting download URL.");
+          toast.error("Error occurred while getting download URL.");
         }
       }
     );
   } catch (error) {
     console.error("Error updating banner image:", error.message);
-    alert("Error occurred while updating banner image.");
+    toast.error("Error occurred while updating banner image.");
   }
 };

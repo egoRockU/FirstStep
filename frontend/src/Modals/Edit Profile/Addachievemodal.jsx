@@ -61,7 +61,7 @@ function Addachievemodal({
 
   return (
     <div className="fixed inset-0 flex justify-center items-center bg-gray-900 bg-opacity-50">
-      <div className="bg-white p-8 rounded-sm w-1/2 ">
+      <div className="bg-white p-8 rounded-sm w-1/3 ">
         <div className="w-full flex justify-between">
         <h2 className="text-xl text-[#444B88]">
           Add Activities and Involvements

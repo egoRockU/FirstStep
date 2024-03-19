@@ -13,6 +13,7 @@ import {
   updateProfileImage,
   updateBannerImage,
 } from "../utils/updateEmpImageUpload";
+import { SocialCard} from "../Components/Employercard";
 
 function Editemployerabout() {
   const navigate = useNavigate();
@@ -325,31 +326,8 @@ function Editemployerabout() {
                   <h1 className="text-lg">Social Links</h1>
                   <div className=" border-2 py-2 border-[#444B88] flex flex-col justify-center items-center">
                     <div className="flex flex-col items-center">
-                      {socialLinks.map((link, index) => (
-                        <div
-                          key={index}
-                          className="flex items-center py-1 justify-between"
-                        >
-                          <div>
-                            {/* <a href="" onClick={() => editSocialLink(index)}>
-                              {link.platform}
-                            </a> */}
-                          </div>
-                          <div>
-                            <a href={link.link}>{link.link}</a>
-                          </div>
-                          <div>
-                            <button
-                              onClick={() => editSocialLink(index)}
-                              className="text-center"
-                            ></button>
+                    <SocialCard socialLinks={socialLinks} onDelete={deleteSocialLink} />
 
-                            <button onClick={() => deleteSocialLink(index)}>
-                              <IoMdClose size={25} />
-                            </button>
-                          </div>
-                        </div>
-                      ))}
                     </div>
                     <button
                       className=" py-1 px-5 bg-[#8B95EE]"
