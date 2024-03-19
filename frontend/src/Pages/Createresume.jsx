@@ -971,7 +971,10 @@ function Createresume() {
                 </div>
               </div>
               
-            
+    
+            </div>
+            <div className="w-full pt-5 flex justify-end">
+              <div className="flex gap-5"> <button className="text-lg border border-[#444b88] py-1 px-2 rounded-md">Cancel</button> <button className="text-lg border border-[#444b88] text-black bg-[#8B95EE] py-1 px-2 rounded-md">Save</button></div>
             </div>
           </div>
         </div>
