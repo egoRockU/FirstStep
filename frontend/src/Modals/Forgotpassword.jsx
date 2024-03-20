@@ -1,4 +1,3 @@
-import React, { useState } from "react";
 import { IoCloseOutline } from "react-icons/io5";
 
 function Forgotpassword({ onClose,  errorMessage }) {

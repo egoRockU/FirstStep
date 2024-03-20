@@ -1,4 +1,24 @@
-import { useState, useRef } from "react";
+import NavbarLoggedIn from "../Components/NavbarLoggedIn";
+import Footer from "../Components/Footer";
+import { useState } from "react";
+import AddSocial from "../Modals/EditApplicant Profile/Addsocial";
+import AddIndustry from "../Modals/EditApplicant Profile/Addindustry";
+import AddSkill from "../Modals/EditApplicant Profile/Addskill";
+import AddCertificates from "../Modals/Edit Profile/Addcertificates";
+import Addprojects from "../Modals/Edit Profile/Addprojects";
+import axios from "axios";
+import {
+  SocialCard,
+  IndustriesCard,
+  SkillsCard,
+  ProjectsCard,
+  CertificateCard,
+} from "../Components/Employercard";
+import {
+  IoIosArrowDropdownCircle,
+  IoIosArrowDropupCircle,
+} from "react-icons/io";
+import profile from "../images/profilee.png";
 import {
   FirstNameInput,
   LastNameInput,
@@ -7,82 +27,23 @@ import {
   CityInput,
   CountryInput,
 } from "../Components/Aplicantinput";
-import NavbarLoggedIn from "../Components/NavbarLoggedIn";
-import Footer from "../Components/Footer";
-import {
-  IoIosArrowDropdownCircle,
-  IoIosArrowDropupCircle,
-} from "react-icons/io";
-import profile from "../images/profilee.png";
-import {
-  SocialCard,
-  IndustriesCard,
-  SkillsCard,
-} from "../Components/Aplicantcardcomponent";
-import {
-  EducationCard,
-  CertificateCard,
-  ActivitiesCard,
-  ProjectsCard,
-  AwardCard,
-} from "../Components/Cardcomponents";
-import AddSocial from "../Modals/EditApplicant Profile/Addsocial";
-import AddIndustry from "../Modals/EditApplicant Profile/Addindustry";
-import AddSkill from "../Modals/EditApplicant Profile/Addskill";
-import Addeduc from "../Modals/Edit Profile/Addeducmodal";
-import Addachievemodal from "../Modals/Edit Profile/Addachievemodal";
-import Addprojects from "../Modals/Edit Profile/Addprojects";
-import axios from "axios";
-import AddAwards from "../Modals/Edit Profile/Addawards";
-import AddCertificates from "../Modals/Edit Profile/Addcertificates";
-import CharacterRef from "../Modals/CharacterRef";
-import { IoCloseOutline } from "react-icons/io5";
-import { toast } from "react-toastify";
 
-function Createresume() {
+function Createportfolio() {
   const [personalInfoVisible, setPersonalInfoVisible] = useState(false);
-  const [Educationvisible, setEducationvisible] = useState(false);
-  const [Activitiesvisible, setActivitiesvisible] = useState(false);
   const [Projectsvisible, setProjectsvisible] = useState(false);
-  const [Awardsvisible, setAwardsvisible] = useState(false);
   const [Certificatesvisible, setCertificatesvisible] = useState(false);
-  const [Charactervisible, setCharactervisible] = useState(false);
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [email, setEmail] = useState("");
-  const [contactNumber, setContactNumber] = useState("");
-  const [city, setCity] = useState("");
-  const [country, setCountry] = useState("");
-
-  const profileId = JSON.parse(localStorage.getItem("user")).profileId;
 
   const togglePersonalInfoVisibility = () => {
     setPersonalInfoVisible(!personalInfoVisible);
   };
 
-  const toggleEducationvisibility = () => {
-    setEducationvisible(!Educationvisible);
-  };
-
-  const toggleActivitiesvisibility = () => {
-    setActivitiesvisible(!Activitiesvisible);
-  };
-
   const toggleProjectsvisibility = () => {
     setProjectsvisible(!Projectsvisible);
   };
-
-  const toggleAwardsvisibility = () => {
-    setAwardsvisible(!Awardsvisible);
-  };
-
   const toggleCertificatesvisibility = () => {
     setCertificatesvisible(!Certificatesvisible);
   };
-
-  const toggleCharactervisibility = () => {
-    setCharactervisible(!Charactervisible);
-  };
+  const profileId = JSON.parse(localStorage.getItem("user")).profileId;
 
   const [formData, setFormData] = useState();
   const [formIndex, setFormIndex] = useState();
@@ -105,6 +66,13 @@ function Createresume() {
         console.log(res.data.message);
       });
   };
+
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [email, setEmail] = useState("");
+  const [contactNumber, setContactNumber] = useState("");
+  const [city, setCity] = useState("");
+  const [country, setCountry] = useState("");
 
   //social
   const [isAddSocialModalOpen, setAddSocialModalOpen] = useState(false);
@@ -211,84 +179,6 @@ function Createresume() {
 
   //end
 
-  //education
-  const [educationData, setEducationData] = useState([]);
-  const [showEducationModal, setShowEducationModal] = useState(false);
-
-  const handleEducSubmit = (data) => {
-    console.log(data);
-    setEducationData((prevEducationData) => {
-      const updatedEducationData = [...prevEducationData, data];
-      updateProfileElement("education", updatedEducationData);
-      return updatedEducationData;
-    });
-    setShowEducationModal(false);
-    setEducationvisible(true);
-  };
-
-  const handleEducDelete = (index) => {
-    const updatedEducationData = [...educationData];
-    updatedEducationData.splice(index, 1);
-    updateProfileElement("education", updatedEducationData);
-    setEducationData(updatedEducationData);
-  };
-
-  const handleEducEdit = (index) => {
-    const educationToEdit = educationData[index];
-    setFormData(educationToEdit);
-    setFormIndex(index);
-    setShowEducationModal(true);
-  };
-
-  const editEducationData = (index, newValue) => {
-    const updatedEducationData = [...educationData];
-    updatedEducationData[index] = newValue;
-    updateProfileElement("education", updatedEducationData);
-    setEducationData(updatedEducationData);
-  };
-
-  //end
-
-  //activities and involvements
-  const [achievementsData, setAchievementsData] = useState([]);
-  const [showAchievementModal, setShowAchievementModal] = useState(false);
-
-  const handleSubmitAchieve = (formData) => {
-    setAchievementsData((prevAchievementsData) => {
-      const updatedAchievementsData = [...prevAchievementsData, formData];
-      updateProfileElement(
-        "activitiesAndInvolvements",
-        updatedAchievementsData
-      );
-      return updatedAchievementsData;
-    });
-    setShowAchievementModal(false);
-    setActivitiesvisible(true);
-  };
-
-  const handleDeleteAchievement = (index) => {
-    const updatedAchievements = [...achievementsData];
-    updatedAchievements.splice(index, 1);
-    updateProfileElement("activitiesAndInvolvements", updatedAchievements);
-    setAchievementsData(updatedAchievements);
-  };
-
-  const handleEditAchievement = (index) => {
-    const achievementToEdit = achievementsData[index];
-    setFormData(achievementToEdit);
-    setFormIndex(index);
-    setShowAchievementModal(true);
-  };
-
-  const editAchievementsData = (index, newValue) => {
-    const updatedAchievementsData = [...achievementsData];
-    updatedAchievementsData[index] = newValue;
-    updateProfileElement("activitiesAndInvolvements", updatedAchievementsData);
-    setAchievementsData(updatedAchievementsData);
-  };
-
-  //end
-
   //projects
   const [projectsData, setProjectsData] = useState([]);
   const [showAddProjectsModal, setShowAddProjectsModal] = useState(false);
@@ -322,42 +212,6 @@ function Createresume() {
     updatedProjectsData[index] = newValue;
     updateProfileElement("projects", updatedProjectsData);
     setProjectsData(updatedProjectsData);
-  };
-  //end
-
-  //awards
-  const [awardData, setAwardData] = useState([]);
-  const [showAwardModal, setShowAwardModal] = useState(false);
-
-  const handleSubmitAward = (formData) => {
-    setAwardData((prevAwardData) => {
-      const updatedAwardsData = [...prevAwardData, formData];
-      updateProfileElement("awards", updatedAwardsData);
-      return updatedAwardsData;
-    });
-    setShowAwardModal(false);
-    setAwardsvisible(true);
-  };
-
-  const handleDeleteAward = (index) => {
-    const updatedAward = [...awardData];
-    updatedAward.splice(index, 1);
-    updateProfileElement("awards", updatedAward);
-    setAwardData(updatedAward);
-  };
-
-  const handleEditAward = (index) => {
-    const awardToEdit = awardData[index];
-    setFormData(awardToEdit);
-    setFormIndex(index);
-    setShowAwardModal(true);
-  };
-
-  const editAwardData = (index, newValue) => {
-    const updatedAwardData = [...awardData];
-    updatedAwardData[index] = newValue;
-    updateProfileElement("awards", updatedAwardData);
-    setAwardData(updatedAwardData);
   };
   //end
 
@@ -399,37 +253,6 @@ function Createresume() {
 
   //end
 
-  const handleImageClick = () => {
-    fileInputRef.current.click();
-  };
-
-  const handleFileChange = (event) => {
-    const selectedFile = event.target.files[0];
-  };
-  const fileInputRef = useRef(null);
-
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [referenceData, setReferenceData] = useState(null);
-
-  const handleOpenModal = () => {
-    setIsModalOpen(true);
-  };
-
-  const handleCloseModal = () => {
-    setIsModalOpen(false);
-  };
-
-  const handleSaveReference = (formData) => {
-    setReferenceData(formData);
-    console.log("Form data:", formData);
-    setCharactervisible(true);
-  };
-
-  const handleDeleteReference = () => {
-    setReferenceData(null); // Reset referenceData to null
-    setCharactervisible(false); // Hide the reference section
-  };
-
   return (
     <>
       <div className="bg-gray-200">
@@ -438,7 +261,7 @@ function Createresume() {
           <div className="flex flex-col mx-auto w-1/2 bg-white px-4 py-3">
             <div className="text-center flex flex-col w-full justify-center py-4">
               <h1 className="text-2xl font-bold text-[#444B88]">
-                Resume Builder
+                Portfolio Builder
               </h1>
               <p className="italic">Finalize Your Information</p>
             </div>
@@ -452,32 +275,19 @@ function Createresume() {
                     <IoIosArrowDropupCircle
                       onClick={() => togglePersonalInfoVisibility()}
                       size={25}
-                      color="444b88"
                     />
                   ) : (
                     <IoIosArrowDropdownCircle
                       onClick={() => togglePersonalInfoVisibility()}
                       size={25}
-                      color="444b88"
                     />
                   )}
                 </div>
                 {personalInfoVisible && (
                   <div className="flex flex-col w-full px-4 py-3 mx-auto">
                     <div className="flex">
-                      <div className="w-1/3 mx-auto flex items-start justify-center">
-                        <img
-                          src={profile}
-                          alt=""
-                          className="w-4/6 cursor-pointer"
-                          onClick={handleImageClick}
-                        />
-                        <input
-                          type="file"
-                          ref={fileInputRef}
-                          className="hidden"
-                          onChange={handleFileChange}
-                        />
+                      <div className="w-1/4 flex items-start justify-center">
+                        <img src={profile} alt="" className="w-4/6" />
                       </div>
                       <div className="w-3/4">
                         <div className="flex gap-2">
@@ -623,140 +433,19 @@ function Createresume() {
                   </div>
                 )}
               </div>
-
               <div className="flex flex-col rounded-lg">
-                <div className="flex flex-col items-center justify-between px-4 py-3 border border-[#444b88] rounded-t-lg">
-                  <div className="flex justify-between w-full">
-                    <h1 className="text-xl text-[#8B95EE]">Education</h1>
-                    {Educationvisible ? (
-                      <IoIosArrowDropupCircle
-                        onClick={() => toggleEducationvisibility()}
-                        size={25}
-                        color="444b88"
-                      />
-                    ) : (
-                      <IoIosArrowDropdownCircle
-                        onClick={() => toggleEducationvisibility()}
-                        size={25}
-                        color="444b88"
-                      />
-                    )}
-                  </div>
-                  {Educationvisible && (
-                    <div className="flex flex-col w-full px-4 py-3 mx-auto">
-                      <div className="flex flex-col gap-4">
-                        <div className="flex flex-col gap-5">
-                          {educationData.map((edu, index) => (
-                            <EducationCard
-                              key={index}
-                              education={edu}
-                              onDelete={() => handleEducDelete(index)}
-                              onEdit={() => handleEducEdit(index)}
-                            />
-                          ))}
-                        </div>
-                      </div>
-                    </div>
-                  )}
-                </div>
-                <div className="w-full">
-                  <button
-                    className="w-full bg-[#444B88] border-[#BCBCBC] border-1 p-2 text-white rounded-b-lg"
-                    onClick={() => setShowEducationModal(true)}
-                  >
-                    Add
-                  </button>
-                  {showEducationModal && (
-                    <Addeduc
-                      onClose={() => {
-                        setFormData();
-                        setShowEducationModal(false);
-                      }}
-                      onSubmit={handleEducSubmit}
-                      onEdit={editEducationData}
-                      initialData={formData}
-                      formIndex={formIndex}
-                      setFormData={setFormData}
-                    />
-                  )}
-                </div>
-              </div>
-
-              <div className="flex flex-col rounded-lg">
-                <div className="flex flex-col items-center justify-between px-4 py-3 border border-[#444b88] rounded-t-lg">
-                  <div className="flex justify-between w-full">
-                    <h1 className="text-xl text-[#8B95EE]">
-                      Activities and Involvements
-                    </h1>
-                    {Activitiesvisible ? (
-                      <IoIosArrowDropupCircle
-                        onClick={() => toggleActivitiesvisibility()}
-                        size={25}
-                        color="444b88"
-                      />
-                    ) : (
-                      <IoIosArrowDropdownCircle
-                        onClick={() => toggleActivitiesvisibility()}
-                        size={25}
-                        color="444b88"
-                      />
-                    )}
-                  </div>
-                  {Activitiesvisible && (
-                    <div className="flex flex-col w-full px-4 py-3 mx-auto">
-                      <div className="flex flex-col gap-4">
-                        <div className="flex flex-col gap-5">
-                          {achievementsData.map((achievement, index) => (
-                            <ActivitiesCard
-                              key={index}
-                              activity={achievement}
-                              onDelete={() => handleDeleteAchievement(index)}
-                              onEdit={() => handleEditAchievement(index)}
-                            />
-                          ))}
-                        </div>
-                      </div>
-                    </div>
-                  )}
-                </div>
-                <div className="w-full">
-                  <button
-                    className="w-full bg-[#444B88] border-[#BCBCBC] border-1 p-2 text-white rounded-b-lg"
-                    onClick={() => setShowAchievementModal(true)}
-                  >
-                    Add
-                  </button>
-                  {showAchievementModal && (
-                    <Addachievemodal
-                      onClose={() => {
-                        setFormData();
-                        setShowAchievementModal(false);
-                      }}
-                      onSubmit={handleSubmitAchieve}
-                      onEdit={editAchievementsData}
-                      initialData={formData}
-                      formIndex={formIndex}
-                      setFormData={setFormData}
-                    />
-                  )}
-                </div>
-              </div>
-
-              <div className="flex flex-col rounded-lg">
-                <div className="flex flex-col items-center justify-between px-4 py-3 border border-[#444b88] rounded-t-lg">
+                <div className="flex flex-col items-center justify-between px-4 py-3 border border-[#444b88]">
                   <div className="flex justify-between w-full">
                     <h1 className="text-xl text-[#8B95EE]">Projects</h1>
                     {Projectsvisible ? (
                       <IoIosArrowDropupCircle
                         onClick={() => toggleProjectsvisibility()}
                         size={25}
-                        color="444b88"
                       />
                     ) : (
                       <IoIosArrowDropdownCircle
                         onClick={() => toggleProjectsvisibility()}
                         size={25}
-                        color="444b88"
                       />
                     )}
                   </div>
@@ -799,80 +488,19 @@ function Createresume() {
                   )}
                 </div>
               </div>
-
               <div className="flex flex-col rounded-lg">
-                <div className="flex flex-col items-center justify-between px-4 py-3 border border-[#444b88] rounded-t-lg">
-                  <div className="flex justify-between w-full">
-                    <h1 className="text-xl text-[#8B95EE]">Awards</h1>
-                    {Awardsvisible ? (
-                      <IoIosArrowDropupCircle
-                        onClick={() => toggleAwardsvisibility()}
-                        size={25}
-                        color="444b88"
-                      />
-                    ) : (
-                      <IoIosArrowDropdownCircle
-                        onClick={() => toggleAwardsvisibility()}
-                        size={25}
-                        color="444b88"
-                      />
-                    )}
-                  </div>
-                  {Awardsvisible && (
-                    <div className="flex flex-col w-full px-4 py-3 mx-auto">
-                      <div className="flex flex-col gap-4">
-                        <div className="flex flex-col gap-5">
-                          {awardData.map((award, index) => (
-                            <AwardCard
-                              key={index}
-                              award={award}
-                              onDelete={() => handleDeleteAward(index)}
-                              onEdit={() => handleEditAward(index)}
-                            />
-                          ))}
-                        </div>
-                      </div>
-                    </div>
-                  )}
-                </div>
-                <div className="w-full">
-                  <button
-                    className="w-full bg-[#444B88] border-[#BCBCBC] border-1 p-2 text-white rounded-b-lg"
-                    onClick={() => setShowAwardModal(true)}
-                  >
-                    Add
-                  </button>
-                  {showAwardModal && (
-                    <AddAwards
-                      onClose={() => {
-                        setFormData();
-                        setShowAwardModal(false);
-                      }}
-                      onSubmit={handleSubmitAward}
-                      onEdit={editAwardData}
-                      initialData={formData}
-                      formIndex={formIndex}
-                      setFormData={setFormData}
-                    />
-                  )}
-                </div>
-              </div>
-
-              <div className="flex flex-col rounded-lg">
-                <div className="flex flex-col items-center justify-between px-4 py-3 border border-[#444b88] rounded-t-lg">
+                <div className="flex flex-col items-center justify-between px-4 py-3 border border-[#444b88]">
                   <div className="flex justify-between w-full">
                     <h1 className="text-xl text-[#8B95EE]">Certificates</h1>
                     {Certificatesvisible ? (
                       <IoIosArrowDropupCircle
                         onClick={() => toggleCertificatesvisibility()}
                         size={25}
-                        color="444b88"
                       />
                     ) : (
                       <IoIosArrowDropdownCircle
                         onClick={() => toggleCertificatesvisibility()}
                         size={25}
-                        color="444b88"
                       />
                     )}
                   </div>
@@ -915,85 +543,16 @@ function Createresume() {
                   )}
                 </div>
               </div>
-
-              <div className="flex flex-col rounded-lg">
-                <div className="flex flex-col items-center justify-between px-4 py-3 border border-[#444b88] rounded-t-lg">
-                  <div className="flex justify-between w-full pb-2">
-                    <h1 className="text-xl text-[#8B95EE]">
-                      Character Reference
-                    </h1>
-                    {Charactervisible ? (
-                      <IoIosArrowDropupCircle
-                        onClick={() => toggleCharactervisibility()}
-                        size={25}
-                        color="444b88"
-                      />
-                    ) : (
-                      <IoIosArrowDropdownCircle
-                        onClick={() => toggleCharactervisibility()}
-                        size={25}
-                        color="444b88"
-                      />
-                    )}
-                  </div>
-                  {Charactervisible && (
-                    <div className="w-full border border-[#444b88]">
-                      <div className="flex flex-col gap-5">
-                        {referenceData && (
-                          <div className="px-4 py-2 flex justify-between gap-1">
-                            <div>
-                              <div className="flex gap-5 items-center">
-                                <p className="text-2xl text-[#444b88]">
-                                  {referenceData.name}
-                                </p>
-                                <div className="flex gap-1">
-                                  <p>{referenceData.relationship}</p>
-                                  <p>{referenceData.description}</p>
-                                </div>
-                              </div>
-                              <p>{referenceData.phone}</p>
-                              <p className="text-sm">{referenceData.email}</p>
-                            </div>
-                            <div className="flex items-center">
-                              <IoCloseOutline size={50} onClick={handleDeleteReference} className="cursor-pointer"/>
-                            </div>
-                          </div>
-                        )}
-                      </div>
-                    </div>
-                  )}
-                </div>
-                <div className="w-full">
-                  <button
-                    className="w-full bg-[#444B88] border-[#BCBCBC] border-1 p-2 text-white rounded-b-lg"
-                    onClick={handleOpenModal}
-                  >
-                    Add
-                  </button>
-                  <CharacterRef
-                    isOpen={isModalOpen}
-                    onClose={handleCloseModal}
-                    onSave={handleSaveReference}
-                  />
-                </div>
-              </div>
+              <div className="w-full pt-5 flex justify-end">
+              <div className="flex gap-5"> <button className="text-lg border border-[#444b88] py-1 px-2 rounded-md">Cancel</button> <button className="text-lg border border-[#444b88] text-black bg-[#8B95EE] py-1 px-2 rounded-md">Save</button></div>
             </div>
-            <div className="w-full pt-5 flex justify-end">
-              <div className="flex gap-5">
-                <button className="text-lg border border-[#444b88] py-1 px-2 rounded-md">
-                  Cancel
-                </button>
-                <button className="text-lg border border-[#444b88] text-black bg-[#8B95EE] py-1 px-2 rounded-md">
-                  Save
-                </button>
-              </div>
             </div>
           </div>
         </div>
       </div>
-      <Footer />
+      <Footer/>
     </>
   );
 }
 
-export default Createresume;
+export default Createportfolio;

@@ -17,7 +17,9 @@ import "react-toastify/dist/ReactToastify.css";
 import Chooseresume from "./Pages/Chooseresume";
 import Createresume from "./Pages/Createresume";
 import Generatedresume from "./Pages/Generatedresume";
-
+import Createportfolio from "./Pages/Createportfolio";
+import Chooseportfolio from "./Pages/Chooseportfolio";
+import Portfoliopreview from "./Modals/Portfoliopreview";
 function App() {
   const { user } = useSelector((state) => state.user);
 
@@ -28,6 +30,9 @@ function App() {
           <Route path="/chooseresume" element={<Chooseresume/>}/>
           <Route path="/createresume" element={<Createresume/>}/>
           <Route path="/generatedresume" element={<Generatedresume/>}/>
+          <Route path="/createportfolio" element={<Createportfolio/>}/>
+          <Route path="/chooseportfolio" element={<Chooseportfolio/>}/>
+          <Route path="/portfoliopreview" element={<Portfoliopreview/>}/>
           {!user && (
             <>
               <Route path="/" element={<NewLanding />} />

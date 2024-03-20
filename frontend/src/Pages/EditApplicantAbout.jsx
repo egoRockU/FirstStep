@@ -1,4 +1,3 @@
-import React from "react";
 import Footer from "../Components/Footer";
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
@@ -10,7 +9,6 @@ import { FaCamera } from "react-icons/fa";
 import AddSocial from "../Modals/EditApplicant Profile/Addsocial";
 import AddIndustry from "../Modals/EditApplicant Profile/Addindustry";
 import AddSkill from "../Modals/EditApplicant Profile/Addskill";
-import { IoMdClose } from "react-icons/io";
 import { toast } from "react-toastify";
 import {
   updateProfileImage,
@@ -27,7 +25,7 @@ function CreateApplicantProfilepage() {
 
   useEffect(() => {
     getUserProfile();
-  }, []);
+  }, );
 
   //social
   const [isAddSocialModalOpen, setAddSocialModalOpen] = useState(false);
@@ -48,15 +46,7 @@ function CreateApplicantProfilepage() {
   const closeAddSocialModal = () => {
     setAddSocialModalOpen(false);
   };
-  const editSocialLink = (index) => {
-    const editedSocialLinks = [...socialLinks];
-    const newPlatform = prompt("Enter new platform:");
-    const newLink = prompt("Enter new link:");
-    if (newPlatform && newLink) {
-      editedSocialLinks[index] = { platform: newPlatform, link: newLink };
-      setSocialLinks(editedSocialLinks);
-    }
-  };
+  
   const deleteSocialLink = (index) => {
     const updatedSocialLinks = [...socialLinks];
     updatedSocialLinks.splice(index, 1);
@@ -93,11 +83,6 @@ function CreateApplicantProfilepage() {
   const closeAddIndustryModal = () => {
     setAddIndustryModalOpen(false);
   };
-  const editIndustry = (index, industry) => {
-    const updatedIndustries = [...industries];
-    updatedIndustries[index] = industry;
-    setIndustries(updatedIndustries);
-  };
 
   const deleteIndustry = (index) => {
     const updatedIndustries = [...industries];
@@ -119,7 +104,7 @@ function CreateApplicantProfilepage() {
     setAddSkillModalOpen(false);
   };
 
-  const [skillSuggestions, setSkillSuggestions] = useState([
+  const [skillSuggestions,] = useState([
     "JavaScript",
     "Python",
     "Java",
@@ -138,11 +123,6 @@ function CreateApplicantProfilepage() {
     closeAddSkillModal();
   };
 
-  const editSkill = (index, skill) => {
-    const updatedSkills = [...skillSuggestions];
-    updatedSkills[index] = skill;
-    setSkillSuggestions(updatedSkills);
-  };
   const deleteSkill = (index) => {
     const updatedSkills = [...skills];
     updatedSkills.splice(index, 1);
@@ -181,14 +161,6 @@ function CreateApplicantProfilepage() {
         console.error("Error updating banner image:", error);
       }
     }
-  };
-
-  const updateSkillsState = (index, value) => {
-    setSkills((skills) => {
-      const newSkills = [...skills];
-      newSkills[index] = value;
-      return newSkills;
-    });
   };
 
   const goback = () => {
