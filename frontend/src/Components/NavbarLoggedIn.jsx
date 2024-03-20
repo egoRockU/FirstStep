@@ -1,9 +1,7 @@
-import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import logo from "../images/newlogo.png";
 import DropdownMenu from "./DropdownMenu";
 import bell from "../images/bell.png";
-import { toast } from "react-toastify";
 
 function NavbarLoggedIn() {
   const navigate = useNavigate();

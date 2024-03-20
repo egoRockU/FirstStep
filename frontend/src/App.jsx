@@ -14,8 +14,9 @@ import Editemployerabout from "./Pages/EditEmployerabout";
 import EditApplicantAbout from "./Pages/EditApplicantAbout";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Chooseresume from "./Pages/Chooseresume";
 import Createresume from "./Pages/Createresume";
-
+import Generatedresume from "./Pages/Generatedresume";
 
 function App() {
   const { user } = useSelector((state) => state.user);
@@ -24,7 +25,9 @@ function App() {
     <>
       <BrowserRouter>
         <Routes>
+          <Route path="/chooseresume" element={<Chooseresume/>}/>
           <Route path="/createresume" element={<Createresume/>}/>
+          <Route path="/generatedresume" element={<Generatedresume/>}/>
           {!user && (
             <>
               <Route path="/" element={<NewLanding />} />
