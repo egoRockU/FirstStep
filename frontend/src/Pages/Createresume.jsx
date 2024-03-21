@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   FirstNameInput,
   LastNameInput,
@@ -41,6 +42,7 @@ import { toast } from "react-toastify";
 
 function Createresume() {
   const profileId = JSON.parse(localStorage.getItem("user")).profileId;
+  const navigate = useNavigate();
 
   const [personalInfoVisible, setPersonalInfoVisible] = useState(true);
   const [Educationvisible, setEducationvisible] = useState(false);
@@ -408,28 +410,6 @@ function Createresume() {
   };
   const fileInputRef = useRef(null);
 
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [referenceData, setReferenceData] = useState(null);
-
-  const handleOpenModal = () => {
-    setIsModalOpen(true);
-  };
-
-  const handleCloseModal = () => {
-    setIsModalOpen(false);
-  };
-
-  const handleSaveReference = (formData) => {
-    setReferenceData(formData);
-    console.log("Form data:", formData);
-    setCharactervisible(true);
-  };
-
-  const handleDeleteReference = () => {
-    setReferenceData(null); // Reset referenceData to null
-    setCharactervisible(false); // Hide the reference section
-  };
-
   //get user info
   const getUserProfile = () => {
     axios
@@ -464,24 +444,27 @@ function Createresume() {
       });
   };
 
-  // const updateProfileElement = (key, value) => {
-  //   const input = {
-  //     _id: profileId,
-  //     set: {
-  //       [key]: value,
-  //     },
-  //   };
+  const saveResumeInfo = () => {
+    const resumeInfo = {
+      firstName: fName,
+      lastName: lName,
+      email,
+      contactNum,
+      address: `${city}, ${country}`,
+      about,
+      socialLinks,
+      skills,
+      preferredCareer: industries,
+      education: educationData,
+      activitiesAndInvolvements: achievementsData,
+      awards: awardData,
+      certs: certData,
+      projects: projectsData,
+      characterReference: charRefData,
+    };
 
-  //   axios
-  //     .post("/api/applicantprofile/update", input, {
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //       },
-  //     })
-  //     .then((res) => {
-  //       console.log(res.data.message);
-  //     });
-  // };
+    navigate("/chooseresume", { state: { resumeInfo } });
+  };
 
   return (
     <>
@@ -1051,7 +1034,10 @@ function Createresume() {
                 <button className="text-lg border border-[#444b88] py-1 px-2 rounded-md">
                   Cancel
                 </button>
-                <button className="text-lg border border-[#444b88] text-black bg-[#8B95EE] py-1 px-2 rounded-md">
+                <button
+                  className="text-lg border border-[#444b88] text-black bg-[#8B95EE] py-1 px-2 rounded-md"
+                  onClick={saveResumeInfo}
+                >
                   Save
                 </button>
               </div>
