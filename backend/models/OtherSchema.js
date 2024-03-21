@@ -143,14 +143,6 @@ const CertificatesSchema = new Schema({
   dateReceived: {
     type: Date,
     required: true,
-    set: function (date) {
-      const parsedDate = new Date(date);
-      console.log("dateTime" + parsedDate);
-      parsedDate.setHours(0, 0, 0, 0);
-      console.log("date: " + parsedDate);
-      console.log(parsedDate);
-      return parsedDate;
-    },
   },
 });
 
