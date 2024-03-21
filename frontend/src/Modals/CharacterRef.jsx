@@ -1,13 +1,25 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from "react";
 
-const CharacterRef = ({ isOpen, onClose, onSave }) => {
+const CharacterRef = ({
+  onClose,
+  onSubmit,
+  onEdit,
+  formIndex,
+  initialData,
+}) => {
   const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    phone: '',
-    relationship: '',
-    description: ''
+    name: "",
+    position: "",
+    phone: "",
+    email: "",
+    website: "",
   });
+
+  useEffect(() => {
+    if (initialData) {
+      setFormData(initialData);
+    }
+  }, [initialData]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -16,11 +28,32 @@ const CharacterRef = ({ isOpen, onClose, onSave }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onSave(formData);
+    onSubmit(formData);
     onClose();
   };
 
-  if (!isOpen) return null;
+  const handleEdit = (e) => {
+    e.preventDefault();
+    onEdit(formIndex, formData);
+    onClose();
+  };
+
+  const handleCancel = () => {
+    onClose();
+    if (initialData) {
+      setFormData(initialData);
+    } else {
+      setFormData({
+        name: "",
+        position: "",
+        phone: "",
+        email: "",
+        website: "",
+      });
+    }
+  };
+
+  // if (!isOpen) return null;
 
   return (
     <div className="fixed inset-0 flex justify-center items-center bg-gray-900 bg-opacity-50">
@@ -59,15 +92,15 @@ const CharacterRef = ({ isOpen, onClose, onSave }) => {
             />
           </div>
           <div className="mb-4">
-            <label htmlFor="email" className="block text-[#444B88]">
-              Email
+            <label htmlFor="relationship" className="block text-[#444B88]">
+              Position
             </label>
             <input
-              type="email"
-              name="email"
-              id="email"
+              type="text"
+              name="position"
+              id="position"
               onChange={handleChange}
-              value={formData.email}
+              value={formData.position}
               className="border border-[#444B88] rounded-md px-4 py-2 w-full"
             />
           </div>
@@ -85,45 +118,55 @@ const CharacterRef = ({ isOpen, onClose, onSave }) => {
             />
           </div>
           <div className="mb-4">
-            <label htmlFor="relationship" className="block text-[#444B88]">
-              Position
+            <label htmlFor="email" className="block text-[#444B88]">
+              Email
             </label>
             <input
-              type="text"
-              name="relationship"
-              id="relationship"
+              type="email"
+              name="email"
+              id="email"
               onChange={handleChange}
-              value={formData.relationship}
+              value={formData.email}
               className="border border-[#444B88] rounded-md px-4 py-2 w-full"
             />
           </div>
           <div className="mb-4">
-            <label htmlFor="description" className="block text-[#444B88]">
-              Company
+            <label htmlFor="website" className="block text-[#444B88]">
+              Website
             </label>
-            <textarea
-              name="description"
-              id="description"
+            <input
+              name="website"
+              id="website"
               onChange={handleChange}
-              value={formData.description}
+              value={formData.website}
               className="border border-[#444B88] rounded-md px-4 py-2 w-full"
-            ></textarea>
+            ></input>
           </div>
           <div className="flex justify-end mb-4">
-          <button
+            <button
               type="button"
-              onClick={onClose}
+              onClick={handleCancel}
               className="border border-[#444B88] text-black px-4 py-2 rounded-md"
-
             >
               Cancel
             </button>
-            <button
-              type="submit"
-              className="bg-[#8B95EE] border border-[#444B88] text-black px-4 py-2 rounded-md ml-2"
-            >
-              Save
-            </button>
+            {!initialData && (
+              <button
+                type="submit"
+                className="border border-[#444B88] p-1 rounded-md bg-[#8B95EE]"
+              >
+                Submit
+              </button>
+            )}
+            {initialData && (
+              <button
+                type="button"
+                onClick={handleEdit}
+                className="bg-[#8B95EE] border border-[#444B88]  text-black px-4 py-2 rounded-md mr-2"
+              >
+                Save Changes
+              </button>
+            )}
           </div>
         </form>
       </div>

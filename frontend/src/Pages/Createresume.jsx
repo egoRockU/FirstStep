@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import {
   FirstNameInput,
   LastNameInput,
@@ -40,21 +40,26 @@ import { IoCloseOutline } from "react-icons/io5";
 import { toast } from "react-toastify";
 
 function Createresume() {
-  const [personalInfoVisible, setPersonalInfoVisible] = useState(false);
+  const profileId = JSON.parse(localStorage.getItem("user")).profileId;
+
+  const [personalInfoVisible, setPersonalInfoVisible] = useState(true);
   const [Educationvisible, setEducationvisible] = useState(false);
   const [Activitiesvisible, setActivitiesvisible] = useState(false);
   const [Projectsvisible, setProjectsvisible] = useState(false);
   const [Awardsvisible, setAwardsvisible] = useState(false);
   const [Certificatesvisible, setCertificatesvisible] = useState(false);
   const [Charactervisible, setCharactervisible] = useState(false);
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
+  const [fName, setFName] = useState("");
+  const [lName, setLName] = useState("");
   const [email, setEmail] = useState("");
-  const [contactNumber, setContactNumber] = useState("");
+  const [contactNum, setContactNum] = useState("");
   const [city, setCity] = useState("");
   const [country, setCountry] = useState("");
+  const [about, setAbout] = useState("");
 
-  const profileId = JSON.parse(localStorage.getItem("user")).profileId;
+  useEffect(() => {
+    getUserProfile();
+  }, []);
 
   const togglePersonalInfoVisibility = () => {
     setPersonalInfoVisible(!personalInfoVisible);
@@ -86,25 +91,6 @@ function Createresume() {
 
   const [formData, setFormData] = useState();
   const [formIndex, setFormIndex] = useState();
-
-  const updateProfileElement = (key, value) => {
-    const input = {
-      _id: profileId,
-      set: {
-        [key]: value,
-      },
-    };
-
-    axios
-      .post("/api/applicantprofile/update", input, {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      })
-      .then((res) => {
-        console.log(res.data.message);
-      });
-  };
 
   //social
   const [isAddSocialModalOpen, setAddSocialModalOpen] = useState(false);
@@ -219,7 +205,6 @@ function Createresume() {
     console.log(data);
     setEducationData((prevEducationData) => {
       const updatedEducationData = [...prevEducationData, data];
-      updateProfileElement("education", updatedEducationData);
       return updatedEducationData;
     });
     setShowEducationModal(false);
@@ -229,7 +214,6 @@ function Createresume() {
   const handleEducDelete = (index) => {
     const updatedEducationData = [...educationData];
     updatedEducationData.splice(index, 1);
-    updateProfileElement("education", updatedEducationData);
     setEducationData(updatedEducationData);
   };
 
@@ -243,7 +227,6 @@ function Createresume() {
   const editEducationData = (index, newValue) => {
     const updatedEducationData = [...educationData];
     updatedEducationData[index] = newValue;
-    updateProfileElement("education", updatedEducationData);
     setEducationData(updatedEducationData);
   };
 
@@ -256,10 +239,6 @@ function Createresume() {
   const handleSubmitAchieve = (formData) => {
     setAchievementsData((prevAchievementsData) => {
       const updatedAchievementsData = [...prevAchievementsData, formData];
-      updateProfileElement(
-        "activitiesAndInvolvements",
-        updatedAchievementsData
-      );
       return updatedAchievementsData;
     });
     setShowAchievementModal(false);
@@ -269,7 +248,6 @@ function Createresume() {
   const handleDeleteAchievement = (index) => {
     const updatedAchievements = [...achievementsData];
     updatedAchievements.splice(index, 1);
-    updateProfileElement("activitiesAndInvolvements", updatedAchievements);
     setAchievementsData(updatedAchievements);
   };
 
@@ -283,7 +261,6 @@ function Createresume() {
   const editAchievementsData = (index, newValue) => {
     const updatedAchievementsData = [...achievementsData];
     updatedAchievementsData[index] = newValue;
-    updateProfileElement("activitiesAndInvolvements", updatedAchievementsData);
     setAchievementsData(updatedAchievementsData);
   };
 
@@ -296,7 +273,6 @@ function Createresume() {
   const handleSubmitProjects = (formData) => {
     setProjectsData((prevProjectsData) => {
       const updatedProjectsData = [...prevProjectsData, formData];
-      updateProfileElement("projects", updatedProjectsData);
       return updatedProjectsData;
     });
     setShowAddProjectsModal(false);
@@ -306,7 +282,6 @@ function Createresume() {
   const handleDeleteProjects = (index) => {
     const updatedProjects = [...projectsData];
     updatedProjects.splice(index, 1);
-    updateProfileElement("projects", updatedProjects);
     setProjectsData(updatedProjects);
   };
 
@@ -320,7 +295,6 @@ function Createresume() {
   const editProjectsData = (index, newValue) => {
     const updatedProjectsData = [...projectsData];
     updatedProjectsData[index] = newValue;
-    updateProfileElement("projects", updatedProjectsData);
     setProjectsData(updatedProjectsData);
   };
   //end
@@ -332,7 +306,6 @@ function Createresume() {
   const handleSubmitAward = (formData) => {
     setAwardData((prevAwardData) => {
       const updatedAwardsData = [...prevAwardData, formData];
-      updateProfileElement("awards", updatedAwardsData);
       return updatedAwardsData;
     });
     setShowAwardModal(false);
@@ -342,7 +315,6 @@ function Createresume() {
   const handleDeleteAward = (index) => {
     const updatedAward = [...awardData];
     updatedAward.splice(index, 1);
-    updateProfileElement("awards", updatedAward);
     setAwardData(updatedAward);
   };
 
@@ -356,7 +328,6 @@ function Createresume() {
   const editAwardData = (index, newValue) => {
     const updatedAwardData = [...awardData];
     updatedAwardData[index] = newValue;
-    updateProfileElement("awards", updatedAwardData);
     setAwardData(updatedAwardData);
   };
   //end
@@ -369,7 +340,6 @@ function Createresume() {
     console.log("Cert form data:", formData);
     setCertData((prevCertData) => {
       const updatedCertData = [...prevCertData, formData];
-      updateProfileElement("certs", updatedCertData);
       return updatedCertData;
     });
     setShowCertModal(false);
@@ -379,7 +349,6 @@ function Createresume() {
   const handleDeleteCert = (index) => {
     const updatedCert = [...certData];
     updatedCert.splice(index, 1);
-    updateProfileElement("certs", updatedCert);
     setCertData(updatedCert);
   };
 
@@ -393,10 +362,41 @@ function Createresume() {
   const editCertData = (index, newValue) => {
     const updatedCertData = [...certData];
     updatedCertData[index] = newValue;
-    updateProfileElement("certs", updatedCertData);
     setCertData(updatedCertData);
   };
+  //end
 
+  //awards
+  const [charRefData, setCharRefData] = useState([]);
+  const [showCharRefModal, setShowCharRefModal] = useState(false);
+
+  const handleSubmitCharRef = (formData) => {
+    setCharRefData((prevCharRefData) => {
+      const updatedCharRefData = [...prevCharRefData, formData];
+      return updatedCharRefData;
+    });
+    setShowCharRefModal(false);
+    setCharactervisible(true);
+  };
+
+  const handleDeleteCharRef = (index) => {
+    const updatedCharRef = [...charRefData];
+    updatedCharRef.splice(index, 1);
+    setCharRefData(updatedCharRef);
+  };
+
+  const handleEditCharRef = (index) => {
+    const charRefToEdit = charRefData[index];
+    setFormData(charRefToEdit);
+    setFormIndex(index);
+    setShowCharRefModal(true);
+  };
+
+  const editCharRefData = (index, newValue) => {
+    const updatedCharRefData = [...charRefData];
+    updatedCharRefData[index] = newValue;
+    setCharRefData(updatedCharRefData);
+  };
   //end
 
   const handleImageClick = () => {
@@ -429,6 +429,59 @@ function Createresume() {
     setReferenceData(null); // Reset referenceData to null
     setCharactervisible(false); // Hide the reference section
   };
+
+  //get user info
+  const getUserProfile = () => {
+    axios
+      .post(
+        "/api/applicantprofile/retrieveone",
+        { profileId },
+        {
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+          },
+        }
+      )
+      .then((res) => {
+        const profileObj = res.data;
+        setFName(profileObj.firstName);
+        setLName(profileObj.lastName);
+        setEmail(profileObj.email);
+        setContactNum(profileObj.contactNum);
+        setCity(profileObj.address.split(",")[0]);
+        setCountry(profileObj.address.split(", ")[1]);
+        setAbout(profileObj.about);
+        setSocialLinks(profileObj.socialLinks);
+        setSkills(profileObj.skills);
+        setIndustries(profileObj.preferredCareer);
+        setEducationData(profileObj.education);
+        setAchievementsData(profileObj.activitiesAndInvolvements);
+        setProjectsData(profileObj.projects);
+        setAwardData(profileObj.awards);
+        setCertData(profileObj.certs);
+        setSelectedImage(profileObj.profileImg);
+        setSelectedBanner(profileObj.banner);
+      });
+  };
+
+  // const updateProfileElement = (key, value) => {
+  //   const input = {
+  //     _id: profileId,
+  //     set: {
+  //       [key]: value,
+  //     },
+  //   };
+
+  //   axios
+  //     .post("/api/applicantprofile/update", input, {
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //     })
+  //     .then((res) => {
+  //       console.log(res.data.message);
+  //     });
+  // };
 
   return (
     <>
@@ -482,11 +535,11 @@ function Createresume() {
                       <div className="w-3/4">
                         <div className="flex gap-2">
                           <FirstNameInput
-                            value={firstName}
+                            value={fName}
                             onChange={(e) => setFirstName(e.target.value)}
                           />
                           <LastNameInput
-                            value={lastName}
+                            value={lName}
                             onChange={(e) => setLastName(e.target.value)}
                           />
                         </div>
@@ -495,7 +548,7 @@ function Createresume() {
                           onChange={(e) => setEmail(e.target.value)}
                         />
                         <ContactNumberInput
-                          value={contactNumber}
+                          value={contactNum}
                           onChange={(e) => setContactNumber(e.target.value)}
                         />
                         <div className="flex gap-2">
@@ -583,6 +636,7 @@ function Createresume() {
                         <textarea
                           name="about"
                           id=""
+                          value={about}
                           cols="30"
                           rows="10"
                           className="border border-[#444b88] w-full px-2 py-1"
@@ -936,45 +990,59 @@ function Createresume() {
                       />
                     )}
                   </div>
-                  {Charactervisible && (
-                    <div className="w-full border border-[#444b88]">
-                      <div className="flex flex-col gap-5">
-                        {referenceData && (
+                  {Charactervisible &&
+                    charRefData.map((charRef, index) => (
+                      <div className="w-full border border-[#444b88]">
+                        <div className="flex flex-col gap-5">
                           <div className="px-4 py-2 flex justify-between gap-1">
-                            <div>
+                            <div
+                              key={index}
+                              onClick={() => handleEditCharRef(index)}
+                            >
                               <div className="flex gap-5 items-center">
                                 <p className="text-2xl text-[#444b88]">
-                                  {referenceData.name}
+                                  {charRef.name}
                                 </p>
                                 <div className="flex gap-1">
-                                  <p>{referenceData.relationship}</p>
-                                  <p>{referenceData.description}</p>
+                                  <p>{charRef.position}</p>
+                                  <p>{charRef.website}</p>
                                 </div>
                               </div>
-                              <p>{referenceData.phone}</p>
-                              <p className="text-sm">{referenceData.email}</p>
+                              <p>{charRef.phone}</p>
+                              <p className="text-sm">{charRef.email}</p>
                             </div>
                             <div className="flex items-center">
-                              <IoCloseOutline size={50} onClick={handleDeleteReference} className="cursor-pointer"/>
+                              <IoCloseOutline
+                                size={50}
+                                onClick={() => handleDeleteCharRef(index)}
+                                className="cursor-pointer"
+                              />
                             </div>
                           </div>
-                        )}
+                        </div>
                       </div>
-                    </div>
-                  )}
+                    ))}
                 </div>
                 <div className="w-full">
                   <button
                     className="w-full bg-[#444B88] border-[#BCBCBC] border-1 p-2 text-white rounded-b-lg"
-                    onClick={handleOpenModal}
+                    onClick={() => setShowCharRefModal(true)}
                   >
                     Add
                   </button>
-                  <CharacterRef
-                    isOpen={isModalOpen}
-                    onClose={handleCloseModal}
-                    onSave={handleSaveReference}
-                  />
+                  {showCharRefModal && (
+                    <CharacterRef
+                      onClose={() => {
+                        setFormData();
+                        setShowCharRefModal(false);
+                      }}
+                      onSubmit={handleSubmitCharRef}
+                      onEdit={editCharRefData}
+                      initialData={formData}
+                      formIndex={formIndex}
+                      setFormData={setFormData}
+                    />
+                  )}
                 </div>
               </div>
             </div>
