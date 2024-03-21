@@ -58,6 +58,7 @@ function Createresume() {
   const [city, setCity] = useState("");
   const [country, setCountry] = useState("");
   const [about, setAbout] = useState("");
+  const [image, setImage] = useState("");
 
   useEffect(() => {
     getUserProfile();
@@ -439,8 +440,7 @@ function Createresume() {
         setProjectsData(profileObj.projects);
         setAwardData(profileObj.awards);
         setCertData(profileObj.certs);
-        setSelectedImage(profileObj.profileImg);
-        setSelectedBanner(profileObj.banner);
+        setImage(profileObj.profileImg);
       });
   };
 
@@ -463,7 +463,12 @@ function Createresume() {
       characterReference: charRefData,
     };
 
-    navigate("/chooseresume", { state: { resumeInfo } });
+    const proceed = confirm(
+      "You can't change the informations once you select a template. Proceed?"
+    );
+    if (proceed) {
+      navigate("/chooseresume", { state: { resumeInfo } });
+    }
   };
 
   return (
@@ -519,11 +524,11 @@ function Createresume() {
                         <div className="flex gap-2">
                           <FirstNameInput
                             value={fName}
-                            onChange={(e) => setFirstName(e.target.value)}
+                            onChange={(e) => setFName(e.target.value)}
                           />
                           <LastNameInput
                             value={lName}
-                            onChange={(e) => setLastName(e.target.value)}
+                            onChange={(e) => setLName(e.target.value)}
                           />
                         </div>
                         <EmailInput
@@ -623,6 +628,7 @@ function Createresume() {
                           cols="30"
                           rows="10"
                           className="border border-[#444b88] w-full px-2 py-1"
+                          onChange={(e) => setAbout(e.target.value)}
                         ></textarea>
                       </div>
                       <div>
@@ -975,13 +981,13 @@ function Createresume() {
                   </div>
                   {Charactervisible &&
                     charRefData.map((charRef, index) => (
-                      <div className="w-full border border-[#444b88]">
+                      <div
+                        className="w-full border border-[#444b88]"
+                        key={index}
+                      >
                         <div className="flex flex-col gap-5">
                           <div className="px-4 py-2 flex justify-between gap-1">
-                            <div
-                              key={index}
-                              onClick={() => handleEditCharRef(index)}
-                            >
+                            <div onClick={() => handleEditCharRef(index)}>
                               <div className="flex gap-5 items-center">
                                 <p className="text-2xl text-[#444b88]">
                                   {charRef.name}
@@ -991,7 +997,7 @@ function Createresume() {
                                   <p>{charRef.website}</p>
                                 </div>
                               </div>
-                              <p>{charRef.phone}</p>
+                              <p>{charRef.contactNum}</p>
                               <p className="text-sm">{charRef.email}</p>
                             </div>
                             <div className="flex items-center">

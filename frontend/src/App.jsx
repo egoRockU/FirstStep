@@ -29,7 +29,10 @@ function App() {
         <Routes>
           <Route path="/chooseresume" element={<Chooseresume />} />
           <Route path="/createresume" element={<Createresume />} />
-          <Route path="/generatedresume" element={<Generatedresume />} />
+          <Route
+            path="/resume/:templateId/:resumeId"
+            element={<Generatedresume />}
+          />
           <Route path="/createportfolio" element={<Createportfolio />} />
           <Route path="/chooseportfolio" element={<Chooseportfolio />} />
           <Route path="/portfoliopreview" element={<Portfoliopreview />} />

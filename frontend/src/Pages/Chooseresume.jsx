@@ -10,9 +10,12 @@ function Chooseresume() {
   const { resumeInfo } = location.state;
   console.log(resumeInfo);
 
-  const resumeTemplates = [{ title: "Template 1", imageUrl: resume }];
+  const resumeTemplates = [
+    { id: 1, title: "Basic Template", imageUrl: resume },
+  ];
 
   const [showPreviewModal, setShowPreviewModal] = useState(false);
+  const [selectedId, setSelectedId] = useState();
   const [selectedTitle, setSelectedTitle] = useState("");
   const [selectedImage, setSelectedImage] = useState();
 
@@ -20,12 +23,14 @@ function Chooseresume() {
     setShowPreviewModal(true);
     setSelectedTitle(template.title);
     setSelectedImage(template.imageUrl);
+    setSelectedId(template.id);
   };
 
   const handleClose = () => {
     setShowPreviewModal(false);
     setSelectedTitle("");
     setSelectedImage();
+    setSelectedId();
   };
 
   return (
@@ -68,6 +73,7 @@ function Chooseresume() {
                     image={selectedImage}
                     onClose={handleClose}
                     resumeInfo={resumeInfo}
+                    templateId={selectedId}
                   />
                 </div>
               )}

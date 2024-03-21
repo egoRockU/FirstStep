@@ -10,7 +10,7 @@ const CharacterRef = ({
   const [formData, setFormData] = useState({
     name: "",
     position: "",
-    phone: "",
+    contactNum: "",
     email: "",
     website: "",
   });
@@ -46,7 +46,7 @@ const CharacterRef = ({
       setFormData({
         name: "",
         position: "",
-        phone: "",
+        contactNum: "",
         email: "",
         website: "",
       });
@@ -105,15 +105,15 @@ const CharacterRef = ({
             />
           </div>
           <div className="mb-4">
-            <label htmlFor="phone" className="block text-[#444B88]">
+            <label htmlFor="contactNum" className="block text-[#444B88]">
               Contact Number
             </label>
             <input
               type="tel"
-              name="phone"
-              id="phone"
+              name="contactNum"
+              id="contactNum"
               onChange={handleChange}
-              value={formData.phone}
+              value={formData.contactNum}
               className="border border-[#444B88] rounded-md px-4 py-2 w-full"
             />
           </div>

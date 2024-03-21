@@ -1,7 +1,9 @@
 import { IoClose } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import { toast } from "react-toastify";
 
-function Resumepreview({ title, image, onClose, resumeInfo }) {
+function Resumepreview({ title, image, onClose, resumeInfo, templateId }) {
   const navigate = useNavigate();
 
   const handleClose = () => {
@@ -9,7 +11,19 @@ function Resumepreview({ title, image, onClose, resumeInfo }) {
   };
 
   const handleSelect = () => {
-    navigate("/generatedresume", { state: { resumeInfo, resumeTitle: title } });
+    axios
+      .post("/api/resume/create", resumeInfo, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+      .then((res) => {
+        const resumeId = res.data._id;
+        navigate(`/resume/${templateId}/${resumeId}`);
+      })
+      .catch(() => {
+        toast.error("Failed to create resume.");
+      });
   };
 
   return (

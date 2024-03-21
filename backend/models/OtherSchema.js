@@ -90,7 +90,8 @@ const ProjectsSchema = new Schema({
   },
   description: {
     type: String,
-    required: true,
+    required: false,
+    default: "",
   },
   githubLink: {
     type: String,
@@ -151,7 +152,7 @@ const CharacterReferenceSchema = new Schema({
     type: String,
     required: true,
   },
-  positionOrCompany: {
+  position: {
     type: String,
     required: true,
   },
