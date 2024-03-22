@@ -446,6 +446,7 @@ function Createresume() {
 
   const saveResumeInfo = () => {
     const resumeInfo = {
+      profileImg: image,
       firstName: fName,
       lastName: lName,
       email,

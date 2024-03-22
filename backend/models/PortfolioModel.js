@@ -5,6 +5,11 @@ import { ProjectsSchema, CertificatesSchema } from "./OtherSchema.js";
 const { Schema } = mongoose;
 
 const PortfolioSchema = new Schema({
+  profileImg: {
+    type: String,
+    required: false,
+    default: "",
+  },
   firstName: {
     type: String,
     required: true,

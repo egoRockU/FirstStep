@@ -11,6 +11,11 @@ import {
 const { Schema } = mongoose;
 
 const ResumeSchema = new Schema({
+  profileImg: {
+    type: String,
+    required: false,
+    default: "",
+  },
   firstName: {
     type: String,
     required: true,
