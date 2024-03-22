@@ -23,9 +23,7 @@ function Portfoliopreview() {
             </div>
           </div>
         </div>
-        <div className="py-5 w-full flex justify-center">
-        <button className="border border-[#444b88] py-2 px-3 font-bold text-[#444b88] bg-[#BAD2ff] hover:bg-blue-400">Select Template</button>
-        </div>
+        
       </div>
     </div>
   )

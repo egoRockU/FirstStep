@@ -8,10 +8,10 @@ export const updateProfileImage = async (file, previousImage, setSelectedImage) 
     if (previousImage) {
       const prevImageRef = ref(storage, previousImage);
       await deleteObject(prevImageRef);
-      console.log("Previous image deleted successfully");
+      toast.success("Previous image deleted successfully");
     }
   } catch (error) {
-    console.error("Error deleting previous profile image:", error);
+    toast.error("Error deleting previous profile image:", error);
     
   }
   try {
@@ -55,10 +55,10 @@ export const updateBannerImage = async (file, oldImageUrl, setBannerImage) => {
     if (oldImageUrl) {
       const oldImageRef = ref(storage, oldImageUrl);
       await deleteObject(oldImageRef);
-      console.log("Previous banner image deleted successfully");
+      toast.success("Previous banner image deleted successfully");
     }
   } catch (error) {
-    console.error("Error deleting previous banner image:", error);
+    toast.error("Error deleting previous banner image:", error);
   
   }
 
