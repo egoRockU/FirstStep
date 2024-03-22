@@ -20,7 +20,8 @@ import {
   SkillsCard,
 } from "../Components/Aplicantcardcomponent";
 import { RiCloseFill } from "react-icons/ri";
-
+import DeletePortfoliolink from '../Modals/DeletePortfoliolink'
+import DeleteResumeLink from '../Modals/DeleteResumelink'
 function CreateApplicantProfilepage() {
   const profileId = JSON.parse(localStorage.getItem("user")).profileId;
   const navigate = useNavigate();
@@ -30,8 +31,19 @@ function CreateApplicantProfilepage() {
 
   useEffect(() => {
     getUserProfile();
-  });
+  }, []);
 
+  const [showDeletePortfolioModal, setShowDeletePortfolioModal] = useState(false);
+
+  const toggleDeletePortfolioModal = () => {
+    setShowDeletePortfolioModal(!showDeletePortfolioModal);
+  };
+  const [showDeleteResumeModal, setShowDeleteResumeModal] = useState(false);
+
+// Function to toggle the visibility of the delete resume modal
+const toggleDeleteResumeModal = () => {
+  setShowDeleteResumeModal(!showDeleteResumeModal);
+};
   //social
   const [isAddSocialModalOpen, setAddSocialModalOpen] = useState(false);
   const [socialLinks, setSocialLinks] = useState([]);
@@ -168,6 +180,10 @@ function CreateApplicantProfilepage() {
     }
   };
 
+  const toggleModal = () => {
+    setIsModalOpen(!isModalOpen);
+  };
+  
   const goback = () => {
     navigate(-1);
   };
@@ -460,7 +476,8 @@ function CreateApplicantProfilepage() {
                             type="text"
                             className=" w-full h-10 outline-none px-1"
                           />
-                          <div className="flex items-center justify-end px-1 cursor-pointer">
+                          <div className="flex items-center justify-end px-1 cursor-pointer"   onClick={toggleDeleteResumeModal}
+>
                             <RiCloseFill size={25} />
                           </div>
                         </div>{" "}
@@ -476,15 +493,19 @@ function CreateApplicantProfilepage() {
                             type="text"
                             className=" w-full h-10 outline-none px-1"
                           />
-                          <div className="flex items-center justify-end px-1 cursor-pointer">
+                          <div className="flex items-center justify-end px-1 cursor-pointer" onClick={toggleDeletePortfolioModal}>
                             <RiCloseFill size={25} />
+                                          
+
                           </div>
-                        </div>{" "}
+                        </div>
+                        {" "}
                       </div>
                     </div>
-
                   </div>
+  
                 </div>
+                
                 <div className="flex flex-col justify-center items-center w-1/4">
                   <input
                     type="file"
@@ -554,9 +575,28 @@ function CreateApplicantProfilepage() {
                 </div>
               </div>
             </div>
-          </div>
+            {showDeletePortfolioModal && (
+      <div className="fixed top-0 left-0 w-full h-full flex justify-center items-center bg-black bg-opacity-50 z-50">
+        <div className="bg-white p-4 rounded-md">
+          <DeletePortfoliolink />
         </div>
       </div>
+    )}
+          </div>
+          {showDeleteResumeModal && (
+  <div className="fixed top-0 left-0 w-full h-full flex justify-center items-center bg-black bg-opacity-50 z-50">
+    <div className="bg-white p-4 rounded-md">
+      {/* Render the appropriate modal component for deleting the resume */}
+      {/* For example, assuming you have a component called DeleteResumeLink */}
+      <DeleteResumeLink />
+    </div>
+  </div>
+)}
+
+          
+        </div>
+      </div>
+
       <Footer />
     </div>
   );
