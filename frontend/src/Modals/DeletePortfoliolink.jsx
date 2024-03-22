@@ -4,7 +4,7 @@ function DeletePortfoliolink() {
   return (
     <div className="bg-white bg-opacity-40 h-screen w-full items-self-center">
     <div className="max-w-screen-2xl mx-auto pt-10 pb-10 h-full flex items-center">
-      <div className="bg-white flex flex-col w-1/2 mx-auto border-gray-400 border shadow-xl">
+      <div className="bg-white bg-opacity-60 flex flex-col w-1/2 mx-auto border-gray-400 border shadow-xl">
         <div className="w-full flex justify-between px-2 py-2 border border-gray-400 ">
           <h1 className="text-lg text-[#444b88] font-bold">DELETE PORTFOLIO</h1>
           <IoMdClose size={30} className="cursor-pointer" />
