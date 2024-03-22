@@ -10,7 +10,7 @@ export const loginUser = createAsyncThunk("user/loginUser", async (inputs) => {
       },
     });
     localStorage.setItem("user", JSON.stringify(res.data.user));
-    alert(res.data.message);
+    toast.success(res.data.message);
     console.log(res.data["user"]);
     return res.data["user"];
   } catch (err) {
