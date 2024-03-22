@@ -508,7 +508,7 @@ function Createresume() {
                     <div className="flex">
                       <div className="w-1/3 mx-auto flex items-start justify-center">
                         <img
-                          src={profile}
+                          src={image ? image : profile}
                           alt=""
                           className="w-4/6 cursor-pointer"
                           onClick={handleImageClick}
