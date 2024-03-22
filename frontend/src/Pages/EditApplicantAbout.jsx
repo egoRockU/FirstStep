@@ -1,4 +1,3 @@
-import React from "react";
 import Footer from "../Components/Footer";
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
@@ -10,13 +9,17 @@ import { FaCamera } from "react-icons/fa";
 import AddSocial from "../Modals/EditApplicant Profile/Addsocial";
 import AddIndustry from "../Modals/EditApplicant Profile/Addindustry";
 import AddSkill from "../Modals/EditApplicant Profile/Addskill";
-import { IoMdClose } from "react-icons/io";
 import { toast } from "react-toastify";
 import {
   updateProfileImage,
   updateBannerImage,
 } from "../utils/updateImageUpload";
-import { SocialCard, IndustriesCard, SkillsCard } from "../Components/Aplicantcardcomponent";
+import {
+  SocialCard,
+  IndustriesCard,
+  SkillsCard,
+} from "../Components/Aplicantcardcomponent";
+import { RiCloseFill } from "react-icons/ri";
 
 function CreateApplicantProfilepage() {
   const profileId = JSON.parse(localStorage.getItem("user")).profileId;
@@ -27,7 +30,7 @@ function CreateApplicantProfilepage() {
 
   useEffect(() => {
     getUserProfile();
-  }, []);
+  });
 
   //social
   const [isAddSocialModalOpen, setAddSocialModalOpen] = useState(false);
@@ -48,15 +51,7 @@ function CreateApplicantProfilepage() {
   const closeAddSocialModal = () => {
     setAddSocialModalOpen(false);
   };
-  const editSocialLink = (index) => {
-    const editedSocialLinks = [...socialLinks];
-    const newPlatform = prompt("Enter new platform:");
-    const newLink = prompt("Enter new link:");
-    if (newPlatform && newLink) {
-      editedSocialLinks[index] = { platform: newPlatform, link: newLink };
-      setSocialLinks(editedSocialLinks);
-    }
-  };
+
   const deleteSocialLink = (index) => {
     const updatedSocialLinks = [...socialLinks];
     updatedSocialLinks.splice(index, 1);
@@ -93,11 +88,6 @@ function CreateApplicantProfilepage() {
   const closeAddIndustryModal = () => {
     setAddIndustryModalOpen(false);
   };
-  const editIndustry = (index, industry) => {
-    const updatedIndustries = [...industries];
-    updatedIndustries[index] = industry;
-    setIndustries(updatedIndustries);
-  };
 
   const deleteIndustry = (index) => {
     const updatedIndustries = [...industries];
@@ -119,7 +109,7 @@ function CreateApplicantProfilepage() {
     setAddSkillModalOpen(false);
   };
 
-  const [skillSuggestions, setSkillSuggestions] = useState([
+  const [skillSuggestions] = useState([
     "JavaScript",
     "Python",
     "Java",
@@ -138,11 +128,6 @@ function CreateApplicantProfilepage() {
     closeAddSkillModal();
   };
 
-  const editSkill = (index, skill) => {
-    const updatedSkills = [...skillSuggestions];
-    updatedSkills[index] = skill;
-    setSkillSuggestions(updatedSkills);
-  };
   const deleteSkill = (index) => {
     const updatedSkills = [...skills];
     updatedSkills.splice(index, 1);
@@ -181,14 +166,6 @@ function CreateApplicantProfilepage() {
         console.error("Error updating banner image:", error);
       }
     }
-  };
-
-  const updateSkillsState = (index, value) => {
-    setSkills((skills) => {
-      const newSkills = [...skills];
-      newSkills[index] = value;
-      return newSkills;
-    });
   };
 
   const goback = () => {
@@ -416,9 +393,11 @@ function CreateApplicantProfilepage() {
                     <div className=" border-2 border-[#444B88] flex py-2 flex-col justify-center items-center">
                       <div className="flex flex-col items-center">
                         {" "}
-                         {/* social card*/}
-                        <SocialCard socialLinks={socialLinks} onDelete={deleteSocialLink} />
-
+                        {/* social card*/}
+                        <SocialCard
+                          socialLinks={socialLinks}
+                          onDelete={deleteSocialLink}
+                        />
                       </div>
                       <button
                         className="py-1 px-5 bg-[#8B95EE]"
@@ -443,8 +422,11 @@ function CreateApplicantProfilepage() {
                     <h1 className="text-lg">Industries</h1>
                     <div className="border-2 border-[#444B88] flex py-2 flex-col justify-center items-center gap-2">
                       <div className="flex flex-wrap gap-2 justify-center">
-                         {/* industries card*/}
-                    <IndustriesCard industries={industries} onDelete={deleteIndustry} />
+                        {/* industries card*/}
+                        <IndustriesCard
+                          industries={industries}
+                          onDelete={deleteIndustry}
+                        />
                       </div>
                       <button
                         className="p-2 px-5 bg-[#8B95EE]"
@@ -466,6 +448,41 @@ function CreateApplicantProfilepage() {
                         </div>
                       </div>
                     )}
+                  </div>
+                  <div className="flex flex-col w-full gap-2 pt-2">
+                    <div className="flex flex-col">
+                      <div>
+                        <h1 className="text-xl">FirstStep Resume Link</h1>
+                      </div>
+                      <div>
+                        <div className="flex w-full border-2 border-[#444b88]">
+                          <input
+                            type="text"
+                            className=" w-full h-10 outline-none px-1"
+                          />
+                          <div className="flex items-center justify-end px-1 cursor-pointer">
+                            <RiCloseFill size={25} />
+                          </div>
+                        </div>{" "}
+                      </div>
+                    </div>
+                    <div className="flex flex-col">
+                      <div>
+                        <h1 className="text-xl">FirstStep Portfolio Link</h1>
+                      </div>
+                      <div>
+                        <div className="flex w-full border-2 border-[#444b88]">
+                          <input
+                            type="text"
+                            className=" w-full h-10 outline-none px-1"
+                          />
+                          <div className="flex items-center justify-end px-1 cursor-pointer">
+                            <RiCloseFill size={25} />
+                          </div>
+                        </div>{" "}
+                      </div>
+                    </div>
+
                   </div>
                 </div>
                 <div className="flex flex-col justify-center items-center w-1/4">

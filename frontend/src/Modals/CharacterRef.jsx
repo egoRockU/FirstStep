@@ -1,14 +1,18 @@
 import React, { useState, useEffect } from "react";
-import { IoCloseOutline } from "react-icons/io5";
 
-function Addeduc({ onClose, onSubmit, onEdit, formIndex, initialData }) {
+const CharacterRef = ({
+  onClose,
+  onSubmit,
+  onEdit,
+  formIndex,
+  initialData,
+}) => {
   const [formData, setFormData] = useState({
-    schoolName: "",
-    degree: "",
-    program: "",
-    startDate: "",
-    endDate: "",
-    grade: "",
+    name: "",
+    position: "",
+    contactNum: "",
+    email: "",
+    website: "",
   });
 
   useEffect(() => {
@@ -40,130 +44,116 @@ function Addeduc({ onClose, onSubmit, onEdit, formIndex, initialData }) {
       setFormData(initialData);
     } else {
       setFormData({
-        schoolName: "",
-        degree: "",
-        program: "",
-        startDate: "",
-        endDate: "",
-        grade: "",
+        name: "",
+        position: "",
+        contactNum: "",
+        email: "",
+        website: "",
       });
     }
   };
+
+  // if (!isOpen) return null;
 
   return (
     <div className="fixed inset-0 flex justify-center items-center bg-gray-900 bg-opacity-50">
       <div className="bg-white p-8 rounded-sm w-1/3 flex flex-col gap-4">
         <div className="flex w-full justify-between">
-          <h2 className="text-xl text-[#444B88]">Add education</h2>
-          <IoCloseOutline size={25} onClick={handleCancel} />
+          <h2 className="text-xl text-[#444B88]">Character Reference</h2>
+          <button onClick={onClose}>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-6 w-6 text-gray-600 cursor-pointer"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M6 18L18 6M6 6l12 12"
+              />
+            </svg>
+          </button>
         </div>
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
-            <label htmlFor="schoolName" className="block text-[#444B88]">
-              School Name
+            <label htmlFor="name" className="block text-[#444B88]">
+              Name
             </label>
             <input
               type="text"
-              id="schoolName"
-              name="schoolName"
-              value={formData.schoolName}
+              name="name"
+              id="name"
               onChange={handleChange}
-              required
+              value={formData.name}
               className="border border-[#444B88] rounded-md px-4 py-2 w-full"
             />
           </div>
           <div className="mb-4">
-            <label htmlFor="degree" className="block text-[#444B88]">
-              Degree
+            <label htmlFor="relationship" className="block text-[#444B88]">
+              Position
             </label>
             <input
               type="text"
-              id="degree"
-              name="degree"
-              value={formData.degree}
+              name="position"
+              id="position"
               onChange={handleChange}
-              required
+              value={formData.position}
               className="border border-[#444B88] rounded-md px-4 py-2 w-full"
             />
           </div>
           <div className="mb-4">
-            <label htmlFor="program" className="block text-[#444B88]">
-              Program
+            <label htmlFor="contactNum" className="block text-[#444B88]">
+              Contact Number
             </label>
             <input
-              type="text"
-              id="program"
-              name="program"
-              value={formData.program}
+              type="tel"
+              name="contactNum"
+              id="contactNum"
               onChange={handleChange}
-              required
+              value={formData.contactNum}
               className="border border-[#444B88] rounded-md px-4 py-2 w-full"
             />
           </div>
           <div className="mb-4">
-            <label htmlFor="startDate" className="block text-[#444B88]">
-              Start Date:
+            <label htmlFor="email" className="block text-[#444B88]">
+              Email
             </label>
             <input
-              type="date"
-              id="startDate"
-              name="startDate"
-              required
-              value={
-                formData.startDate
-                  ? new Date(formData.startDate).toISOString().substring(0, 10)
-                  : ""
-              }
+              type="email"
+              name="email"
+              id="email"
               onChange={handleChange}
+              value={formData.email}
               className="border border-[#444B88] rounded-md px-4 py-2 w-full"
             />
           </div>
           <div className="mb-4">
-            <label htmlFor="endDate" className="block text-[#444B88]">
-              End Date:
+            <label htmlFor="website" className="block text-[#444B88]">
+              Website
             </label>
             <input
-              type="date"
-              id="endDate"
-              name="endDate"
-              required
-              value={
-                formData.endDate
-                  ? new Date(formData.endDate).toISOString().substring(0, 10)
-                  : ""
-              }
+              name="website"
+              id="website"
               onChange={handleChange}
+              value={formData.website}
               className="border border-[#444B88] rounded-md px-4 py-2 w-full"
-            />
-          </div>
-          <div className="mb-4">
-            <label htmlFor="grade" className="block text-[#444B88]">
-              Grade:
-            </label>
-            <input
-              type="text"
-              id="grade"
-              name="grade"
-              value={formData.grade}
-              onChange={handleChange}
-              required
-              className="border border-[#444B88] rounded-md px-4 py-2 w-full"
-            />
+            ></input>
           </div>
           <div className="flex justify-end mb-4">
-            
             <button
               type="button"
               onClick={handleCancel}
-              className="border border-[#444B88] text-black px-4 py-2 rounded-md mr-2"
+              className="border border-[#444B88] text-black px-4 py-2 rounded-md"
             >
               Cancel
             </button>
-
             {!initialData && (
               <button
                 type="submit"
-                className="bg-[#8B95EE] border border-[#444B88] text-white px-4 py-2 rounded-md"
+                className="border border-[#444B88] p-1 rounded-md bg-[#8B95EE]"
               >
                 Submit
               </button>
@@ -172,7 +162,7 @@ function Addeduc({ onClose, onSubmit, onEdit, formIndex, initialData }) {
               <button
                 type="button"
                 onClick={handleEdit}
-                className="bg-[#8B95EE] border border-[#444B88] text-black px-4 py-2 rounded-md mr-2"
+                className="bg-[#8B95EE] border border-[#444B88]  text-black px-4 py-2 rounded-md mr-2"
               >
                 Save Changes
               </button>
@@ -182,6 +172,6 @@ function Addeduc({ onClose, onSubmit, onEdit, formIndex, initialData }) {
       </div>
     </div>
   );
-}
+};
 
-export default Addeduc;
+export default CharacterRef;

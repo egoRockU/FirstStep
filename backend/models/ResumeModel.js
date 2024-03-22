@@ -1,5 +1,3 @@
-import LocalAccount from "./localAccountModel.js";
-import GoogleAccount from "./googleAccountModel.js";
 import mongoose from "mongoose";
 import {
   EducationSchema,
@@ -7,25 +5,12 @@ import {
   ProjectsSchema,
   AwardsSchema,
   CertificatesSchema,
+  CharacterReferenceSchema,
 } from "./OtherSchema.js";
 
 const { Schema } = mongoose;
 
-const ApplicantProfileSchema = new Schema({
-  accountId: {
-    type: Schema.Types.ObjectId,
-    required: false,
-  },
-  profileImg: {
-    type: String,
-    required: false,
-    default: "",
-  },
-  banner: {
-    type: String,
-    required: false,
-    default: "",
-  },
+const ResumeSchema = new Schema({
   firstName: {
     type: String,
     required: true,
@@ -103,42 +88,13 @@ const ApplicantProfileSchema = new Schema({
     required: false,
     default: [],
   },
-  resume: {
-    type: String,
-    required: false,
-    default: "",
-  },
-  portfolioStyle: {
-    type: String,
-    required: false,
-    default: "",
-  },
-  messages: {
-    type: [Schema.Types.ObjectId],
+  characterReference: {
+    type: [CharacterReferenceSchema],
     required: false,
     default: [],
   },
 });
 
-ApplicantProfileSchema.pre("remove", { document: true }, async function () {
-  try {
-    await LocalAccount.updateMany(
-      { profileId: this._id },
-      { $set: { profileId: null, profileType: "" } }
-    );
-    await GoogleAccount.updateMany(
-      { profileId: this._id },
-      { $set: { profileId: null, profileType: "" } }
-    );
-    next();
-  } catch (err) {
-    next(err);
-  }
-});
+const Resume = mongoose.model("Resume", ResumeSchema);
 
-const ApplicantProfile = mongoose.model(
-  "ApplicantProfile",
-  ApplicantProfileSchema
-);
-
-export default ApplicantProfile;
+export default Resume;

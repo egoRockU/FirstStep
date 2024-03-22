@@ -45,7 +45,7 @@ const SocialCard = ({ socialLinks, onDelete }) => {
 const IndustriesCard = ({ industries, onDelete }) => {
   return (
     <div className="flex flex-col w-full">
-      <div className="flex flex-col items-center">
+      <div className="flex mx-auto gap-5 items-center">
         {industries.map((industry, index) => (
           <div key={index} className="flex items-center py-1">
             <div className="flex text-center bg-[#BAD2FF] p-2 rounded-full w-auto">
@@ -63,7 +63,7 @@ const IndustriesCard = ({ industries, onDelete }) => {
 
 const SkillsCard = ({ skills, onDelete }) => {
   return (
-    <div className="flex flex-col w-full">
+    <div className="flex flex-col w-full items-center">
       {skills.map((skill, index) => (
         <div key={index} className="flex items-center gap-2 p-1">
           <p className="text-lg">{skill}</p>

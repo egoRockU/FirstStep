@@ -73,18 +73,18 @@ function Editemployerprofilepage() {
   return (
     <>
       <NavbarLoggedIn />
-      <div className="bg-gray-100 mx-auto h-[1000px]">
+      <div className="bg-gray-100 mx-auto p-10 w-full">
         <div className="container mx-auto">
           <img
             src={selectedBanner}
             alt=""
-            className="w-full h-80 object-cover rounded-xl object-cover"
+            className="w-full h-80 rounded-xl object-cover"
           />
         </div>
         <div className="flex mt-[-60px]">
           <div className="container mx-auto">
-            <div className="flex justify-around">
-              <div className="w-[500px] h-full">
+            <div className="flex flex-col lg:flex-row justify-around gap-3">
+              <div className="w-full lg:w-1/2 xl:w-1/3 h-full">
                 <div className="mx-auto bg-white px-5 py-2 rounded-t-lg">
                   <div className="flex flex-col">
                     <div className="flex justify-start pl-5">
@@ -122,7 +122,7 @@ function Editemployerprofilepage() {
                   Edit
                 </button>
               </div>
-              <div className="w-[800px]">
+              <div className="w-full lg:w-1/2">
                 <div className="grid grid-cols-1 gap-4">
                   <div className="bg-white p-4 rounded-xl flex flex-col items-center gap-2 border-2 border-gray-300">
                     <h1 className="text-[#444B88] font-base text-xl">About</h1>
@@ -145,7 +145,7 @@ function Editemployerprofilepage() {
                     <h1 className="text-[#444B88] font-base">Social</h1>
                     <div>
                       {socialLinks.map((social, index) => (
-                        <div className="flex items-center gap-1" key={index}>
+                        <div className="flex flex-col lg:flex-row items-center gap-1 w-full" key={index}>
                           <p className="text-lg">{social.platform}</p>
                           <p className="text-lg">{social.link}</p>
                         </div>

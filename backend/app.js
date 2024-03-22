@@ -4,6 +4,7 @@ import localAccountRoutes from "./routes/localAccountRoutes.js";
 import googleAccountRoutes from "./routes/googleAccountRoutes.js";
 import ApplicantProfileRoutes from "./routes/ApplicantProfileRoutes.js";
 import EmployerPriofileRoutes from "./routes/EmployerProfileRoutes.js";
+import ResumeRoutes from "./routes/ResumeRoutes.js";
 import { verifyEmail, requestAnotherEmail } from "./controllers/verifyEmail.js";
 import logout from "./routes/logout.js";
 import cookieParser from "cookie-parser";
@@ -30,6 +31,7 @@ app.get("/verify/:urlToken", verifyEmail);
 app.get("/requestverifylink/:email", requestAnotherEmail);
 app.use("/applicantprofile", ApplicantProfileRoutes);
 app.use("/employerprofile", EmployerPriofileRoutes);
+app.use("/resume", ResumeRoutes);
 app.use("/", routes);
 
 app.use(errorHandler);
