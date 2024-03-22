@@ -19,7 +19,7 @@ import Createresume from "./Pages/Createresume";
 import Generatedresume from "./Pages/Generatedresume";
 import Createportfolio from "./Pages/Createportfolio";
 import Chooseportfolio from "./Pages/Chooseportfolio";
-import Portfoliopreview from "./Modals/Portfoliopreview";
+import Generatedportfolio from "./Pages/Generatedportfolio";
 function App() {
   const { user } = useSelector((state) => state.user);
 
@@ -35,7 +35,10 @@ function App() {
           />
           <Route path="/createportfolio" element={<Createportfolio />} />
           <Route path="/chooseportfolio" element={<Chooseportfolio />} />
-          <Route path="/portfoliopreview" element={<Portfoliopreview />} />
+          <Route
+            path="/portfolio/:templateId/:portfolioId"
+            element={<Generatedportfolio />}
+          />
           {!user && (
             <>
               <Route path="/" element={<NewLanding />} />
