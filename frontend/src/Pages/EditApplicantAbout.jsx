@@ -14,7 +14,12 @@ import {
   updateProfileImage,
   updateBannerImage,
 } from "../utils/updateImageUpload";
-import { SocialCard, IndustriesCard, SkillsCard } from "../Components/Aplicantcardcomponent";
+import {
+  SocialCard,
+  IndustriesCard,
+  SkillsCard,
+} from "../Components/Aplicantcardcomponent";
+import { RiCloseFill } from "react-icons/ri";
 
 function CreateApplicantProfilepage() {
   const profileId = JSON.parse(localStorage.getItem("user")).profileId;
@@ -25,7 +30,7 @@ function CreateApplicantProfilepage() {
 
   useEffect(() => {
     getUserProfile();
-  }, );
+  });
 
   //social
   const [isAddSocialModalOpen, setAddSocialModalOpen] = useState(false);
@@ -46,7 +51,7 @@ function CreateApplicantProfilepage() {
   const closeAddSocialModal = () => {
     setAddSocialModalOpen(false);
   };
-  
+
   const deleteSocialLink = (index) => {
     const updatedSocialLinks = [...socialLinks];
     updatedSocialLinks.splice(index, 1);
@@ -104,7 +109,7 @@ function CreateApplicantProfilepage() {
     setAddSkillModalOpen(false);
   };
 
-  const [skillSuggestions,] = useState([
+  const [skillSuggestions] = useState([
     "JavaScript",
     "Python",
     "Java",
@@ -388,9 +393,11 @@ function CreateApplicantProfilepage() {
                     <div className=" border-2 border-[#444B88] flex py-2 flex-col justify-center items-center">
                       <div className="flex flex-col items-center">
                         {" "}
-                         {/* social card*/}
-                        <SocialCard socialLinks={socialLinks} onDelete={deleteSocialLink} />
-
+                        {/* social card*/}
+                        <SocialCard
+                          socialLinks={socialLinks}
+                          onDelete={deleteSocialLink}
+                        />
                       </div>
                       <button
                         className="py-1 px-5 bg-[#8B95EE]"
@@ -415,8 +422,11 @@ function CreateApplicantProfilepage() {
                     <h1 className="text-lg">Industries</h1>
                     <div className="border-2 border-[#444B88] flex py-2 flex-col justify-center items-center gap-2">
                       <div className="flex flex-wrap gap-2 justify-center">
-                         {/* industries card*/}
-                    <IndustriesCard industries={industries} onDelete={deleteIndustry} />
+                        {/* industries card*/}
+                        <IndustriesCard
+                          industries={industries}
+                          onDelete={deleteIndustry}
+                        />
                       </div>
                       <button
                         className="p-2 px-5 bg-[#8B95EE]"
@@ -438,6 +448,41 @@ function CreateApplicantProfilepage() {
                         </div>
                       </div>
                     )}
+                  </div>
+                  <div className="flex flex-col w-full gap-2 pt-2">
+                    <div className="flex flex-col">
+                      <div>
+                        <h1 className="text-xl">FirstStep Resume Link</h1>
+                      </div>
+                      <div>
+                        <div className="flex w-full border-2 border-[#444b88]">
+                          <input
+                            type="text"
+                            className=" w-full h-10 outline-none px-1"
+                          />
+                          <div className="flex items-center justify-end px-1 cursor-pointer">
+                            <RiCloseFill size={25} />
+                          </div>
+                        </div>{" "}
+                      </div>
+                    </div>
+                    <div className="flex flex-col">
+                      <div>
+                        <h1 className="text-xl">FirstStep Portfolio Link</h1>
+                      </div>
+                      <div>
+                        <div className="flex w-full border-2 border-[#444b88]">
+                          <input
+                            type="text"
+                            className=" w-full h-10 outline-none px-1"
+                          />
+                          <div className="flex items-center justify-end px-1 cursor-pointer">
+                            <RiCloseFill size={25} />
+                          </div>
+                        </div>{" "}
+                      </div>
+                    </div>
+
                   </div>
                 </div>
                 <div className="flex flex-col justify-center items-center w-1/4">
