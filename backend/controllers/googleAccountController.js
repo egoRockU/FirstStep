@@ -33,13 +33,11 @@ const createGoogleAccount = asyncHandler(async (req, res) => {
   }
 
   if (emailExistsInLocal) {
-    res
-      .status(400)
-      .json({
-        error:
-          "This email already have an account. Try logging in by entering email and password",
-        emailExist: true,
-      });
+    res.status(400).json({
+      error:
+        "This email already have an account. Try logging in by entering email and password",
+      emailExist: true,
+    });
     throw new Error(
       "This email already have an account. Try logging in by entering email and password"
     );
@@ -73,12 +71,10 @@ const loginGoogle = asyncHandler(async (req, res) => {
   const emailExist = await checkIfEmailExist(email, GoogleAccount, res);
 
   if (!emailExist) {
-    res
-      .status(401)
-      .json({
-        error: "This account has not been registered yet.",
-        emailDoesNotExist: true,
-      });
+    res.status(401).json({
+      error: "This account has not been registered yet.",
+      emailDoesNotExist: true,
+    });
     throw new Error("Email does not Exist");
   }
 

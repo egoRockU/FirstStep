@@ -37,12 +37,18 @@ const sendVerificationEmail = async (email, urlToken) => {
             `,
   };
 
-  await transporter.sendMail(options, (err, res) => {
-    if (err) {
-      console.log(err.message);
-    } else {
-      console.log("Email Sent!");
-    }
+  await new Promise((resolve, reject) => {
+    transporter.sendMail(options, (err, res) => {
+      if (err) {
+        console.log(err);
+        reject(err);
+        return;
+      } else {
+        console.log("Email Sent!");
+        resolve();
+        return;
+      }
+    });
   });
 };
 
