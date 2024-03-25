@@ -1,6 +1,6 @@
 import SkillDefault from "../images/skills/skill.jpg";
 import Python from "../images/skills/python.webp";
-import Javascript from "../images/skills/JavaScript.png";
+import Javascript from "../images/skills/Javascript.png";
 import Java from "../images/skills/Java.webp";
 import CPP from "../images/skills/cpp.jpg";
 import React from "../images/skills/React.png";
