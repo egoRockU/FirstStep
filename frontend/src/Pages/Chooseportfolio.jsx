@@ -1,13 +1,21 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import NavbarLoggedIn from "../Components/NavbarLoggedIn";
 import Footer from "../Components/Footer";
 import tommy from "../images/hero1bg.png";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import Portfoliopreview from "../Modals/Portfoliopreview";
 
 function Chooseportfolio() {
   const location = useLocation();
-  const { portfolioInfo } = location.state;
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (location.state === null) {
+      navigate("/createportfolio");
+    }
+  }, []);
+
+  const portfolioInfo = location.state?.portfolioInfo;
   console.log(portfolioInfo);
 
   const [showModal, setShowModal] = useState(false);

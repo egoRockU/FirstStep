@@ -286,7 +286,7 @@ function Createportfolio() {
     };
 
     const proceed = confirm(
-      "You can't change the informations once you select a template. Proceed?"
+      "Are you sure you want to use this values to be displayed on your resume?"
     );
     if (proceed) {
       navigate("/chooseportfolio", { state: { portfolioInfo } });

@@ -3,6 +3,7 @@ import { IoClose } from "react-icons/io5";
 import resume from "../images/hero1bg.png";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 function Portfoliopreview({
   title,
@@ -11,6 +12,7 @@ function Portfoliopreview({
   portfolioInfo,
   templateId,
 }) {
+  const { user } = useSelector((state) => state.user);
   const navigate = useNavigate();
 
   const handleClose = () => {
@@ -18,8 +20,14 @@ function Portfoliopreview({
   };
 
   const handleSelect = () => {
+    const inputs = {
+      profileId: user.profileId,
+      portfolioInfo,
+      templateId,
+    };
+
     axios
-      .post("/api/portfolio/create", portfolioInfo, {
+      .post("/api/portfolio/create", inputs, {
         headers: {
           "Content-Type": "application/json",
         },

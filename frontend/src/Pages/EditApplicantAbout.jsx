@@ -202,6 +202,8 @@ function CreateApplicantProfilepage() {
   const [about, setAbout] = useState("");
   const [resumeId, setResumeId] = useState();
   const [resumeLink, setResumeLink] = useState("");
+  const [portfolioId, setPortfolioId] = useState();
+  const [portfolioLink, setPortfolioLink] = useState("");
 
   const getUserProfile = () => {
     axios
@@ -232,6 +234,10 @@ function CreateApplicantProfilepage() {
         setResumeId(profileObj.resume.resumeId);
         setResumeLink(
           `${domain}/resume/${profileObj.resume.templateId}/${profileObj.resume.resumeId}`
+        );
+        setPortfolioId(profileObj.portfolio.portfolioId);
+        setPortfolioLink(
+          `${domain}/portfolio/${profileObj.portfolio.templateId}/${profileObj.portfolio.portfolioId}`
         );
       });
   };
@@ -510,10 +516,17 @@ function CreateApplicantProfilepage() {
                           <input
                             type="text"
                             className=" w-full h-10 outline-none px-1"
+                            value={
+                              portfolioId
+                                ? portfolioLink
+                                : "You have no generated portfolio yet..."
+                            }
                           />
                           <div
                             className="flex items-center justify-end px-1 cursor-pointer"
-                            onClick={toggleDeletePortfolioModal}
+                            onClick={
+                              portfolioId ? toggleDeletePortfolioModal : null
+                            }
                           >
                             <RiCloseFill size={25} />
                           </div>
@@ -595,7 +608,11 @@ function CreateApplicantProfilepage() {
             {showDeletePortfolioModal && (
               <div className="fixed top-0 left-0 w-full h-full flex justify-center items-center bg-black bg-opacity-50 z-50">
                 <div className="bg-white p-4 rounded-md">
-                  <DeletePortfoliolink />
+                  <DeletePortfoliolink
+                    profileId={profileId}
+                    onClose={toggleDeletePortfolioModal}
+                    link={portfolioLink}
+                  />
                 </div>
               </div>
             )}
