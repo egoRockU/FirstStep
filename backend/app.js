@@ -13,7 +13,6 @@ import dotenv from "dotenv";
 dotenv.config();
 import connectDB from "./db/db.js";
 import { errorHandler } from "./middlewares/errorMiddlewares.js";
-import routes from "./routes/routes.js";
 
 const app = express();
 connectDB();
@@ -34,7 +33,6 @@ app.use("/applicantprofile", ApplicantProfileRoutes);
 app.use("/employerprofile", EmployerPriofileRoutes);
 app.use("/resume", ResumeRoutes);
 app.use("/portfolio", PortfolioRoutes);
-app.use("/", routes);
 
 app.use(errorHandler);
 

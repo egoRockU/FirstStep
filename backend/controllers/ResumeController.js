@@ -1,13 +1,32 @@
 import asyncHandler from "express-async-handler";
 import Resume from "../models/ResumeModel.js";
-import {
-  handleRetrieveOne,
-  handleCreate,
-  handleDelete,
-} from "../utils/controllerUtils.js";
+import ApplicantProfile from "../models/ApplicantProfileModel.js";
+import { handleRetrieveOne, handleDelete } from "../utils/controllerUtils.js";
 
 export const create = asyncHandler(async (req, res) => {
-  await handleCreate(Resume, req.body, res);
+  const { profileId, resumeInfo, templateId } = req.body;
+
+  const createResult = await Resume.create(resumeInfo);
+  if (!createResult) throw new Error("Creating resume failed");
+
+  const set = {
+    resume: {
+      resumeId: createResult._id,
+      templateId,
+    },
+  };
+
+  const updateResult = await ApplicantProfile.updateOne(
+    { _id: profileId },
+    { $set: set }
+  );
+  if (!updateResult.acknowledged) throw new Error("Updating Profile Failed");
+
+  res.status(200).send({
+    status: true,
+    message: "Successfully Created!",
+    _id: createResult._id,
+  });
 });
 
 export const retrieveOne = asyncHandler(async (req, res) => {

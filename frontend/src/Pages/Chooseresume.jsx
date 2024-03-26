@@ -1,13 +1,22 @@
 import NavbarLoggedIn from "../Components/NavbarLoggedIn";
 import Footer from "../Components/Footer";
 import resume from "../images/resume.png";
-import { useLocation } from "react-router-dom";
-import { useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
 import Resumepreview from "../Modals/Resumepreview";
 
 function Chooseresume() {
   const location = useLocation();
-  const { resumeInfo } = location.state;
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    //navigate to createresume if no info provided
+    if (location.state === null) {
+      navigate("/createresume");
+    }
+  }, []);
+
+  const resumeInfo = location.state?.resumeInfo;
   console.log(resumeInfo);
 
   const resumeTemplates = [
