@@ -200,6 +200,7 @@ function CreateApplicantProfilepage() {
   const [country, setCountry] = useState("");
   const [bio, setBio] = useState("");
   const [about, setAbout] = useState("");
+  const [resumeId, setResumeId] = useState();
   const [resumeLink, setResumeLink] = useState("");
 
   const getUserProfile = () => {
@@ -228,6 +229,7 @@ function CreateApplicantProfilepage() {
         setIndustries(profileObj.preferredCareer);
         setSelectedImage(profileObj.profileImg);
         setSelectedBanner(profileObj.banner);
+        setResumeId(profileObj.resume.resumeId);
         setResumeLink(
           `${domain}/resume/${profileObj.resume.templateId}/${profileObj.resume.resumeId}`
         );
@@ -483,12 +485,16 @@ function CreateApplicantProfilepage() {
                           <input
                             type="text"
                             className=" w-full h-10 outline-none px-1"
-                            value={resumeLink}
+                            value={
+                              resumeId
+                                ? resumeLink
+                                : "You have no generated resume yet..."
+                            }
                             readOnly
                           />
                           <div
                             className="flex items-center justify-end px-1 cursor-pointer"
-                            onClick={toggleDeleteResumeModal}
+                            onClick={resumeId ? toggleDeleteResumeModal : null}
                           >
                             <RiCloseFill size={25} />
                           </div>
@@ -597,9 +603,11 @@ function CreateApplicantProfilepage() {
           {showDeleteResumeModal && (
             <div className="fixed top-0 left-0 w-full h-full flex justify-center items-center bg-black bg-opacity-50 z-50">
               <div className="bg-white p-4 rounded-md">
-                {/* Render the appropriate modal component for deleting the resume */}
-                {/* For example, assuming you have a component called DeleteResumeLink */}
-                <DeleteResumeLink />
+                <DeleteResumeLink
+                  profileId={profileId}
+                  onClose={toggleDeleteResumeModal}
+                  link={resumeLink}
+                />
               </div>
             </div>
           )}

@@ -46,6 +46,12 @@ export const retrieveOne = asyncHandler(async (req, res) => {
 });
 
 export const deleteResume = asyncHandler(async (req, res) => {
-  const { _id } = req.body;
+  const { _id, profileId } = req.body;
+
+  const updateResult = await ApplicantProfile.updateOne(
+    { _id: profileId },
+    { $set: { resume: {} } }
+  );
+
   await handleDelete(Resume, { _id }, res);
 });
