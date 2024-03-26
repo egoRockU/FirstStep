@@ -425,6 +425,11 @@ function Createresume() {
       )
       .then((res) => {
         const profileObj = res.data;
+
+        if (profileObj.resume.resumeId) {
+          console.log("already has resume");
+        }
+
         setFName(profileObj.firstName);
         setLName(profileObj.lastName);
         setEmail(profileObj.email);
@@ -465,7 +470,7 @@ function Createresume() {
     };
 
     const proceed = confirm(
-      "You can't change the informations once you select a template. Proceed?"
+      "Are you sure you want to use this values to be displayed on your resume?"
     );
     if (proceed) {
       navigate("/chooseresume", { state: { resumeInfo } });

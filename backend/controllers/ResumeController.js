@@ -16,6 +16,17 @@ export const create = asyncHandler(async (req, res) => {
     },
   };
 
+  //look for previous resumeId and Delete it
+  const prevResume = await ApplicantProfile.findById(
+    { _id: profileId },
+    { resume: 1 }
+  );
+  const prevResumeId = prevResume.resume?.resumeId;
+  if (prevResumeId) {
+    await Resume.findOneAndDelete({ _id: prevResumeId });
+  }
+
+  //update applicant profile
   const updateResult = await ApplicantProfile.updateOne(
     { _id: profileId },
     { $set: set }
