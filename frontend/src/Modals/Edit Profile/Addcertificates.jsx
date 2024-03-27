@@ -66,7 +66,7 @@ function AddCertificates({
 
   return (
     <div className="fixed inset-0 flex justify-center items-center bg-gray-900 bg-opacity-50">
-      <div className="bg-white p-5 rounded-xl w-1/2">
+      <div className="bg-white p-5 rounded-xl w-1/3">
         <div className="flex justify-between w-full">
         <h2 className="text-xl text-[#444B88]">Add Certificates</h2>
         <IoCloseOutline size={25} onClick={handleCancel} />

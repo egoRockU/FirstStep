@@ -20,6 +20,8 @@ import { IoClose } from "react-icons/io5";
 import { toast } from "react-toastify";
 import { uploadBanner, uploadImage } from "../utils/imageUpload";
 import { getDownloadURL } from "firebase/storage";
+import { FirstNameInput, LastNameInput, EmailInput, ContactNumberInput, CityInput, CountryInput, BioTextarea } from "../Components/Aplicantinput";
+import { SocialCard, IndustriesCard, SkillsCard } from "../Components/Aplicantcardcomponent";
 
 function CreateApplicantProfilepage() {
   const dispatch = useDispatch();
@@ -161,6 +163,7 @@ function CreateApplicantProfilepage() {
   const [skills, setSkills] = useState([]);
   const [inputs, setInputs] = useState({});
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     setInputs({
@@ -226,6 +229,7 @@ const [selectedImageFile, setSelectedImageFile] = useState(null);
   const goback = () => {
     navigate("/");
   };
+  
 
   const createProfile = async () => {
     let profileImageURL = "";
@@ -256,6 +260,7 @@ const [selectedImageFile, setSelectedImageFile] = useState(null);
       .then((res) => {
         if (res.data.status == true) {
           toast.success(res.data.message);
+          setLoading(false);
           updateAccountProfileValues(
             res.data._id,
             "applicant",
@@ -271,10 +276,15 @@ const [selectedImageFile, setSelectedImageFile] = useState(null);
         }
       })
       .catch((err) => {
-        toast.success(err.response.data.message);
+        toast.error(err.response.data.message);
+        setLoading(false);
         console.log(err.response.data.errorMessage);
       });
   };
+
+  if(loading){
+    return<Loader/>
+  }
 
   return (
     <div className="bg-gray-100">
@@ -324,109 +334,28 @@ const [selectedImageFile, setSelectedImageFile] = useState(null);
                       <span className="text-blue-300 text-lg">Applicant</span>
                     </h1>
                   </div>
-                  <div className="flex space-x-4">
-                    <div className="flex flex-col w-full">
-                      <h1 className="text-lg">First Name*</h1>
-                      <input
-                        type="text"
-                        name="name"
-                        id=""
-                        className="text-base border-2 border-[#444B88] p-2"
-                        onChange={(e) => setFName(e.target.value)}
-                      />
+                  <div className="flex space-x-5">
+                    <div className="flex-1">
+                      {/* Input here */}
+                  <FirstNameInput value={fName} onChange={(e) => setFName(e.target.value)} />
                     </div>
-                    <div className="flex flex-col w-full">
-                      <h1 className="text-lg">Last Name*</h1>
-                      <input
-                        type="text"
-                        name="name"
-                        id=""
-                        className="text-base border-2 border-[#444B88] p-2"
-                        onChange={(e) => setLName(e.target.value)}
-                      />
+                    <div className="flex-1">
+                  <LastNameInput value={lName} onChange={(e) => setLName(e.target.value)} />
                     </div>
                   </div>
-                  <div className="flex flex-col w-full">
-                    <h1 className="text-lg">Email Address*</h1>
-                    <input
-                      type="text"
-                      name="name"
-                      value={email}
-                      id=""
-                      className="text-base border-2 border-[#444B88] p-2"
-                      onChange={(e) => setEmail(e.target.value)}
-                    />
-                  </div>
-                  <div className="flex flex-col w-full">
-                    <h1 className="text-lg">Contact Number*</h1>
-                    <input
-                      type="text"
-                      name="name"
-                      id=""
-                      className="text-base border-2 border-[#444B88] p-2"
-                      onChange={(e) => setContactNum(e.target.value)}
-                    />
-                  </div>
-                  <div className="flex flex-col w-full">
-                    <h1 className="text-lg">City*</h1>
-                    <input
-                      type="text"
-                      name="name"
-                      id=""
-                      className="text-base border-2 border-[#444B88] p-2"
-                      onChange={(e) => setCity(e.target.value)}
-                    />
-                  </div>
-                  <div className="flex flex-col w-full">
-                    <h1 className="text-lg">Country/Region*</h1>
-                    <input
-                      type="text"
-                      name="name"
-                      id=""
-                      className="text-base border-2 border-[#444B88] p-2"
-                      onChange={(e) => setCountry(e.target.value)}
-                    />
-                  </div>
-                  <div className="flex flex-col w-full">
-                    <h1 className="text-lg">Bio</h1>
-                    <textarea
-                      type="text"
-                      name="name"
-                      id=""
-                      className="text-base border-2 border-[#444B88] p-2 h-40"
-                      placeholder="Tell me something about yourself.."
-                      onChange={(e) => setBio(e.target.value)}
-                    />
-                  </div>
-
+                  <EmailInput value={email} onChange={(e) => setEmail(e.target.value)} />
+                  <ContactNumberInput value={contactNum} onChange={(e) => setContactNum(e.target.value)} />
+                  <CityInput value={city} onChange={(e) => setCity(e.target.value)} />
+                  <CountryInput value={country} onChange={(e) => setCountry(e.target.value)} />
+                  <BioTextarea value={bio} onChange={(e) => setBio(e.target.value)} />
+               
                   <div className="flex flex-col w-full">
                     <h1 className="text-lg">Skills</h1>
                   <div className=" border-2 py-2 border-[#444B88] flex flex-col items-center">
                     <div className="flex flex-col items-center">
                       {" "}
-                      {socialLinks.map((link, index) => (
-                        <div
-                          key={index}
-                          className="flex items-center py-1 justify-center"
-                        >
-                          <div>
-                            {/* <a href="" onClick={() => editSocialLink(index)}>
-                              {link.platform}
-                            </a> */}
-                          </div>
-                          <div>
-                            <a href={link.link}>{link.link}</a>
-                          </div>
-                          <div>
-                            <button
-                              onClick={() => editSocialLink(index)}
-                            ></button>
-                            <button onClick={() => deleteSocialLink(index)}>
-                              <IoClose size={30} />
-                            </button>
-                          </div>
-                        </div>
-                      ))}
+                      {/* social card*/}
+                      <SocialCard socialLinks={socialLinks} onDelete={deleteSocialLink} />
                     </div>
                     <button
                       className="p-2 px-5 bg-[#8B95EE] w-1/3"
@@ -451,16 +380,8 @@ const [selectedImageFile, setSelectedImageFile] = useState(null);
                   <h1 className="text-lg">Industries</h1>
                   <div className="border-2 border-[#444B88] flex py-2 flex-col justify-center items-center gap-2">
                     <div className="flex gap-2 items-center flex-wrap max-w-full p-1">
-                      {industries.map((industry, index) => (
-                        <div key={index} className="items-center">
-                          <div className="flex text-center bg-[#BAD2FF] p-2 rounded-full w-auto">
-                            <p className="whitespace-nowrap">{industry}</p>
-                            <button onClick={() => deleteIndustry(index)}>
-                              <IoClose size={25} />
-                            </button>
-                          </div>
-                        </div>
-                      ))}
+                    {/* industries card*/}
+                    <IndustriesCard industries={industries} onDelete={deleteIndustry} />
                     </div>
                     <button
                       className="p-2 px-5 bg-[#8B95EE]"
@@ -514,16 +435,8 @@ const [selectedImageFile, setSelectedImageFile] = useState(null);
                         <h1 className="text-2xl ">Skills</h1>
                         <div className="flex flex-col items-center">
                           {" "}
-                          {skills.map((skill, index) => (
-                            <div key={index} className="">
-                              <div className="flex items-center gap-2">
-                                <p className="text-lg">{skill}</p>
-                                <button onClick={() => deleteSkill(index)}>
-                                  <IoClose size={20} />
-                                </button>
-                              </div>
-                            </div>
-                          ))}
+                          {/* skill  card*/}
+                          <SkillsCard skills={skills} onDelete={deleteSkill} />
                         </div>
 
                         <div className="border-2 py-1 px-5 mt-5 bg-[#8B95EE] border-[#444B88]">

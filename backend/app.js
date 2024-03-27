@@ -4,6 +4,8 @@ import localAccountRoutes from "./routes/localAccountRoutes.js";
 import googleAccountRoutes from "./routes/googleAccountRoutes.js";
 import ApplicantProfileRoutes from "./routes/ApplicantProfileRoutes.js";
 import EmployerPriofileRoutes from "./routes/EmployerProfileRoutes.js";
+import ResumeRoutes from "./routes/ResumeRoutes.js";
+import PortfolioRoutes from "./routes/PortfolioRoutes.js";
 import { verifyEmail, requestAnotherEmail } from "./controllers/verifyEmail.js";
 import logout from "./routes/logout.js";
 import cookieParser from "cookie-parser";
@@ -11,7 +13,6 @@ import dotenv from "dotenv";
 dotenv.config();
 import connectDB from "./db/db.js";
 import { errorHandler } from "./middlewares/errorMiddlewares.js";
-import routes from "./routes/routes.js";
 
 const app = express();
 connectDB();
@@ -30,7 +31,8 @@ app.get("/verify/:urlToken", verifyEmail);
 app.get("/requestverifylink/:email", requestAnotherEmail);
 app.use("/applicantprofile", ApplicantProfileRoutes);
 app.use("/employerprofile", EmployerPriofileRoutes);
-app.use("/", routes);
+app.use("/resume", ResumeRoutes);
+app.use("/portfolio", PortfolioRoutes);
 
 app.use(errorHandler);
 

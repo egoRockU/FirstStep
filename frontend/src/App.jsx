@@ -14,7 +14,12 @@ import Editemployerabout from "./Pages/EditEmployerabout";
 import EditApplicantAbout from "./Pages/EditApplicantAbout";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
+import Chooseresume from "./Pages/Chooseresume";
+import Createresume from "./Pages/Createresume";
+import Generatedresume from "./Pages/Generatedresume";
+import Createportfolio from "./Pages/Createportfolio";
+import Chooseportfolio from "./Pages/Chooseportfolio";
+import Generatedportfolio from "./Pages/Generatedportfolio";
 function App() {
   const { user } = useSelector((state) => state.user);
 
@@ -37,6 +42,7 @@ function App() {
               <Route path="/create" element={<Create />} />
               <Route path="/createemployer" element={<CreateEmployerpage />} />
               <Route path="/profile" element={<Profilepage />} />
+
               <Route
                 path="/employerprofile"
                 element={<Employerprofilepage />}
@@ -52,6 +58,24 @@ function App() {
                   <Route
                     path="/editapplicantabout"
                     element={<EditApplicantAbout />}
+                  />
+                  <Route path="/chooseresume" element={<Chooseresume />} />
+                  <Route path="/createresume" element={<Createresume />} />
+                  <Route
+                    path="/resume/:templateId/:resumeId"
+                    element={<Generatedresume />}
+                  />
+                  <Route
+                    path="/createportfolio"
+                    element={<Createportfolio />}
+                  />
+                  <Route
+                    path="/chooseportfolio"
+                    element={<Chooseportfolio />}
+                  />
+                  <Route
+                    path="/portfolio/:templateId/:portfolioId"
+                    element={<Generatedportfolio />}
                   />
                 </>
               )}

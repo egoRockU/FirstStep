@@ -29,10 +29,9 @@ function Newlogin() {
     if (validator.isEmail(email)) {
       dispatch(loginUser(inputs)).then((res) => {
         if (res.error) {
-          alert(res.error.message);
+          toast.error(res.error.message);
         } else {
           navigate("/");
-          toast.success("Succesfully Logged In");
         }
       });
     } else {

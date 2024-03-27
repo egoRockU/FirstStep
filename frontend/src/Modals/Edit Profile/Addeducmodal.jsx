@@ -52,7 +52,7 @@ function Addeduc({ onClose, onSubmit, onEdit, formIndex, initialData }) {
 
   return (
     <div className="fixed inset-0 flex justify-center items-center bg-gray-900 bg-opacity-50">
-      <div className="bg-white p-8 rounded-sm w-1/2 flex flex-col gap-4">
+      <div className="bg-white p-8 rounded-sm w-1/3 flex flex-col gap-4">
         <div className="flex w-full justify-between">
           <h2 className="text-xl text-[#444B88]">Add education</h2>
           <IoCloseOutline size={25} onClick={handleCancel} />

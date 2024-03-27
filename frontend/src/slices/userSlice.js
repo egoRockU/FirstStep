@@ -10,8 +10,7 @@ export const loginUser = createAsyncThunk("user/loginUser", async (inputs) => {
       },
     });
     localStorage.setItem("user", JSON.stringify(res.data.user));
-    alert(res.data.message);
-    console.log(res.data["user"]);
+    toast.success(res.data.message);
     return res.data["user"];
   } catch (err) {
     console.log(err.response.data.error);
@@ -30,7 +29,6 @@ export const loginGoogle = createAsyncThunk(
       });
       localStorage.setItem("user", JSON.stringify(res.data.user));
       toast.success(res.data.message);
-      console.log(res.data["user"]);
       return res.data["user"];
     } catch (err) {
       if (err.response.data.emailDoesNotExist) {
@@ -54,7 +52,6 @@ export const logoutUser = createAsyncThunk("user/logoutUser", async () => {
 
 export const updateUser = createAsyncThunk("user/updateUser", async (data) => {
   try {
-    console.log(data);
     localStorage.setItem("user", JSON.stringify(data));
     return data;
   } catch (err) {

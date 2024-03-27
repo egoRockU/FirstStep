@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 import { useSelector } from "react-redux";
 import Bg from "../images/newlandingbg.png";
 import Newnavbar from "../Components/Newnavbar";
@@ -24,7 +25,7 @@ function NewLanding() {
   const navigate = useNavigate();
 
   const clickjoin = () => {
-    navigate("/login");
+    navigate("/newlogin");
   };
 
   const scrollToSection = (sectionId) => {
@@ -52,21 +53,21 @@ function NewLanding() {
     <div style={landingStyle}>
       <>
         {user ? <NavbarLoggedIn /> : <Newnavbar />}
-        <div className="sm:h-3/4 lg:h-3/4 w-full flex flex-col lg:justify-around mt-20">
-          <div className="w-full flex flex-col sm:items-center lg:items-start h-[80%] justify-around text-center pl-20">
+        <div className="h-3/4 w-full flex flex-col lg:justify-around pt-20">
+          <div className="w-full flex flex-col items-center lg:items-start h-[80%] justify-around text-center">
             <div className="flex flex-col sm:w-full  md:w-1/2">
-              <h1 className="sm:text-xl md:text-6xl text-white font-semibold">
+              <h1 className="text-5xl md:text-6xl text-white font-semibold">
                 Craft Your Tomorrow
               </h1>
-              <h1 className="sm:text-xl md:text-6xl text-white font-semibold">
+              <h1 className="text-xl md:text-6xl text-white font-semibold">
                 Shape Your Dreams
               </h1>
-              <h1 className="sm:text-lg md:text-4xl text-white font-semibold opacity-60">
+              <h1 className="text-lg md:text-4xl text-white font-semibold opacity-60">
                 Explore Your Future With Us
               </h1>
             </div>
             <div className="flex flex-col w-1/2">
-              <h1 className="text-base text-white md:leading-10">
+              <h1 className="text-base text-white leading-8">
                 Unleash your hidden talents! Build a winning resume & portfolio,
                 showcase your skills, and get noticed by dream employers. Take
                 control of your career journey, start today!
@@ -75,7 +76,7 @@ function NewLanding() {
             <div className="w-1/2 flex flex-col items-center">
               {!user && (
                 <button
-                  className="bg-blue-300 py-4 px-32 rounded-full text-white hover:bg-blue-600"
+                  className="bg-blue-300 py-4 px-32 rounded-full whitespace-nowrap text-white hover:bg-blue-600"
                   onClick={clickjoin}
                 >
                   Join Today!
@@ -83,7 +84,7 @@ function NewLanding() {
               )}
               {user && (
                 <button
-                  className="bg-blue-300 py-4 px-32 rounded-full text-white hover:bg-blue-600"
+                  className="bg-blue-300 py-4 px-32 rounded-full whitespace-nowrap text-white hover:bg-blue-600"
                   onClick={editProfile}
                 >
                   Edit your Profile!
@@ -106,7 +107,7 @@ function NewLanding() {
           <div className="absolute inset-0 bg-black bg-opacity-50 blur flex items-center justify-center"></div>
 
           <div className="absolute inset-0 flex flex-col items-center justify-center">
-            <h1 className="text-5xl text-white font-semibold">
+            <h1 className="text-5xl text-white font-semibold text-center">
               Explore Potential Hires Today!
             </h1>
             <p className="text-base text-white leading-10 lg:w-4/5 text-center">
@@ -120,55 +121,86 @@ function NewLanding() {
             className="absolute inset-x-0 bottom-80 flex flex-col items-center justify-center"
             style={{ zIndex: 10 }}
           >
-            <button className="bg-blue-300 py-4 px-32 rounded-full text-white relative hover:bg-blue-600">
-              Join Today!
-            </button>
+            {!user && (
+              <button
+                className="bg-blue-300 py-4 px-32 rounded-full text-white hover:bg-blue-600"
+                onClick={clickjoin}
+              >
+                Join Today!
+              </button>
+            )}
+            {user && (
+              <button
+                className="bg-blue-300 py-4 px-32 rounded-full text-white hover:bg-blue-600"
+                onClick={editProfile}
+              >
+                Edit your Profile!
+              </button>
+            )}
           </div>
         </div>
 
         <div
           style={{
             background: "#ffffff",
-            height: "4300px",
           }}
           className="relative"
         >
-          <div className="h-[1200px] bg-gradient-to-b from-black to-transparent relative flex flex-col items-center">
-            <div className="absolute top-60 w-[70%] h-[700px] lg:h-[800px] rounded-2xl">
-              <div className="p-4 space-y-5 text-center">
+          <div className="bg-gradient-to-b from-black to-transparent relative flex flex-col items-center">
+            <div className="md:w-[70%] h-[500px] md:h-[700px] lg:h-[800px] rounded-2xl justify-center items-center pt-36">
+              <div className="text-center">
                 <h1 className="text-2xl font-semibold text-white">
                   Build your best Brand, Get Hired Faster, Hire Smarter
                 </h1>
               </div>
-              <div className="flex justify-center space-x-4 md:h-3/5 lg:h-3/4">
+              <div className="flex justify-center gap-5 h-3/4">
                 <div
-                  className="w-1/4 h-full bg-cover bg-center relative hover:w-1/3 hover:h-auto transition-all duration-300"
+                  className="w-1/3 h-full bg-cover bg-center relative hover:w-[45%] hover:h-auto transition-all duration-300"
                   style={{
                     backgroundImage: `url(${resume})`,
-                    position: "relative",
                   }}
-                  onClick={() => scrollToSection("resume")}
                 >
-                  <h1 className="md:text-2xl lg:text-4xl text-white mt-6 ml-6">
-                    Resume
-                  </h1>
+                  <a
+                    href="#resume"
+                    style={{
+                      top: 0,
+                      left: 0,
+                      width: "100%",
+                      height: "100%",
+                    }}
+                  >
+                    <h1 className="md:text-2xl lg:text-4xl text-white mt-6 ml-6">
+                      Resume
+                    </h1>
+                  </a>
                 </div>
 
                 <div
-                  className="w-1/4 h-full bg-cover bg-center relative hover:w-1/3 hover:h-auto transition-all duration-300"
+                  className="w-1/3 h-full bg-cover bg-center relative hover:w-[45%  
+                  ] hover:h-auto transition-all duration-300"
                   style={{
                     backgroundImage: `url(${portfolio})`,
                     position: "relative",
-                  }}
-                  onClick={() => scrollToSection("portfolio")}
-                >
-                  <h1 className="md:text-2xl lg:text-4xl text-white mt-4 ml-6">
-                    Portfolio
-                  </h1>
-                </div>
+                  }}onClick={() => scrollToSection("portfolio")}
 
+                >
+                  <a
+                    href="#portfolio"
+                    style={{
+                      top: 0,
+                      left: 0,
+                      width: "100%",
+                      height: "100%",
+                    }}
+                  >
+                    <h1 className="md:text-2xl lg:text-4xl text-white mt-4 ml-6">
+                      Portfolio
+                    </h1>
+                  </a>
+                </div>
                 <div
-                  className="w-1/4 h-full bg-cover bg-center relative hover:w-1/3 hover:h-auto transition-all duration-300"
+                  className="w-1/3 h-full bg-cover bg-center relative hover:w-[45%  
+                  ] hover:h-auto transition-all duration-300"
                   style={{
                     backgroundImage: `url(${applicants})`,
                     position: "relative",
@@ -194,106 +226,142 @@ function NewLanding() {
             </div>
           </div>
 
-          <a id="resume"></a>
-
-          <div className="relative top-[0px] w-[60%] mx-auto h-[600px] p-10 rounded-2xl flex items-center">
-            <div className="w-2/3 mr-10">
-              <img
-                src={resume2}
-                alt="Construct your image"
-                className="rounded-lg"
-                style={{
-                  maxWidth: "500px",
-                  maxHeight: "350px",
-                  width: "auto",
-                  height: "auto",
-                }}
-              />
-            </div>
-            <div className="w-2/3">
-              <div className=" rounded-xl p-6">
-                <h1 className="text-3xl mb-4 text-indigo-500 font-bold font-semibold">
-                  Construct Your Resume
-                </h1>
-                <h2 className="text-xl font-semibold mb-4 leading-relaxed font-semibold">
-                  Applicant Profile is all you need to have a good resume. You
-                  don’t have to worry about the formatting or layout. We take
-                  care that for you. All you need to do is choose a template and
-                  finalize your inputs and we will handle it.
-                </h2>
-                <button className="bg-transparent border border-black text-black py-3 px-6 rounded-lg hover:bg-black hover:text-white font-semibold">
-                  Try it
-                </button>
+          {/*
+          <div className="relative top-[500px] w-[70%] mx-auto h-[600px] p-10 rounded-2xl">
+            <h1 className="text-3xl">Frequently Asked Questions</h1>
+            <div className="flex flex-col h-full justify-around">
+              <div className="bg-white h-24 w-full rounded-xl text-center">
+                <p>
+                  Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ex
+                  quis aperiam, hic veniam aut est ea consequuntur dolorem
+                  laborum dignissimos?
+                </p>
+              </div>
+              <div className="bg-white h-24 w-full rounded-xl text-center">
+                <p>
+                  Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ex
+                  quis aperiam, hic veniam aut est ea consequuntur dolorem
+                  laborum dignissimos?
+                </p>
+              </div>
+              <div className="bg-white h-24 w-full rounded-xl text-center">
+                <p>
+                  Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ex
+                  quis aperiam, hic veniam aut est ea consequuntur dolorem
+                  laborum dignissimos?
+                </p>
+              </div>
+              <div className="bg-white h-24 w-full rounded-xl text-center">
+                <p>
+                  Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ex
+                  quis aperiam, hic veniam aut est ea consequuntur dolorem
+                  laborum dignissimos?
+                </p>
               </div>
             </div>
           </div>
+          */}
 
-          <hr class="my-40 border-t-2 border-gray-300"></hr>
-
-          <a id="portfolio"></a>
-          <div className="relative top-[100px] w-[60%] mx-auto h-[600px] p-10 rounded-2xl flex items-center">
-            <div className="w-2/3 pr-12">
-              <div className="rounded-xl p-6">
-                <h1 className="text-3xl mb-4 text-indigo-500 font-bold font-semibold">
-                  Choose Your Portfolio
-                </h1>
-                <h2 className="text-xl font-semibold mb-4 leading-relaxed font-semibold">
-                  Just like in resume, we create your portfolio based on your
-                  Applicant Profile. You don’t have to worry about design and
-                  layout. We will handle that for you. We already have designs
-                  that will surely fit to your liking!
-                </h2>
-                <button className="bg-transparent border border-black text-black py-3 px-6 rounded-lg hover:bg-black hover:text-white font-semibold">
-                  Try it
-                </button>
+          <div className="mx-auto flex gap-20 flex-col pb-36">
+            <a name="resume"></a>
+            <div className=" w-[70%] mx-auto rounded-2xl flex gap-5 flex-col lg:flex-row items-center">
+              <div>
+                <img
+                  src={resume2}
+                  alt="Construct your image"
+                  className="rounded-lg"
+                  style={{
+                    maxWidth: "500px",
+                    maxHeight: "350px",
+                    width: "auto",
+                    height: "auto",
+                  }}
+                />
+              </div>
+              <div>
+                <div className="rounded-xl flex flex-col md:items-center lg:items-start">
+                  <h1 className="text-3xl  text-indigo-500 font-semibold">
+                    Construct Your Resume
+                  </h1>
+                  <h2 className="text-xl leading-relaxed font-semibold">
+                    Applicant Profile is all you need to have a good resume. You
+                    don’t have to worry about the formatting or layout. We take
+                    care that for you. All you need to do is choose a template
+                    and finalize your inputs and we will handle it.
+                  </h2>
+                  <button className="bg-transparent border border-black text-black py-3 px-6 rounded-lg hover:bg-black hover:text-white font-semibold">
+                    Try it
+                  </button>
+                </div>
               </div>
             </div>
-            <div className="w-1/3 ml-6">
-              <img
-                src={portfolio2}
-                alt="Construct your image"
-                className="rounded-lg"
-                style={{
-                  maxWidth: "500px",
-                  maxHeight: "350px",
-                  width: "auto",
-                  height: "auto",
-                }}
-              />
-            </div>
-          </div>
+            <hr class="border-t-2 border-gray-300"></hr>
 
-          <hr class="my-72 border-t-2 border-gray-300"></hr>
-
-          <a id="applicants"></a>
-          <div className="relative top-[30px] w-[60%] mx-auto h-[600px] p-10 rounded-2xl flex items-center">
-            <div className="w-2/3 mr-10">
-              <img
-                src={applicants2}
-                alt="Construct your image"
-                className="rounded-lg"
-                style={{
-                  maxWidth: "500px",
-                  maxHeight: "350px",
-                  width: "auto",
-                  height: "auto",
-                }}
-              />
+            <a name="portfolio"></a>
+            <div className="w-[70%] mx-auto rounded-2xl flex gap-5 flex-col lg:flex-row items-center">
+              <div>
+                <div className="rounded-xl flex flex-col md:items-center lg:items-start">
+                  <h1 className="text-3xl text-indigo-500 font-semibold">
+                    Choose Your Portfolio
+                  </h1>
+                  <h2 className="text-xl leading-relaxed font-semibold">
+                    Just like in resume, we create your portfolio based on your
+                    Applicant Profile. You don’t have to worry about design and
+                    layout. We will handle that for you. We already have designs
+                    that will surely fit to your liking!
+                  </h2>
+                  <button className="bg-transparent border border-black text-black py-3 px-6 rounded-lg hover:bg-black hover:text-white font-semibold">
+                    Try it
+                  </button>
+                </div>
+              </div>
+              <div>
+                <img
+                  src={portfolio2}
+                  alt="Construct your image"
+                  className="rounded-lg"
+                  style={{
+                    maxWidth: "500px",
+                    maxHeight: "350px",
+                    width: "auto",
+                    height: "auto",
+                  }}
+                />
+              </div>
             </div>
-            <div className="w-2/3">
-              <div className="rounded-xl p-6">
-                <h1 className="text-3xl mb-4 text-indigo-500 font-bold font-semibold">
-                  Look For Applicants
-                </h1>
-                <h2 className="text-xl font-semibold mb-4 leading-relaxed font-semibold">
-                  Are you an employer? Create an Employer Profile so that you
-                  can reach out to applicants. You can choose depending on what
-                  skills or positions you are looking for and view their
-                  profile, resume, or portfolio.
-                </h2>
-                <button className="bg-transparent border border-black text-black py-3 px-6 rounded-lg hover:bg-black hover:text-white font-semibold">
-                  Try it
-                </button>
+
+            <hr class="border-t-2 border-gray-300"></hr>
+
+            <a name="Applicants"></a>
+            <div className="w-[70%] mx-auto rounded-2xl flex gap-5 flex-col lg:flex-row items-center">
+              <div>
+                <img
+                  src={applicants2}
+                  alt="Construct your image"
+                  className="rounded-lg"
+                  style={{
+                    maxWidth: "500px",
+                    maxHeight: "350px",
+                    width: "auto",
+                    height: "auto",
+                  }}
+                />
+              </div>
+              <div>
+                <div className="rounded-xl flex flex-col md:items-center lg:items-start">
+                  <h1 className="text-3xl text-indigo-500 font-semibold">
+                    Look For Applicants
+                  </h1>
+                  <h2 className="text-xl mb-4 leading-relaxed font-semibold">
+                    Are you an employer? Create an Employer Profile so that you
+                    can reach out to applicants. You can choose depending on
+                    what skills or positions you are looking for and view their
+                    profile, resume, or portfolio.
+                  </h2>
+                  <button className="bg-transparent border border-black text-black py-3 px-6 rounded-lg hover:bg-black hover:text-white font-semibold">
+                    Try it
+                  </button>
+                </div>
               </div>
             </div>
           </div>
