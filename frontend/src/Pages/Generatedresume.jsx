@@ -3,9 +3,11 @@ import NavbarLoggedIn from "../Components/NavbarLoggedIn";
 import Footer from "../Components/Footer";
 import resume from "../images/resume.png";
 import { useParams } from "react-router-dom";
-import BasicTemplate from "../templates/resume/basicTemplate";
 import axios from "axios";
 import { useState } from "react";
+import BasicTemplate from "../templates/resume/basicTemplate";
+import BasicTemplate2 from "../templates/resume/basicTemplate2";
+import TwoColumn from "../templates/resume/twoColumn";
 
 function Generatedresume() {
   const { templateId, resumeId } = useParams();
@@ -38,6 +40,12 @@ function Generatedresume() {
     switch (templateId) {
       case "1":
         setTemplate(<BasicTemplate resumeInfo={resumeInfo} />);
+        break;
+      case "2":
+        setTemplate(<BasicTemplate2 resumeInfo={resumeInfo} />);
+        break;
+      case "3":
+        setTemplate(<TwoColumn resumeInfo={resumeInfo} />);
         break;
       default:
         setTemplate(<BasicTemplate resumeInfo={resumeInfo} />);
