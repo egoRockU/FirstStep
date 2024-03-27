@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import BasicPortfolio from "../templates/portfolio/BasicPortfolio/BasicPortfolio";
 import axios from "axios";
+import BasicPortfolio from "../templates/portfolio/BasicPortfolio/BasicPortfolio";
+import Ezekel from "../templates/portfolio/Ezekel/Ezekel";
 
 function Generatedportfolio() {
   const { templateId, portfolioId } = useParams();
@@ -34,6 +35,9 @@ function Generatedportfolio() {
     switch (templateId) {
       case "1":
         setTemplate(<BasicPortfolio portfolioInfo={portfolioInfo} />);
+        break;
+      case "2":
+        setTemplate(<Ezekel portfolioInfo={portfolioInfo} />);
         break;
       default:
         setTemplate(<BasicPortfolio portfolioInfo={portfolioInfo} />);

@@ -4,6 +4,8 @@ import Footer from "../Components/Footer";
 import tommy from "../images/hero1bg.png";
 import { useLocation, useNavigate } from "react-router-dom";
 import Portfoliopreview from "../Modals/Portfoliopreview";
+import BasicTemplate from "../images/portfolioTemplates/BasicTemplate.png";
+import Ezekel from "../images/portfolioTemplates/Ezekel.png";
 
 function Chooseportfolio() {
   const location = useLocation();
@@ -23,7 +25,10 @@ function Chooseportfolio() {
   const [selectedTitle, setSelectedTitle] = useState("");
   const [selectedImage, setSelectedImage] = useState();
 
-  const resumeTemplates = [{ id: 1, title: "Template 1", imageUrl: tommy }];
+  const resumeTemplates = [
+    { id: 1, title: "Basic Template", imageUrl: BasicTemplate },
+    { id: 2, title: "Ezekel", imageUrl: Ezekel },
+  ];
 
   const handleOpen = (template) => {
     setShowModal(true);
