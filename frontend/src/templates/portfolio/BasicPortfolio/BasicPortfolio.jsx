@@ -130,7 +130,10 @@ const BasicPortfolio = ({ portfolioInfo }) => {
               Projects
             </h2>
             {projects.map((project, key) => (
-              <div className="w-full md:w-1/3 p-6 flex flex-col flex-grow flex-shrink">
+              <div
+                className="w-full md:w-1/3 p-6 flex flex-col flex-grow flex-shrink"
+                key={key}
+              >
                 <div className="flex-1 bg-white rounded-t rounded-b-none overflow-hidden shadow border-2 border-black">
                   <div className="w-full font-bold text-3xl text-gray-800 px-6 mx-auto text-center">
                     <p className="cursor-default">{project.projectTitle}</p>
