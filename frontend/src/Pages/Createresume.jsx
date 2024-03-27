@@ -39,6 +39,7 @@ import AddCertificates from "../Modals/Edit Profile/Addcertificates";
 import CharacterRef from "../Modals/CharacterRef";
 import { IoCloseOutline } from "react-icons/io5";
 import { toast } from "react-toastify";
+import { uploadImage } from "../utils/ImageReUpload";
 
 function Createresume() {
   const profileId = JSON.parse(localStorage.getItem("user")).profileId;
@@ -402,14 +403,27 @@ function Createresume() {
   };
   //end
 
+  const [imageFile, setImageFile] = useState(null);
+
   const handleImageClick = () => {
     fileInputRef.current.click();
   };
-
-  const handleFileChange = (event) => {
-    const selectedFile = event.target.files[0];
-  };
   const fileInputRef = useRef(null);
+
+  const handleFileChange = async (event) => {
+    try {
+      const selectedFile = event.target.files[0];
+      setImageFile(selectedFile);
+
+      if (selectedFile) {
+        const imageUrl = URL.createObjectURL(selectedFile);
+        setImage(imageUrl);
+        saveResumeInfo();
+      }
+    } catch (error) {
+      console.error("Error handling file change:", error);
+    }
+  };
 
   //get user info
   const getUserProfile = () => {
@@ -440,35 +454,45 @@ function Createresume() {
         setProjectsData(profileObj.projects);
         setAwardData(profileObj.awards);
         setCertData(profileObj.certs);
-        setImage(profileObj.profileImg);
       });
   };
+  const saveResumeInfo = async () => {
+    try {
+      if (!imageFile) {
+        return;
+      }
 
-  const saveResumeInfo = () => {
-    const resumeInfo = {
-      profileImg: image,
-      firstName: fName,
-      lastName: lName,
-      email,
-      contactNum,
-      address: `${city}, ${country}`,
-      about,
-      socialLinks,
-      skills,
-      preferredCareer: industries,
-      education: educationData,
-      activitiesAndInvolvements: achievementsData,
-      awards: awardData,
-      certs: certData,
-      projects: projectsData,
-      characterReference: charRefData,
-    };
+      const proceed = confirm(
+        "Are you sure you want to use these values to be displayed on your resume?"
+      );
 
-    const proceed = confirm(
-      "Are you sure you want to use this values to be displayed on your resume?"
-    );
-    if (proceed) {
-      navigate("/chooseresume", { state: { resumeInfo } });
+      if (proceed) {
+        const imageUrl = await uploadImage(imageFile);
+        setImage(imageUrl);
+
+        const resumeInfo = {
+          profileImg: imageUrl,
+          firstName: fName,
+          lastName: lName,
+          email,
+          contactNum,
+          address: `${city}, ${country}`,
+          about,
+          socialLinks,
+          skills,
+          preferredCareer: industries,
+          education: educationData,
+          activitiesAndInvolvements: achievementsData,
+          awards: awardData,
+          certs: certData,
+          projects: projectsData,
+          characterReference: charRefData,
+        };
+
+        navigate("/chooseresume", { state: { resumeInfo } });
+      }
+    } catch (error) {
+      console.error("Error saving resume info:", error);
     }
   };
 
@@ -509,7 +533,7 @@ function Createresume() {
                     <div className="flex">
                       <div className="w-1/3 mx-auto flex items-start justify-center">
                         <img
-                          src={image ? image : profile}
+                          src={imageFile ? image : profile}
                           alt=""
                           className="w-4/6 cursor-pointer"
                           onClick={handleImageClick}
