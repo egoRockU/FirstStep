@@ -425,11 +425,6 @@ function Createresume() {
       )
       .then((res) => {
         const profileObj = res.data;
-
-        if (profileObj.resume.resumeId) {
-          console.log("already has resume");
-        }
-
         setFName(profileObj.firstName);
         setLName(profileObj.lastName);
         setEmail(profileObj.email);

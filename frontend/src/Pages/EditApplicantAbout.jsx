@@ -521,6 +521,7 @@ function CreateApplicantProfilepage() {
                                 ? portfolioLink
                                 : "You have no generated portfolio yet..."
                             }
+                            readOnly
                           />
                           <div
                             className="flex items-center justify-end px-1 cursor-pointer"
