@@ -43,19 +43,6 @@ function App() {
               <Route path="/createemployer" element={<CreateEmployerpage />} />
               <Route path="/profile" element={<Profilepage />} />
 
-              <Route path="/chooseresume" element={<Chooseresume />} />
-              <Route path="/createresume" element={<Createresume />} />
-              <Route
-                path="/resume/:templateId/:resumeId"
-                element={<Generatedresume />}
-              />
-              <Route path="/createportfolio" element={<Createportfolio />} />
-              <Route path="/chooseportfolio" element={<Chooseportfolio />} />
-              <Route
-                path="/portfolio/:templateId/:portfolioId"
-                element={<Generatedportfolio />}
-              />
-
               <Route
                 path="/employerprofile"
                 element={<Employerprofilepage />}
@@ -71,6 +58,24 @@ function App() {
                   <Route
                     path="/editapplicantabout"
                     element={<EditApplicantAbout />}
+                  />
+                  <Route path="/chooseresume" element={<Chooseresume />} />
+                  <Route path="/createresume" element={<Createresume />} />
+                  <Route
+                    path="/resume/:templateId/:resumeId"
+                    element={<Generatedresume />}
+                  />
+                  <Route
+                    path="/createportfolio"
+                    element={<Createportfolio />}
+                  />
+                  <Route
+                    path="/chooseportfolio"
+                    element={<Chooseportfolio />}
+                  />
+                  <Route
+                    path="/portfolio/:templateId/:portfolioId"
+                    element={<Generatedportfolio />}
                   />
                 </>
               )}
