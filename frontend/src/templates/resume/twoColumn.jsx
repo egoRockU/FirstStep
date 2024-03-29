@@ -24,7 +24,6 @@ function TwoColumn({ resumeInfo }) {
     education,
     awards,
     certs,
-    characterReference,
   } = resumeInfo;
   const handleDownload = () => {
     downloadPDF("container");
@@ -155,7 +154,7 @@ function TwoColumn({ resumeInfo }) {
             </p>
             <div>
               {projects.map((project, key) => (
-                <div className="mb-2">
+                <div className="mb-2" key={key}>
                   {" "}
                   <p className="text-[9px] font-bold">
                     {project.projectTitle}{" "}
