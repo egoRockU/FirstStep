@@ -417,7 +417,7 @@ function Createresume() {
       if (selectedFile) {
         const imageUrl = URL.createObjectURL(selectedFile);
         setImage(imageUrl);
-        saveResumeInfo();
+        
       }
     } catch (error) {
       console.error("Error handling file change:", error);
@@ -457,23 +457,20 @@ function Createresume() {
   };
   const saveResumeInfo = async () => {
     try {
-      if (!imageFile && !image) {
-        toast.info("Please Add Image");
-        return;
-      }
-
       const proceed = confirm(
         "Are you sure you want to use these values to be displayed on your resume?"
       );
-
+  
       if (proceed) {
+        let imageUrl = image; 
+        
         if (imageFile) {
-          const imageUrl = await uploadImage(imageFile);
-          setImage(imageUrl);
+    
+          imageUrl = await uploadImage(imageFile);
         }
-
+  
         const resumeInfo = {
-          profileImg: image,
+          profileImg: imageUrl,
           firstName: fName,
           lastName: lName,
           email,
@@ -490,7 +487,7 @@ function Createresume() {
           projects: projectsData,
           characterReference: charRefData,
         };
-
+  
         navigate("/chooseresume", { state: { resumeInfo } });
       }
     } catch (error) {
