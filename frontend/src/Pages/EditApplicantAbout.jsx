@@ -9,6 +9,8 @@ import { FaCamera } from "react-icons/fa";
 import AddSocial from "../Modals/EditApplicant Profile/Addsocial";
 import AddIndustry from "../Modals/EditApplicant Profile/Addindustry";
 import AddSkill from "../Modals/EditApplicant Profile/Addskill";
+import industrySuggestions from "../suggestions/industries.json";
+import skillSuggestions from "../suggestions/skills.json";
 import { toast } from "react-toastify";
 import {
   updateProfileImage,
@@ -25,9 +27,8 @@ import DeleteResumeLink from "../Modals/DeleteResumelink";
 
 function CreateApplicantProfilepage() {
   const profileId = JSON.parse(localStorage.getItem("user")).profileId;
-  const navigate = useNavigate();
-
   const domain = window.location.origin;
+  const navigate = useNavigate();
 
   const [selectedImage, setSelectedImage] = useState(null);
   const [selectedBanner, setSelectedBanner] = useState(null);
@@ -77,16 +78,6 @@ function CreateApplicantProfilepage() {
   //industry
   const [industries, setIndustries] = useState([]);
   const [isAddIndustryModalOpen, setAddIndustryModalOpen] = useState(false);
-  const [industrySuggestions] = useState([
-    "Web Developer",
-    "Game Developer",
-    "Graphic Designer",
-    "Software Developer",
-    "Video Game Developer",
-    "CyberSecurity",
-    "Artificial Intelligence and Machine Learning",
-    "Mobile App Development",
-  ]);
   const onSubmitIndustries = (formData) => {
     if (!formData) {
       toast.error("Please provide Industry");
@@ -124,16 +115,6 @@ function CreateApplicantProfilepage() {
   const closeAddSkillModal = () => {
     setAddSkillModalOpen(false);
   };
-
-  const [skillSuggestions] = useState([
-    "JavaScript",
-    "Python",
-    "Java",
-    "C++",
-    "React",
-    "Node.js",
-    "Ruby",
-  ]);
 
   const onSubmitSkills = (formData) => {
     if (!formData) {

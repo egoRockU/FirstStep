@@ -35,7 +35,7 @@ export const getSkillAttrib = (skills) => {
           style: "shadow-purple-500",
         });
         break;
-      case "react":
+      case "react.js":
         skillAttribs.push({
           src: Reactjs,
           title: "ReactJs",

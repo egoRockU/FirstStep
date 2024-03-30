@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { IoCloseOutline } from "react-icons/io5";
+import schoolsSuggestions from "../../suggestions/schools.json";
 
 function Addeduc({ onClose, onSubmit, onEdit, formIndex, initialData }) {
   const [formData, setFormData] = useState({
@@ -11,6 +12,10 @@ function Addeduc({ onClose, onSubmit, onEdit, formIndex, initialData }) {
     grade: "",
   });
 
+  const [suggestedSchools, setSuggestedSchools] = useState([]);
+  const [showSuggestions, setShowSuggestions] = useState(false);
+  const [selectedSuggestionIndex, setSelectedSuggestionIndex] = useState(-1);
+
   useEffect(() => {
     if (initialData) {
       setFormData(initialData);
@@ -20,6 +25,37 @@ function Addeduc({ onClose, onSubmit, onEdit, formIndex, initialData }) {
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
+  };
+
+  const handleSchoolsChange = (e) => {
+    const input = e.target.value;
+    setFormData({ ...formData, schoolName: input });
+
+    if (e.nativeEvent.inputType === "deleteContentBackward") {
+      setSuggestedSchools([]);
+      setShowSuggestions(false);
+    } else {
+      const suggestions = schoolsSuggestions.filter((suggestion) =>
+        suggestion.toLowerCase().includes(input.toLowerCase())
+      );
+      setSuggestedSchools(suggestions);
+      setShowSuggestions(suggestions.length > 0);
+    }
+  };
+
+  const handleSuggestionClick = (suggestion) => {
+    setFormData({ ...formData, schoolName: suggestion });
+    setSuggestedSchools([]);
+    setShowSuggestions(false);
+  };
+
+  const handleKeyDown = (e) => {
+    if (e.key === "Tab" && showSuggestions && suggestedSchools.length > 0) {
+      e.preventDefault();
+      const nextIndex = (selectedSuggestionIndex + 1) % suggestedSchools.length;
+      setSelectedSuggestionIndex(nextIndex);
+      setFormData({ ...formData, schoolName: suggestedSchools[nextIndex] });
+    }
   };
 
   const handleSubmit = (e) => {
@@ -67,10 +103,36 @@ function Addeduc({ onClose, onSubmit, onEdit, formIndex, initialData }) {
               id="schoolName"
               name="schoolName"
               value={formData.schoolName}
-              onChange={handleChange}
+              onChange={handleSchoolsChange}
+              onKeyDown={handleKeyDown}
               required
               className="border border-[#444B88] rounded-md px-4 py-2 w-full"
             />
+            <div className="relative pt-1">
+              {showSuggestions && (
+                <div
+                  className="border border-[#444B88] absolute left-0 max-w-[calc(100% - 8px)] bg-white p-1 z-10"
+                  style={{
+                    width: "calc(100% - 8px)",
+                  }}
+                >
+                  <p className="text-sm text-gray-600">Suggestions:</p>
+                  <ul className="suggestions-list max-h-20 overflow-y-auto">
+                    {suggestedSchools.map((suggestion, index) => (
+                      <li
+                        key={index}
+                        onClick={() => handleSuggestionClick(suggestion)}
+                        className={`cursor-pointer hover:bg-gray-100 p-2 rounded-md ${
+                          index === selectedSuggestionIndex ? "bg-gray-200" : ""
+                        }`}
+                      >
+                        {suggestion}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+            </div>
           </div>
           <div className="mb-4">
             <label htmlFor="degree" className="block text-[#444B88]">
@@ -151,7 +213,6 @@ function Addeduc({ onClose, onSubmit, onEdit, formIndex, initialData }) {
             />
           </div>
           <div className="flex justify-end mb-4">
-            
             <button
               type="button"
               onClick={handleCancel}

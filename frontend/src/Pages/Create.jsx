@@ -13,6 +13,8 @@ import { FaCamera } from "react-icons/fa";
 import AddSocial from "../Modals/Create Profile/Addsocial";
 import AddIndustry from "../Modals/Create Profile/Addindustry";
 import AddSkill from "../Modals/Create Profile/Addskill";
+import industrySuggestions from "../suggestions/industries.json";
+import skillSuggestions from "../suggestions/skills.json";
 import { updateAccountProfileValues } from "../utils/updateAccountProfileValues";
 import { useDispatch } from "react-redux";
 import { updateUser } from "../slices/userSlice";
@@ -20,8 +22,20 @@ import { IoClose } from "react-icons/io5";
 import { toast } from "react-toastify";
 import { uploadBanner, uploadImage } from "../utils/imageUpload";
 import { getDownloadURL } from "firebase/storage";
-import { FirstNameInput, LastNameInput, EmailInput, ContactNumberInput, CityInput, CountryInput, BioTextarea } from "../Components/Aplicantinput";
-import { SocialCard, IndustriesCard, SkillsCard } from "../Components/Aplicantcardcomponent";
+import {
+  FirstNameInput,
+  LastNameInput,
+  EmailInput,
+  ContactNumberInput,
+  CityInput,
+  CountryInput,
+  BioTextarea,
+} from "../Components/Aplicantinput";
+import {
+  SocialCard,
+  IndustriesCard,
+  SkillsCard,
+} from "../Components/Aplicantcardcomponent";
 
 function CreateApplicantProfilepage() {
   const dispatch = useDispatch();
@@ -63,16 +77,7 @@ function CreateApplicantProfilepage() {
   //industry
   const [industries, setIndustries] = useState([]);
   const [isAddIndustryModalOpen, setAddIndustryModalOpen] = useState(false);
-  const [industrySuggestions] = useState([
-    "Web Developer",
-    "Game Developer",
-    "Graphic Designer",
-    "Software Developer",
-    "Video Game Developer",
-    "CyberSecurity",
-    "Artificial Intelligence and Machine Learning",
-    "Mobile App Development",
-  ]);
+
   const onSubmitIndustries = (formData) => {
     if (!formData) {
       toast.error("Please provide Industry");
@@ -114,16 +119,6 @@ function CreateApplicantProfilepage() {
     setAddSkillModalOpen(false);
   };
 
-  const [skillSuggestions, setSkillSuggestions] = useState([
-    "JavaScript",
-    "Python",
-    "Java",
-    "C++",
-    "React",
-    "Node.js",
-    "Ruby",
-  ]);
-
   const onSubmitSkills = (formData) => {
     if (!formData) {
       toast.error("Please provide Skills");
@@ -133,11 +128,6 @@ function CreateApplicantProfilepage() {
     closeAddSkillModal();
   };
 
-  const editSkill = (index, skill) => {
-    const updatedSkills = [...skillSuggestions];
-    updatedSkills[index] = skill;
-    setSkillSuggestions(updatedSkills);
-  };
   const deleteSkill = (index) => {
     const updatedSkills = [...skills];
     updatedSkills.splice(index, 1);
@@ -194,8 +184,8 @@ function CreateApplicantProfilepage() {
     skills,
     industries,
   ]);
-//Image Upload Process to firebase
-const [selectedImageFile, setSelectedImageFile] = useState(null);
+  //Image Upload Process to firebase
+  const [selectedImageFile, setSelectedImageFile] = useState(null);
   const [selectedBannerFile, setSelectedBannerFile] = useState(null);
   const handleImageChange = (e) => {
     const imageFile = e.target.files[0];
@@ -224,21 +214,18 @@ const [selectedImageFile, setSelectedImageFile] = useState(null);
     reader.readAsDataURL(file);
   };
 
-
-
   const goback = () => {
     navigate("/");
   };
-  
 
   const createProfile = async () => {
     let profileImageURL = "";
     let bannerImageURL = "";
-  
+
     if (selectedImageFile) {
       profileImageURL = await uploadImage(selectedImageFile, getDownloadURL);
     }
-  
+
     if (selectedBannerFile) {
       bannerImageURL = await uploadBanner(selectedBannerFile, getDownloadURL);
     }
@@ -247,16 +234,17 @@ const [selectedImageFile, setSelectedImageFile] = useState(null);
     const updatedInputs = {
       ...inputs,
       profileImg: profileImageURL,
-      banner: bannerImageURL
+      banner: bannerImageURL,
     };
 
     console.log(inputs);
-    axios.post("/api/applicantprofile/create", updatedInputs, {
+    axios
+      .post("/api/applicantprofile/create", updatedInputs, {
         headers: {
           "Content-Type": "application/json",
         },
       })
-      
+
       .then((res) => {
         if (res.data.status == true) {
           toast.success(res.data.message);
@@ -282,8 +270,8 @@ const [selectedImageFile, setSelectedImageFile] = useState(null);
       });
   };
 
-  if(loading){
-    return<Loader/>
+  if (loading) {
+    return <Loader />;
   }
 
   return (
@@ -337,33 +325,57 @@ const [selectedImageFile, setSelectedImageFile] = useState(null);
                   <div className="flex space-x-5">
                     <div className="flex-1">
                       {/* Input here */}
-                  <FirstNameInput value={fName} onChange={(e) => setFName(e.target.value)} />
+                      <FirstNameInput
+                        value={fName}
+                        onChange={(e) => setFName(e.target.value)}
+                      />
                     </div>
                     <div className="flex-1">
-                  <LastNameInput value={lName} onChange={(e) => setLName(e.target.value)} />
+                      <LastNameInput
+                        value={lName}
+                        onChange={(e) => setLName(e.target.value)}
+                      />
                     </div>
                   </div>
-                  <EmailInput value={email} onChange={(e) => setEmail(e.target.value)} />
-                  <ContactNumberInput value={contactNum} onChange={(e) => setContactNum(e.target.value)} />
-                  <CityInput value={city} onChange={(e) => setCity(e.target.value)} />
-                  <CountryInput value={country} onChange={(e) => setCountry(e.target.value)} />
-                  <BioTextarea value={bio} onChange={(e) => setBio(e.target.value)} />
-               
+                  <EmailInput
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                  />
+                  <ContactNumberInput
+                    value={contactNum}
+                    onChange={(e) => setContactNum(e.target.value)}
+                  />
+                  <CityInput
+                    value={city}
+                    onChange={(e) => setCity(e.target.value)}
+                  />
+                  <CountryInput
+                    value={country}
+                    onChange={(e) => setCountry(e.target.value)}
+                  />
+                  <BioTextarea
+                    value={bio}
+                    onChange={(e) => setBio(e.target.value)}
+                  />
+
                   <div className="flex flex-col w-full">
                     <h1 className="text-lg">Skills</h1>
-                  <div className=" border-2 py-2 border-[#444B88] flex flex-col items-center">
-                    <div className="flex flex-col items-center">
-                      {" "}
-                      {/* social card*/}
-                      <SocialCard socialLinks={socialLinks} onDelete={deleteSocialLink} />
+                    <div className=" border-2 py-2 border-[#444B88] flex flex-col items-center">
+                      <div className="flex flex-col items-center">
+                        {" "}
+                        {/* social card*/}
+                        <SocialCard
+                          socialLinks={socialLinks}
+                          onDelete={deleteSocialLink}
+                        />
+                      </div>
+                      <button
+                        className="p-2 px-5 bg-[#8B95EE] w-1/3"
+                        onClick={openAddSocialModal}
+                      >
+                        + Add Social link
+                      </button>
                     </div>
-                    <button
-                      className="p-2 px-5 bg-[#8B95EE] w-1/3"
-                      onClick={openAddSocialModal}
-                    >
-                      + Add Social link
-                    </button>
-                  </div>
                   </div>
                   {isAddSocialModalOpen && (
                     <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
@@ -376,34 +388,37 @@ const [selectedImageFile, setSelectedImageFile] = useState(null);
                       </div>
                     </div>
                   )}
-                <div className="flex flex-col w-full">
-                  <h1 className="text-lg">Industries</h1>
-                  <div className="border-2 border-[#444B88] flex py-2 flex-col justify-center items-center gap-2">
-                    <div className="flex gap-2 items-center flex-wrap max-w-full p-1">
-                    {/* industries card*/}
-                    <IndustriesCard industries={industries} onDelete={deleteIndustry} />
-                    </div>
-                    <button
-                      className="p-2 px-5 bg-[#8B95EE]"
-                      onClick={openAddIndustryModal}
-                    >
-                      + Add Industries
-                    </button>
-                  </div>
-
-                  {isAddIndustryModalOpen && (
-                    <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
-                      <div>
-                        {/* {add Industries`2} */}
-                        <AddIndustry
-                          onClose={closeAddIndustryModal}
-                          suggestions={industrySuggestions}
-                          onSubmit={onSubmitIndustries}
+                  <div className="flex flex-col w-full">
+                    <h1 className="text-lg">Industries</h1>
+                    <div className="border-2 border-[#444B88] flex py-2 flex-col justify-center items-center gap-2">
+                      <div className="flex gap-2 items-center flex-wrap max-w-full p-1">
+                        {/* industries card*/}
+                        <IndustriesCard
+                          industries={industries}
+                          onDelete={deleteIndustry}
                         />
                       </div>
+                      <button
+                        className="p-2 px-5 bg-[#8B95EE]"
+                        onClick={openAddIndustryModal}
+                      >
+                        + Add Industries
+                      </button>
                     </div>
-                  )}
-                </div>
+
+                    {isAddIndustryModalOpen && (
+                      <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
+                        <div>
+                          {/* {add Industries`2} */}
+                          <AddIndustry
+                            onClose={closeAddIndustryModal}
+                            suggestions={industrySuggestions}
+                            onSubmit={onSubmitIndustries}
+                          />
+                        </div>
+                      </div>
+                    )}
+                  </div>
                 </div>
                 <div className="flex flex-col justify-center items-center w-1/4">
                   <input
