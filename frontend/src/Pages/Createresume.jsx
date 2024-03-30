@@ -457,7 +457,8 @@ function Createresume() {
   };
   const saveResumeInfo = async () => {
     try {
-      if (!imageFile) {
+      if (!imageFile && !image) {
+        toast.info("Please Add Image");
         return;
       }
 
@@ -466,11 +467,13 @@ function Createresume() {
       );
 
       if (proceed) {
-        const imageUrl = await uploadImage(imageFile);
-        setImage(imageUrl);
+        if (imageFile) {
+          const imageUrl = await uploadImage(imageFile);
+          setImage(imageUrl);
+        }
 
         const resumeInfo = {
-          profileImg: imageUrl,
+          profileImg: image,
           firstName: fName,
           lastName: lName,
           email,
