@@ -20,6 +20,8 @@ import Generatedresume from "./Pages/Generatedresume";
 import Createportfolio from "./Pages/Createportfolio";
 import Chooseportfolio from "./Pages/Chooseportfolio";
 import Generatedportfolio from "./Pages/Generatedportfolio";
+import NotFound from "./Pages/NotFound";
+
 function App() {
   const { user } = useSelector((state) => state.user);
 
@@ -39,17 +41,22 @@ function App() {
           {user && (
             <>
               <Route path="/" element={<NewLanding />} />
-              <Route path="/create" element={<Create />} />
-              <Route path="/createemployer" element={<CreateEmployerpage />} />
               <Route path="/profile" element={<Profilepage />} />
-
               <Route
                 path="/employerprofile"
                 element={<Employerprofilepage />}
               />
+              <Route path="*" element={<NotFound />} />
 
               {!user.profileType && (
-                <Route path="/choose" element={<Choose />} />
+                <>
+                  <Route path="/choose" element={<Choose />} />
+                  <Route path="/create" element={<Create />} />
+                  <Route
+                    path="/createemployer"
+                    element={<CreateEmployerpage />}
+                  />
+                </>
               )}
 
               {user.profileType === "applicant" && (
