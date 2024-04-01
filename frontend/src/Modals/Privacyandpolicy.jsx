@@ -14,8 +14,8 @@ function Privacyandpolicy({ isOpen, onAccept, onDecline }) {
               <p className="text-base">
                 This Privacy Policy describes how TechStack ("we", "us", or
                 "our") collects, uses, and discloses personal information when
-                you use our Profile Building Application (referred to as "the
-                App").
+                you use our Profile Building Application (referred to as
+                "FirstStep").
               </p>
             </div>
             <div className="overflow-y-auto max-h-80 flex flex-col gap-2">
@@ -37,6 +37,10 @@ function Privacyandpolicy({ isOpen, onAccept, onDecline }) {
               </p>
               <p className="flex flex-col gap-2">
                 <span className="font-bold">2. Use of Information</span>
+                <span>
+                  2.1. We may use the information we collect for the following
+                  purposes:
+                </span>
                 <span>- To generate resume and portfolio.</span>
                 <span>- To provide and maintain the App.</span>
                 <span>

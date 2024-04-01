@@ -106,15 +106,19 @@ function Newregister() {
   };
 
   const handleGoogleRegister = async (credentialResponse) => {
+    setIsLoading(true);
+
     if (!agreeTerms) {
       toast.error("Please review and accept the Terms & Conditions");
       setError("Please review and accept the Terms & Conditions");
+      setIsLoading(false);
       return;
     }
 
     if (!agreeToPrivacyPolicy) {
       toast.error("Please review and accept the Terms & Conditions");
       setError("Please review and accept the Privacy Policy");
+      setIsLoading(false);
       return;
     }
 
@@ -132,6 +136,7 @@ function Newregister() {
       })
       .then((res) => {
         toast.success("Account has been successfully created.");
+        setIsLoading(false);
         navigate("/login");
       })
       .catch((err) => {
@@ -139,6 +144,9 @@ function Newregister() {
           setError(err.response.data.error);
         }
         console.log(err.response.data.error);
+      })
+      .finally(() => {
+        setIsLoading(false);
       });
   };
 
