@@ -469,16 +469,17 @@ function CreateApplicantProfilepage() {
                       </div>
                       <div>
                         <div className="flex w-full border-2 border-[#444b88]">
-                          <input
-                            type="text"
-                            className=" w-full h-10 outline-none px-1"
-                            value={
-                              resumeId
-                                ? resumeLink
-                                : "You have no generated resume yet..."
-                            }
-                            readOnly
-                          />
+                          <a
+                            href={resumeId ? resumeLink : "#"}
+                            className="w-full h-10 px-1 outline-none text-black text-base items-center flex justify-center overflow-hidden"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                          >
+                            {resumeId
+                              ? resumeLink
+                              : "You have no generated resume yet..."}
+                          </a>
+
                           <div
                             className="flex items-center justify-end px-1 cursor-pointer"
                             onClick={resumeId ? toggleDeleteResumeModal : null}
@@ -494,16 +495,17 @@ function CreateApplicantProfilepage() {
                       </div>
                       <div>
                         <div className="flex w-full border-2 border-[#444b88]">
-                          <input
-                            type="text"
-                            className=" w-full h-10 outline-none px-1"
-                            value={
-                              portfolioId
-                                ? portfolioLink
-                                : "You have no generated portfolio yet..."
-                            }
-                            readOnly
-                          />
+                          <a
+                            href={portfolioId ? portfolioLink : "#"}
+                            className="flex items-center justify-center w-full h-10 px-1 outline-none text-black text-base overflow-hidden"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                          >
+                            {portfolioId
+                              ? portfolioLink
+                              : "You have no generated portfolio yet..."}
+                          </a>
+
                           <div
                             className="flex items-center justify-end px-1 cursor-pointer"
                             onClick={

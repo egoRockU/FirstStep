@@ -522,8 +522,8 @@ function Createresume() {
                     <IoIosArrowDropdownCircle
                       onClick={() => togglePersonalInfoVisibility()}
                       size={25}
-                      color="444b88"
-                    />
+                    color="444b88"
+                      />
                   )}
                 </div>
                 {personalInfoVisible && (
@@ -533,7 +533,7 @@ function Createresume() {
                         <img
                           src={image ? image : profile}
                           alt=""
-                          className="w-4/6 cursor-pointer"
+                          className="w-[80%] h-[60%] border-2 border-black cursor-pointer rounded-full"
                           onClick={handleImageClick}
                         />
                         <input
@@ -983,7 +983,7 @@ function Createresume() {
               </div>
 
               <div className="flex flex-col rounded-lg">
-                <div className="flex flex-col items-center justify-between px-4 py-3 border border-[#444b88] rounded-t-lg">
+                <div className="flex flex-col items-center justify-between px-4 py-3 border border-[#444b88] rounded-t-lg gap-4">
                   <div className="flex justify-between w-full pb-2">
                     <h1 className="text-xl text-[#8B95EE]">
                       Character Reference

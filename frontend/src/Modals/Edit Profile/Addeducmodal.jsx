@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { IoCloseOutline } from "react-icons/io5";
 import schoolsSuggestions from "../../suggestions/schools.json";
+import { ImSpinner } from "react-icons/im";
 
 function Addeduc({ onClose, onSubmit, onEdit, formIndex, initialData }) {
   const [formData, setFormData] = useState({
@@ -15,6 +16,7 @@ function Addeduc({ onClose, onSubmit, onEdit, formIndex, initialData }) {
   const [suggestedSchools, setSuggestedSchools] = useState([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [selectedSuggestionIndex, setSelectedSuggestionIndex] = useState(-1);
+  const [submitting, setSubmitting] = useState(false); // State to track submission process
 
   useEffect(() => {
     if (initialData) {
@@ -58,16 +60,21 @@ function Addeduc({ onClose, onSubmit, onEdit, formIndex, initialData }) {
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    onSubmit(formData);
-    onClose();
+    setSubmitting(true);
+    setTimeout(async () => {
+      await onSubmit(formData);
+      setSubmitting(false);
+      onClose();
+    }, 1000);
   };
 
-  const handleEdit = (e) => {
+  const handleEdit = async (e) => {
     e.preventDefault();
-    onEdit(formIndex, formData);
-    onClose();
+    setSubmitting(true);
+    await onEdit(formIndex, formData);
+    setSubmitting(false);
   };
 
   const handleCancel = () => {
@@ -224,18 +231,29 @@ function Addeduc({ onClose, onSubmit, onEdit, formIndex, initialData }) {
             {!initialData && (
               <button
                 type="submit"
-                className="bg-[#8B95EE] border border-[#444B88] text-white px-4 py-2 rounded-md"
+                disabled={submitting}
+                className="bg-[#8B95EE] border border-[#444B88] text-white px-4 py-2 rounded-md flex justify-center items-center gap-2"
               >
-                Submit
+                {submitting ? (
+                  <ImSpinner className="animate-spin mr-2" />
+                ) : (
+                  "Submit"
+                )}
               </button>
             )}
+
             {initialData && (
               <button
                 type="button"
                 onClick={handleEdit}
+                disabled={submitting}
                 className="bg-[#8B95EE] border border-[#444B88] text-black px-4 py-2 rounded-md mr-2"
               >
-                Save Changes
+                {submitting ? (
+                  <ImSpinner className="animate-spin mr-2" />
+                ) : (
+                  "Save Changes"
+                )}
               </button>
             )}
           </div>

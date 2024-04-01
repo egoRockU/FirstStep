@@ -19,7 +19,7 @@ function Newlogin() {
   const [inputs, setInputs] = useState([]);
   const googleClientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
   const dispatch = useDispatch();
-  const { loading, error } = useSelector((state) => state.user);
+  const {loading} = useSelector((state) => state.user);
 
   useEffect(() => {
     setInputs({ email: email, password: password });
@@ -50,8 +50,8 @@ function Newlogin() {
       if (result.error) {
         navigate("/register");
       }
+      navigate("/");
     });
-    navigate("/");
   };
 
   const bgStyle = {
@@ -140,15 +140,15 @@ function Newlogin() {
                 isModalOpen ? "hidden" : ""
               }`}
             >
-              <GoogleOAuthProvider clientId={googleClientId}>
-                <GoogleLogin
+              
+              {loading ? <Loader /> :(<GoogleOAuthProvider clientId={googleClientId}> <GoogleLogin
                   onSuccess={handleGoogleLogin}
-                  type="buttton"
+                  type="button"
                   size="large"
-                  text="signin_with"
+                  text="Sign in with Google"
                   shape="pill"
-                />
-              </GoogleOAuthProvider>
+                /> </GoogleOAuthProvider>)}
+              
             </div>
 
             <div className="flex items-start w-1/2 mx-auto">

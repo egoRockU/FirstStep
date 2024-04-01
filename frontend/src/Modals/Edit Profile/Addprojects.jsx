@@ -182,7 +182,7 @@ function Addprojects({ onClose, onSubmit, onEdit, formIndex, initialData }) {
   };
   return (
     <div className="fixed inset-0 flex justify-center items-center bg-gray-900 bg-opacity-50 py-5">
-      <div className="bg-white w-2/5 h-full p-4 overflow-y-scroll shadow-lg rounded-md pt-20">
+      <div className="bg-white w-2/5 h-[85%] p-4 overflow-y-scroll shadow-lg rounded-md">
         <div className="flex w-full justify-between">
           <h1 className="text-lg text-black">Add Projects</h1>
           <IoMdClose size={25} onClick={handleCancel} />

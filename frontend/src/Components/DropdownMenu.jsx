@@ -2,7 +2,8 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { logoutUser } from "../slices/userSlice";
-import profile from "../images/profileicon.png";
+import profile from "../images/profile.svg";
+import bell from "../images/bell.svg";
 import { toast } from "react-toastify";
 
 const DropdownMenu = () => {
@@ -41,7 +42,7 @@ const DropdownMenu = () => {
         <button
           onClick={toggleDropdown}
           type="button"
-          className="inline-flex justify-center w-full shadow-sm py-2 bg-transparent text-sm font-medium text-gray-700"
+          className="inline-flex justify-center w-full py-2 bg-transparent text-sm font-medium text-gray-700"
           id="options-menu"
           aria-haspopup="true"
           aria-expanded="true"
@@ -50,6 +51,11 @@ const DropdownMenu = () => {
             src={profile}
             alt=""
             className="text-black duration-500 mx-2 cursor-pointer w-8 h-8"
+          />
+          <img
+            src={bell}
+            alt="bell"
+            className="text-black duration-500 mx-2 cursor-pointer w-8 h-8 lg:hidden"
           />
         </button>
       </div>

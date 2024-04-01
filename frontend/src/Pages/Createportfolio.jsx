@@ -348,22 +348,24 @@ function Createportfolio() {
                     <IoIosArrowDropupCircle
                       onClick={() => togglePersonalInfoVisibility()}
                       size={25}
+                      color="444b88"
                     />
                   ) : (
                     <IoIosArrowDropdownCircle
                       onClick={() => togglePersonalInfoVisibility()}
                       size={25}
+                      color="444b88"
                     />
                   )}
                 </div>
                 {personalInfoVisible && (
                   <div className="flex flex-col w-full px-4 py-3 mx-auto">
                     <div className="flex">
-                      <div className="w-1/4 flex items-start justify-center">
+                      <div className="w-1/3 flex items-start justify-center">
                         <img
                           src={image ? image : profile}
                           alt=""
-                          className="w-4/6"
+                          className="w-[80%] h-[60%] border-2 border-black cursor-pointer rounded-full"
                           onClick={handleImageClick}
 
                         />
@@ -532,19 +534,21 @@ function Createportfolio() {
                   </div>
                 )}
               </div>
-              <div className="flex flex-col rounded-lg">
-                <div className="flex flex-col items-center justify-between px-4 py-3 border border-[#444b88]">
+              <div className="flex flex-col">
+                <div className="flex flex-col items-center justify-between px-4 py-3 border border-[#444b88] rounded-t-lg">  
                   <div className="flex justify-between w-full">
                     <h1 className="text-xl text-[#8B95EE]">Projects</h1>
                     {Projectsvisible ? (
                       <IoIosArrowDropupCircle
                         onClick={() => toggleProjectsvisibility()}
                         size={25}
+                        color="444b88"
                       />
                     ) : (
                       <IoIosArrowDropdownCircle
                         onClick={() => toggleProjectsvisibility()}
                         size={25}
+                        color="444b88"
                       />
                     )}
                   </div>
@@ -588,18 +592,21 @@ function Createportfolio() {
                 </div>
               </div>
               <div className="flex flex-col rounded-lg">
-                <div className="flex flex-col items-center justify-between px-4 py-3 border border-[#444b88]">
+                <div className="flex flex-col items-center justify-between px-4 py-3 border border-[#444b88] rounded-t-lg">
                   <div className="flex justify-between w-full">
                     <h1 className="text-xl text-[#8B95EE]">Certificates</h1>
                     {Certificatesvisible ? (
                       <IoIosArrowDropupCircle
                         onClick={() => toggleCertificatesvisibility()}
                         size={25}
+                        color="444b88"
                       />
+                      
                     ) : (
                       <IoIosArrowDropdownCircle
                         onClick={() => toggleCertificatesvisibility()}
                         size={25}
+                        color="444b88"
                       />
                     )}
                   </div>

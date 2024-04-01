@@ -9,7 +9,7 @@ import portfolio from "../images/portfolio.png";
 import applicants from "../images/applicants.png";
 import Footer from "../Components/Footer";
 import "../Fonts.css";
-import NavbarLoggedIn from "../Components/NavbarLoggedIn";
+import NavbarloggedinBlack from "../Components/NavbarloggedinBlack";
 import applicants2 from "../images/look-for-applicants.jpg";
 import portfolio2 from "../images/choose-your-portfolio.jpg";
 import resume2 from "../images/create-your-resume.jpg";
@@ -52,7 +52,7 @@ function NewLanding() {
   return (
     <div style={landingStyle}>
       <>
-        {user ? <NavbarLoggedIn /> : <Newnavbar />}
+        {user ? <NavbarloggedinBlack /> : <Newnavbar />}
         <div className="h-3/4 w-full flex flex-col lg:justify-around pt-20">
           <div className="w-full flex flex-col items-center lg:items-start h-[80%] justify-around text-center">
             <div className="flex flex-col sm:w-full  md:w-1/2">
