@@ -20,7 +20,7 @@ function NavbarLoggedIn() {
           <img src={logo} alt="" className="w-6 h-6 hover:scale-125" />
           <h1 className="text-2xl text-black">FirstStep</h1>
         </div>
-        <div className="hidden sm:flex lg:flex items-center gap-10">
+        <div className="hidden lg:flex items-center gap-10">
           <ul className="flex h-full items-center space-x-10">
             <li className="text-lg md:text-xl font-medium text-black whitespace-nowrap">Resume Builder</li>
             <li className="text-lg md:text-xl font-medium text-black whitespace-nowrap">
@@ -30,7 +30,7 @@ function NavbarLoggedIn() {
           </ul>
         </div>
         <div>
-          <div className="items-center gap-2 hidden sm:flex lg:flex ">
+          <div className="items-center gap-2 hidden lg:flex ">
             <img
               src={bell}
               alt=""
