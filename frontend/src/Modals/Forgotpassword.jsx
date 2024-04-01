@@ -1,6 +1,7 @@
 import { IoCloseOutline } from "react-icons/io5";
+import { useState } from "react";
 
-function Forgotpassword({ onClose,  errorMessage }) {
+function Forgotpassword({ onClose, errorMessage }) {
   const [email, setEmail] = useState("");
   const [emailExists, setEmailExists] = useState(true);
 
@@ -26,11 +27,7 @@ function Forgotpassword({ onClose,  errorMessage }) {
                   Forgot Password
                 </h1>
                 <div className="flex justify-end">
-                  <IoCloseOutline
-                    color="black"
-                    size={30}
-                    onClick={onClose} 
-                  />
+                  <IoCloseOutline color="black" size={30} onClick={onClose} />
                 </div>
               </div>
               <hr className="w-full border-gray-400 my-2" />

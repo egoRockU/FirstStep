@@ -23,6 +23,11 @@ const downloadPDF = (DIV_NAME) => {
     x: 0,
     y: 0,
     width: 459,
+    html2canvas: {
+      allowTaint: false,
+      useCORS: true,
+      logging: true,
+    },
   });
 };
 

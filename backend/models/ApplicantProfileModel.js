@@ -104,14 +104,20 @@ const ApplicantProfileSchema = new Schema({
     default: [],
   },
   resume: {
-    type: String,
+    type: {
+      resumeId: Schema.Types.ObjectId,
+      templateId: String,
+    },
     required: false,
-    default: "",
+    default: {},
   },
-  portfolioStyle: {
-    type: String,
+  portfolio: {
+    type: {
+      portfolioId: Schema.Types.ObjectId,
+      templateId: String,
+    },
     required: false,
-    default: "",
+    default: {},
   },
   messages: {
     type: [Schema.Types.ObjectId],

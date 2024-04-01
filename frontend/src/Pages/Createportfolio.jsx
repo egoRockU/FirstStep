@@ -1,12 +1,13 @@
 import NavbarLoggedIn from "../Components/NavbarLoggedIn";
 import Footer from "../Components/Footer";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import AddSocial from "../Modals/EditApplicant Profile/Addsocial";
 import AddIndustry from "../Modals/EditApplicant Profile/Addindustry";
 import AddSkill from "../Modals/EditApplicant Profile/Addskill";
 import AddCertificates from "../Modals/Edit Profile/Addcertificates";
 import Addprojects from "../Modals/Edit Profile/Addprojects";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 import {
   SocialCard,
   IndustriesCard,
@@ -27,9 +28,13 @@ import {
   CityInput,
   CountryInput,
 } from "../Components/Aplicantinput";
+import { uploadImage } from "../utils/imagePoUpload";
 
 function Createportfolio() {
-  const [personalInfoVisible, setPersonalInfoVisible] = useState(false);
+  const profileId = JSON.parse(localStorage.getItem("user")).profileId;
+  const navigate = useNavigate();
+
+  const [personalInfoVisible, setPersonalInfoVisible] = useState(true);
   const [Projectsvisible, setProjectsvisible] = useState(false);
   const [Certificatesvisible, setCertificatesvisible] = useState(false);
 
@@ -43,36 +48,23 @@ function Createportfolio() {
   const toggleCertificatesvisibility = () => {
     setCertificatesvisible(!Certificatesvisible);
   };
-  const profileId = JSON.parse(localStorage.getItem("user")).profileId;
 
   const [formData, setFormData] = useState();
   const [formIndex, setFormIndex] = useState();
 
-  const updateProfileElement = (key, value) => {
-    const input = {
-      _id: profileId,
-      set: {
-        [key]: value,
-      },
-    };
-
-    axios
-      .post("/api/applicantprofile/update", input, {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      })
-      .then((res) => {
-        console.log(res.data.message);
-      });
-  };
-
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
+  const [image, setImage] = useState("");
+  const [fName, setFName] = useState("");
+  const [lName, setLName] = useState("");
   const [email, setEmail] = useState("");
-  const [contactNumber, setContactNumber] = useState("");
+  const [contactNum, setContactNum] = useState("");
   const [city, setCity] = useState("");
   const [country, setCountry] = useState("");
+  const [bio, setBio] = useState("");
+  const [about, setAbout] = useState("");
+
+  useEffect(() => {
+    getUserProfile();
+  }, []);
 
   //social
   const [isAddSocialModalOpen, setAddSocialModalOpen] = useState(false);
@@ -186,7 +178,6 @@ function Createportfolio() {
   const handleSubmitProjects = (formData) => {
     setProjectsData((prevProjectsData) => {
       const updatedProjectsData = [...prevProjectsData, formData];
-      updateProfileElement("projects", updatedProjectsData);
       return updatedProjectsData;
     });
     setShowAddProjectsModal(false);
@@ -196,7 +187,6 @@ function Createportfolio() {
   const handleDeleteProjects = (index) => {
     const updatedProjects = [...projectsData];
     updatedProjects.splice(index, 1);
-    updateProfileElement("projects", updatedProjects);
     setProjectsData(updatedProjects);
   };
 
@@ -210,7 +200,6 @@ function Createportfolio() {
   const editProjectsData = (index, newValue) => {
     const updatedProjectsData = [...projectsData];
     updatedProjectsData[index] = newValue;
-    updateProfileElement("projects", updatedProjectsData);
     setProjectsData(updatedProjectsData);
   };
   //end
@@ -223,7 +212,6 @@ function Createportfolio() {
     console.log("Cert form data:", formData);
     setCertData((prevCertData) => {
       const updatedCertData = [...prevCertData, formData];
-      updateProfileElement("certs", updatedCertData);
       return updatedCertData;
     });
     setShowCertModal(false);
@@ -233,7 +221,6 @@ function Createportfolio() {
   const handleDeleteCert = (index) => {
     const updatedCert = [...certData];
     updatedCert.splice(index, 1);
-    updateProfileElement("certs", updatedCert);
     setCertData(updatedCert);
   };
 
@@ -247,11 +234,97 @@ function Createportfolio() {
   const editCertData = (index, newValue) => {
     const updatedCertData = [...certData];
     updatedCertData[index] = newValue;
-    updateProfileElement("certs", updatedCertData);
     setCertData(updatedCertData);
   };
-
   //end
+
+  const [imageFile, setImageFile] = useState(null);
+
+  const handleImageClick = () => {
+    fileInputRef.current.click();
+  };
+  const fileInputRef = useRef(null);
+
+  const handleFileChange = async (event) => {
+    try {
+      const selectedFile = event.target.files[0];
+      setImageFile(selectedFile);
+
+      if (selectedFile) {
+        const imageUrl = URL.createObjectURL(selectedFile);
+        setImage(imageUrl);
+        
+      }
+    } catch (error) {
+      console.error("Error handling file change:", error);
+    }
+  };
+
+  const getUserProfile = () => {
+    axios
+      .post(
+        "/api/applicantprofile/retrieveone",
+        { profileId },
+        {
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+          },
+        }
+      )
+      .then((res) => {
+        const profileObj = res.data;
+        setFName(profileObj.firstName);
+        setLName(profileObj.lastName);
+        setEmail(profileObj.email);
+        setContactNum(profileObj.contactNum);
+        setCity(profileObj.address.split(",")[0]);
+        setCountry(profileObj.address.split(", ")[1]);
+        setBio(profileObj.bio);
+        setAbout(profileObj.about);
+        setSocialLinks(profileObj.socialLinks);
+        setSkills(profileObj.skills);
+        setIndustries(profileObj.preferredCareer);
+        setProjectsData(profileObj.projects);
+        setCertData(profileObj.certs);
+        setImage(profileObj.profileImg);
+      });
+  };
+
+  const savePortfolioInfo = async () => {
+    try {
+      const proceed = confirm(
+        "Are you sure you want to use these values to be displayed on your resume?"
+      );
+  
+      if (proceed) {
+        let imageUrl = image; 
+        
+        if (imageFile) {
+    
+          imageUrl = await uploadImage(imageFile);
+        }
+    const portfolioInfo = {
+      profileImg: image,
+      firstName: fName,
+      lastName: lName,
+      email,
+      contactNum,
+      address: `${city}, ${country}`,
+      bio,
+      about,
+      socialLinks,
+      skills,
+      preferredCareer: industries,
+      certs: certData,
+      projects: projectsData,
+    };
+
+    navigate("/chooseportfolio", { state: { portfolioInfo } });
+  }
+} catch (error) {
+  console.error("Error saving resume info:", error);
+  }
+};
 
   return (
     <>
@@ -287,17 +360,29 @@ function Createportfolio() {
                   <div className="flex flex-col w-full px-4 py-3 mx-auto">
                     <div className="flex">
                       <div className="w-1/4 flex items-start justify-center">
-                        <img src={profile} alt="" className="w-4/6" />
+                        <img
+                          src={image ? image : profile}
+                          alt=""
+                          className="w-4/6"
+                          onClick={handleImageClick}
+
+                        />
+                        <input
+                          type="file"
+                          ref={fileInputRef}
+                          className="hidden"
+                          onChange={handleFileChange}
+                        />
                       </div>
                       <div className="w-3/4">
                         <div className="flex gap-2">
                           <FirstNameInput
-                            value={firstName}
-                            onChange={(e) => setFirstName(e.target.value)}
+                            value={fName}
+                            onChange={(e) => setFName(e.target.value)}
                           />
                           <LastNameInput
-                            value={lastName}
-                            onChange={(e) => setLastName(e.target.value)}
+                            value={lName}
+                            onChange={(e) => setLName(e.target.value)}
                           />
                         </div>
                         <EmailInput
@@ -305,8 +390,8 @@ function Createportfolio() {
                           onChange={(e) => setEmail(e.target.value)}
                         />
                         <ContactNumberInput
-                          value={contactNumber}
-                          onChange={(e) => setContactNumber(e.target.value)}
+                          value={contactNum}
+                          onChange={(e) => setContactNum(e.target.value)}
                         />
                         <div className="flex gap-2">
                           <CityInput
@@ -387,15 +472,29 @@ function Createportfolio() {
                         </div>
                       </div>
                       <div>
+                        <h1 className="text-xl text-[#444B88]">Bio</h1>
+                        <textarea
+                          name="bio"
+                          id="bio"
+                          cols="30"
+                          rows="5"
+                          value={bio}
+                          className="border border-[#444b88] w-full px-2 py-1"
+                          onChange={(e) => setBio(e.target.value)}
+                        ></textarea>
+                      </div>
+                      <div>
                         <h1 className="text-xl text-[#444B88]">
                           Professional Summary or About
                         </h1>
                         <textarea
                           name="about"
-                          id=""
+                          id="about"
                           cols="30"
                           rows="10"
+                          value={about}
                           className="border border-[#444b88] w-full px-2 py-1"
+                          onChange={(e) => setAbout(e.target.value)}
                         ></textarea>
                       </div>
                       <div>
@@ -544,13 +643,24 @@ function Createportfolio() {
                 </div>
               </div>
               <div className="w-full pt-5 flex justify-end">
-              <div className="flex gap-5"> <button className="text-lg border border-[#444b88] py-1 px-2 rounded-md">Cancel</button> <button className="text-lg border border-[#444b88] text-black bg-[#8B95EE] py-1 px-2 rounded-md">Save</button></div>
-            </div>
+                <div className="flex gap-5">
+                  {" "}
+                  <button className="text-lg border border-[#444b88] py-1 px-2 rounded-md">
+                    Cancel
+                  </button>{" "}
+                  <button
+                    className="text-lg border border-[#444b88] text-black bg-[#8B95EE] py-1 px-2 rounded-md"
+                    onClick={savePortfolioInfo}
+                  >
+                    Save
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </div>
-      <Footer/>
+      <Footer />
     </>
   );
 }

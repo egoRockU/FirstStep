@@ -19,7 +19,9 @@ import Createresume from "./Pages/Createresume";
 import Generatedresume from "./Pages/Generatedresume";
 import Createportfolio from "./Pages/Createportfolio";
 import Chooseportfolio from "./Pages/Chooseportfolio";
-import Portfoliopreview from "./Modals/Portfoliopreview";
+import Generatedportfolio from "./Pages/Generatedportfolio";
+import NotFound from "./Pages/NotFound";
+
 function App() {
   const { user } = useSelector((state) => state.user);
 
@@ -27,15 +29,6 @@ function App() {
     <>
       <BrowserRouter>
         <Routes>
-          <Route path="/chooseresume" element={<Chooseresume />} />
-          <Route path="/createresume" element={<Createresume />} />
-          <Route
-            path="/resume/:templateId/:resumeId"
-            element={<Generatedresume />}
-          />
-          <Route path="/createportfolio" element={<Createportfolio />} />
-          <Route path="/chooseportfolio" element={<Chooseportfolio />} />
-          <Route path="/portfoliopreview" element={<Portfoliopreview />} />
           {!user && (
             <>
               <Route path="/" element={<NewLanding />} />
@@ -48,16 +41,22 @@ function App() {
           {user && (
             <>
               <Route path="/" element={<NewLanding />} />
-              <Route path="/create" element={<Create />} />
-              <Route path="/createemployer" element={<CreateEmployerpage />} />
               <Route path="/profile" element={<Profilepage />} />
               <Route
                 path="/employerprofile"
                 element={<Employerprofilepage />}
               />
+              <Route path="*" element={<NotFound />} />
 
               {!user.profileType && (
-                <Route path="/choose" element={<Choose />} />
+                <>
+                  <Route path="/choose" element={<Choose />} />
+                  <Route path="/create" element={<Create />} />
+                  <Route
+                    path="/createemployer"
+                    element={<CreateEmployerpage />}
+                  />
+                </>
               )}
 
               {user.profileType === "applicant" && (
@@ -66,6 +65,24 @@ function App() {
                   <Route
                     path="/editapplicantabout"
                     element={<EditApplicantAbout />}
+                  />
+                  <Route path="/chooseresume" element={<Chooseresume />} />
+                  <Route path="/createresume" element={<Createresume />} />
+                  <Route
+                    path="/resume/:templateId/:resumeId"
+                    element={<Generatedresume />}
+                  />
+                  <Route
+                    path="/createportfolio"
+                    element={<Createportfolio />}
+                  />
+                  <Route
+                    path="/chooseportfolio"
+                    element={<Chooseportfolio />}
+                  />
+                  <Route
+                    path="/portfolio/:templateId/:portfolioId"
+                    element={<Generatedportfolio />}
                   />
                 </>
               )}

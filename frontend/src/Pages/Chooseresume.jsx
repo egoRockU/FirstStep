@@ -1,17 +1,30 @@
 import NavbarLoggedIn from "../Components/NavbarLoggedIn";
 import Footer from "../Components/Footer";
 import resume from "../images/resume.png";
-import { useLocation } from "react-router-dom";
-import { useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
 import Resumepreview from "../Modals/Resumepreview";
+import bt1prev from "../images/resumeTemplates/1.png";
+import bt2prev from "../images/resumeTemplates/2.png";
+import twoColumn from "../images/resumeTemplates/twoColumn.png";
 
 function Chooseresume() {
   const location = useLocation();
-  const { resumeInfo } = location.state;
-  console.log(resumeInfo);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    //navigate to createresume if no info provided
+    if (location.state === null) {
+      navigate("/createresume");
+    }
+  }, []);
+
+  const resumeInfo = location.state?.resumeInfo;
 
   const resumeTemplates = [
-    { id: 1, title: "Basic Template", imageUrl: resume },
+    { id: 1, title: "Basic Template", imageUrl: bt1prev },
+    { id: 2, title: "Basic Template2", imageUrl: bt2prev },
+    { id: 3, title: "Two Column", imageUrl: twoColumn },
   ];
 
   const [showPreviewModal, setShowPreviewModal] = useState(false);

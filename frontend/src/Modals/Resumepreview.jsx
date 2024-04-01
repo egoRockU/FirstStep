@@ -2,17 +2,26 @@ import { IoClose } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { useSelector } from "react-redux";
 
 function Resumepreview({ title, image, onClose, resumeInfo, templateId }) {
+  const { user } = useSelector((state) => state.user);
   const navigate = useNavigate();
 
   const handleClose = () => {
     onClose();
   };
 
+  //create new resume database and updates profile values
   const handleSelect = () => {
+    const inputs = {
+      profileId: user.profileId,
+      resumeInfo,
+      templateId,
+    };
+
     axios
-      .post("/api/resume/create", resumeInfo, {
+      .post("/api/resume/create", inputs, {
         headers: {
           "Content-Type": "application/json",
         },

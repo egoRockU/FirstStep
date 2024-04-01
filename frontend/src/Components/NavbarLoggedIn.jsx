@@ -13,6 +13,14 @@ function NavbarLoggedIn() {
     navigate("/");
   };
 
+  const clickResume = () => {
+    navigate("/createresume");
+  };
+
+  const clickPortfolio = () => {
+    navigate("/createportfolio");
+  };
+
   return (
     <nav className="bg-white py-2.5 fixed w-full z-50 top-0">
       <div className="flex w-full lg:w-[80%] justify-between mx-auto relative">
@@ -22,11 +30,21 @@ function NavbarLoggedIn() {
         </div>
         <div className="hidden lg:flex items-center gap-10">
           <ul className="flex h-full items-center space-x-10">
-            <li className="text-lg md:text-xl font-medium text-black whitespace-nowrap">Resume Builder</li>
-            <li className="text-lg md:text-xl font-medium text-black whitespace-nowrap">
+            <li
+              className="text-lg md:text-xl font-medium text-black whitespace-nowrap cursor-pointer"
+              onClick={clickResume}
+            >
+              Resume Builder
+            </li>
+            <li
+              className="text-lg md:text-xl font-medium text-black whitespace-nowrap cursor-pointer"
+              onClick={clickPortfolio}
+            >
               Portfolio Builder
             </li>
-            <li className="text-lg md:text-xl font-medium text-black">For Employers</li>
+            <li className="text-lg md:text-xl font-medium text-black">
+              For Employers
+            </li>
           </ul>
         </div>
         <div>
@@ -49,14 +67,20 @@ function NavbarLoggedIn() {
         {showMenu && (
           <div className="lg:hidden absolute top-full flex justify-end bg-white bg-opacity-80 w-full py-2.5 shadow-lg">
             <div className="flex flex-col items-center">
-            <ul className="flex flex-col lg:flex-row lg:flex-grow lg:justify-end space-y-4 lg:space-y-0 lg:space-x-10">
-              <li className="text-lg md:text-xl font-medium text-black whitespace-nowrap">Resume Builder</li>
-              <li className="text-lg md:text-xl font-medium text-black whitespace-nowrap">Portfolio Builder</li>
-              <li className="text-lg md:text-xl font-medium text-black whitespace-nowrap">For Employers</li>
-            </ul>
-            <div className="lg:flex items-center gap-2">
-              <DropdownMenu />
-            </div>
+              <ul className="flex flex-col lg:flex-row lg:flex-grow lg:justify-end space-y-4 lg:space-y-0 lg:space-x-10">
+                <li className="text-lg md:text-xl font-medium text-black whitespace-nowrap">
+                  Resume Builder
+                </li>
+                <li className="text-lg md:text-xl font-medium text-black whitespace-nowrap">
+                  Portfolio Builder
+                </li>
+                <li className="text-lg md:text-xl font-medium text-black whitespace-nowrap">
+                  For Employers
+                </li>
+              </ul>
+              <div className="lg:flex items-center gap-2">
+                <DropdownMenu />
+              </div>
             </div>
           </div>
         )}

@@ -1,5 +1,5 @@
 import Footer from "../Components/Footer";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import NavbarLoggedIn from "../Components/NavbarLoggedIn";
@@ -9,6 +9,8 @@ import { FaCamera } from "react-icons/fa";
 import AddSocial from "../Modals/EditApplicant Profile/Addsocial";
 import AddIndustry from "../Modals/EditApplicant Profile/Addindustry";
 import AddSkill from "../Modals/EditApplicant Profile/Addskill";
+import industrySuggestions from "../suggestions/industries.json";
+import skillSuggestions from "../suggestions/skills.json";
 import { toast } from "react-toastify";
 import {
   updateProfileImage,
@@ -20,9 +22,12 @@ import {
   SkillsCard,
 } from "../Components/Aplicantcardcomponent";
 import { RiCloseFill } from "react-icons/ri";
+import DeletePortfoliolink from "../Modals/DeletePortfoliolink";
+import DeleteResumeLink from "../Modals/DeleteResumelink";
 
 function CreateApplicantProfilepage() {
   const profileId = JSON.parse(localStorage.getItem("user")).profileId;
+  const domain = window.location.origin;
   const navigate = useNavigate();
 
   const [selectedImage, setSelectedImage] = useState(null);
@@ -30,8 +35,20 @@ function CreateApplicantProfilepage() {
 
   useEffect(() => {
     getUserProfile();
-  });
+  }, []);
 
+  const [showDeletePortfolioModal, setShowDeletePortfolioModal] =
+    useState(false);
+
+  const toggleDeletePortfolioModal = () => {
+    setShowDeletePortfolioModal(!showDeletePortfolioModal);
+  };
+  const [showDeleteResumeModal, setShowDeleteResumeModal] = useState(false);
+
+  // Function to toggle the visibility of the delete resume modal
+  const toggleDeleteResumeModal = () => {
+    setShowDeleteResumeModal(!showDeleteResumeModal);
+  };
   //social
   const [isAddSocialModalOpen, setAddSocialModalOpen] = useState(false);
   const [socialLinks, setSocialLinks] = useState([]);
@@ -61,16 +78,6 @@ function CreateApplicantProfilepage() {
   //industry
   const [industries, setIndustries] = useState([]);
   const [isAddIndustryModalOpen, setAddIndustryModalOpen] = useState(false);
-  const [industrySuggestions] = useState([
-    "Web Developer",
-    "Game Developer",
-    "Graphic Designer",
-    "Software Developer",
-    "Video Game Developer",
-    "CyberSecurity",
-    "Artificial Intelligence and Machine Learning",
-    "Mobile App Development",
-  ]);
   const onSubmitIndustries = (formData) => {
     if (!formData) {
       toast.error("Please provide Industry");
@@ -108,16 +115,6 @@ function CreateApplicantProfilepage() {
   const closeAddSkillModal = () => {
     setAddSkillModalOpen(false);
   };
-
-  const [skillSuggestions] = useState([
-    "JavaScript",
-    "Python",
-    "Java",
-    "C++",
-    "React",
-    "Node.js",
-    "Ruby",
-  ]);
 
   const onSubmitSkills = (formData) => {
     if (!formData) {
@@ -168,6 +165,10 @@ function CreateApplicantProfilepage() {
     }
   };
 
+  const toggleModal = () => {
+    setIsModalOpen(!isModalOpen);
+  };
+
   const goback = () => {
     navigate(-1);
   };
@@ -180,6 +181,10 @@ function CreateApplicantProfilepage() {
   const [country, setCountry] = useState("");
   const [bio, setBio] = useState("");
   const [about, setAbout] = useState("");
+  const [resumeId, setResumeId] = useState();
+  const [resumeLink, setResumeLink] = useState("");
+  const [portfolioId, setPortfolioId] = useState();
+  const [portfolioLink, setPortfolioLink] = useState("");
 
   const getUserProfile = () => {
     axios
@@ -207,6 +212,14 @@ function CreateApplicantProfilepage() {
         setIndustries(profileObj.preferredCareer);
         setSelectedImage(profileObj.profileImg);
         setSelectedBanner(profileObj.banner);
+        setResumeId(profileObj.resume.resumeId);
+        setResumeLink(
+          `${domain}/resume/${profileObj.resume.templateId}/${profileObj.resume.resumeId}`
+        );
+        setPortfolioId(profileObj.portfolio.portfolioId);
+        setPortfolioLink(
+          `${domain}/portfolio/${profileObj.portfolio.templateId}/${profileObj.portfolio.portfolioId}`
+        );
       });
   };
 
@@ -459,8 +472,17 @@ function CreateApplicantProfilepage() {
                           <input
                             type="text"
                             className=" w-full h-10 outline-none px-1"
+                            value={
+                              resumeId
+                                ? resumeLink
+                                : "You have no generated resume yet..."
+                            }
+                            readOnly
                           />
-                          <div className="flex items-center justify-end px-1 cursor-pointer">
+                          <div
+                            className="flex items-center justify-end px-1 cursor-pointer"
+                            onClick={resumeId ? toggleDeleteResumeModal : null}
+                          >
                             <RiCloseFill size={25} />
                           </div>
                         </div>{" "}
@@ -475,16 +497,27 @@ function CreateApplicantProfilepage() {
                           <input
                             type="text"
                             className=" w-full h-10 outline-none px-1"
+                            value={
+                              portfolioId
+                                ? portfolioLink
+                                : "You have no generated portfolio yet..."
+                            }
+                            readOnly
                           />
-                          <div className="flex items-center justify-end px-1 cursor-pointer">
+                          <div
+                            className="flex items-center justify-end px-1 cursor-pointer"
+                            onClick={
+                              portfolioId ? toggleDeletePortfolioModal : null
+                            }
+                          >
                             <RiCloseFill size={25} />
                           </div>
                         </div>{" "}
                       </div>
                     </div>
-
                   </div>
                 </div>
+
                 <div className="flex flex-col justify-center items-center w-1/4">
                   <input
                     type="file"
@@ -554,9 +587,32 @@ function CreateApplicantProfilepage() {
                 </div>
               </div>
             </div>
+            {showDeletePortfolioModal && (
+              <div className="fixed top-0 left-0 w-full h-full flex justify-center items-center bg-black bg-opacity-50 z-50">
+                <div className="bg-white p-4 rounded-md">
+                  <DeletePortfoliolink
+                    profileId={profileId}
+                    onClose={toggleDeletePortfolioModal}
+                    link={portfolioLink}
+                  />
+                </div>
+              </div>
+            )}
           </div>
+          {showDeleteResumeModal && (
+            <div className="fixed top-0 left-0 w-full h-full flex justify-center items-center bg-black bg-opacity-50 z-50">
+              <div className="bg-white p-4 rounded-md">
+                <DeleteResumeLink
+                  profileId={profileId}
+                  onClose={toggleDeleteResumeModal}
+                  link={resumeLink}
+                />
+              </div>
+            </div>
+          )}
         </div>
       </div>
+
       <Footer />
     </div>
   );

@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 const placeholderImage =
   "https://imgs.search.brave.com/q02hpLETIRmEBEpeaZkCKOUDubZ65X3ccxNLb1WxvY0/rs:fit:860:0:0/g:ce/aHR0cHM6Ly90My5m/dGNkbi5uZXQvanBn/LzAyLzk5LzczLzI2/LzM2MF9GXzI5OTcz/MjY2OF9nWnFLVmJ1/Mktqcm9MWXRUOWhS/WmZFMzdBWldGSEpR/bi5qcGc"; // Provide your placeholder image URL here
 import Footer from "../Components/Footer";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import AddSocial from "../Modals/EditEmployer Profile/Addsocial";
 import axios from "axios";
 import { IoMdClose } from "react-icons/io";
@@ -13,11 +13,13 @@ import {
   updateProfileImage,
   updateBannerImage,
 } from "../utils/updateEmpImageUpload";
-import { SocialCard} from "../Components/Employercard";
+import { SocialCard } from "../Components/Employercard";
 
 function Editemployerabout() {
   const navigate = useNavigate();
+  const location = useLocation();
   const profileId = JSON.parse(localStorage.getItem("user")).profileId;
+  console.log(location);
 
   const [selectedImage, setSelectedImage] = useState(null);
   const [selectedBanner, setSelectedBanner] = useState(null);
@@ -326,8 +328,10 @@ function Editemployerabout() {
                   <h1 className="text-lg">Social Links</h1>
                   <div className=" border-2 py-2 border-[#444B88] flex flex-col justify-center items-center">
                     <div className="flex flex-col items-center">
-                    <SocialCard socialLinks={socialLinks} onDelete={deleteSocialLink} />
-
+                      <SocialCard
+                        socialLinks={socialLinks}
+                        onDelete={deleteSocialLink}
+                      />
                     </div>
                     <button
                       className=" py-1 px-5 bg-[#8B95EE]"
