@@ -1,6 +1,6 @@
 import NavbarLoggedIn from "../Components/NavbarLoggedIn";
 import Footer from "../Components/Footer";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import AddSocial from "../Modals/EditApplicant Profile/Addsocial";
 import AddIndustry from "../Modals/EditApplicant Profile/Addindustry";
 import AddSkill from "../Modals/EditApplicant Profile/Addskill";
@@ -28,6 +28,7 @@ import {
   CityInput,
   CountryInput,
 } from "../Components/Aplicantinput";
+import { uploadImage } from "../utils/imagePoUpload";
 
 function Createportfolio() {
   const profileId = JSON.parse(localStorage.getItem("user")).profileId;
@@ -235,8 +236,29 @@ function Createportfolio() {
     updatedCertData[index] = newValue;
     setCertData(updatedCertData);
   };
-
   //end
+
+  const [imageFile, setImageFile] = useState(null);
+
+  const handleImageClick = () => {
+    fileInputRef.current.click();
+  };
+  const fileInputRef = useRef(null);
+
+  const handleFileChange = async (event) => {
+    try {
+      const selectedFile = event.target.files[0];
+      setImageFile(selectedFile);
+
+      if (selectedFile) {
+        const imageUrl = URL.createObjectURL(selectedFile);
+        setImage(imageUrl);
+        
+      }
+    } catch (error) {
+      console.error("Error handling file change:", error);
+    }
+  };
 
   const getUserProfile = () => {
     axios
@@ -268,7 +290,19 @@ function Createportfolio() {
       });
   };
 
-  const savePortfolioInfo = () => {
+  const savePortfolioInfo = async () => {
+    try {
+      const proceed = confirm(
+        "Are you sure you want to use these values to be displayed on your resume?"
+      );
+  
+      if (proceed) {
+        let imageUrl = image; 
+        
+        if (imageFile) {
+    
+          imageUrl = await uploadImage(imageFile);
+        }
     const portfolioInfo = {
       profileImg: image,
       firstName: fName,
@@ -285,13 +319,12 @@ function Createportfolio() {
       projects: projectsData,
     };
 
-    const proceed = confirm(
-      "Are you sure you want to use this values to be displayed on your resume?"
-    );
-    if (proceed) {
-      navigate("/chooseportfolio", { state: { portfolioInfo } });
-    }
-  };
+    navigate("/chooseportfolio", { state: { portfolioInfo } });
+  }
+} catch (error) {
+  console.error("Error saving resume info:", error);
+  }
+};
 
   return (
     <>
@@ -315,22 +348,32 @@ function Createportfolio() {
                     <IoIosArrowDropupCircle
                       onClick={() => togglePersonalInfoVisibility()}
                       size={25}
+                      color="444b88"
                     />
                   ) : (
                     <IoIosArrowDropdownCircle
                       onClick={() => togglePersonalInfoVisibility()}
                       size={25}
+                      color="444b88"
                     />
                   )}
                 </div>
                 {personalInfoVisible && (
                   <div className="flex flex-col w-full px-4 py-3 mx-auto">
                     <div className="flex">
-                      <div className="w-1/4 flex items-start justify-center">
+                      <div className="w-1/3 flex items-start justify-center">
                         <img
                           src={image ? image : profile}
                           alt=""
-                          className="w-4/6"
+                          className="w-[80%] h-[60%] border-2 border-black cursor-pointer rounded-full"
+                          onClick={handleImageClick}
+
+                        />
+                        <input
+                          type="file"
+                          ref={fileInputRef}
+                          className="hidden"
+                          onChange={handleFileChange}
                         />
                       </div>
                       <div className="w-3/4">
@@ -491,19 +534,21 @@ function Createportfolio() {
                   </div>
                 )}
               </div>
-              <div className="flex flex-col rounded-lg">
-                <div className="flex flex-col items-center justify-between px-4 py-3 border border-[#444b88]">
+              <div className="flex flex-col">
+                <div className="flex flex-col items-center justify-between px-4 py-3 border border-[#444b88] rounded-t-lg">  
                   <div className="flex justify-between w-full">
                     <h1 className="text-xl text-[#8B95EE]">Projects</h1>
                     {Projectsvisible ? (
                       <IoIosArrowDropupCircle
                         onClick={() => toggleProjectsvisibility()}
                         size={25}
+                        color="444b88"
                       />
                     ) : (
                       <IoIosArrowDropdownCircle
                         onClick={() => toggleProjectsvisibility()}
                         size={25}
+                        color="444b88"
                       />
                     )}
                   </div>
@@ -547,18 +592,21 @@ function Createportfolio() {
                 </div>
               </div>
               <div className="flex flex-col rounded-lg">
-                <div className="flex flex-col items-center justify-between px-4 py-3 border border-[#444b88]">
+                <div className="flex flex-col items-center justify-between px-4 py-3 border border-[#444b88] rounded-t-lg">
                   <div className="flex justify-between w-full">
                     <h1 className="text-xl text-[#8B95EE]">Certificates</h1>
                     {Certificatesvisible ? (
                       <IoIosArrowDropupCircle
                         onClick={() => toggleCertificatesvisibility()}
                         size={25}
+                        color="444b88"
                       />
+                      
                     ) : (
                       <IoIosArrowDropdownCircle
                         onClick={() => toggleCertificatesvisibility()}
                         size={25}
+                        color="444b88"
                       />
                     )}
                   </div>

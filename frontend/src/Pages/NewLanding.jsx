@@ -9,7 +9,7 @@ import portfolio from "../images/portfolio.png";
 import applicants from "../images/applicants.png";
 import Footer from "../Components/Footer";
 import "../Fonts.css";
-import NavbarLoggedIn from "../Components/NavbarLoggedIn";
+import NavbarloggedinBlack from "../Components/NavbarloggedinBlack";
 import applicants2 from "../images/look-for-applicants.jpg";
 import portfolio2 from "../images/choose-your-portfolio.jpg";
 import resume2 from "../images/create-your-resume.jpg";
@@ -52,7 +52,7 @@ function NewLanding() {
   return (
     <div style={landingStyle}>
       <>
-        {user ? <NavbarLoggedIn /> : <Newnavbar />}
+        {user ? <NavbarloggedinBlack /> : <Newnavbar />}
         <div className="h-3/4 w-full flex flex-col lg:justify-around pt-20">
           <div className="w-full flex flex-col items-center lg:items-start h-[80%] justify-around text-center">
             <div className="flex flex-col sm:w-full  md:w-1/2">
@@ -155,20 +155,12 @@ function NewLanding() {
               </div>
               <div className="flex justify-center gap-5 h-3/4">
                 <div
-                  className="w-1/3 h-full bg-cover bg-center relative hover:w-[45%] hover:h-auto transition-all duration-300"
+                  className="w-1/3 h-full bg-cover bg-center hover:w-[45%] hover:h-auto transition-all duration-300"
                   style={{
                     backgroundImage: `url(${resume})`,
                   }}
                 >
-                  <a
-                    href="#resume"
-                    style={{
-                      top: 0,
-                      left: 0,
-                      width: "100%",
-                      height: "100%",
-                    }}
-                  >
+                  <a href="#resume">
                     <h1 className="md:text-2xl lg:text-4xl text-white mt-6 ml-6">
                       Resume
                     </h1>
@@ -176,47 +168,27 @@ function NewLanding() {
                 </div>
 
                 <div
-                  className="w-1/3 h-full bg-cover bg-center relative hover:w-[45%  
-                  ] hover:h-auto transition-all duration-300"
+                  className="w-1/3 h-full bg-cover bg-center relative hover:w-[45%] hover:h-auto transition-all duration-300"
                   style={{
                     backgroundImage: `url(${portfolio})`,
-                    position: "relative",
-                  }}onClick={() => scrollToSection("portfolio")}
-
+                  }}
+                  onClick={() => scrollToSection("portfolio")}
                 >
-                  <a
-                    href="#portfolio"
-                    style={{
-                      top: 0,
-                      left: 0,
-                      width: "100%",
-                      height: "100%",
-                    }}
-                  >
+                  <a href="#portfolio">
                     <h1 className="md:text-2xl lg:text-4xl text-white mt-4 ml-6">
                       Portfolio
                     </h1>
                   </a>
                 </div>
                 <div
-                  className="w-1/3 h-full bg-cover bg-center relative hover:w-[45%  
-                  ] hover:h-auto transition-all duration-300"
+                  className="w-1/3 h-full bg-cover bg-center relative hover:w-[45%] hover:h-auto transition-all duration-300"
                   style={{
                     backgroundImage: `url(${applicants})`,
                     position: "relative",
                   }}
                   onClick={() => scrollToSection("applicants")}
                 >
-                  <a
-                    href="#Applicants"
-                    style={{
-                      position: "absolute",
-                      top: 0,
-                      left: 0,
-                      width: "100%",
-                      height: "100%",
-                    }}
-                  >
+                  <a href="#Applicants">
                     <h1 className="md:text-2xl lg:text-4xl text-white mt-4 ml-6">
                       Applicants
                     </h1>
@@ -262,20 +234,14 @@ function NewLanding() {
           </div>
           */}
 
-          <div className="mx-auto flex gap-20 flex-col pb-36">
+          <div className="mx-auto flex gap-20 flex-col pb-36 px-5">
             <a name="resume"></a>
-            <div className=" w-[70%] mx-auto rounded-2xl flex gap-5 flex-col lg:flex-row items-center">
+            <div className=" w-[100%] lg:w-[70%] px-2 mx-auto rounded-2xl flex gap-5 flex-col lg:flex-row items-center">
               <div>
                 <img
                   src={resume2}
                   alt="Construct your image"
-                  className="rounded-lg"
-                  style={{
-                    maxWidth: "500px",
-                    maxHeight: "350px",
-                    width: "auto",
-                    height: "auto",
-                  }}
+                  className="rounded-lg w-auto sm:max-w-[500px]"
                 />
               </div>
               <div>
@@ -298,7 +264,7 @@ function NewLanding() {
             <hr class="border-t-2 border-gray-300"></hr>
 
             <a name="portfolio"></a>
-            <div className="w-[70%] mx-auto rounded-2xl flex gap-5 flex-col lg:flex-row items-center">
+            <div className="w-[100%] lg:w-[70%] mx-auto rounded-2xl flex gap-5 flex-col lg:flex-row items-center">
               <div>
                 <div className="rounded-xl flex flex-col md:items-center lg:items-start">
                   <h1 className="text-3xl text-indigo-500 font-semibold">
@@ -319,13 +285,7 @@ function NewLanding() {
                 <img
                   src={portfolio2}
                   alt="Construct your image"
-                  className="rounded-lg"
-                  style={{
-                    maxWidth: "500px",
-                    maxHeight: "350px",
-                    width: "auto",
-                    height: "auto",
-                  }}
+                  className="rounded-lg w-auto sm:max-w-[500px]"
                 />
               </div>
             </div>
@@ -333,18 +293,12 @@ function NewLanding() {
             <hr class="border-t-2 border-gray-300"></hr>
 
             <a name="Applicants"></a>
-            <div className="w-[70%] mx-auto rounded-2xl flex gap-5 flex-col lg:flex-row items-center">
+            <div className="w-[100%] lg:w-[70%] mx-auto rounded-2xl flex gap-5 flex-col lg:flex-row items-center">
               <div>
                 <img
                   src={applicants2}
                   alt="Construct your image"
-                  className="rounded-lg"
-                  style={{
-                    maxWidth: "500px",
-                    maxHeight: "350px",
-                    width: "auto",
-                    height: "auto",
-                  }}
+                  className="rounded-lg w-auto sm:max-w-[500px]"
                 />
               </div>
               <div>

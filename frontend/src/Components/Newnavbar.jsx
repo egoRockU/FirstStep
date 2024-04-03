@@ -16,8 +16,9 @@ function Newnavbar() {
     navigate("/createportfolio");
   };
 
+
   return (
-    <div className="flex bg-black py-4 items-center justify-center fixed top-0 w-full bg-opacity-50 z-50">
+    <div className="flex bg-black py-5 items-center justify-center fixed top-0 w-full z-50">
       <div className="w-[60%] flex justify-between">
         <div
           className="flex items-center cursor-pointer gap-1"

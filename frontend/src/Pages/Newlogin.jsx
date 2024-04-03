@@ -1,6 +1,3 @@
-import bg from "../images/signBg.jpg";
-import newlogo from "../images/newlogo.png";
-import Newnavbar from "../Components/Newnavbar";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import validator from "validator";
@@ -10,15 +7,19 @@ import { useDispatch, useSelector } from "react-redux";
 import { loginUser, loginGoogle } from "../slices/userSlice";
 import Modal from "../Modals/Forgotpassword";
 import { toast } from "react-toastify";
+import Loader from "../Components/Loader";
+import bg from "../images/signBg.jpg";
+import newlogo from "../images/newlogo.png";
+import Newnavbar from "../Components/Newnavbar";
+
 function Newlogin() {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [inputs, setInputs] = useState([]);
   const googleClientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
-
   const dispatch = useDispatch();
-  const { loading, error } = useSelector((state) => state.user);
+  const {loading} = useSelector((state) => state.user);
 
   useEffect(() => {
     setInputs({ email: email, password: password });
@@ -49,8 +50,8 @@ function Newlogin() {
       if (result.error) {
         navigate("/register");
       }
+      navigate("/");
     });
-    navigate("/");
   };
 
   const bgStyle = {
@@ -127,7 +128,7 @@ function Newlogin() {
               type="submit"
               onClick={login}
             >
-              Log In
+              {loading ? <Loader /> : "Log In"}
             </button>
             <div className="flex justify-between gap-3 items-center">
               <div className="h-[1px] bg-black w-48"></div>
@@ -139,15 +140,15 @@ function Newlogin() {
                 isModalOpen ? "hidden" : ""
               }`}
             >
-              <GoogleOAuthProvider clientId={googleClientId}>
-                <GoogleLogin
+              
+              {loading ? <Loader /> :(<GoogleOAuthProvider clientId={googleClientId}> <GoogleLogin
                   onSuccess={handleGoogleLogin}
-                  type="buttton"
+                  type="button"
                   size="large"
-                  text="signin_with"
+                  text="Sign in with Google"
                   shape="pill"
-                />
-              </GoogleOAuthProvider>
+                /> </GoogleOAuthProvider>)}
+              
             </div>
 
             <div className="flex items-start w-1/2 mx-auto">

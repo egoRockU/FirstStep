@@ -11,6 +11,7 @@ import "../Fonts.css";
 import Terms from "../Modals/Terms.jsx";
 import Privacyandpolicy from "../Modals/Privacyandpolicy.jsx";
 import { toast } from "react-toastify";
+import Loader from "../Components/Loader.jsx";
 
 function Newregister() {
   const navigate = useNavigate();
@@ -20,7 +21,12 @@ function Newregister() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
   const [inputs, setInputs] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
   const googleClientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
+  const [agreeTerms, setAgreeTerms] = useState(false);
+  const [agreeToPrivacyPolicy, setAgreeToPrivacyPolicy] = useState(false);
+  const [isTermsOpen, setIsTermsOpen] = useState(false);
+  const [isPolicyOpen, setIsPolicyOpen] = useState(false);
 
   useEffect(() => {
     setInputs({ email: email, password: password });
@@ -36,34 +42,40 @@ function Newregister() {
     e.preventDefault();
 
     setError("");
+    setIsLoading(true);
 
-    // Validation checks
     if (email !== confirmEmail && email) {
       setError("Emails do not match!");
+      setIsLoading(false);
       return;
     }
     if (password !== confirmPassword && password) {
       setError("Passwords do not match!");
+      setIsLoading(false);
       return;
     }
     if (!email) {
       setError("Please enter an email");
+      setIsLoading(false);
       return;
     }
     if (!password) {
       setError("Please enter a password");
+      setIsLoading(false);
       return;
     }
 
     if (!agreeTerms) {
       toast.error("Please review and accept the Terms & Conditions");
       setError("Please review and accept the Terms & Conditions");
+      setIsLoading(false);
       return;
     }
 
     if (!agreeToPrivacyPolicy) {
       toast.error("Please review and accept the Privacy Policy");
       setError("Please review and accept the Privacy Policy");
+      setIsLoading(false);
       return;
     }
 
@@ -83,22 +95,30 @@ function Newregister() {
             setError(err.response.data.error);
           }
           console.log(err.response.data.error);
+        })
+        .finally(() => {
+          setIsLoading(false);
         });
     } else {
       setError("Email must be a valid email address");
+      setIsLoading(false);
     }
   };
 
   const handleGoogleRegister = async (credentialResponse) => {
+    setIsLoading(true);
+
     if (!agreeTerms) {
       toast.error("Please review and accept the Terms & Conditions");
       setError("Please review and accept the Terms & Conditions");
+      setIsLoading(false);
       return;
     }
 
     if (!agreeToPrivacyPolicy) {
       toast.error("Please review and accept the Terms & Conditions");
       setError("Please review and accept the Privacy Policy");
+      setIsLoading(false);
       return;
     }
 
@@ -116,6 +136,7 @@ function Newregister() {
       })
       .then((res) => {
         toast.success("Account has been successfully created.");
+        setIsLoading(false);
         navigate("/login");
       })
       .catch((err) => {
@@ -123,13 +144,11 @@ function Newregister() {
           setError(err.response.data.error);
         }
         console.log(err.response.data.error);
+      })
+      .finally(() => {
+        setIsLoading(false);
       });
   };
-
-  const [agreeTerms, setAgreeTerms] = useState(false);
-  const [agreeToPrivacyPolicy, setAgreeToPrivacyPolicy] = useState(false);
-  const [isTermsOpen, setIsTermsOpen] = useState(false);
-  const [isPolicyOpen, setIsPolicyOpen] = useState(false);
 
   const handleTermsOpen = () => {
     setIsTermsOpen(true);
@@ -281,6 +300,7 @@ function Newregister() {
                       {error}
                     </p>
                   )}
+                  {isLoading && <Loader />} {/* Show loader while loading */}
                   <div className="flex justify-between gap-3 items-center">
                     <div className="h-[1px] bg-black w-48"></div>
                     <h1 className="text-lg">OR</h1>

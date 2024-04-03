@@ -54,7 +54,7 @@ const getSkillsComponent = (skills) => {
           </>
         );
         break;
-      case "react":
+      case "react.js":
         skillsComponent.push(
           <>
             <img src={React} alt="" />

@@ -4,9 +4,6 @@ import { FaFacebook, FaYoutube, FaLinkedin } from "react-icons/fa";
 import { convertDate } from "../utils/convertDate";
 import { IoCloseOutline } from "react-icons/io5";
 
-
-
-
 const SocialCard = ({ socialLinks, onDelete }) => {
   const getPlatformIcon = (platform) => {
     switch (platform.toLowerCase()) {
@@ -126,4 +123,10 @@ function CertificateCard({ cert, onDelete, onEdit }) {
   );
 }
 
-export {SocialCard, IndustriesCard, SkillsCard, ProjectsCard, CertificateCard}
+export {
+  SocialCard,
+  IndustriesCard,
+  SkillsCard,
+  ProjectsCard,
+  CertificateCard,
+};

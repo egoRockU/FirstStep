@@ -65,7 +65,7 @@ function Chooseresume() {
                 {resumeTemplates.map((template, index) => (
                   <div
                     key={index}
-                    className="bg-white p-5 border border-[#444b88]"
+                    className="bg-white p-5 border border-[#444b88] flex flex-col justify-between"
                   >
                     <img
                       src={template.imageUrl}

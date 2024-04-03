@@ -1,6 +1,9 @@
 export const toDataURL = (url) => {
   fetch(url, { headers: { "Access-Control-Allow-Origin": "*" } })
-    .then((response) => response.blob())
+    .then((response) => {
+      console.log(response.blob());
+      return response.blob();
+    })
     .then(
       (blob) =>
         new Promise((resolve, reject) => {
