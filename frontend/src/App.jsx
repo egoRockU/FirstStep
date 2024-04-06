@@ -21,6 +21,8 @@ import Createportfolio from "./Pages/Createportfolio";
 import Chooseportfolio from "./Pages/Chooseportfolio";
 import Generatedportfolio from "./Pages/Generatedportfolio";
 import NotFound from "./Pages/NotFound";
+import Applicantlist from './Pages/Applicantlist';
+
 
 function App() {
   const { user } = useSelector((state) => state.user);
@@ -35,6 +37,7 @@ function App() {
               <Route path="/login" element={<Newlogin />} />
               <Route path="/register" element={<Newregister />} />
               <Route path="*" element={<Newlogin />} />
+              
             </>
           )}
 
@@ -101,6 +104,7 @@ function App() {
               )}
             </>
           )}
+          <Route path="/applicantlist" element={<Applicantlist/>}/>
         </Routes>
       </BrowserRouter>
 

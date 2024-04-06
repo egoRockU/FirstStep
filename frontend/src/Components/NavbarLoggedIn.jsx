@@ -29,7 +29,7 @@ function NavbarLoggedIn() {
 
   return (
     <nav className="bg-white py-4 shadow-lg fixed w-full z-50 top-0">
-      <div className="flex w-full lg:w-[80%] justify-between mx-auto relative">
+      <div className="flex w-full lg:w-[60%] justify-between mx-auto relative">
         <div className="flex items-center gap-1" onClick={clickLanding}>
           <img src={logo} alt="" className="w-6 h-6 hover:scale-125" />
           <h1 className="text-2xl text-black">FirstStep</h1>
