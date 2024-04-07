@@ -20,6 +20,7 @@ function Applicantlist() {
   const handleFilterChange = (value) => {
     setFilter(value);
     setSortBy(value);
+    setSearchTerm("");
   };
 
   const handleSort = () => {
@@ -113,15 +114,17 @@ function Applicantlist() {
       image: img,
     },
   ];
-
   const filteredApplicants = applicants.filter((applicant) =>
-    Object.values(applicant).some((value) =>
-      typeof value === "string"
-        ? value.toLowerCase().includes(searchTerm.toLowerCase())
-        : false
-    )
+    filter === "name"
+      ? applicant.name.toLowerCase().includes(searchTerm.toLowerCase())
+      : filter === "address"
+      ? applicant.address.toLowerCase().includes(searchTerm.toLowerCase())
+      : Object.values(applicant).some((value) =>
+          typeof value === "string"
+            ? value.toLowerCase().includes(searchTerm.toLowerCase())
+            : false
+        )
   );
-
   const sortedApplicants = filteredApplicants.sort((a, b) => {
     let comparison = 0;
     if (sortBy === "name") {
@@ -132,7 +135,7 @@ function Applicantlist() {
     return sortDirection === "asc" ? comparison : comparison * -1;
   });
 
-   return (
+  return (
     <>
       <NavbarLoggedIn />
       <div className="flex pt-28">
