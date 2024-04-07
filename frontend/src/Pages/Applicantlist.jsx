@@ -8,9 +8,10 @@ import { useNavigate } from "react-router-dom";
 
 function Applicantlist() {
   const [searchTerm, setSearchTerm] = useState("");
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
   const [filter, setFilter] = useState("name");
   const [sortBy, setSortBy] = useState("name");
+  const [sortDirection, setSortDirection] = useState("asc");
 
   const handleSearch = (value) => {
     setSearchTerm(value);
@@ -18,15 +19,16 @@ function Applicantlist() {
 
   const handleFilterChange = (value) => {
     setFilter(value);
+    setSortBy(value);
   };
 
   const handleSort = () => {
-    setSortBy(sortBy === "name" ? "somethingElse" : "name");
+    setSortDirection(sortDirection === "asc" ? "desc" : "asc");
   };
 
   const clickapplicant = () => {
     navigate("/profile");
-  }
+  };
 
   const applicants = [
     {
@@ -111,7 +113,6 @@ function Applicantlist() {
       image: img,
     },
   ];
-  
 
   const filteredApplicants = applicants.filter((applicant) =>
     Object.values(applicant).some((value) =>
@@ -122,14 +123,16 @@ function Applicantlist() {
   );
 
   const sortedApplicants = filteredApplicants.sort((a, b) => {
+    let comparison = 0;
     if (sortBy === "name") {
-      return a.name.localeCompare(b.name);
-    } else {
-      return 0;
+      comparison = a.name.localeCompare(b.name);
+    } else if (sortBy === "address") {
+      comparison = a.address.localeCompare(b.address);
     }
+    return sortDirection === "asc" ? comparison : comparison * -1;
   });
 
-  return (
+   return (
     <>
       <NavbarLoggedIn />
       <div className="flex pt-28">
@@ -211,17 +214,17 @@ function Applicantlist() {
             </div>
           </div>
           <div className="w-full py-4">
-              <div className="flex justify-end">
-                <button className="px-3 py-1 mx-1 border border-[#444b88] bg-white text-[#444b88]">
-                  1
-                </button>
-                <button className="px-3 py-1 mx-1 border border-[#444b88] bg-white text-[#444b88]">
-                  2
-                </button>
-                <button className="px-3 py-1 mx-1 border border-[#444b88] bg-white text-[#444b88]">
-                  3
-                </button>
-              </div>
+            <div className="flex justify-end">
+              <button className="px-3 py-1 mx-1 border border-[#444b88] bg-white text-[#444b88]">
+                1
+              </button>
+              <button className="px-3 py-1 mx-1 border border-[#444b88] bg-white text-[#444b88]">
+                2
+              </button>
+              <button className="px-3 py-1 mx-1 border border-[#444b88] bg-white text-[#444b88]">
+                3
+              </button>
+            </div>
           </div>
         </div>
       </div>
