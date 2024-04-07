@@ -12,6 +12,7 @@ function Applicantlist() {
   const [filter, setFilter] = useState("name");
   const [sortBy, setSortBy] = useState("name");
   const [sortDirection, setSortDirection] = useState("asc");
+  const [currentPage, setCurrentPage] = useState(1);
 
   const handleSearch = (value) => {
     setSearchTerm(value);
@@ -113,7 +114,98 @@ function Applicantlist() {
       contact: "09xxxxxxxxx",
       image: img,
     },
+    {
+      id: 11,
+      name: "Sophia Brown",
+      email: "sophia.brown@example.com",
+      address: "555 Walnut St",
+      contact: "09xxxxxxxxx",
+      image: img,
+    },
+    {
+      id: 12,
+      name: "Aophia Brown",
+      email: "sophia.brown@example.com",
+      address: "555 Walnut St",
+      contact: "09xxxxxxxxx",
+      image: img,
+    },
+    {
+      id: 13,
+      name: "Aophia Brown",
+      email: "sophia.brown@example.com",
+      address: "555 Walnut St",
+      contact: "09xxxxxxxxx",
+      image: img,
+    },
+    {
+      id: 14,
+      name: "Aophia Brown",
+      email: "sophia.brown@example.com",
+      address: "555 Walnut St",
+      contact: "09xxxxxxxxx",
+      image: img,
+    },
+    {
+      id: 15,
+      name: "Aophia Brown",
+      email: "sophia.brown@example.com",
+      address: "555 Walnut St",
+      contact: "09xxxxxxxxx",
+      image: img,
+    },
+    {
+      id: 16,
+      name: "Aophia Brown",
+      email: "sophia.brown@example.com",
+      address: "555 Walnut St",
+      contact: "09xxxxxxxxx",
+      image: img,
+    },
+    {
+      id: 17,
+      name: "Aophia Brown",
+      email: "sophia.brown@example.com",
+      address: "555 Walnut St",
+      contact: "09xxxxxxxxx",
+      image: img,
+    },
+    {
+      id: 18,
+      name: "Aophia Brown",
+      email: "sophia.brown@example.com",
+      address: "555 Walnut St",
+      contact: "09xxxxxxxxx",
+      image: img,
+    },
+    {
+      id: 19,
+      name: "Aophia Brown",
+      email: "sophia.brown@example.com",
+      address: "555 Walnut St",
+      contact: "09xxxxxxxxx",
+      image: img,
+    },
+    {
+      id: 20,
+      name: "Aophia Brown",
+      email: "sophia.brown@example.com",
+      address: "555 Walnut St",
+      contact: "09xxxxxxxxx",
+      image: img,
+    },
+
+    {
+      id: 21,
+      name: "Aophia Brown",
+      email: "sophia.brown@example.com",
+      address: "555 Walnut St",
+      contact: "09xxxxxxxxx",
+      image: img,
+    },
   ];
+
+  const applicantsPerPage = 10;
   const filteredApplicants = applicants.filter((applicant) =>
     filter === "name"
       ? applicant.name.toLowerCase().includes(searchTerm.toLowerCase())
@@ -125,7 +217,17 @@ function Applicantlist() {
             : false
         )
   );
-  const sortedApplicants = filteredApplicants.sort((a, b) => {
+
+  const totalApplicants = filteredApplicants.length;
+  const totalPages = Math.ceil(totalApplicants / applicantsPerPage);
+  const indexOfLastApplicant = currentPage * applicantsPerPage;
+  const indexOfFirstApplicant = indexOfLastApplicant - applicantsPerPage;
+  const currentApplicants = filteredApplicants.slice(
+    indexOfFirstApplicant,
+    indexOfLastApplicant
+  );
+
+  const sortedApplicants = currentApplicants.sort((a, b) => {
     let comparison = 0;
     if (sortBy === "name") {
       comparison = a.name.localeCompare(b.name);
@@ -134,6 +236,10 @@ function Applicantlist() {
     }
     return sortDirection === "asc" ? comparison : comparison * -1;
   });
+
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
 
   return (
     <>
@@ -216,19 +322,39 @@ function Applicantlist() {
               ))}
             </div>
           </div>
-          <div className="w-full py-4">
-            <div className="flex justify-end">
-              <button className="px-3 py-1 mx-1 border border-[#444b88] bg-white text-[#444b88]">
-                1
-              </button>
-              <button className="px-3 py-1 mx-1 border border-[#444b88] bg-white text-[#444b88]">
-                2
-              </button>
-              <button className="px-3 py-1 mx-1 border border-[#444b88] bg-white text-[#444b88]">
-                3
-              </button>
+          {totalPages > 1 && (
+            <div className="w-full py-4">
+              <div className="flex justify-end">
+                {currentPage > 1 && (
+                  <button
+                    onClick={() => handlePageChange(currentPage - 1)}
+                    className="px-3 py-1 mx-1 bg-white text-[#444b88]"
+                  >
+                    {"<"}
+                  </button>
+                )}
+                {Array.from({ length: totalPages }, (_, i) => (
+                  <button
+                    key={i + 1}
+                    onClick={() => handlePageChange(i + 1)}
+                    className={`px-3 py-1 mx-1  bg-white text-[#444b88] rounded-full ${
+                      i + 1 === currentPage ? "bg-indigo-800 text-white" : ""
+                    }`}
+                  >
+                    {i + 1}
+                  </button>
+                ))}
+                {currentPage < totalPages && (
+                  <button
+                    onClick={() => handlePageChange(currentPage + 1)}
+                    className="px-3 py-1 mx-1  bg-white text-[#444b88]"
+                  >
+                    {">"}
+                  </button>
+                )}
+              </div>
             </div>
-          </div>
+          )}
         </div>
       </div>
       <Footer />
