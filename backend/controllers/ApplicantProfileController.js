@@ -77,17 +77,36 @@ export const updateController = async (req, res) => {
 };
 
 export const searchController = async (req, res) => {
-  const { query } = req.body;
+  const { type, query } = req.body;
+  const showValues = {
+    _id: 1,
+    profileImg: 1,
+    firstName: 1,
+    lastName: 1,
+    email: 1,
+    address: 1,
+    contactNum: 1,
+  };
+  let results;
   try {
-    const results = await ApplicantProfile.find(query, {
-      _id: 1,
-      profileImg: 1,
-      firstName: 1,
-      lastName: 1,
-      email: 1,
-      address: 1,
-      contactNum: 1,
-    });
+    if (type === "string") {
+      const { field, regex } = query;
+      const queryObj = {};
+      queryObj[field] = { $regex: new RegExp(regex, "i") };
+      results = await ApplicantProfile.find(queryObj, showValues);
+    }
+
+    if (type === "array") {
+      const { field, regex } = query;
+      const queryObj = {};
+      queryObj[field] = { $elemMatch: { $regex: new RegExp(regex, "i") } };
+      results = await ApplicantProfile.find(queryObj, showValues);
+    }
+
+    if (type === "all") {
+      results = await ApplicantProfile.find(query, showValues);
+    }
+
     res.status(200).send(results);
   } catch (err) {
     res.status(500).send({

@@ -229,6 +229,7 @@ function CreateApplicantProfilepage() {
       set: {
         firstName: fName,
         lastName: lName,
+        fullName: `${fName} ${lName}`,
         email,
         contactNum,
         address: `${city}, ${country}`,
