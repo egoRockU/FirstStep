@@ -458,6 +458,7 @@ function editprofile() {
                     </div>
                   </div>
                   <div className="rounded-xl">
+                    {/* TODO fix projects update, (Firebase error) */}
                     <div className="bg-white p-4 text-xl flex flex-col items-center justify-center border-2 border-gray-300 gap-3 rounded-t-lg">
                       <h1 className="text-[#444B88] font-base">Projects</h1>
                       {/* PROJECTS CARD */}

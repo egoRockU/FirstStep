@@ -253,7 +253,6 @@ function Createportfolio() {
       if (selectedFile) {
         const imageUrl = URL.createObjectURL(selectedFile);
         setImage(imageUrl);
-        
       }
     } catch (error) {
       console.error("Error handling file change:", error);
@@ -295,36 +294,35 @@ function Createportfolio() {
       const proceed = confirm(
         "Are you sure you want to use these values to be displayed on your resume?"
       );
-  
+
       if (proceed) {
-        let imageUrl = image; 
-        
+        let imageUrl = image;
+
         if (imageFile) {
-    
           imageUrl = await uploadImage(imageFile);
         }
-    const portfolioInfo = {
-      profileImg: image,
-      firstName: fName,
-      lastName: lName,
-      email,
-      contactNum,
-      address: `${city}, ${country}`,
-      bio,
-      about,
-      socialLinks,
-      skills,
-      preferredCareer: industries,
-      certs: certData,
-      projects: projectsData,
-    };
+        const portfolioInfo = {
+          profileImg: image,
+          firstName: fName,
+          lastName: lName,
+          email,
+          contactNum,
+          address: `${city}, ${country}`,
+          bio,
+          about,
+          socialLinks,
+          skills,
+          preferredCareer: industries,
+          certs: certData,
+          projects: projectsData,
+        };
 
-    navigate("/chooseportfolio", { state: { portfolioInfo } });
-  }
-} catch (error) {
-  console.error("Error saving resume info:", error);
-  }
-};
+        navigate("/chooseportfolio", { state: { portfolioInfo } });
+      }
+    } catch (error) {
+      console.error("Error saving resume info:", error);
+    }
+  };
 
   return (
     <>
@@ -367,7 +365,6 @@ function Createportfolio() {
                           alt=""
                           className="w-[80%] h-[60%] border-2 border-black cursor-pointer rounded-full"
                           onClick={handleImageClick}
-
                         />
                         <input
                           type="file"
@@ -442,6 +439,7 @@ function Createportfolio() {
                       </div>
                       <div>
                         <div>
+                          {/* TODO fix industries layout */}
                           <h1 className="text-xl text-[#444B88]">
                             Industries/Job Title
                           </h1>
@@ -535,7 +533,7 @@ function Createportfolio() {
                 )}
               </div>
               <div className="flex flex-col">
-                <div className="flex flex-col items-center justify-between px-4 py-3 border border-[#444b88] rounded-t-lg">  
+                <div className="flex flex-col items-center justify-between px-4 py-3 border border-[#444b88] rounded-t-lg">
                   <div className="flex justify-between w-full">
                     <h1 className="text-xl text-[#8B95EE]">Projects</h1>
                     {Projectsvisible ? (
@@ -601,7 +599,6 @@ function Createportfolio() {
                         size={25}
                         color="444b88"
                       />
-                      
                     ) : (
                       <IoIosArrowDropdownCircle
                         onClick={() => toggleCertificatesvisibility()}
