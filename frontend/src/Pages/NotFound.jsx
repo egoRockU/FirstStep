@@ -2,11 +2,13 @@ import React, { useEffect, useState } from "react";
 import logo from "../images/NotFoundLogo.png";
 import { useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 function NotFound() {
   const location = useLocation();
   const { user } = useSelector((state) => state.user);
   const [message, setMessage] = useState();
+  const navigate = useNavigate();
 
   useEffect(() => {
     checkProfileType();
@@ -107,7 +109,9 @@ function NotFound() {
       <div className="box">
         <img className="logo" src={logo} alt="Logo" />
         {message}
-        <button className="button">Go to homepage</button>
+        <button className="button" onClick={() => navigate("/")}>
+          Go to homepage
+        </button>
       </div>
     </>
   );

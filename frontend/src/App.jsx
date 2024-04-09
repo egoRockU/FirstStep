@@ -42,6 +42,7 @@ function App() {
           {user && (
             <>
               <Route path="/" element={<NewLanding />} />
+              <Route path="/applicantlist" element={<Applicantlist />} />
               <Route path="/profile/:id" element={<Profilepage />} />
               <Route
                 path="/employerprofile"
@@ -102,7 +103,6 @@ function App() {
               )}
             </>
           )}
-          <Route path="/applicantlist" element={<Applicantlist />} />
         </Routes>
       </BrowserRouter>
 

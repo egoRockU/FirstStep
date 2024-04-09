@@ -13,7 +13,13 @@ import AddAward from "../Modals/Edit Profile/Addawards";
 import AddCert from "../Modals/Edit Profile/Addcertificates";
 import Addprojects from "../Modals/Edit Profile/Addprojects";
 import axios from "axios";
-import { ActivitiesCard, AwardCard, CertificateCard, EducationCard, ProjectsCard } from "../Components/Cardcomponents";
+import {
+  ActivitiesCard,
+  AwardCard,
+  CertificateCard,
+  EducationCard,
+  ProjectsCard,
+} from "../Components/Cardcomponents";
 import { convertDate } from "../utils/convertDate";
 
 function editprofile() {
@@ -319,7 +325,7 @@ function editprofile() {
                       <div>
                         {socialLinks.map((social, index) => (
                           <div className="flex items-center gap-1" key={index}>
-                            {/* <FaLinkedin size={25} color="blue" /> */}
+                            {/* TODO add platform logo */}
                             <p>{social.platform}</p>
                             <p>{social.link}</p>
                           </div>

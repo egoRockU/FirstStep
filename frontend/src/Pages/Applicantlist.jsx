@@ -6,10 +6,12 @@ import { MdOutlineSort } from "react-icons/md";
 import img from "../images/applicants.png";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import Loader from "../Components/Loader";
 
 function Applicantlist() {
   const [searchTerm, setSearchTerm] = useState("");
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
   const [filter, setFilter] = useState("name");
   const [sortBy, setSortBy] = useState("fullName");
   const [sortDirection, setSortDirection] = useState("asc");
@@ -41,15 +43,9 @@ function Applicantlist() {
   const applicantsPerPage = 10;
 
   const totalApplicants = applicants.length;
-  const totalPages = Math.ceil(totalApplicants / applicantsPerPage);
-  const indexOfLastApplicant = currentPage * applicantsPerPage;
-  const indexOfFirstApplicant = indexOfLastApplicant - applicantsPerPage;
-  const currentApplicants = applicants.slice(
-    indexOfFirstApplicant,
-    indexOfLastApplicant
-  );
 
-  const sortedApplicants = currentApplicants.sort((a, b) => {
+  // TODO toLem: applicants.sort() should only run if applicants length > 0. If 0 display a not found
+  const sortedApplicants = applicants.sort((a, b) => {
     let comparison = 0;
     if (sortBy === "fullName") {
       comparison = a.firstName.localeCompare(b.firstName);
@@ -59,11 +55,20 @@ function Applicantlist() {
     return sortDirection === "asc" ? comparison : comparison * -1;
   });
 
+  const totalPages = Math.ceil(totalApplicants / applicantsPerPage);
+  const indexOfLastApplicant = currentPage * applicantsPerPage;
+  const indexOfFirstApplicant = indexOfLastApplicant - applicantsPerPage;
+  const currentApplicants = sortedApplicants.slice(
+    indexOfFirstApplicant,
+    indexOfLastApplicant
+  );
+
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
 
   const getApplicants = () => {
+    setLoading(true);
     let input = {};
     //get all
     if (searchTerm === "") {
@@ -102,6 +107,7 @@ function Applicantlist() {
         },
       })
       .then((res) => {
+        setLoading(false);
         setApplicants(res.data);
       })
       .catch((err) => {
@@ -113,6 +119,9 @@ function Applicantlist() {
   return (
     <>
       <NavbarLoggedIn />
+      {/* TODO make loader only appear below sort or use skeleton */}
+      {/* TODO make footer snap on bottom of the screen */}
+      {loading ? <Loader /> : <></>}
       <div className="flex pt-28">
         <div className="w-full lg:w-[60%] mx-auto">
           <div className="flex flex-col">
@@ -145,7 +154,7 @@ function Applicantlist() {
                 </span>
               </div>
               <div className="flex items-center w-full">
-                {/* TODO make it form or call getApplicants when you press ENTER */}
+                {/* TODO make it form or anything that would call getApplicants() when you press ENTER */}
                 <input
                   type="text"
                   placeholder="Search..."
@@ -172,30 +181,36 @@ function Applicantlist() {
               </button>
             </div>
             <div className="flex flex-col gap-7">
-              {sortedApplicants.map((applicant) => (
-                //TODO add hover background change to this card
-                <div
-                  key={applicant._id}
-                  className="border border-[#444b88] p-4 flex gap-10 items-center cursor-pointer"
-                  onClick={() => clickapplicant(applicant._id)}
-                >
-                  <img
-                    src={applicant.profileImg}
-                    alt={applicant.name}
-                    className="w-20 h-20 rounded-full mr-4"
-                  />
-                  <div>
-                    <h2 className="text-lg font-semibold text-[#444b88]">
-                      {`${applicant.firstName} ${applicant.lastName}`}
-                    </h2>
-                    <p className="text-sm text-black">{applicant.email}</p>
-                    <p className="text-sm text-gray-600">{applicant.address}</p>
-                    <p className="text-sm text-black">{applicant.contactNum}</p>
+              {applicants &&
+                currentApplicants.map((applicant) => (
+                  //TODO add hover background change to this card
+                  <div
+                    key={applicant._id}
+                    className="border border-[#444b88] p-4 flex gap-10 items-center cursor-pointer"
+                    onClick={() => clickapplicant(applicant._id)}
+                  >
+                    <img
+                      src={applicant.profileImg}
+                      alt={applicant.name}
+                      className="w-20 h-20 rounded-full mr-4"
+                    />
+                    <div>
+                      <h2 className="text-lg font-semibold text-[#444b88]">
+                        {`${applicant.firstName} ${applicant.lastName}`}
+                      </h2>
+                      <p className="text-sm text-black">{applicant.email}</p>
+                      <p className="text-sm text-gray-600">
+                        {applicant.address}
+                      </p>
+                      <p className="text-sm text-black">
+                        {applicant.contactNum}
+                      </p>
+                    </div>
                   </div>
-                </div>
-              ))}
+                ))}
             </div>
           </div>
+          {/* TODO fix pagination display */}
           {totalPages > 1 && (
             <div className="w-full py-4">
               <div className="flex justify-end">
