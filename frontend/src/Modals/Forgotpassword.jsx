@@ -2,6 +2,7 @@ import { IoCloseOutline } from "react-icons/io5";
 import { useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { ImSpinner } from "react-icons/im";
 
 function Forgotpassword({ onClose, errorMessage }) {
   const [email, setEmail] = useState("");
@@ -32,6 +33,7 @@ function Forgotpassword({ onClose, errorMessage }) {
         }
       })
       .catch((err) => {
+        setLoading(false);
         setEmailExists(false);
         toast.error(err.response.data.message);
       });
@@ -54,7 +56,7 @@ function Forgotpassword({ onClose, errorMessage }) {
               <hr className="w-full border-gray-400 my-2" />
             </div>
             <div className="w-full gap-5 flex flex-col">
-              <div>Enter your Email</div>
+              <div>Enter your Email (Local Accounts Only)</div>
               <input
                 type="email"
                 name=""
@@ -77,7 +79,11 @@ function Forgotpassword({ onClose, errorMessage }) {
                 onClick={handleSendEmail}
                 className="border-2 border-[#444B88] bg-[#8B95EE] px-3 py-0 rounded-md"
               >
-                Send Email
+                {loading ? (
+                  <ImSpinner className="animate-spin mr-2" />
+                ) : (
+                  "Send Email"
+                )}
               </button>
             </div>
           </div>

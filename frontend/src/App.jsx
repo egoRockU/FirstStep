@@ -22,6 +22,7 @@ import Chooseportfolio from "./Pages/Chooseportfolio";
 import Generatedportfolio from "./Pages/Generatedportfolio";
 import NotFound from "./Pages/NotFound";
 import Applicantlist from "./Pages/Applicantlist";
+import ChangePassword from "./Pages/ChangePassword";
 
 function App() {
   const { user } = useSelector((state) => state.user);
@@ -35,6 +36,10 @@ function App() {
               <Route path="/" element={<NewLanding />} />
               <Route path="/login" element={<Newlogin />} />
               <Route path="/register" element={<Newregister />} />
+              <Route
+                path="/changepassword/:token"
+                element={<ChangePassword />}
+              />
               <Route path="*" element={<Newlogin />} />
             </>
           )}

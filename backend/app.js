@@ -7,7 +7,10 @@ import EmployerPriofileRoutes from "./routes/EmployerProfileRoutes.js";
 import ResumeRoutes from "./routes/ResumeRoutes.js";
 import PortfolioRoutes from "./routes/PortfolioRoutes.js";
 import { verifyEmail, requestAnotherEmail } from "./controllers/verifyEmail.js";
-import { changePasswordRequest } from "./controllers/changePassword.js";
+import {
+  changePasswordRequest,
+  verifyToken,
+} from "./controllers/changePassword.js";
 import logout from "./routes/logout.js";
 import cookieParser from "cookie-parser";
 import dotenv from "dotenv";
@@ -35,6 +38,7 @@ app.use("/portfolio", PortfolioRoutes);
 app.get("/verify/:urlToken", verifyEmail);
 app.get("/requestverifylink/:email", requestAnotherEmail);
 app.post("/requestchangepass", changePasswordRequest);
+app.get("/verifyToken/:token", verifyToken);
 
 app.use(errorHandler);
 
