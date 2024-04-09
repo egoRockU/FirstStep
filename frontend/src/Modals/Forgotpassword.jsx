@@ -1,19 +1,40 @@
 import { IoCloseOutline } from "react-icons/io5";
 import { useState } from "react";
+import axios from "axios";
+import { toast } from "react-toastify";
 
 function Forgotpassword({ onClose, errorMessage }) {
   const [email, setEmail] = useState("");
   const [emailExists, setEmailExists] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   const handleEmailChange = (event) => {
     setEmail(event.target.value);
   };
 
   const handleSendEmail = () => {
-    if (email === "example@example.com") {
-    } else {
-      setEmailExists(false);
-    }
+    setLoading(true);
+    axios
+      .post(
+        "/api/requestchangepass",
+        { email },
+        {
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+          },
+        }
+      )
+      .then((res) => {
+        setLoading(false);
+        if (res.status == 200) {
+          toast.success(res.data.message);
+          onClose();
+        }
+      })
+      .catch((err) => {
+        setEmailExists(false);
+        toast.error(err.response.data.message);
+      });
   };
 
   return (

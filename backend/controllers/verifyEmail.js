@@ -75,7 +75,6 @@ const requestAnotherEmail = async (req, res) => {
   const urlToken = generateToken(jwtPayload);
   sendVerificationEmail(email, urlToken);
 
-  console.log("here");
   sendEmailSentPage(res);
 };
 
