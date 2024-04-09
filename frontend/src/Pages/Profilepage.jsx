@@ -16,9 +16,7 @@ import {
 } from "../Components/Cardcomponents";
 
 function Profile() {
-  const [selectedImage, setSelectedImage] = useState(null);
   const { id } = useParams();
-  const [profile, setProfile] = useState();
   const [fName, setFName] = useState("");
   const [lName, setLName] = useState("");
   const [profileImg, setProfileImg] = useState(placeholderImg);
