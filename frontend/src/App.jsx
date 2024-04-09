@@ -21,8 +21,7 @@ import Createportfolio from "./Pages/Createportfolio";
 import Chooseportfolio from "./Pages/Chooseportfolio";
 import Generatedportfolio from "./Pages/Generatedportfolio";
 import NotFound from "./Pages/NotFound";
-import Applicantlist from './Pages/Applicantlist';
-
+import Applicantlist from "./Pages/Applicantlist";
 
 function App() {
   const { user } = useSelector((state) => state.user);
@@ -37,14 +36,13 @@ function App() {
               <Route path="/login" element={<Newlogin />} />
               <Route path="/register" element={<Newregister />} />
               <Route path="*" element={<Newlogin />} />
-              
             </>
           )}
 
           {user && (
             <>
               <Route path="/" element={<NewLanding />} />
-              <Route path="/profile" element={<Profilepage />} />
+              <Route path="/profile/:id" element={<Profilepage />} />
               <Route
                 path="/employerprofile"
                 element={<Employerprofilepage />}
@@ -104,7 +102,7 @@ function App() {
               )}
             </>
           )}
-          <Route path="/applicantlist" element={<Applicantlist/>}/>
+          <Route path="/applicantlist" element={<Applicantlist />} />
         </Routes>
       </BrowserRouter>
 
