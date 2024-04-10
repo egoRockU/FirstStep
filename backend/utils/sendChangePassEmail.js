@@ -19,7 +19,7 @@ const sendChangePassReqEmail = async (email, urlToken) => {
     to: email,
     subject: "FirstStep Change Password Request",
     html: `<p>We have recieved a request to reset the password for you account.</p>
-    <p>For security purposes, the link is only valid for three(3) days and you have to send a request again.</p>
+    <p>For security purposes, the link is only valid for for twenty-four(24) hours or one(1) day and you have to send a request again.</p>
     <p>To proceed, click on the button below: </p>
     <a href=${url}>
         <button style="background-color: #8B95EE; color: white; padding: 10px 24px; border: 1px solid; border-radius: 8px; cursor: pointer">
