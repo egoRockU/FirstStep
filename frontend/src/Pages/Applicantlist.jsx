@@ -12,7 +12,7 @@ function Applicantlist() {
   const [searchTerm, setSearchTerm] = useState("");
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
-  const [filter, setFilter] = useState("name");
+  const [filter, setFilter] = useState("fullName");
   const [sortBy, setSortBy] = useState("fullName");
   const [sortDirection, setSortDirection] = useState("asc");
   const [currentPage, setCurrentPage] = useState(1);
@@ -44,16 +44,20 @@ function Applicantlist() {
 
   const totalApplicants = applicants.length;
 
-  // TODO toLem: applicants.sort() should only run if applicants length > 0. If 0 display a not found
-  const sortedApplicants = applicants.sort((a, b) => {
-    let comparison = 0;
-    if (sortBy === "fullName") {
-      comparison = a.firstName.localeCompare(b.firstName);
-    } else if (sortBy === "address") {
-      comparison = a.address.localeCompare(b.address);
-    }
-    return sortDirection === "asc" ? comparison : comparison * -1;
-  });
+  let sortedApplicants;
+  if (applicants.length > 1) {
+    sortedApplicants = applicants.sort((a, b) => {
+      let comparison = 0;
+      if (sortBy === "fullName") {
+        comparison = a.firstName.localeCompare(b.firstName);
+      } else if (sortBy === "address") {
+        comparison = a.address.localeCompare(b.address);
+      }
+      return sortDirection === "asc" ? comparison : comparison * -1;
+    });
+  } else {
+    sortedApplicants = applicants;
+  }
 
   const totalPages = Math.ceil(totalApplicants / applicantsPerPage);
   const indexOfLastApplicant = currentPage * applicantsPerPage;
@@ -107,6 +111,7 @@ function Applicantlist() {
         },
       })
       .then((res) => {
+        console.log(res.data);
         setLoading(false);
         setApplicants(res.data);
       })
@@ -181,7 +186,7 @@ function Applicantlist() {
               </button>
             </div>
             <div className="flex flex-col gap-7">
-              {applicants &&
+              {applicants.length > 0 ? (
                 currentApplicants.map((applicant) => (
                   //TODO add hover background change to this card
                   <div
@@ -207,10 +212,13 @@ function Applicantlist() {
                       </p>
                     </div>
                   </div>
-                ))}
+                ))
+              ) : (
+                // TODO add styling
+                <p>{`Unable to find "${searchTerm}"`}</p>
+              )}
             </div>
           </div>
-          {/* TODO fix pagination display */}
           {totalPages > 1 && (
             <div className="w-full py-4">
               <div className="flex justify-end">
