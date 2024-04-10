@@ -23,9 +23,12 @@ import Generatedportfolio from "./Pages/Generatedportfolio";
 import NotFound from "./Pages/NotFound";
 import Applicantlist from "./Pages/Applicantlist";
 import ChangePassword from "./Pages/ChangePassword";
+import { inject } from "@vercel/analytics";
 
 function App() {
   const { user } = useSelector((state) => state.user);
+
+  inject();
 
   return (
     <>

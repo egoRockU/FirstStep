@@ -111,7 +111,6 @@ function Applicantlist() {
         },
       })
       .then((res) => {
-        console.log(res.data);
         setLoading(false);
         setApplicants(res.data);
       })
