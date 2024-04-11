@@ -36,13 +36,10 @@ const createLocalAccount = asyncHandler(async (req, res) => {
   }
 
   if (emailExistsInGoogle) {
-    res
-      .status(400)
-      .json({
-        error:
-          "This email already have an account. Try logging in using Google",
-        emailExist: true,
-      });
+    res.status(400).json({
+      error: "This email already have an account. Try logging in using Google",
+      emailExist: true,
+    });
     throw new Error(
       "This email already have an account. Try logging in using Google"
     );
@@ -102,19 +99,13 @@ const loginLocal = asyncHandler(async (req, res) => {
 });
 
 const changeLocalPassword = asyncHandler(async (req, res) => {
-  const { email, password, newPassword } = req.body;
+  const { email, newPassword } = req.body;
 
-  const emailExists = await checkIfEmailExist(email, res);
+  const emailExists = await checkIfEmailExist(email, LocalAccount, res);
 
   if (!emailExists) {
     res.status(401);
     throw new Error("Email does not Exist");
-  }
-
-  const correctPassword = await bcrypt.compare(password, emailExists.password);
-  if (!correctPassword) {
-    res.status(401);
-    throw new Error("Incorrect Password");
   }
 
   const newPasswordHash = await bcrypt.hash(newPassword, saltRounds);

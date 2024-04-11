@@ -75,6 +75,7 @@ function Addeduc({ onClose, onSubmit, onEdit, formIndex, initialData }) {
     setSubmitting(true);
     await onEdit(formIndex, formData);
     setSubmitting(false);
+    onClose();
   };
 
   const handleCancel = () => {

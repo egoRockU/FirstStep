@@ -1,19 +1,42 @@
 import { IoCloseOutline } from "react-icons/io5";
 import { useState } from "react";
+import axios from "axios";
+import { toast } from "react-toastify";
+import { ImSpinner } from "react-icons/im";
 
 function Forgotpassword({ onClose, errorMessage }) {
   const [email, setEmail] = useState("");
   const [emailExists, setEmailExists] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   const handleEmailChange = (event) => {
     setEmail(event.target.value);
   };
 
   const handleSendEmail = () => {
-    if (email === "example@example.com") {
-    } else {
-      setEmailExists(false);
-    }
+    setLoading(true);
+    axios
+      .post(
+        "/api/requestchangepass",
+        { email },
+        {
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+          },
+        }
+      )
+      .then((res) => {
+        setLoading(false);
+        if (res.status == 200) {
+          toast.success(res.data.message);
+          onClose();
+        }
+      })
+      .catch((err) => {
+        setLoading(false);
+        setEmailExists(false);
+        toast.error(err.response.data.message);
+      });
   };
 
   return (
@@ -33,7 +56,7 @@ function Forgotpassword({ onClose, errorMessage }) {
               <hr className="w-full border-gray-400 my-2" />
             </div>
             <div className="w-full gap-5 flex flex-col">
-              <div>Enter your Email</div>
+              <div>Enter your Email (Local Accounts Only)</div>
               <input
                 type="email"
                 name=""
@@ -56,7 +79,11 @@ function Forgotpassword({ onClose, errorMessage }) {
                 onClick={handleSendEmail}
                 className="border-2 border-[#444B88] bg-[#8B95EE] px-3 py-0 rounded-md"
               >
-                Send Email
+                {loading ? (
+                  <ImSpinner className="animate-spin mr-2" />
+                ) : (
+                  "Send Email"
+                )}
               </button>
             </div>
           </div>

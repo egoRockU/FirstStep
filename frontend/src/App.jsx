@@ -21,9 +21,16 @@ import Createportfolio from "./Pages/Createportfolio";
 import Chooseportfolio from "./Pages/Chooseportfolio";
 import Generatedportfolio from "./Pages/Generatedportfolio";
 import NotFound from "./Pages/NotFound";
+import Applicantlist from "./Pages/Applicantlist";
+import ChangePassword from "./Pages/ChangePassword";
+import { inject } from "@vercel/analytics";
+import { injectSpeedInsights } from "@vercel/speed-insights";
 
 function App() {
   const { user } = useSelector((state) => state.user);
+
+  inject();
+  injectSpeedInsights();
 
   return (
     <>
@@ -34,6 +41,10 @@ function App() {
               <Route path="/" element={<NewLanding />} />
               <Route path="/login" element={<Newlogin />} />
               <Route path="/register" element={<Newregister />} />
+              <Route
+                path="/changepassword/:token"
+                element={<ChangePassword />}
+              />
               <Route path="*" element={<Newlogin />} />
             </>
           )}
@@ -41,7 +52,8 @@ function App() {
           {user && (
             <>
               <Route path="/" element={<NewLanding />} />
-              <Route path="/profile" element={<Profilepage />} />
+              <Route path="/applicantlist" element={<Applicantlist />} />
+              <Route path="/profile/:id" element={<Profilepage />} />
               <Route
                 path="/employerprofile"
                 element={<Employerprofilepage />}

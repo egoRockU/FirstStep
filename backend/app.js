@@ -7,6 +7,10 @@ import EmployerPriofileRoutes from "./routes/EmployerProfileRoutes.js";
 import ResumeRoutes from "./routes/ResumeRoutes.js";
 import PortfolioRoutes from "./routes/PortfolioRoutes.js";
 import { verifyEmail, requestAnotherEmail } from "./controllers/verifyEmail.js";
+import {
+  changePasswordRequest,
+  verifyToken,
+} from "./controllers/changePassword.js";
 import logout from "./routes/logout.js";
 import cookieParser from "cookie-parser";
 import dotenv from "dotenv";
@@ -27,12 +31,14 @@ app.use(express.static("pages"));
 app.use("/localaccounts", localAccountRoutes);
 app.use("/googleaccounts", googleAccountRoutes);
 app.use("/logout", logout);
-app.get("/verify/:urlToken", verifyEmail);
-app.get("/requestverifylink/:email", requestAnotherEmail);
 app.use("/applicantprofile", ApplicantProfileRoutes);
 app.use("/employerprofile", EmployerPriofileRoutes);
 app.use("/resume", ResumeRoutes);
 app.use("/portfolio", PortfolioRoutes);
+app.get("/verify/:urlToken", verifyEmail);
+app.get("/requestverifylink/:email", requestAnotherEmail);
+app.post("/requestchangepass", changePasswordRequest);
+app.get("/verifyToken/:token", verifyToken);
 
 app.use(errorHandler);
 

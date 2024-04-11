@@ -162,6 +162,7 @@ function CreateApplicantProfilepage() {
       accountId: userId,
       firstName: fName,
       lastName: lName,
+      fullName: `${fName} ${lName}`,
       email: email,
       contactNum,
       address: `${city}, ${country}`,
