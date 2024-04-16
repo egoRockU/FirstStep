@@ -327,7 +327,7 @@ function editprofile() {
                           <div className="flex items-center gap-1" key={index}>
                             {/* TODO add platform logo */}
                             <p>{social.platform}</p>
-                            <p>{social.link}</p>
+                            <p className="cursor-pointer">{social.link}</p>
                           </div>
                         ))}
                       </div>
