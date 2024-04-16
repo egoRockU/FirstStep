@@ -9,8 +9,8 @@ import { FaGlobe } from "react-icons/fa";
 import { FaGithub } from "react-icons/fa";
 
 
-
-function Previewproject() {
+function Previewproject({ onClose }) {
+  
   return (
     <div className="fixed inset-0 flex justify-center items-center bg-gray-900 bg-opacity-50 py-5">
       <div className="bg-white w-2/5 h-[80%] shadow-lg rounded-md">
@@ -26,7 +26,7 @@ function Previewproject() {
             </div>
           </div>
           <div>
-            <IoMdClose size={25} />
+          <IoMdClose size={25} onClick={onClose} />
           </div>
         </div>
         <div className="flex w-3/4 h-[50%] p-4 mx-auto pt-8">

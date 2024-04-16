@@ -10,10 +10,14 @@ import axios from "axios";
 import {
   ActivitiesCard,
   AwardCard,
-  CertificateCard,
   EducationCard,
   ProjectsCard,
-} from "../Components/Cardcomponents";
+} from "../Components/aplicantcardcomp";
+
+import Awardspreview from "../Modals/Preview Modals/Awardspreview";
+import Activitiespreview from "../Modals/Preview Modals/Activitiespreview";
+import Educationpreview from "../Modals/Preview Modals/Educationpreview";
+import Previewproject from "../Modals/Preview Modals/Previewproject";
 
 function Profile() {
   const { id } = useParams();
@@ -71,6 +75,38 @@ function Profile() {
       .catch((err) => {
         console.log(err.response.data.errorMessage);
       });
+  };
+  //modals state
+  const [showActivitiesModal, setShowActivitiesModal] = useState(false);
+  const [selectedActivity, setSelectedActivity] = useState(null);
+
+  const openActivitiesModal = (activity) => {
+    setSelectedActivity(activity);
+    setShowActivitiesModal(true);
+  };
+
+  const [showAwardsModal, setShowAwardsModal] = useState(false);
+  const [selectedAward, setSelectedAward] = useState(null);
+
+  const openAwardsModal = (award) => {
+    setSelectedAward(award);
+    setShowAwardsModal(true);
+  };
+
+  const [showEducationModal, setShowEducationModal] = useState(false);
+  const [selectedEducation, setSelectedEducation] = useState(null);
+
+  const openEducationModal = (edu) => {
+    setSelectedEducation(edu);
+    setShowEducationModal(true);
+  };
+
+  const [showModal, setShowModal] = useState(false);
+  const [selectedProject, setSelectedProject] = useState(null);
+
+  const openModal = (project) => {
+    setSelectedProject(project);
+    setShowModal(true);
   };
 
   return (
@@ -165,7 +201,11 @@ function Profile() {
                   <div className="bg-white p-4 text-xl flex flex-col items-center justify-center border-2 border-gray-300 gap-3 rounded-t-lg">
                     <h1 className="text-[#444B88] font-base">Education</h1>
                     {education.map((edu, index) => (
-                      <EducationCard key={index} education={edu} />
+                      <EducationCard
+                        key={index}
+                        education={edu}
+                        openEducationModal={openEducationModal}
+                      />
                     ))}
                   </div>
                   <div className="bg-white p-4 text-xl flex flex-col items-center justify-center border-2 border-gray-300 gap-3 rounded-t-lg">
@@ -173,19 +213,31 @@ function Profile() {
                       Activities and Involvements
                     </h1>
                     {activities.map((achievement, index) => (
-                      <ActivitiesCard key={index} activity={achievement} />
+                      <ActivitiesCard
+                        key={index}
+                        activity={achievement}
+                        openActivitiesModal={openActivitiesModal}
+                      />
                     ))}
                   </div>
                   <div className="bg-white p-4 text-xl flex flex-col items-center justify-center border-2 border-gray-300 gap-3 rounded-t-lg">
                     <h1 className="text-[#444B88] font-base">Projects</h1>
                     {projects.map((project, index) => (
-                      <ProjectsCard key={index} projectsData={project} />
+                      <ProjectsCard
+                        key={index}
+                        projectsData={project}
+                        onClick={() => openModal(project)}
+                      />
                     ))}
                   </div>
                   <div className="bg-white p-4 text-xl flex flex-col items-center justify-center border-2 border-gray-300 gap-3 rounded-t-lg">
                     <h1 className="text-[#444B88] font-base">Awards</h1>
                     {awards.map((award, index) => (
-                      <AwardCard key={index} award={award} />
+                      <AwardCard
+                        key={index}
+                        award={award}
+                        openAwardsModal={() => openAwardsModal(award)}
+                      />
                     ))}
                   </div>
                 </div>
@@ -195,6 +247,30 @@ function Profile() {
         </div>
       </div>
       <Footer />
+      {showAwardsModal && (
+        <Awardspreview
+          award={selectedAward}
+          onClose={() => setShowAwardsModal(false)}
+        />
+      )}
+      {showActivitiesModal && (
+        <Activitiespreview
+          activity={selectedActivity}
+          onClose={() => setShowActivitiesModal(false)}
+        />
+      )}
+      {showEducationModal && (
+        <Educationpreview
+          edu={selectedEducation}
+          onClose={() => setShowEducationModal(false)}
+        />
+      )}
+      {showModal && (
+        <Previewproject
+          project={selectedProject}
+          onClose={() => setShowModal(false)}
+        />
+      )}
     </>
   );
 }

@@ -1,12 +1,12 @@
 import { IoMdClose } from "react-icons/io";
 
-function Awardspreview() {
+function Awardspreview({ onClose }) {
   return (
-    <div className=' className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50 h-[100vh]'>
+    <div className="fixed inset-0 flex justify-center items-center bg-gray-900 bg-opacity-50 py-5">
       <div className="flex flex-col justify-center items-center w-full h-full ">
         <div className="w-1/3 bg-white shadow-lg">
           <div className="w-full flex justify-end py-2 px-2 border border-gray-300">
-            <IoMdClose size={30} />
+            <IoMdClose size={30} onClick={onClose} />
           </div>
           <div className="flex flex-col border border-gray-300 p-3 items-center gap-2 pb-10">
             <p className="text-2xl text-[#444b88] font-bold">Title</p>
