@@ -261,7 +261,7 @@ function Profile() {
       )}
       {showEducationModal && (
         <Educationpreview
-          edu={selectedEducation}
+          education={selectedEducation}
           onClose={() => setShowEducationModal(false)}
         />
       )}
