@@ -164,6 +164,11 @@ function Applicantlist() {
                   placeholder="Search..."
                   onChange={(e) => setSearchTerm(e.target.value)}
                   className="border border-gray-300 px-5 py-1  w-full"
+                  onKeyPress={(e) => {
+                    if (e.key === "Enter") {
+                      getApplicants();
+                    }
+                  }}
                 />
                 <div
                   className="bg-[#444b88] h-full flex justify-center items-center px-2"
@@ -190,7 +195,7 @@ function Applicantlist() {
                   //TODO add hover background change to this card
                   <div
                     key={applicant._id}
-                    className="border border-[#444b88] p-4 flex gap-10 items-center cursor-pointer"
+                    className="border border-[#444b88] p-4 flex gap-10 items-center cursor-pointer hover:bg-[#]"
                     onClick={() => clickapplicant(applicant._id)}
                   >
                     <img
@@ -214,7 +219,7 @@ function Applicantlist() {
                 ))
               ) : (
                 // TODO add styling
-                <p>{`Unable to find "${searchTerm}"`}</p>
+                <p className="text-2xl text-[#444b88] p-2 text-center">{`Unable to find "${searchTerm}"`}</p>
               )}
             </div>
           </div>
