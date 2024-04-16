@@ -39,6 +39,7 @@ function Previewproject({ onClose, project }) {
           </div>
         </div>
         <div className="flex w-3/4 h-[50%] p-4 mx-auto pt-8">
+          {/* TODO change navigation button color to make it more visible */}
           <Swiper
             slidesPerView={1}
             spaceBetween={30}
