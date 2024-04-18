@@ -4,8 +4,7 @@ import placeholderBanner from "../images/signBg.jpg";
 import NavbarLoggedIn from "../Components/NavbarLoggedIn";
 import Footer from "../Components/Footer";
 import placeholderImg from "../images/profilee.png";
-import { FaSquareXTwitter } from "react-icons/fa6";
-import { FaLinkedin } from "react-icons/fa";
+import SocialIcon from "../Components/SocialIcon";
 import axios from "axios";
 import {
   ActivitiesCard,
@@ -155,8 +154,7 @@ function Profile() {
                       <div>
                         {socialLinks.map((social, index) => (
                           <div className="flex items-center gap-1" key={index}>
-                            {/* TODO add platform logo */}
-                            <p>{social.platform}</p>
+                            <SocialIcon platform={social.platform} />
                             <p>{social.link}</p>
                           </div>
                         ))}

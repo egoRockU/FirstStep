@@ -3,8 +3,7 @@ import banner from "../images/signBg.jpg";
 import NavbarLoggedIn from "../Components/NavbarLoggedIn";
 import Footer from "../Components/Footer";
 import profile from "../images/profilee.png";
-import { FaSquareXTwitter } from "react-icons/fa6";
-import { FaLinkedin } from "react-icons/fa";
+import SocialIcon from "../Components/SocialIcon";
 import { useNavigate } from "react-router-dom";
 import { IoCloseOutline } from "react-icons/io5";
 import AddEduc from "../Modals/Edit Profile/Addeducmodal";
@@ -325,9 +324,8 @@ function editprofile() {
                       <div>
                         {socialLinks.map((social, index) => (
                           <div className="flex items-center gap-1" key={index}>
-                            {/* TODO add platform logo */}
-                            <p>{social.platform}</p>
-                            <p className="cursor-pointer">{social.link}</p>
+                            <SocialIcon platform={social.platform} />
+                            <p>{social.link}</p>
                           </div>
                         ))}
                       </div>
