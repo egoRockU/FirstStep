@@ -224,13 +224,12 @@ function Applicantlist() {
             </div>
           </div>
           {totalPages > 1 && (
-  <Pagination
-    currentPage={currentPage}
-    totalPages={totalPages}
-    handlePageChange={handlePageChange}
-  />
-)}
-
+            <Pagination
+              currentPage={currentPage}
+              totalPages={totalPages}
+              handlePageChange={handlePageChange}
+            />
+          )}
         </div>
       </div>
       <Footer />
