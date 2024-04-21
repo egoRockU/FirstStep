@@ -1,17 +1,20 @@
 import logo from "../images/profile.svg";
 import { IoMdClose } from "react-icons/io";
 
-
-function Messagemodal() {
+function Messagemodal({ closeModal, messageId }) {
+  const { senderName } = messageId;
   return (
     <div className="fixed inset-0 flex justify-center items-center">
       <div className="bg-white flex flex-col border w-2/4 border-[#444b88] shadow-xl">
-        <div className="w-full flex justify-end py-1 px-2"><IoMdClose size={30} /></div>
+        <div className="w-full flex justify-end py-1 px-2" onClick={closeModal}>
+          {" "}
+          <IoMdClose size={30} />{" "}
+        </div>
         <div className="flex flex-col p-5">
           <div className="">
             <h1 className="flex text-xl gap-2">
               <span className="text-[#444b88]">From:</span>{" "}
-              <img src={logo} alt="" /> Sender{" "}
+              <img src={logo} alt="" /> {senderName}
             </h1>
           </div>
           <div className="pt-5">
@@ -33,8 +36,12 @@ function Messagemodal() {
             </div>
           </div>
           <div className="w-full justify-end flex gap-4 pt-5">
-                <button className="px-2 py-1 border border-[#444b88] rounded-md">Cancel</button>
-                <button className="px-2 py-1 border border-[#444b88] rounded-md bg-[#bad2ff]">Save</button>
+            <button className="px-2 py-1 border border-[#444b88] rounded-md">
+              Cancel
+            </button>
+            <button className="px-2 py-1 border border-[#444b88] rounded-md bg-[#bad2ff]">
+              Save
+            </button>
           </div>
         </div>
       </div>
