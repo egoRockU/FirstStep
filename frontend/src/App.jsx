@@ -25,7 +25,7 @@ import Applicantlist from "./Pages/Applicantlist";
 import ChangePassword from "./Pages/ChangePassword";
 import { inject } from "@vercel/analytics";
 import { injectSpeedInsights } from "@vercel/speed-insights";
-
+import Inbox from "./Pages/Inbox";
 
 function App() {
   const { user } = useSelector((state) => state.user);
@@ -114,6 +114,7 @@ function App() {
               )}
             </>
           )}
+          <Route path="/inbox" element={<Inbox/>}/>
         </Routes>
       </BrowserRouter>
 
