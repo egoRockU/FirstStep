@@ -25,8 +25,8 @@ import Applicantlist from "./Pages/Applicantlist";
 import ChangePassword from "./Pages/ChangePassword";
 import { inject } from "@vercel/analytics";
 import { injectSpeedInsights } from "@vercel/speed-insights";
-import Messagemodal from "./Modals/Messagemodal";
 import Inbox from "./Pages/Inbox";
+import Sendmessage from "./Pages/Sendmessage";
 function App() {
   const { user } = useSelector((state) => state.user);
 
@@ -114,8 +114,8 @@ function App() {
               )}
             </>
           )}
-          <Route path="/inbox" element={<Inbox/>}/>
-          <Route path="/message" element={<Messagemodal/>}/>
+          <Route path="/inbox" element={<Inbox />} />
+          <Route path="/message" element={<Sendmessage />} />
         </Routes>
       </BrowserRouter>
 
