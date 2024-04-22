@@ -1,7 +1,7 @@
 import React from "react";
-import { IoClose, IoLogoTwitter } from "react-icons/io5";
+import { IoClose} from "react-icons/io5";
 import { FaFacebook, FaYoutube, FaLinkedin } from "react-icons/fa";
-
+import {FaXTwitter} from 'react-icons/fa6'
 
 
 const SocialCard = ({ socialLinks, onDelete }) => {
@@ -10,7 +10,7 @@ const SocialCard = ({ socialLinks, onDelete }) => {
       case "facebook":
         return <FaFacebook />;
       case "twitter":
-        return <IoLogoTwitter />;
+        return <FaXTwitter />;
       case "youtube":
         return <FaYoutube />;
       case "linkedin":

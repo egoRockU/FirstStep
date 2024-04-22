@@ -111,7 +111,7 @@ function Profile() {
   return (
     <>
       <NavbarLoggedIn />
-      <div className="bg-gray-100 mx-auto h-[1000px]">
+      <div className="bg-gray-100 mx-auto pb-10">
         <div className="container mx-auto">
           <img
             src={banner}

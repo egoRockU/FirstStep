@@ -433,7 +433,6 @@ function CreateApplicantProfilepage() {
                     )}
                   </div>
                   <div className="flex flex-col w-full">
-                    {/* TODO Fix industries overlapping items */}
                     <h1 className="text-lg">Industries</h1>
                     <div className="border-2 border-[#444B88] flex py-2 flex-col justify-center items-center gap-2">
                       <div className="flex flex-wrap gap-2 justify-center">
@@ -616,7 +615,6 @@ function CreateApplicantProfilepage() {
           )}
         </div>
       </div>
-
       <Footer />
     </div>
   );

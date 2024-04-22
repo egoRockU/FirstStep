@@ -439,7 +439,6 @@ function Createportfolio() {
                       </div>
                       <div>
                         <div>
-                          {/* TODO fix industries layout */}
                           <h1 className="text-xl text-[#444B88]">
                             Industries/Job Title
                           </h1>

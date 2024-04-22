@@ -3,8 +3,7 @@ import { useNavigate } from "react-router-dom";
 import logo from "../images/Logo.svg";
 import DropdownMenu from "./DropdownMenu";
 import { GiHamburgerMenu } from "react-icons/gi";
-import bell from "../images/bell.svg";
-
+import MessageDropdownMenu from "./MessageDropdownMenu";
 function NavbarloggedinBlack() {
   const navigate = useNavigate();
   const [showMenu, setShowMenu] = useState(false);
@@ -86,11 +85,7 @@ function NavbarloggedinBlack() {
         </div>
         <div>
           <div className="items-center gap-2 hidden lg:flex ">
-            <img
-              src={bell}
-              alt=""
-              className="text-white duration-500 cursor-pointer w-8 h-8"
-            />
+          <MessageDropdownMenu />
             <DropdownMenu />
           </div>
         </div>
@@ -118,6 +113,7 @@ function NavbarloggedinBlack() {
               </ul>
               <div className="lg:flex items-center gap-2">
                 <DropdownMenu />
+               
               </div>
             </div>
           </div>
