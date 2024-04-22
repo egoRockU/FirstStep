@@ -12,7 +12,7 @@ const MessageSchema = new Schema(
     receiver: {
       type: Schema.Types.ObjectId,
       required: false,
-      ref: "Applicant Profile",
+      ref: "ApplicantProfile",
     },
     subject: {
       type: String,

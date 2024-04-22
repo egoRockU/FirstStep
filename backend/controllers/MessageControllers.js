@@ -12,11 +12,21 @@ const getAll = asyncHandler(async (req, res) => {
 });
 
 const getMessage = asyncHandler(async (req, res) => {
-  const { messageId } = req.body;
-  const message = await Message.findById(message)
-    .populate("EmployerProfile")
-    .populate("ApplicantProfile");
-  await handleRetrieveOne(Message, messageId, res);
+  try {
+    const select = "firstName lastName profileImg";
+    const { messageId } = req.body;
+    const message = await Message.findById(messageId)
+      .populate({ path: "sender", select })
+      .populate({ path: "receiver", select })
+      .exec();
+    res.status(200).send(message);
+  } catch (err) {
+    res.status(500).send({
+      status: false,
+      message: "Not Retrieved!",
+      err,
+    });
+  }
 });
 
 const create = asyncHandler(async (req, res) => {
