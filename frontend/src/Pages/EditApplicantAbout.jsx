@@ -24,6 +24,7 @@ import {
 import { RiCloseFill } from "react-icons/ri";
 import DeletePortfoliolink from "../Modals/DeletePortfoliolink";
 import DeleteResumeLink from "../Modals/DeleteResumelink";
+import { setProfileImage } from "../utils/profileImage";
 
 function CreateApplicantProfilepage() {
   const profileId = JSON.parse(localStorage.getItem("user")).profileId;
@@ -251,6 +252,7 @@ function CreateApplicantProfilepage() {
       })
       .then((res) => {
         console.log(res.data.message);
+        setProfileImage(profileId, "applicant");
         navigate("/editprofile");
       });
   };

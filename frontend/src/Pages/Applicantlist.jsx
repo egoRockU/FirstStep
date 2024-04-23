@@ -4,6 +4,7 @@ import Footer from "../Components/Footer";
 import { CiSearch } from "react-icons/ci";
 import { MdOutlineSort } from "react-icons/md";
 import img from "../images/applicants.png";
+import profileDefault from "../images/profile.svg";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Loader from "../Components/Loader";
@@ -199,7 +200,11 @@ function Applicantlist() {
                     onClick={() => clickapplicant(applicant._id)}
                   >
                     <img
-                      src={applicant.profileImg}
+                      src={
+                        applicant.profileImg
+                          ? applicant.profileImg
+                          : profileDefault
+                      }
                       alt={applicant.name}
                       className="w-20 h-20 rounded-full mr-4"
                     />

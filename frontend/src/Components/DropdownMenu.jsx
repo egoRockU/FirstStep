@@ -11,6 +11,13 @@ const DropdownMenu = () => {
   const [isOpen, setIsOpen] = useState(false);
   const dispatch = useDispatch();
   let userObj = JSON.parse(localStorage.getItem("user"));
+  let profileImg = localStorage.getItem("profileImage");
+
+  if (profileImg) {
+    profileImg = JSON.parse(profileImg);
+  } else {
+    profileImg = "";
+  }
 
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
@@ -48,14 +55,9 @@ const DropdownMenu = () => {
           aria-expanded="true"
         >
           <img
-            src={profile}
+            src={profileImg ? profileImg : profile}
             alt=""
-            className="text-black duration-500 mx-2 cursor-pointer w-8 h-8"
-          />
-          <img
-            src={bell}
-            alt="bell"
-            className="text-black duration-500 mx-2 cursor-pointer w-8 h-8 lg:hidden"
+            className="text-black duration-500 mx-2 cursor-pointer w-8 h-8 rounded-full border-2 border-[#444b88] p-0.5"
           />
         </button>
       </div>

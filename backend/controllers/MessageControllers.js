@@ -35,7 +35,7 @@ const create = asyncHandler(async (req, res) => {
 
 const deleteMessage = asyncHandler(async (req, res) => {
   const { _id } = req.body;
-  await handleDelete(EmployerProfile, { _id }, res);
+  await handleDelete(Message, { _id }, res);
 });
 
 export { getAll, getMessage, create, deleteMessage };

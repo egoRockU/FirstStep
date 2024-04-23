@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import placeholderBanner from "../images/signBg.jpg";
+import profileDefault from "../images/profile.svg";
 import NavbarLoggedIn from "../Components/NavbarLoggedIn";
 import Footer from "../Components/Footer";
-import placeholderImg from "../images/profilee.png";
 import SocialIcon from "../Components/SocialIcon";
 import axios from "axios";
 import {
@@ -19,10 +20,13 @@ import Educationpreview from "../Modals/Preview Modals/Educationpreview";
 import Previewproject from "../Modals/Preview Modals/Previewproject";
 
 function Profile() {
+  let userObj = JSON.parse(localStorage.getItem("user"));
+  let userAccountType = userObj.profileType;
+  const navigate = useNavigate();
   const { id } = useParams();
   const [fName, setFName] = useState("");
   const [lName, setLName] = useState("");
-  const [profileImg, setProfileImg] = useState(placeholderImg);
+  const [profileImg, setProfileImg] = useState(profileDefault);
   const [banner, setBanner] = useState(placeholderBanner);
   const [email, setEmail] = useState("");
   const [contactNum, setContactNum] = useState("");
@@ -36,9 +40,15 @@ function Profile() {
   const [activities, setActivities] = useState([]);
   const [projects, setProjects] = useState([]);
   const [awards, setAwards] = useState([]);
+  const [isEmployer, setIsEmployer] = useState();
 
   useEffect(() => {
     getApplicant();
+    if (userAccountType == "applicant") {
+      setIsEmployer(false);
+    } else {
+      setIsEmployer(true);
+    }
   }, []);
 
   const getApplicant = () => {
@@ -108,6 +118,14 @@ function Profile() {
     setShowModal(true);
   };
 
+  const message = () => {
+    const state = {
+      rName: `${fName} ${lName}`,
+      rProfileImg: profileImg,
+    };
+    navigate("/message", { state });
+  };
+
   return (
     <>
       <NavbarLoggedIn />
@@ -128,15 +146,20 @@ function Profile() {
                     <div className="flex justify-around">
                       <label htmlFor="imageInput" className="">
                         <img
-                          src={profileImg}
+                          src={profileImg ? profileImg : profileDefault}
                           alt=""
                           className="w-40 h-40 rounded-full border-2"
                         />
                       </label>
                       <div className="flex justify-center items-center">
-                        <button className="p-1 px-4 rounded-2xl border border-[#444B88] bg-[#8B95EE]">
-                          Message
-                        </button>
+                        {isEmployer && (
+                          <button
+                            className="p-1 px-4 rounded-2xl border border-[#444B88] bg-[#8B95EE]"
+                            onClick={message}
+                          >
+                            Message
+                          </button>
+                        )}
                       </div>
                     </div>
                     <div className="flex flex-col w-full p-5 space-y-2">

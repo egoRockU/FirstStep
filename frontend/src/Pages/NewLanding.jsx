@@ -261,7 +261,7 @@ function NewLanding() {
                 </div>
               </div>
             </div>
-            <hr class="border-t-2 border-gray-300"></hr>
+            <hr className="border-t-2 border-gray-300"></hr>
 
             <a name="portfolio"></a>
             <div className="w-[100%] lg:w-[70%] mx-auto rounded-2xl flex gap-5 flex-col lg:flex-row items-center">
@@ -290,7 +290,7 @@ function NewLanding() {
               </div>
             </div>
 
-            <hr class="border-t-2 border-gray-300"></hr>
+            <hr className="border-t-2 border-gray-300"></hr>
 
             <a name="Applicants"></a>
             <div className="w-[100%] lg:w-[70%] mx-auto rounded-2xl flex gap-5 flex-col lg:flex-row items-center">

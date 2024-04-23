@@ -14,6 +14,7 @@ import {
   updateBannerImage,
 } from "../utils/updateEmpImageUpload";
 import { SocialCard } from "../Components/Employercard";
+import { setProfileImage } from "../utils/profileImage";
 
 function Editemployerabout() {
   const navigate = useNavigate();
@@ -158,6 +159,7 @@ function Editemployerabout() {
       })
       .then((res) => {
         console.log(res.data.message);
+        setProfileImage(profileId, "employer");
         navigate("/editemployer");
       });
   };
