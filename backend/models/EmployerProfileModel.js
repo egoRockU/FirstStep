@@ -69,6 +69,12 @@ const EmployerProfileSchema = new Schema({
     required: false,
     default: "",
   },
+  messages: {
+    type: [Schema.Types.ObjectId],
+    required: false,
+    default: [],
+    ref: "Message",
+  },
 });
 
 const EmployerProfile = mongoose.model(

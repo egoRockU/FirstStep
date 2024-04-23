@@ -5,55 +5,10 @@ import {
   handleRetrieve,
   handleRetrieveOne,
   handleUpdate,
+  handlePush,
 } from "../utils/controllerUtils.js";
 
 export const createController = async (req, res) => {
-  const {
-    accountId,
-    profileImg,
-    banner,
-    firstName,
-    lastName,
-    email,
-    phone,
-    address,
-    bio,
-    about,
-    skills,
-    preferedCareer,
-    academicAchievements,
-    activitiesAndInvolvements,
-    certs,
-    projects,
-    resume,
-    portfolioStyle,
-    portfolioId,
-    messages,
-  } = req.body;
-
-  // await handleCreate(ApplicantProfile, {
-  //   accountId,
-  //   profileImg,
-  //   banner,
-  //   firstName,
-  //   lastName,
-  //   email,
-  //   phone,
-  //   address,
-  //   bio,
-  //   about,
-  //   skills,
-  //   preferedCareer,
-  //   academicAchievements,
-  //   activitiesAndInvolvements,
-  //   certs,
-  //   projects,
-  //   resume,
-  //   portfolioStyle,
-  //   portfolioId,
-  //   messages
-  // }, res);
-
   await handleCreate(ApplicantProfile, req.body, res);
 };
 
@@ -74,6 +29,11 @@ export const retrieveOneController = async (req, res) => {
 export const updateController = async (req, res) => {
   const { _id, set } = req.body;
   await handleUpdate(ApplicantProfile, { _id }, set, res);
+};
+
+export const updateMessages = async (req, res) => {
+  const { _id, push } = req.body;
+  await handlePush(ApplicantProfile, { _id }, push, res);
 };
 
 export const searchController = async (req, res) => {

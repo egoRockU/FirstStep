@@ -20,8 +20,6 @@ import Educationpreview from "../Modals/Preview Modals/Educationpreview";
 import Previewproject from "../Modals/Preview Modals/Previewproject";
 
 function Profile() {
-  let userObj = JSON.parse(localStorage.getItem("user"));
-  let userAccountType = userObj.profileType;
   const navigate = useNavigate();
   const { id } = useParams();
   const [fName, setFName] = useState("");
@@ -40,15 +38,9 @@ function Profile() {
   const [activities, setActivities] = useState([]);
   const [projects, setProjects] = useState([]);
   const [awards, setAwards] = useState([]);
-  const [isEmployer, setIsEmployer] = useState();
 
   useEffect(() => {
     getApplicant();
-    if (userAccountType == "applicant") {
-      setIsEmployer(false);
-    } else {
-      setIsEmployer(true);
-    }
   }, []);
 
   const getApplicant = () => {
@@ -122,6 +114,8 @@ function Profile() {
     const state = {
       rName: `${fName} ${lName}`,
       rProfileImg: profileImg,
+      rId: id,
+      rType: "applicant",
     };
     navigate("/message", { state });
   };
@@ -152,14 +146,12 @@ function Profile() {
                         />
                       </label>
                       <div className="flex justify-center items-center">
-                        {isEmployer && (
-                          <button
-                            className="p-1 px-4 rounded-2xl border border-[#444B88] bg-[#8B95EE]"
-                            onClick={message}
-                          >
-                            Message
-                          </button>
-                        )}
+                        <button
+                          className="p-1 px-4 rounded-2xl border border-[#444B88] bg-[#8B95EE]"
+                          onClick={message}
+                        >
+                          Message
+                        </button>
                       </div>
                     </div>
                     <div className="flex flex-col w-full p-5 space-y-2">

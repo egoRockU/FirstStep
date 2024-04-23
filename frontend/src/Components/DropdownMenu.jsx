@@ -14,7 +14,12 @@ const DropdownMenu = () => {
   let profileImg = localStorage.getItem("profileImage");
 
   if (profileImg) {
-    profileImg = JSON.parse(profileImg);
+    try {
+      profileImg = JSON.parse(profileImg);
+    } catch (err) {
+      console.log(err);
+      profileImg = "";
+    }
   } else {
     profileImg = "";
   }

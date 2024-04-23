@@ -7,7 +7,7 @@ import {
   deleteMessage,
 } from "../controllers/MessageControllers.js";
 
-router.get("/getMessage", getMessage);
+router.post("/getMessage", getMessage);
 router.get("/getAll", getAll);
 router.post("/create", create);
 router.post("/deleteMessage", deleteMessage);

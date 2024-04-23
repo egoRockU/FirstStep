@@ -1,18 +1,19 @@
 import mongoose from "mongoose";
+import { ProfileSchema } from "./OtherSchema.js";
 
 const { Schema } = mongoose;
 
 const MessageSchema = new Schema(
   {
     sender: {
-      type: Schema.Types.ObjectId,
+      type: ProfileSchema,
       required: false,
-      ref: "EmployerProfile",
+      default: {},
     },
     receiver: {
-      type: Schema.Types.ObjectId,
+      type: ProfileSchema,
       required: false,
-      ref: "ApplicantProfile",
+      default: {},
     },
     subject: {
       type: String,

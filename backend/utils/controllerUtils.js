@@ -70,3 +70,19 @@ export const handleUpdate = async (model, query, update, res) => {
     });
   }
 };
+
+export const handlePush = async (model, query, update, res) => {
+  try {
+    await model.updateOne(query, { $push: update });
+    res.status(200).send({
+      status: true,
+      message: "Successfully Updated!",
+    });
+  } catch (err) {
+    console.error(`Error updating model: ${err}`);
+    res.status(500).send({
+      status: false,
+      message: "Not Updated!",
+    });
+  }
+};
