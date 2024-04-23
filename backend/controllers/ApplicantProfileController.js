@@ -7,6 +7,7 @@ import {
   handleUpdate,
   handlePush,
 } from "../utils/controllerUtils.js";
+import getMessageValues from "../utils/getMessageValues.js";
 
 export const createController = async (req, res) => {
   await handleCreate(ApplicantProfile, req.body, res);
@@ -34,6 +35,28 @@ export const updateController = async (req, res) => {
 export const updateMessages = async (req, res) => {
   const { _id, push } = req.body;
   await handlePush(ApplicantProfile, { _id }, push, res);
+};
+
+export const getMessages = async (req, res) => {
+  const { profileId } = req.body;
+  try {
+    const results = await ApplicantProfile.findById(profileId)
+      .select("messages")
+      .populate("messages");
+
+    let messages = [];
+    for (const message of results.messages) {
+      let mWithVal = await getMessageValues(message._id);
+      messages.push(mWithVal);
+    }
+
+    res.status(200).send(messages);
+  } catch (err) {
+    res.status(500).send({
+      status: false,
+      message: "Failed to retrieve messages",
+    });
+  }
 };
 
 export const searchController = async (req, res) => {

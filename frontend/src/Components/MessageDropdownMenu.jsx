@@ -1,13 +1,21 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import bell from "../images/bell.svg";
 import logo from "../images/profile.svg";
 import Messagemodal from "../Modals/Messagemodal";
+import axios from "axios";
+import { useSelector } from "react-redux";
 
 const MessageDropdownMenu = () => {
+  const { user } = useSelector((state) => state.user);
   const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
   const [selectedMessage, setSelectedMessage] = useState(null);
+  const [messages, setMessages] = useState([]);
+
+  useEffect(() => {
+    getMessages();
+  }, []);
 
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
@@ -23,12 +31,32 @@ const MessageDropdownMenu = () => {
     setIsOpen(false);
   };
 
-  const messages = [
-    { id: "message1", from: "Sender 1", subject: "Lorem ipsum dolor 1" },
-    { id: "message2", from: "Sender 2", subject: "Lorem ipsum dolor 2" },
-    { id: "message3", from: "Sender 3", subject: "Lorem ipsum dolor 3" },
-    { id: "message4", from: "Sender 4", subject: "Lorem ipsum dolor 4" },
-  ];
+  const getMessages = () => {
+    const { profileType, profileId } = user;
+    const inputs = {
+      profileId,
+    };
+    let apiLink;
+    if (profileType === "applicant") {
+      apiLink = "/api/applicantprofile/getMessages";
+    } else if (profileType === "employer") {
+      apiLink = "/api/employerprofile/getMessages";
+    }
+
+    axios
+      .post(apiLink, inputs, {
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+      })
+      .then((res) => {
+        console.log(res.data);
+        setMessages(res.data.slice(0, 3));
+      })
+      .catch((err) => {
+        console.log(err.response.data.message);
+      });
+  };
 
   return (
     <div className="relative inline-block">
@@ -62,15 +90,25 @@ const MessageDropdownMenu = () => {
             </div>
             {messages.map((message) => (
               <button
-                key={message.id}
+                key={message._id}
                 onClick={() => clickInbox(message)}
-                className="block px-4 py-2 text-lg text-gray-700 hover:bg-indigo-100 w-full text-left"
+                className="block px-4 py-2 text-lg text-gray-700 w-full text-left"
                 role="menuitem"
               >
-                <div className="border border-gray-300 rounded p-4 mb-4 flex items-center">
-                  <img src={logo} alt="Logo" className="w-6 h-6 mr-2" />
+                <div className="border border-gray-300 rounded p-4 mb-4 flex items-center hover:bg-indigo-100">
+                  <img
+                    src={
+                      message.sender.values.profileImg
+                        ? message.sender.values.profileImg
+                        : logo
+                    }
+                    alt="Logo"
+                    className="w-6 h-6 mr-2 rounded-full border-2 border-[#444b88]"
+                  />
                   <div>
-                    <div className="font-bold">{message.from}</div>
+                    <div className="font-bold">
+                      {`${message.sender.values.firstName} ${message.sender.values.lastName}`}
+                    </div>
                     <div className="text-gray-600">{message.subject}</div>
                   </div>
                 </div>

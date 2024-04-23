@@ -1,22 +1,32 @@
 import NavbarLoggedIn from "../Components/NavbarLoggedIn";
 import Footer from "../Components/Footer";
 import Messagemodal from "../Modals/Messagemodal";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Pagination from "../Components/Pagination";
+import axios from "axios";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 function Inbox() {
+  const { user } = useSelector((state) => state.user);
+  const navigate = useNavigate();
+
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedMessage, setSelectedMessage] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
+  const [messages, setMessages] = useState([]);
 
-  const openMessageModal = (messageId, senderName) => {
-    setSelectedMessage({ id: messageId, senderName });
+  const openMessageModal = (message) => {
+    setSelectedMessage(message);
     setModalOpen(true);
   };
-  
+
+  useEffect(() => {
+    getMessages();
+  }, []);
 
   // Pagination
-  const messages = [
+  const hMessages = [
     { id: "message1", from: "Sender 1", subject: "Lorem ipsum dolor 1" },
     { id: "message2", from: "Sender 2", subject: "Lorem ipsum dolor 2" },
     { id: "message3", from: "Sender 3", subject: "Lorem ipsum dolor 3" },
@@ -37,6 +47,32 @@ function Inbox() {
     indexOfLastMessage
   );
 
+  const getMessages = () => {
+    const { profileType, profileId } = user;
+    const inputs = {
+      profileId,
+    };
+    let apiLink;
+    if (profileType === "applicant") {
+      apiLink = "/api/applicantprofile/getMessages";
+    } else if (profileType === "employer") {
+      apiLink = "/api/employerprofile/getMessages";
+    }
+
+    axios
+      .post(apiLink, inputs, {
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+      })
+      .then((res) => {
+        setMessages(res.data);
+      })
+      .catch((err) => {
+        console.log(err.response.data.message);
+      });
+  };
+
   return (
     <>
       <NavbarLoggedIn />
@@ -50,13 +86,14 @@ function Inbox() {
               <div
                 key={message.id}
                 className="flex flex-col border border-[#444b88] p-4 hover:bg-[#bad2ff]"
-                onClick={() => openMessageModal(message.id, message.from)}
+                onClick={() => openMessageModal(message)}
               >
                 <h1 className="text-lg">
-                  <span className="text-[#444b88]">From:</span> {message.from}
+                  <span className="text-[#444b88]">From:</span>{" "}
+                  {`${message.sender.values.firstName} ${message.sender.values.lastName}`}
                 </h1>
                 <h1 className="text-xl">
-                  <span className="text-[#444b88]">Subject: </span>{" "}
+                  <span className="text-[#444b88]">Subject:</span>{" "}
                   {message.subject}
                 </h1>
               </div>
@@ -81,7 +118,7 @@ function Inbox() {
       {modalOpen && (
         <Messagemodal
           closeModal={() => setModalOpen(false)}
-          messageId={selectedMessage}
+          message={selectedMessage}
         />
       )}
     </>

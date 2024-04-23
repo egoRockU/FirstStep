@@ -59,6 +59,8 @@ function App() {
                 path="/employerprofile"
                 element={<Employerprofilepage />}
               />
+              <Route path="/inbox" element={<Inbox />} />
+              <Route path="/message" element={<Sendmessage />} />
               <Route path="*" element={<NotFound />} />
 
               {!user.profileType && (
@@ -114,8 +116,6 @@ function App() {
               )}
             </>
           )}
-          <Route path="/inbox" element={<Inbox />} />
-          <Route path="/message" element={<Sendmessage />} />
         </Routes>
       </BrowserRouter>
 

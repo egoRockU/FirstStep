@@ -1,8 +1,21 @@
+import { useEffect, useState } from "react";
 import logo from "../images/profile.svg";
 import { IoMdClose } from "react-icons/io";
 
-function Messagemodal({ closeModal, messageId }) {
-  const { senderName } = messageId;
+function Messagemodal({ closeModal, message }) {
+  const { _id, sender, receiver, subject, body } = message;
+  const [senderName, setSenderName] = useState();
+  const [senderImg, setSenderImg] = useState();
+  const [receiverName, setReceiverName] = useState();
+  const [receiverImg, setReceiverImg] = useState();
+
+  useEffect(() => {
+    setSenderName(`${sender.values.firstName} ${sender.values.lastName}`);
+    setSenderImg(sender.values.profileImg);
+    setReceiverName(`${receiver.values.firstName} ${receiver.values.lastName}`);
+    setReceiverImg(receiver.values.profileImg);
+  }, []);
+
   return (
     <div className="fixed inset-0 flex justify-center items-center">
       <div className="bg-white flex flex-col border w-2/4 border-[#444b88] shadow-xl">
@@ -14,25 +27,24 @@ function Messagemodal({ closeModal, messageId }) {
           <div className="">
             <h1 className="flex text-xl gap-2">
               <span className="text-[#444b88]">From:</span>{" "}
-              <img src={logo} alt="" /> {senderName}
+              <img
+                src={senderImg ? senderImg : logo}
+                alt=""
+                className="size-7 rounded-full border-2 border-[#444b88]"
+              />{" "}
+              {senderName}
             </h1>
           </div>
           <div className="pt-5">
             <h1 className="flex text-lg gap-2">
-              <span className="text-[#444b88]">Subject</span>Lorem ipsum dolor
-              sit amet, consectetur adipisicing elit. Eius magni, expedita qui
+              <span className="text-[#444b88]">Subject</span>
+              {subject}
             </h1>
           </div>
 
           <div className="pt-8">
             <div className="w-full border border-[#444b88] py-4 px-4">
-              <h1 className="pb-20 text-base text-black">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                Exercitationem quas, ducimus voluptates molestias praesentium in
-                vitae! Facilis expedita pariatur placeat perspiciatis possimus,
-                odit amet voluptates dignissimos aspernatur, veritatis, aperiam
-                praesentium?
-              </h1>
+              <h1 className="pb-20 text-base text-black">{body}</h1>
             </div>
           </div>
           <div className="w-full justify-end flex gap-4 pt-5">
@@ -40,7 +52,7 @@ function Messagemodal({ closeModal, messageId }) {
               Cancel
             </button>
             <button className="px-2 py-1 border border-[#444b88] rounded-md bg-[#bad2ff]">
-              Save
+              Reply
             </button>
           </div>
         </div>
