@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import { toast } from "react-toastify";
-import { setProfileImage } from "../utils/profileImage";
+import { setProfile } from "../utils/setProfile";
 
 export const loginUser = createAsyncThunk("user/loginUser", async (inputs) => {
   try {
@@ -11,7 +11,7 @@ export const loginUser = createAsyncThunk("user/loginUser", async (inputs) => {
       },
     });
     localStorage.setItem("user", JSON.stringify(res.data.user));
-    await setProfileImage(res.data.user.profileId, res.data.user.profileType);
+    await setProfile(res.data.user.profileId, res.data.user.profileType);
     toast.success(res.data.message);
     return res.data["user"];
   } catch (err) {
@@ -30,7 +30,7 @@ export const loginGoogle = createAsyncThunk(
         },
       });
       localStorage.setItem("user", JSON.stringify(res.data.user));
-      await setProfileImage(res.data.user.profileId, res.data.user.profileType);
+      await setProfile(res.data.user.profileId, res.data.user.profileType);
       toast.success(res.data.message);
       return res.data["user"];
     } catch (err) {
@@ -48,6 +48,7 @@ export const logoutUser = createAsyncThunk("user/logoutUser", async () => {
     const res = await axios.get("/api/logout");
     localStorage.removeItem("user");
     localStorage.removeItem("profileImage");
+    localStorage.removeItem("profileName");
     toast.success(res.data.message);
   } catch (err) {
     console.log(err.message);

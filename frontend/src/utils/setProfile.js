@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export const setProfileImage = async (profileId, profileType) => {
+export const setProfile = async (profileId, profileType) => {
   let apiRoute;
   if (profileType == "applicant") {
     apiRoute = "/api/applicantprofile/retrieveone";
@@ -8,6 +8,7 @@ export const setProfileImage = async (profileId, profileType) => {
     apiRoute = "/api/employerprofile/retrieveone";
   } else {
     localStorage.setItem("profileImage", "");
+    localStorage.setItem("profileName", "");
     return;
   }
   axios
@@ -23,5 +24,9 @@ export const setProfileImage = async (profileId, profileType) => {
     .then((res) => {
       const profObj = res.data;
       localStorage.setItem("profileImage", JSON.stringify(profObj.profileImg));
+      localStorage.setItem(
+        "profileName",
+        `${profObj.firstName} ${profObj.lastName}`
+      );
     });
 };

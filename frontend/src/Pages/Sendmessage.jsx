@@ -2,24 +2,31 @@ import NavbarLoggedIn from "../Components/NavbarLoggedIn";
 import Footer from "../Components/Footer";
 import profile from "../images/profile.svg";
 import { useLocation, useNavigate } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import axios from "axios";
 
 function Sendmessage() {
+  const { user } = useSelector((state) => state.user);
+  let profileName = localStorage.getItem("profileName");
+  let profileImage = JSON.parse(localStorage.getItem("profileImage"));
   const location = useLocation();
   const navigate = useNavigate();
+  const [rName, setRName] = useState();
+  const [rProfileImg, setRProfileImg] = useState();
 
   useEffect(() => {
     if (location.state === null) {
       navigate("/notfound");
+    } else {
+      setRName(location.state.rName);
+      setRProfileImg(location.state.rProfileImg);
     }
   }, []);
 
-  const info = location.state;
-  const rName = info.rName;
-  const rProfileImg = info.rProfileImg;
-
   return (
     <>
+      {console.log(profileImage)}
       <NavbarLoggedIn />
       <div className="w-full pt-20 pb-20">
         <div className="flex flex-col w-full text-center">
@@ -41,7 +48,13 @@ function Sendmessage() {
                   {rName}
                 </h1>
                 <h1 className="flex text-xl gap-2">
-                  From: <img src={profile} alt="" /> Sender{" "}
+                  From:{" "}
+                  <img
+                    src={profileImage ? profileImage : profile}
+                    alt=""
+                    className="size-7 rounded-full border-2 border-[#444b88]"
+                  />{" "}
+                  {profileName}
                 </h1>
               </div>
               <div className=" flex items-center gap-2 w-full pt-8">
