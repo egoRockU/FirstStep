@@ -26,13 +26,7 @@ function Inbox() {
   }, []);
 
   // Pagination
-  const hMessages = [
-    { id: "message1", from: "Sender 1", subject: "Lorem ipsum dolor 1" },
-    { id: "message2", from: "Sender 2", subject: "Lorem ipsum dolor 2" },
-    { id: "message3", from: "Sender 3", subject: "Lorem ipsum dolor 3" },
-    { id: "message4", from: "Sender 4", subject: "Lorem ipsum dolor 4" },
-  ];
-  const messagesPerPage = 2;
+  const messagesPerPage = 5;
   const totalMessages = messages.length;
   const totalPagesCount = Math.ceil(totalMessages / messagesPerPage);
 
@@ -84,14 +78,22 @@ function Inbox() {
           <div className="flex flex-col gap-4 pb-10">
             {currentMessages.map((message) => (
               <div
-                key={message.id}
+                key={message._id}
                 className="flex flex-col border border-[#444b88] p-4 hover:bg-[#bad2ff]"
                 onClick={() => openMessageModal(message)}
               >
-                <h1 className="text-lg">
-                  <span className="text-[#444b88]">From:</span>{" "}
-                  {`${message.sender.values.firstName} ${message.sender.values.lastName}`}
-                </h1>
+                {user.profileId === message.sender.profileId && (
+                  <h1 className="text-lg">
+                    <span className="text-[#444b88]">Sent to:</span>{" "}
+                    {`${message.receiver.values.firstName} ${message.receiver.values.lastName}`}
+                  </h1>
+                )}
+                {user.profileId !== message.sender.profileId && (
+                  <h1 className="text-lg">
+                    <span className="text-[#444b88]">From:</span>{" "}
+                    {`${message.sender.values.firstName} ${message.sender.values.lastName}`}
+                  </h1>
+                )}
                 <h1 className="text-xl">
                   <span className="text-[#444b88]">Subject:</span>{" "}
                   {message.subject}

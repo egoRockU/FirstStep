@@ -25,7 +25,7 @@ function Messagemodal({ closeModal, message }) {
         </div>
         <div className="flex flex-col p-5">
           <div className="">
-            <h1 className="flex text-xl gap-2">
+            <h1 className="flex text-xl gap-2 mb-2">
               <span className="text-[#444b88]">From:</span>{" "}
               <img
                 src={senderImg ? senderImg : logo}
@@ -33,6 +33,15 @@ function Messagemodal({ closeModal, message }) {
                 className="size-7 rounded-full border-2 border-[#444b88]"
               />{" "}
               {senderName}
+            </h1>
+            <h1 className="flex text-xl gap-2">
+              <span className="text-[#444b88]">To:</span>{" "}
+              <img
+                src={receiverImg ? receiverImg : logo}
+                alt=""
+                className="size-7 rounded-full border-2 border-[#444b88]"
+              />{" "}
+              {receiverName}
             </h1>
           </div>
           <div className="pt-5">

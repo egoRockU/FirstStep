@@ -42,14 +42,13 @@ export const getMessages = async (req, res) => {
   try {
     const results = await ApplicantProfile.findById(profileId)
       .select("messages")
-      .populate("messages");
+      .populate({ path: "messages", options: { sort: { createdAt: -1 } } });
 
     let messages = [];
     for (const message of results.messages) {
       let mWithVal = await getMessageValues(message._id);
       messages.push(mWithVal);
     }
-
     res.status(200).send(messages);
   } catch (err) {
     res.status(500).send({

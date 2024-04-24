@@ -50,7 +50,6 @@ const MessageDropdownMenu = () => {
         },
       })
       .then((res) => {
-        console.log(res.data);
         setMessages(res.data.slice(0, 3));
       })
       .catch((err) => {
@@ -95,23 +94,45 @@ const MessageDropdownMenu = () => {
                 className="block px-4 py-2 text-lg text-gray-700 w-full text-left"
                 role="menuitem"
               >
-                <div className="border border-gray-300 rounded p-4 mb-4 flex items-center hover:bg-indigo-100">
-                  <img
-                    src={
-                      message.sender.values.profileImg
-                        ? message.sender.values.profileImg
-                        : logo
-                    }
-                    alt="Logo"
-                    className="w-6 h-6 mr-2 rounded-full border-2 border-[#444b88]"
-                  />
-                  <div>
-                    <div className="font-bold">
-                      {`${message.sender.values.firstName} ${message.sender.values.lastName}`}
+                {user.profileId === message.sender.profileId && (
+                  <div className="border border-gray-300 rounded p-4 mb-4 flex items-center hover:bg-indigo-100">
+                    <img
+                      src={
+                        message.receiver.values.profileImg
+                          ? message.receiver.values.profileImg
+                          : logo
+                      }
+                      alt="Logo"
+                      className="w-6 h-6 mr-2 rounded-full border-2 border-[#444b88]"
+                    />
+                    <div>
+                      <div className="flex flex-row items-center">
+                        <p className="text-sm mr-2">Sent to: </p>
+                        <p className="font-bold">{`${message.receiver.values.firstName} ${message.receiver.values.lastName}`}</p>
+                      </div>
+                      <div className="text-gray-600">{message.subject}</div>
                     </div>
-                    <div className="text-gray-600">{message.subject}</div>
                   </div>
-                </div>
+                )}
+                {user.profileId !== message.sender.profileId && (
+                  <div className="border border-gray-300 rounded p-4 mb-4 flex items-center hover:bg-indigo-100">
+                    <img
+                      src={
+                        message.sender.values.profileImg
+                          ? message.sender.values.profileImg
+                          : logo
+                      }
+                      alt="Logo"
+                      className="w-6 h-6 mr-2 rounded-full border-2 border-[#444b88]"
+                    />
+                    <div>
+                      <div className="font-bold">
+                        {`${message.sender.values.firstName} ${message.sender.values.lastName}`}
+                      </div>
+                      <div className="text-gray-600">{message.subject}</div>
+                    </div>
+                  </div>
+                )}
               </button>
             ))}
             <button
@@ -127,7 +148,7 @@ const MessageDropdownMenu = () => {
       {selectedMessage && (
         <Messagemodal
           closeModal={() => setSelectedMessage(null)}
-          messageId={selectedMessage}
+          message={selectedMessage}
         />
       )}
     </div>

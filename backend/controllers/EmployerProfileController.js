@@ -43,7 +43,7 @@ const getMessages = asyncHandler(async (req, res) => {
   try {
     const results = await EmployerProfile.findById(profileId)
       .select("messages")
-      .populate("messages");
+      .populate({ path: "messages", options: { sort: { createdAt: -1 } } });
 
     let messages = [];
     for (const message of results.messages) {
