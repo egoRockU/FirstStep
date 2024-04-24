@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 function DeleteResumelink({ profileId, link, onClose }) {
+  // TODO add loader/spinner
   const navigate = useNavigate();
   const linkSplit = link.split("/");
   const resumeId = linkSplit[linkSplit.length - 1];

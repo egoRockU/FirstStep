@@ -34,6 +34,10 @@ const ApplicantProfileSchema = new Schema({
     type: String,
     required: true,
   },
+  fullName: {
+    type: String,
+    required: true,
+  },
   email: {
     type: String,
     required: false,
@@ -123,6 +127,7 @@ const ApplicantProfileSchema = new Schema({
     type: [Schema.Types.ObjectId],
     required: false,
     default: [],
+    ref: "Message",
   },
 });
 

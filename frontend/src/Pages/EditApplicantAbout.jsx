@@ -9,6 +9,8 @@ import { FaCamera } from "react-icons/fa";
 import AddSocial from "../Modals/EditApplicant Profile/Addsocial";
 import AddIndustry from "../Modals/EditApplicant Profile/Addindustry";
 import AddSkill from "../Modals/EditApplicant Profile/Addskill";
+import industrySuggestions from "../suggestions/industries.json";
+import skillSuggestions from "../suggestions/skills.json";
 import { toast } from "react-toastify";
 import {
   updateProfileImage,
@@ -22,12 +24,12 @@ import {
 import { RiCloseFill } from "react-icons/ri";
 import DeletePortfoliolink from "../Modals/DeletePortfoliolink";
 import DeleteResumeLink from "../Modals/DeleteResumelink";
+import { setProfile } from "../utils/setProfile";
 
 function CreateApplicantProfilepage() {
   const profileId = JSON.parse(localStorage.getItem("user")).profileId;
-  const navigate = useNavigate();
-
   const domain = window.location.origin;
+  const navigate = useNavigate();
 
   const [selectedImage, setSelectedImage] = useState(null);
   const [selectedBanner, setSelectedBanner] = useState(null);
@@ -77,16 +79,6 @@ function CreateApplicantProfilepage() {
   //industry
   const [industries, setIndustries] = useState([]);
   const [isAddIndustryModalOpen, setAddIndustryModalOpen] = useState(false);
-  const [industrySuggestions] = useState([
-    "Web Developer",
-    "Game Developer",
-    "Graphic Designer",
-    "Software Developer",
-    "Video Game Developer",
-    "CyberSecurity",
-    "Artificial Intelligence and Machine Learning",
-    "Mobile App Development",
-  ]);
   const onSubmitIndustries = (formData) => {
     if (!formData) {
       toast.error("Please provide Industry");
@@ -124,16 +116,6 @@ function CreateApplicantProfilepage() {
   const closeAddSkillModal = () => {
     setAddSkillModalOpen(false);
   };
-
-  const [skillSuggestions] = useState([
-    "JavaScript",
-    "Python",
-    "Java",
-    "C++",
-    "React",
-    "Node.js",
-    "Ruby",
-  ]);
 
   const onSubmitSkills = (formData) => {
     if (!formData) {
@@ -248,6 +230,7 @@ function CreateApplicantProfilepage() {
       set: {
         firstName: fName,
         lastName: lName,
+        fullName: `${fName} ${lName}`,
         email,
         contactNum,
         address: `${city}, ${country}`,
@@ -269,6 +252,7 @@ function CreateApplicantProfilepage() {
       })
       .then((res) => {
         console.log(res.data.message);
+        setProfile(profileId, "applicant");
         navigate("/editprofile");
       });
   };
@@ -488,16 +472,17 @@ function CreateApplicantProfilepage() {
                       </div>
                       <div>
                         <div className="flex w-full border-2 border-[#444b88]">
-                          <input
-                            type="text"
-                            className=" w-full h-10 outline-none px-1"
-                            value={
-                              resumeId
-                                ? resumeLink
-                                : "You have no generated resume yet..."
-                            }
-                            readOnly
-                          />
+                          <a
+                            href={resumeId ? resumeLink : "#"}
+                            className="w-full h-10 px-1 outline-none text-black text-base items-center flex justify-center overflow-hidden"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                          >
+                            {resumeId
+                              ? resumeLink
+                              : "You have no generated resume yet..."}
+                          </a>
+
                           <div
                             className="flex items-center justify-end px-1 cursor-pointer"
                             onClick={resumeId ? toggleDeleteResumeModal : null}
@@ -513,16 +498,17 @@ function CreateApplicantProfilepage() {
                       </div>
                       <div>
                         <div className="flex w-full border-2 border-[#444b88]">
-                          <input
-                            type="text"
-                            className=" w-full h-10 outline-none px-1"
-                            value={
-                              portfolioId
-                                ? portfolioLink
-                                : "You have no generated portfolio yet..."
-                            }
-                            readOnly
-                          />
+                          <a
+                            href={portfolioId ? portfolioLink : "#"}
+                            className="flex items-center justify-center w-full h-10 px-1 outline-none text-black text-base overflow-hidden"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                          >
+                            {portfolioId
+                              ? portfolioLink
+                              : "You have no generated portfolio yet..."}
+                          </a>
+
                           <div
                             className="flex items-center justify-end px-1 cursor-pointer"
                             onClick={
@@ -631,7 +617,6 @@ function CreateApplicantProfilepage() {
           )}
         </div>
       </div>
-
       <Footer />
     </div>
   );

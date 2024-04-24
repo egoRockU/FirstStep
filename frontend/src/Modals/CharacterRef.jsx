@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+import { ImSpinner } from "react-icons/im";
+
 
 const CharacterRef = ({
   onClose,
@@ -26,10 +28,14 @@ const CharacterRef = ({
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    onSubmit(formData);
-    onClose();
+    setSubmitting(true);
+    setTimeout(async () => {
+      await onSubmit(formData);
+      setSubmitting(false);
+      onClose();
+    }, 1000);
   };
 
   const handleEdit = (e) => {
@@ -37,6 +43,9 @@ const CharacterRef = ({
     onEdit(formIndex, formData);
     onClose();
   };
+
+  const [submitting, setSubmitting] = useState(false); // State to track submission process
+
 
   const handleCancel = () => {
     onClose();
@@ -142,7 +151,7 @@ const CharacterRef = ({
               className="border border-[#444B88] rounded-md px-4 py-2 w-full"
             ></input>
           </div>
-          <div className="flex justify-end mb-4">
+          <div className="flex justify-end gap-2 mb-4">
             <button
               type="button"
               onClick={handleCancel}
@@ -153,18 +162,28 @@ const CharacterRef = ({
             {!initialData && (
               <button
                 type="submit"
-                className="border border-[#444B88] p-1 rounded-md bg-[#8B95EE]"
+                disabled={submitting}
+                className="bg-[#8B95EE] border border-[#444B88] text-white px-4 py-2 rounded-md flex justify-center items-center gap-2"
               >
-                Submit
+                {submitting ? (
+                  <ImSpinner className="animate-spin mr-2" />
+                ) : (
+                  "Submit"
+                )}
               </button>
             )}
             {initialData && (
               <button
                 type="button"
                 onClick={handleEdit}
-                className="bg-[#8B95EE] border border-[#444B88]  text-black px-4 py-2 rounded-md mr-2"
+                disabled={submitting}
+                className="bg-[#8B95EE] border border-[#444B88] text-black px-4 py-2 rounded-md mr-2"
               >
-                Save Changes
+                {submitting ? (
+                  <ImSpinner className="animate-spin mr-2" />
+                ) : (
+                  "Save Changes"
+                )}
               </button>
             )}
           </div>

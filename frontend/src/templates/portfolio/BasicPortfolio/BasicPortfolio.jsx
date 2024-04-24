@@ -9,6 +9,10 @@ import { BiLogoGmail } from "react-icons/bi";
 import { Link } from "react-router-dom";
 import { FaGithub, FaLinkedinIn } from "react-icons/fa";
 import ProjectsModal from "./components/ProjectsModal";
+import { IoPersonCircleOutline } from "react-icons/io5";
+import { MdEmail } from "react-icons/md";
+import { MdPlace } from "react-icons/md";
+import { BsTelephone } from "react-icons/bs";
 
 const BasicPortfolio = ({ portfolioInfo }) => {
   const {
@@ -181,20 +185,57 @@ const BasicPortfolio = ({ portfolioInfo }) => {
                 Do you have an idea? Let's discuss it and see what we can do
                 together.
               </p>
+              
+
+            
             </div>
             {/* bottom */}
-            <div className="w-1/2 mx-auto justify-center text-center text-2xl mb-8">
-              <p className="text-justify text-white mt-5">
-                {`${firstName} ${lastName}`}
-              </p>
-              <p className="text-justify text-white mt-5">{email}</p>
-              <p className="text-justify text-white mt-5">{address}</p>
-              <p className="text-justify text-white mt-5">{contactNum}</p>
+            
+
+            <div className="md:w-1/2 sm:w-full text-2xl mb-8 space-y-5 mx-auto spa">
+              <div class="flex items-center space-x-4">
+              <div class="flex text-center text-white justify-center ">
+              <IoPersonCircleOutline size={35} className="cursor-pointer" />
+              </div>
+              <div class="flex-1 text-white">
+              {`${firstName} ${lastName}`}
+              </div>
             </div>
+
+            <div class="flex items-center space-x-4">
+              <div class="flex text-center text-white justify-center">
+              <MdEmail size={35} className="cursor-pointer" />
+              </div>
+              <div class="flex-1 text-white">
+              {email}
+              </div>
+            </div>
+
+            <div class="flex items-center space-x-4">
+              <div class="flex text-center text-white justify-center">
+              <MdPlace size={35} className="cursor-pointer" />
+              </div>
+              <div class="flex-1 text-white">
+              {address}
+              </div>
+            </div>
+
+            <div class="flex items-center space-x-4">
+              <div class="flex text-center text-white justify-center">
+              <BsTelephone size={35} className="cursor-pointer" />
+              </div>
+              <div class="flex-1 text-white">
+              {contactNum}
+              </div>
+            </div>
+            </div>
+
+            
+
 
             <div className="flex justify-center items-center mx-auto space-x-4">
               {socialComponent.map((component, key) => (
-                <div key={key}>{component}</div>
+                <div key={key} style={{color:'white'}} >{component}</div>
               ))}
             </div>
           </div>

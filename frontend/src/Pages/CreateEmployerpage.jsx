@@ -14,17 +14,18 @@ import { IoClose } from "react-icons/io5";
 import { toast } from "react-toastify";
 import { uploadBanner, uploadImage } from "../utils/imageEmpUpload";
 import { getDownloadURL } from "firebase/storage";
-import { SocialCard} from "../Components/Employercard";
-
+import { SocialCard } from "../Components/Employercard";
 
 function CreateEmployerpage() {
+  // TODO add change alert to toast
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [selectedImage, setSelectedImage] = useState(null);
   const [selectedBanner, setSelectedBanner] = useState(null);
   const [selectedImageFile, setSelectedImageFile] = useState(null);
   const [selectedBannerFile, setSelectedBannerFile] = useState(null);
-//image
+  //image
   const handleImageChange = (e) => {
     const imageFile = e.target.files[0];
     if (!imageFile) return;
@@ -50,7 +51,6 @@ function CreateEmployerpage() {
     };
     reader.readAsDataURL(file);
   };
- 
 
   //social
   const [isAddSocialModalOpen, setAddSocialModalOpen] = useState(false);
@@ -106,11 +106,11 @@ function CreateEmployerpage() {
   const createProfile = async () => {
     let profileImageURL = "";
     let bannerImageURL = "";
-  
+
     if (selectedImageFile) {
       profileImageURL = await uploadImage(selectedImageFile, getDownloadURL);
     }
-  
+
     if (selectedBannerFile) {
       bannerImageURL = await uploadBanner(selectedBannerFile, getDownloadURL);
     }
@@ -119,7 +119,7 @@ function CreateEmployerpage() {
     const updatedInputs = {
       ...inputs,
       profileImg: profileImageURL,
-      banner: bannerImageURL
+      banner: bannerImageURL,
     };
     axios
       .post("/api/employerprofile/create", updatedInputs, {
@@ -324,29 +324,32 @@ function CreateEmployerpage() {
                 </div>
                 <div className="flex flex-col w-full">
                   <h1 className="text-lg">Social Links</h1>
-                <div className=" border-2 py-2 border-[#444B88] flex flex-col items-center">
-                  <div className="flex flex-col items-center">
-                    {" "}
-                    <SocialCard socialLinks={socialLinks} onDelete={deleteSocialLink} />
-                  </div>
-                  <button
-                    className="p-2 px-5 bg-[#8B95EE]"
-                    onClick={openAddSocialModal}
-                  >
-                    + Add Social link
-                  </button>
-                </div>
-                {isAddSocialModalOpen && (
-                  <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
-                    <div className="bg-white p-4 rounded-md">
-                      <AddSocial
-                        onClose={closeAddSocialModal}
-                        onSubmit={onSubmitSocialMedia}
+                  <div className=" border-2 py-2 border-[#444B88] flex flex-col items-center">
+                    <div className="flex flex-col items-center">
+                      {" "}
+                      <SocialCard
+                        socialLinks={socialLinks}
+                        onDelete={deleteSocialLink}
                       />
                     </div>
+                    <button
+                      className="p-2 px-5 bg-[#8B95EE]"
+                      onClick={openAddSocialModal}
+                    >
+                      + Add Social link
+                    </button>
                   </div>
-                )}
-              </div>
+                  {isAddSocialModalOpen && (
+                    <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
+                      <div className="bg-white p-4 rounded-md">
+                        <AddSocial
+                          onClose={closeAddSocialModal}
+                          onSubmit={onSubmitSocialMedia}
+                        />
+                      </div>
+                    </div>
+                  )}
+                </div>
                 <div className="flex flex-col justify-center items-start">
                   <h1 className="text-lg">Website</h1>
                   <input

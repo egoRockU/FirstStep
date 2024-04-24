@@ -60,7 +60,7 @@ const sendEmailSentPage = (res) => {
       <h3 class="text1">Email Sent!</h3>
       <p class="text2">Please check your email as soon as possible</p>
       <p class="text2">
-        Verification link will be expired again in three(3) days.
+        Verification link will be expired again in twenty-four(24) hours or one(1) day.
       </p>
     </div>
   </body>

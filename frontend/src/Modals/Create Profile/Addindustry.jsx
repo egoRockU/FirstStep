@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 
 function AddIndustries({ onClose, suggestions, onSubmit }) {
-  const [industries, setIndustries] = useState('');
+  const [industries, setIndustries] = useState("");
   const [suggestedIndustries, setSuggestedIndustries] = useState([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [selectedSuggestionIndex, setSelectedSuggestionIndex] = useState(-1);
@@ -10,15 +10,14 @@ function AddIndustries({ onClose, suggestions, onSubmit }) {
     const userInput = e.target.value;
     setIndustries(userInput);
 
-    if (e.nativeEvent.inputType === 'deleteContentBackward') {
+    if (e.nativeEvent.inputType === "deleteContentBackward") {
       setSuggestedIndustries([]);
       setShowSuggestions(false);
     } else {
-      const firstLetter = userInput.charAt(0).toLowerCase();
-      const industrySuggestions  = suggestions.filter(
-        (suggestion) => suggestion.toLowerCase().startsWith(firstLetter)
+      const industrySuggestions = suggestions.filter((suggestion) =>
+        suggestion.toLowerCase().includes(userInput.toLowerCase())
       );
-      setSuggestedIndustries(industrySuggestions );
+      setSuggestedIndustries(industrySuggestions);
       setShowSuggestions(industrySuggestions.length > 0);
     }
   };
@@ -30,11 +29,12 @@ function AddIndustries({ onClose, suggestions, onSubmit }) {
   };
 
   const handleKeyDown = (e) => {
-    if (e.key === 'Tab' && showSuggestions && suggestedIndustries.length > 0) {
-      e.preventDefault(); 
-      const nextIndex = (selectedSuggestionIndex + 1) % suggestedIndustries.length;
+    if (e.key === "Tab" && showSuggestions && suggestedIndustries.length > 0) {
+      e.preventDefault();
+      const nextIndex =
+        (selectedSuggestionIndex + 1) % suggestedIndustries.length;
       setSelectedSuggestionIndex(nextIndex);
-      setIndustries(suggestedIndustries[nextIndex]); 
+      setIndustries(suggestedIndustries[nextIndex]);
     }
   };
 
@@ -44,25 +44,23 @@ function AddIndustries({ onClose, suggestions, onSubmit }) {
     onSubmit(industries);
 
     onClose();
-    console.log('Industries:', industries);
+    console.log("Industries:", industries);
   };
 
   const handleCancel = () => {
     onClose();
   };
 
-
-
-  
-
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-80 backdrop-blur-sm">
       <div className="w-[600px] mx-4 p-4 bg-white shadow-md rounded-md">
-        <h2 className="text-2xl font-semibold mb-4 text-gray-800">Add Industries</h2>
+        <h2 className="text-2xl font-semibold mb-4 text-gray-800">
+          Add Industries
+        </h2>
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
           <input
             type="text"
-            placeholder="Web Developer" 
+            placeholder="Web Developer"
             value={industries}
             onChange={handleIndustriesChange}
             onKeyDown={handleKeyDown}
@@ -70,7 +68,10 @@ function AddIndustries({ onClose, suggestions, onSubmit }) {
           />
           <div className="relative">
             {showSuggestions && (
-              <div className="absolute left-0 max-w-[calc(100% - 8px)] bg-white p-1 z-10" style={{ width: 'calc(100% - 8px)' }}>
+              <div
+                className="border border-[#444B88] absolute left-0 max-w-[calc(100% - 8px)] bg-white p-1 z-10"
+                style={{ width: "calc(80% - 8px)" }}
+              >
                 <p className="text-sm text-gray-600">Suggestions:</p>
                 <ul className="suggestions-list max-h-20 overflow-y-auto">
                   {suggestedIndustries.map((suggestion, index) => (
@@ -78,7 +79,7 @@ function AddIndustries({ onClose, suggestions, onSubmit }) {
                       key={index}
                       onClick={() => handleSuggestionClick(suggestion)}
                       className={`cursor-pointer hover:bg-gray-100 p-2 rounded-md ${
-                        index === selectedSuggestionIndex ? 'bg-gray-200' : ''
+                        index === selectedSuggestionIndex ? "bg-gray-200" : ""
                       }`}
                     >
                       {suggestion}

@@ -3,8 +3,7 @@ import banner from "../images/signBg.jpg";
 import NavbarLoggedIn from "../Components/NavbarLoggedIn";
 import Footer from "../Components/Footer";
 import profile from "../images/profilee.png";
-import { FaSquareXTwitter } from "react-icons/fa6";
-import { FaLinkedin } from "react-icons/fa";
+import SocialIcon from "../Components/SocialIcon";
 import { useNavigate } from "react-router-dom";
 import { IoCloseOutline } from "react-icons/io5";
 import AddEduc from "../Modals/Edit Profile/Addeducmodal";
@@ -13,7 +12,13 @@ import AddAward from "../Modals/Edit Profile/Addawards";
 import AddCert from "../Modals/Edit Profile/Addcertificates";
 import Addprojects from "../Modals/Edit Profile/Addprojects";
 import axios from "axios";
-import { ActivitiesCard, AwardCard, CertificateCard, EducationCard, ProjectsCard } from "../Components/Cardcomponents";
+import {
+  ActivitiesCard,
+  AwardCard,
+  CertificateCard,
+  EducationCard,
+  ProjectsCard,
+} from "../Components/Cardcomponents";
 import { convertDate } from "../utils/convertDate";
 
 function editprofile() {
@@ -319,8 +324,7 @@ function editprofile() {
                       <div>
                         {socialLinks.map((social, index) => (
                           <div className="flex items-center gap-1" key={index}>
-                            {/* <FaLinkedin size={25} color="blue" /> */}
-                            <p>{social.platform}</p>
+                            <SocialIcon platform={social.platform} />
                             <p>{social.link}</p>
                           </div>
                         ))}

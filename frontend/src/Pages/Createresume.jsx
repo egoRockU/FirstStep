@@ -39,6 +39,7 @@ import AddCertificates from "../Modals/Edit Profile/Addcertificates";
 import CharacterRef from "../Modals/CharacterRef";
 import { IoCloseOutline } from "react-icons/io5";
 import { toast } from "react-toastify";
+import { uploadImage } from "../utils/ImageReUpload";
 
 function Createresume() {
   const profileId = JSON.parse(localStorage.getItem("user")).profileId;
@@ -401,16 +402,27 @@ function Createresume() {
     setCharRefData(updatedCharRefData);
   };
   //end
+  const [imageFile, setImageFile] = useState(null);
 
   const handleImageClick = () => {
     fileInputRef.current.click();
   };
-
-  const handleFileChange = (event) => {
-    const selectedFile = event.target.files[0];
-  };
   const fileInputRef = useRef(null);
 
+  const handleFileChange = async (event) => {
+    try {
+      const selectedFile = event.target.files[0];
+      setImageFile(selectedFile);
+
+      if (selectedFile) {
+        const imageUrl = URL.createObjectURL(selectedFile);
+        setImage(imageUrl);
+        
+      }
+    } catch (error) {
+      console.error("Error handling file change:", error);
+    }
+  };
   //get user info
   const getUserProfile = () => {
     axios
@@ -443,35 +455,45 @@ function Createresume() {
         setImage(profileObj.profileImg);
       });
   };
-
-  const saveResumeInfo = () => {
-    const resumeInfo = {
-      profileImg: image,
-      firstName: fName,
-      lastName: lName,
-      email,
-      contactNum,
-      address: `${city}, ${country}`,
-      about,
-      socialLinks,
-      skills,
-      preferredCareer: industries,
-      education: educationData,
-      activitiesAndInvolvements: achievementsData,
-      awards: awardData,
-      certs: certData,
-      projects: projectsData,
-      characterReference: charRefData,
-    };
-
-    const proceed = confirm(
-      "Are you sure you want to use this values to be displayed on your resume?"
-    );
-    if (proceed) {
-      navigate("/chooseresume", { state: { resumeInfo } });
+  const saveResumeInfo = async () => {
+    try {
+      const proceed = confirm(
+        "Are you sure you want to use these values to be displayed on your resume?"
+      );
+  
+      if (proceed) {
+        let imageUrl = image; 
+        
+        if (imageFile) {
+    
+          imageUrl = await uploadImage(imageFile);
+        }
+  
+        const resumeInfo = {
+          profileImg: imageUrl,
+          firstName: fName,
+          lastName: lName,
+          email,
+          contactNum,
+          address: `${city}, ${country}`,
+          about,
+          socialLinks,
+          skills,
+          preferredCareer: industries,
+          education: educationData,
+          activitiesAndInvolvements: achievementsData,
+          awards: awardData,
+          certs: certData,
+          projects: projectsData,
+          characterReference: charRefData,
+        };
+  
+        navigate("/chooseresume", { state: { resumeInfo } });
+      }
+    } catch (error) {
+      console.error("Error saving resume info:", error);
     }
   };
-
   return (
     <>
       <div className="bg-gray-200">
@@ -500,8 +522,8 @@ function Createresume() {
                     <IoIosArrowDropdownCircle
                       onClick={() => togglePersonalInfoVisibility()}
                       size={25}
-                      color="444b88"
-                    />
+                    color="444b88"
+                      />
                   )}
                 </div>
                 {personalInfoVisible && (
@@ -511,7 +533,7 @@ function Createresume() {
                         <img
                           src={image ? image : profile}
                           alt=""
-                          className="w-4/6 cursor-pointer"
+                          className="w-[80%] h-[60%] border-2 border-black cursor-pointer rounded-full"
                           onClick={handleImageClick}
                         />
                         <input
@@ -961,7 +983,7 @@ function Createresume() {
               </div>
 
               <div className="flex flex-col rounded-lg">
-                <div className="flex flex-col items-center justify-between px-4 py-3 border border-[#444b88] rounded-t-lg">
+                <div className="flex flex-col items-center justify-between px-4 py-3 border border-[#444b88] rounded-t-lg gap-4">
                   <div className="flex justify-between w-full pb-2">
                     <h1 className="text-xl text-[#8B95EE]">
                       Character Reference

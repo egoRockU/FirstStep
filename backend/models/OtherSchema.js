@@ -171,6 +171,21 @@ const CharacterReferenceSchema = new Schema({
   },
 });
 
+const ProfileSchema = new Schema({
+  profileType: {
+    type: String,
+    required: true,
+  },
+  profileId: {
+    type: Schema.Types.ObjectId,
+    required: true,
+  },
+  values: {
+    type: Object,
+    required: false,
+  },
+});
+
 export {
   EducationSchema,
   ActivitesAndInvolvementsSchema,
@@ -178,4 +193,5 @@ export {
   AwardsSchema,
   CertificatesSchema,
   CharacterReferenceSchema,
+  ProfileSchema,
 };

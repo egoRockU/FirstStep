@@ -1,17 +1,14 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import logo from "../images/newlogo.png";
+import logo from "../images/Logo.svg";
 import DropdownMenu from "./DropdownMenu";
 import { GiHamburgerMenu } from "react-icons/gi";
-import bell from "../images/bell.png";
-
+import MessageDropdownMenu from "./MessageDropdownMenu";
 function NavbarLoggedIn() {
   const navigate = useNavigate();
   const [showMenu, setShowMenu] = useState(false);
 
-  const clickLanding = () => {
-    navigate("/");
-  };
+  const [scrollOpacity, setScrollOpacity] = useState(1);
 
   const clickResume = () => {
     navigate("/createresume");
@@ -21,14 +18,22 @@ function NavbarLoggedIn() {
     navigate("/createportfolio");
   };
 
+  const clickLanding = () => {
+    navigate("/");
+  };
+
+  const clickApplicants = () => {
+    navigate("/applicantlist");
+  };
+
   return (
-    <nav className="bg-white py-2.5 fixed w-full z-50 top-0">
-      <div className="flex w-full lg:w-[80%] justify-between mx-auto relative">
+    <nav className="bg-white py-4 shadow-lg fixed w-full z-50 top-0">
+      <div className="flex w-full lg:w-[60%] justify-between mx-auto relative">
         <div className="flex items-center gap-1" onClick={clickLanding}>
           <img src={logo} alt="" className="w-6 h-6 hover:scale-125" />
           <h1 className="text-2xl text-black">FirstStep</h1>
         </div>
-        <div className="hidden sm:flex lg:flex items-center gap-10">
+        <div className="hidden lg:flex items-center gap-10">
           <ul className="flex h-full items-center space-x-10">
             <li
               className="text-lg md:text-xl font-medium text-black whitespace-nowrap cursor-pointer"
@@ -42,18 +47,17 @@ function NavbarLoggedIn() {
             >
               Portfolio Builder
             </li>
-            <li className="text-lg md:text-xl font-medium text-black">
+            <li
+              className="text-lg md:text-xl font-medium text-black cursor-pointer"
+              onClick={clickApplicants}
+            >
               For Employers
             </li>
           </ul>
         </div>
         <div>
-          <div className="items-center gap-2 hidden sm:flex lg:flex ">
-            <img
-              src={bell}
-              alt=""
-              className="text-black duration-500  cursor-pointer w-8 h-8"
-            />
+          <div className="items-center gap-2 hidden lg:flex ">
+            <MessageDropdownMenu />
             <DropdownMenu />
           </div>
         </div>
@@ -61,6 +65,7 @@ function NavbarLoggedIn() {
           <GiHamburgerMenu
             className="text-black cursor-pointer w-8 h-8"
             onClick={() => setShowMenu(!showMenu)}
+            color="444b88"
           />
         </div>
         {/* Overlay menu */}
@@ -80,6 +85,7 @@ function NavbarLoggedIn() {
               </ul>
               <div className="lg:flex items-center gap-2">
                 <DropdownMenu />
+                <MessageDropdownMenu />
               </div>
             </div>
           </div>

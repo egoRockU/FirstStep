@@ -24,10 +24,10 @@ function TwoColumn({ resumeInfo }) {
     education,
     awards,
     certs,
-    characterReference,
   } = resumeInfo;
   const handleDownload = () => {
-    downloadPDF("container");
+    const filename = `${firstName} ${lastName}.pdf`;
+    downloadPDF("container", filename);
   };
 
   const convertImage = () => {
@@ -45,34 +45,28 @@ function TwoColumn({ resumeInfo }) {
             <img
               src={profileImg ? profileImg : pic}
               alt="profile pic"
-              className="h-[100px] w-[100px] object-cover border-2 border-indigo-500/100 mb-2"
+              className="h-[100px] w-[100px] object-cover border-2 border-black mb-2"
             />
-            <div className="leading-normal">
-              <p className="text-[16px] uppercase">{firstName}</p>
-              <p className="text-[16px] font-semibold uppercase">{lastName}</p>
+            <div className="">
+              <p className="text-[14px] uppercase">{firstName}</p>
+              <p className="text-[14px] font-semibold uppercase">{lastName}</p>
             </div>
-            <p className="job-description uppercase italic text-[10px]">
+            <p className="job-description uppercase italic text-[9px]">
               {preferredCareer.join(" | ")}
             </p>
-            <p className="text-[11px] mt-2 underline decoration-solid decoration-indigo-950 font-bold">
-              Contact
-            </p>
-            <p className="text-[9px]">{address}</p>
+            <p className="text-[11px] mt-2  font-bold">Contact</p>
+            <p className="text-[9px] tracking-tight">{address}</p>
             <p className="text-[9px]">{contactNum}</p>
-            <p className="text-[9px]">{email}</p>
+            <p className="text-[9px] tracking-tight">{email}</p>
             <hr className="border-gray-600  w-[178px] mt-2" />
-            <p className="text-[11px] mt-1 underline decoration-solid decoration-indigo-950 font-bold">
-              Skills
-            </p>
+            <p className="text-[11px] mt-1 font-bold">Skills</p>
             <ul className="text-[9px] list-disc">
               {skills.map((skill, key) => (
                 <li key={key}>{skill}</li>
               ))}
             </ul>
             <hr className="border-gray-600  w-[178px] mt-2" />
-            <p className="text-[11px] mt-2 underline decoration-solid decoration-indigo-950 font-bold">
-              Certificates
-            </p>
+            <p className="text-[11px] mt-2 font-bold">Certificates</p>
             <div>
               {certs.map((cert, key) => (
                 <div className="mb-2" key={key}>
@@ -88,9 +82,7 @@ function TwoColumn({ resumeInfo }) {
               ))}
             </div>
             <hr className="border-gray-600  w-[178px] mt-2" />
-            <p className="text-[11px] mt-2 underline decoration-solid decoration-indigo-950 font-bold">
-              Achievements
-            </p>
+            <p className="text-[11px] mt-2 font-bold">Achievements</p>
             <div>
               {awards.map((award, key) => (
                 <div className="mb-2" key={key}>
@@ -102,15 +94,12 @@ function TwoColumn({ resumeInfo }) {
             </div>
           </div>
 
-          <div className="flex-1 w-[220px] mx-5">
-            <p className="text-[11px] mt-2 underline decoration-solid decoration-indigo-950 font-bold">
-              Career Objective
-            </p>
-            <p className="text-justify text-[9px] mt-2">{about}</p>
+          <div className="flex-1 w-[210px] mx-5">
+            <p className="text-[11px] font-bold">Career Objective</p>
+            <p className="text-justify text-[9px] tracking-tight">{about}</p>
+
             <hr className="border-gray-600  w-[200px] mt-2" />
-            <p className="text-[11px] mt-2 underline decoration-solid decoration-indigo-950 font-bold">
-              Education
-            </p>
+            <p className="text-[11px] mt-2 font-bold">Education</p>
             <div>
               {education.map((educ, key) => (
                 <div className="mb-2" key={key}>
@@ -126,7 +115,7 @@ function TwoColumn({ resumeInfo }) {
             </div>
             <hr className="border-gray-600  w-[200px] mt-2" />
 
-            <p className="text-[11px] mt-2 underline decoration-solid decoration-indigo-950 font-bold">
+            <p className="text-[11px] mt-2 font-bold">
               Activities and Involvements
             </p>
             <div>
@@ -150,12 +139,10 @@ function TwoColumn({ resumeInfo }) {
             </div>
             <hr className="border-gray-600  w-[200px] mt-2" />
 
-            <p className="text-[11px] mt-2 underline decoration-solid decoration-indigo-950 font-bold">
-              Project
-            </p>
+            <p className="text-[11px] mt-2 font-bold">Project</p>
             <div>
               {projects.map((project, key) => (
-                <div className="mb-2">
+                <div className="mb-2" key={key}>
                   {" "}
                   <p className="text-[9px] font-bold">
                     {project.projectTitle}{" "}
