@@ -23,7 +23,7 @@ function Inbox() {
 
   useEffect(() => {
     getMessages();
-  }, []);
+  }, [messages]);
 
   // Pagination
   const messagesPerPage = 5;
@@ -48,9 +48,9 @@ function Inbox() {
     };
     let apiLink;
     if (profileType === "applicant") {
-      apiLink = "/api/applicantprofile/getMessages";
+      apiLink = "/api/applicantprofile/getmessages";
     } else if (profileType === "employer") {
-      apiLink = "/api/employerprofile/getMessages";
+      apiLink = "/api/employerprofile/getmessages";
     }
 
     axios
@@ -121,6 +121,8 @@ function Inbox() {
         <Messagemodal
           closeModal={() => setModalOpen(false)}
           message={selectedMessage}
+          userId={user.profileId}
+          userType={user.profileType}
         />
       )}
     </>

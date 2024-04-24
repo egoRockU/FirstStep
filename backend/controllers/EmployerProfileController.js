@@ -60,6 +60,28 @@ const getMessages = asyncHandler(async (req, res) => {
   }
 });
 
+const deleteMessage = asyncHandler(async (req, res) => {
+  const { profileId, messageId } = req.body;
+  try {
+    await EmployerProfile.findOneAndUpdate(
+      { _id: profileId },
+      { $pull: { messages: messageId } },
+      { new: true }
+    );
+
+    res.status(200).send({
+      status: true,
+      message: "Message Successfully Deleted!",
+    });
+  } catch (err) {
+    console.error(`Error updating model: ${err}`);
+    res.status(500).send({
+      status: false,
+      message: "Not Updated!",
+    });
+  }
+});
+
 export {
   retrieveAll,
   retrieveOne,
@@ -67,5 +89,6 @@ export {
   update,
   updateMessages,
   getMessages,
+  deleteMessage,
   deleteEmployer,
 };

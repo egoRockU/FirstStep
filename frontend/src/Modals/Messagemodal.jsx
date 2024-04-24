@@ -1,13 +1,17 @@
 import { useEffect, useState } from "react";
 import logo from "../images/profile.svg";
 import { IoMdClose } from "react-icons/io";
+import axios from "axios";
+import { toast } from "react-toastify";
+import { ImSpinner } from "react-icons/im";
 
-function Messagemodal({ closeModal, message }) {
+function Messagemodal({ closeModal, message, userId, userType }) {
   const { _id, sender, receiver, subject, body } = message;
   const [senderName, setSenderName] = useState();
   const [senderImg, setSenderImg] = useState();
   const [receiverName, setReceiverName] = useState();
   const [receiverImg, setReceiverImg] = useState();
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     setSenderName(`${sender.values.firstName} ${sender.values.lastName}`);
@@ -15,6 +19,38 @@ function Messagemodal({ closeModal, message }) {
     setReceiverName(`${receiver.values.firstName} ${receiver.values.lastName}`);
     setReceiverImg(receiver.values.profileImg);
   }, []);
+
+  const handleDeleteMessage = () => {
+    setLoading(true);
+
+    let apiLink;
+    const inputs = {
+      profileId: userId,
+      messageId: _id,
+    };
+    if (userType === "applicant") {
+      apiLink = "/api/applicantprofile/deletemessage";
+    } else if (userType === "employer") {
+      apiLink = "/api/employerprofile/deletemessage";
+    }
+
+    axios
+      .post(apiLink, inputs, {
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+      })
+      .then((res) => {
+        setLoading(false);
+        toast.success(res.data.message);
+        closeModal();
+      })
+      .catch((err) => {
+        setLoading(false);
+        console.log(err);
+        toast.error("Failed to delete message.");
+      });
+  };
 
   return (
     <div className="fixed inset-0 flex justify-center items-center">
@@ -57,10 +93,13 @@ function Messagemodal({ closeModal, message }) {
             </div>
           </div>
           <div className="w-full justify-end flex gap-4 pt-5">
-            <button className="px-2 py-1 border border-[#444b88] rounded-md">
-              Cancel
+            <button
+              className="px-2 py-1 border border-[#444b88] rounded-md hover:bg-[#FFA7A7]"
+              onClick={handleDeleteMessage}
+            >
+              {loading ? <ImSpinner className="animate-spin mr-2" /> : "Delete"}
             </button>
-            <button className="px-2 py-1 border border-[#444b88] rounded-md bg-[#bad2ff]">
+            <button className="px-2 py-1 border border-[#444b88] rounded-md bg-[#bad2ff] hover:bg-[#8B95EE]">
               Reply
             </button>
           </div>

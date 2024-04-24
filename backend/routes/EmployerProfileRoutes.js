@@ -8,6 +8,7 @@ import {
   deleteEmployer,
   updateMessages,
   getMessages,
+  deleteMessage,
 } from "../controllers/EmployerProfileController.js";
 
 router.get("/retrieve", retrieveAll);
@@ -16,6 +17,7 @@ router.post("/retrieveone", retrieveOne);
 router.post("/update", update);
 router.post("/updatemessages", updateMessages);
 router.post("/delete", deleteEmployer);
-router.post("/getMessages", getMessages);
+router.post("/getmessages", getMessages);
+router.post("/deletemessage", deleteMessage);
 
 export default router;

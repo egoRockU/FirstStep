@@ -58,6 +58,27 @@ export const getMessages = async (req, res) => {
   }
 };
 
+export const deleteMessage = async (req, res) => {
+  const { profileId, messageId } = req.body;
+  try {
+    await ApplicantProfile.findOneAndUpdate(
+      { _id: profileId },
+      { $pull: { messages: messageId } },
+      { new: true }
+    );
+    res.status(200).send({
+      status: true,
+      message: "Message Successfully Deleted!",
+    });
+  } catch (err) {
+    console.error(`Error updating model: ${err}`);
+    res.status(500).send({
+      status: false,
+      message: "Not Updated!",
+    });
+  }
+};
+
 export const searchController = async (req, res) => {
   const { type, query } = req.body;
   const showValues = {
