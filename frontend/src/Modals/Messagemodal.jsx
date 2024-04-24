@@ -4,9 +4,11 @@ import { IoMdClose } from "react-icons/io";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { ImSpinner } from "react-icons/im";
+import { useNavigate } from "react-router-dom";
 
-function Messagemodal({ closeModal, message, userId, userType }) {
+function Messagemodal({ closeModal, message, userId, userType, reload }) {
   const { _id, sender, receiver, subject, body } = message;
+  const navigate = useNavigate();
   const [senderName, setSenderName] = useState();
   const [senderImg, setSenderImg] = useState();
   const [receiverName, setReceiverName] = useState();
@@ -42,7 +44,7 @@ function Messagemodal({ closeModal, message, userId, userType }) {
       })
       .then((res) => {
         setLoading(false);
-        toast.success(res.data.message);
+        toast.success(res.data.message, { onClose: reload() });
         closeModal();
       })
       .catch((err) => {
@@ -50,6 +52,26 @@ function Messagemodal({ closeModal, message, userId, userType }) {
         console.log(err);
         toast.error("Failed to delete message.");
       });
+  };
+
+  const handleReply = () => {
+    let state;
+    if (userId !== sender.profileId) {
+      state = {
+        rName: senderName,
+        rProfileImg: senderImg,
+        rId: sender.profileId,
+        rType: sender.profileType,
+      };
+    } else {
+      state = {
+        rName: receiverName,
+        rProfileImg: receiverImg,
+        rId: receiver.profileId,
+        rType: receiver.profileType,
+      };
+    }
+    navigate("/message", { state });
   };
 
   return (
@@ -99,7 +121,10 @@ function Messagemodal({ closeModal, message, userId, userType }) {
             >
               {loading ? <ImSpinner className="animate-spin mr-2" /> : "Delete"}
             </button>
-            <button className="px-2 py-1 border border-[#444b88] rounded-md bg-[#bad2ff] hover:bg-[#8B95EE]">
+            <button
+              className="px-2 py-1 border border-[#444b88] rounded-md bg-[#bad2ff] hover:bg-[#8B95EE]"
+              onClick={handleReply}
+            >
               Reply
             </button>
           </div>

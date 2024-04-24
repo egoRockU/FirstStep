@@ -6,6 +6,7 @@ import Pagination from "../Components/Pagination";
 import axios from "axios";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import Loader from "../Components/Loader";
 
 function Inbox() {
   const { user } = useSelector((state) => state.user);
@@ -15,6 +16,7 @@ function Inbox() {
   const [selectedMessage, setSelectedMessage] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [messages, setMessages] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   const openMessageModal = (message) => {
     setSelectedMessage(message);
@@ -23,7 +25,7 @@ function Inbox() {
 
   useEffect(() => {
     getMessages();
-  }, [messages]);
+  }, []);
 
   // Pagination
   const messagesPerPage = 5;
@@ -42,6 +44,7 @@ function Inbox() {
   );
 
   const getMessages = () => {
+    setLoading(true);
     const { profileType, profileId } = user;
     const inputs = {
       profileId,
@@ -60,6 +63,7 @@ function Inbox() {
         },
       })
       .then((res) => {
+        setLoading(false);
         setMessages(res.data);
       })
       .catch((err) => {
@@ -70,6 +74,7 @@ function Inbox() {
   return (
     <>
       <NavbarLoggedIn />
+      {loading ? <Loader /> : <></>}
       <div className="flex flex-col pt-20 w-full">
         <div className="flex flex-col gap-2 w-3/5 mx-auto pt-20">
           <div className="pb-5">
@@ -123,6 +128,7 @@ function Inbox() {
           message={selectedMessage}
           userId={user.profileId}
           userType={user.profileType}
+          reload={() => getMessages()}
         />
       )}
     </>

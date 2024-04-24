@@ -15,7 +15,7 @@ const MessageDropdownMenu = () => {
 
   useEffect(() => {
     getMessages();
-  }, [messages]);
+  }, []);
 
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
@@ -151,6 +151,7 @@ const MessageDropdownMenu = () => {
           message={selectedMessage}
           userId={user.profileId}
           userType={user.profileType}
+          reload={() => getMessages()}
         />
       )}
     </div>
