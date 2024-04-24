@@ -20,7 +20,8 @@ function BasicTemplate({ resumeInfo }) {
   } = resumeInfo;
 
   const handleDownload = () => {
-    downloadPDF("container");
+    const filename = `${firstName} ${lastName}.pdf`;
+    downloadPDF("container", filename);
   };
 
   return (

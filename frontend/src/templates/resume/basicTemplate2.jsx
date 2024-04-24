@@ -19,7 +19,8 @@ function BasicTemplate2({ resumeInfo }) {
   } = resumeInfo;
 
   const handleDownload = () => {
-    downloadPDF("container");
+    const filename = `${firstName} ${lastName}.pdf`;
+    downloadPDF("container", filename);
   };
 
   return (
@@ -83,11 +84,9 @@ function BasicTemplate2({ resumeInfo }) {
                   {" "}
                   <p className="text-[9px] font-bold">
                     {project.projectTitle}{" "}
-
                     <p className="text-[9px]">{`${convertDateYear(
-                    project.startDate
-                  )} - ${convertDateYear(project.endDate)}`}</p>
-
+                      project.startDate
+                    )} - ${convertDateYear(project.endDate)}`}</p>
                   </p>
                   <p className="text-[9px] font-semibold">{project.subTitle}</p>
                   <p className="text-[9px]">{project.technologiesUsed}</p>
@@ -101,11 +100,9 @@ function BasicTemplate2({ resumeInfo }) {
               {certs.map((cert, index) => (
                 <div className="mb-2" key={index}>
                   {" "}
+                  <p className="text-[9px] font-bold">{cert.title} </p>
                   <p className="text-[9px] font-bold">
-                    {cert.title}{" "}
-                  </p>
-                  <p className="text-[9px] font-bold">
-                  {convertDate(cert.dateReceived)}
+                    {convertDate(cert.dateReceived)}
                   </p>
                   <p className="text-[9px] font-semibold">{cert.description}</p>
                 </div>
