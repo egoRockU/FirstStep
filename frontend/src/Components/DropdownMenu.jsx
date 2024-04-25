@@ -5,15 +5,16 @@ import { logoutUser } from "../slices/userSlice";
 import profile from "../images/profile.svg";
 import { toast } from "react-toastify";
 import { ImSpinner } from "react-icons/im";
+import { useSelector } from "react-redux";
 
 const DropdownMenu = () => {
+  const { loading } = useSelector((state) => state.user);
   const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
   const dispatch = useDispatch();
   let userObj = JSON.parse(localStorage.getItem("user"));
   let profileImg = localStorage.getItem("profileImage");
   const [pfImg, setPfImg] = useState();
-  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     parseImage(profileImg);
@@ -24,9 +25,7 @@ const DropdownMenu = () => {
   };
 
   const clickLogout = () => {
-    setLoading(true);
     dispatch(logoutUser());
-    setLoading(false);
     navigate("/");
   };
   const clickProfile = () => {
@@ -97,11 +96,7 @@ const DropdownMenu = () => {
               className="block px-4 py-2 text-lg text-gray-700 hover:bg-gray-100 w-full text-left"
               role="menuitem"
             >
-              {loading ? (
-                <ImSpinner className="animate-spin mr-2" />
-              ) : (
-                "Loading"
-              )}
+              {loading ? <ImSpinner className="animate-spin mr-2" /> : "Logout"}
             </button>
           </div>
         </div>
