@@ -3,8 +3,8 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { logoutUser } from "../slices/userSlice";
 import profile from "../images/profile.svg";
-import bell from "../images/bell.svg";
 import { toast } from "react-toastify";
+import { ImSpinner } from "react-icons/im";
 
 const DropdownMenu = () => {
   const navigate = useNavigate();
@@ -13,6 +13,7 @@ const DropdownMenu = () => {
   let userObj = JSON.parse(localStorage.getItem("user"));
   let profileImg = localStorage.getItem("profileImage");
   const [pfImg, setPfImg] = useState();
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     parseImage(profileImg);
@@ -23,7 +24,9 @@ const DropdownMenu = () => {
   };
 
   const clickLogout = () => {
+    setLoading(true);
     dispatch(logoutUser());
+    setLoading(false);
     navigate("/");
   };
   const clickProfile = () => {
@@ -94,7 +97,11 @@ const DropdownMenu = () => {
               className="block px-4 py-2 text-lg text-gray-700 hover:bg-gray-100 w-full text-left"
               role="menuitem"
             >
-              Logout
+              {loading ? (
+                <ImSpinner className="animate-spin mr-2" />
+              ) : (
+                "Loading"
+              )}
             </button>
           </div>
         </div>
