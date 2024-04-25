@@ -318,7 +318,10 @@ function NewLanding() {
                     what skills or positions you are looking for and view their
                     profile, resume, or portfolio.
                   </h2>
-                  <button className="bg-transparent border border-black text-black py-3 px-6 rounded-lg hover:bg-black hover:text-white font-semibold">
+                  <button
+                    className="bg-transparent border border-black text-black py-3 px-6 rounded-lg hover:bg-black hover:text-white font-semibold"
+                    onClick={() => navigate("/applicantlist")}
+                  >
                     Try it
                   </button>
                 </div>

@@ -4,10 +4,9 @@ import React, { useState, useEffect } from "react";
 const placeholderImage =
   "https://imgs.search.brave.com/q02hpLETIRmEBEpeaZkCKOUDubZ65X3ccxNLb1WxvY0/rs:fit:860:0:0/g:ce/aHR0cHM6Ly90My5m/dGNkbi5uZXQvanBn/LzAyLzk5LzczLzI2/LzM2MF9GXzI5OTcz/MjY2OF9nWnFLVmJ1/Mktqcm9MWXRUOWhS/WmZFMzdBWldGSEpR/bi5qcGc"; // Provide your placeholder image URL here
 import Footer from "../Components/Footer";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import AddSocial from "../Modals/EditEmployer Profile/Addsocial";
 import axios from "axios";
-import { IoMdClose } from "react-icons/io";
 import { toast } from "react-toastify";
 import {
   updateProfileImage,
@@ -18,9 +17,7 @@ import { setProfile } from "../utils/setProfile";
 
 function Editemployerabout() {
   const navigate = useNavigate();
-  const location = useLocation();
   const profileId = JSON.parse(localStorage.getItem("user")).profileId;
-  console.log(location);
 
   const [selectedImage, setSelectedImage] = useState(null);
   const [selectedBanner, setSelectedBanner] = useState(null);

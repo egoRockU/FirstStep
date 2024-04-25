@@ -124,7 +124,6 @@ function Applicantlist() {
   return (
     <>
       <NavbarLoggedIn />
-      {/* TODO make loader only appear below sort or use skeleton */}
       {/* TODO make footer snap on bottom of the screen */}
       {loading ? <Loader /> : <></>}
       <div className="flex pt-28">
@@ -159,7 +158,6 @@ function Applicantlist() {
                 </span>
               </div>
               <div className="flex items-center w-full">
-                {/* TODO make it form or anything that would call getApplicants() when you press ENTER */}
                 <input
                   type="text"
                   placeholder="Search..."
@@ -193,7 +191,6 @@ function Applicantlist() {
             <div className="flex flex-col gap-7">
               {applicants.length > 0 ? (
                 currentApplicants.map((applicant) => (
-                  //TODO add hover background change to this card
                   <div
                     key={applicant._id}
                     className="border border-[#444b88] p-4 flex gap-10 items-center cursor-pointer hover:bg-indigo-100"
@@ -223,7 +220,6 @@ function Applicantlist() {
                   </div>
                 ))
               ) : (
-                // TODO add styling
                 <p className="text-2xl text-[#444b88] p-2 text-center">{`Unable to find "${searchTerm}"`}</p>
               )}
             </div>

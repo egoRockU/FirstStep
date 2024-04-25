@@ -2,9 +2,7 @@ import { useEffect, useState } from "react";
 import NavbarLoggedIn from "../Components/NavbarLoggedIn";
 import Footer from "../Components/Footer";
 import profile from "../images/profilee.png";
-import banner from "../images/signBg.jpg";
-import { FaSquareXTwitter } from "react-icons/fa6";
-import { FaLinkedin } from "react-icons/fa";
+import banner from "../images/banner.svg";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useSelector } from "react-redux";
@@ -12,14 +10,12 @@ import { useSelector } from "react-redux";
 function Editemployerprofilepage() {
   const navigate = useNavigate();
   const { user } = useSelector((state) => state.user);
-  //const profileId = JSON.parse(localStorage.getItem("user")).profileId;
   const profileId = user.profileId;
 
   const [selectedImage, setSelectedImage] = useState(null);
   const [selectedBanner, setSelectedBanner] = useState(null);
 
   const placeholderImage = { profile };
-  
 
   useEffect(() => {
     getUserProfile();
@@ -65,7 +61,7 @@ function Editemployerprofilepage() {
         setAbout(profileObj.about);
         setSocialLinks(profileObj.socialLinks);
         setWebsite(profileObj.website);
-        setSelectedImage(profileObj.profileImg); 
+        setSelectedImage(profileObj.profileImg);
         setSelectedBanner(profileObj.banner);
       });
   };
@@ -76,7 +72,7 @@ function Editemployerprofilepage() {
       <div className="bg-gray-100 mx-auto p-10 w-full">
         <div className="container mx-auto">
           <img
-            src={selectedBanner}
+            src={selectedBanner || banner}
             alt=""
             className="w-full h-80 rounded-xl object-cover"
           />
@@ -101,13 +97,15 @@ function Editemployerprofilepage() {
                         <h1 className="text-2xl text-[#8B95EE]">
                           {fName} {lName}
                         </h1>
-                        <h1 className="text-lg text-[#444B88]">
-                          [{companyName}]
-                        </h1>
+                        {companyName && (
+                          <h1 className="text-lg text-[#444B88]">
+                            [{companyName}]
+                          </h1>
+                        )}
                       </div>
                       <div className="flex flex-col">
                         <h1 className="underline text-[#8B95EE]">{email}</h1>
-                        <p>{address}</p>
+                        {address !== ", " && <p>{address}</p>}
                         <p>{contactNum}</p>
                       </div>
                       <div className="w-full break-words">{bio}</div>
@@ -143,9 +141,13 @@ function Editemployerprofilepage() {
                   </div>
                   <div className="bg-white p-4 rounded-xl text-xl flex flex-col items-center gap-2 justify-center border-2 border-gray-300">
                     <h1 className="text-[#444B88] font-base">Social</h1>
+                    {/* TODO add platform logo */}
                     <div>
                       {socialLinks.map((social, index) => (
-                        <div className="flex flex-col lg:flex-row items-center gap-1 w-full" key={index}>
+                        <div
+                          className="flex flex-col lg:flex-row items-center gap-1 w-full"
+                          key={index}
+                        >
                           <p className="text-lg">{social.platform}</p>
                           <p className="text-lg">{social.link}</p>
                         </div>
