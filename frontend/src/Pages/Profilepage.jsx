@@ -162,7 +162,7 @@ function Profile() {
                       </div>
                       <div className="flex flex-col">
                         <h1 className="underline text-[#8B95EE]">{email}</h1>
-                        <p>{address}</p>
+                        {address !== ", " && <p>{address}</p>}
                         <p>{contactNum}</p>
                       </div>
                       <div>{bio}</div>
