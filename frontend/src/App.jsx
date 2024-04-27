@@ -27,9 +27,12 @@ import { inject } from "@vercel/analytics";
 import { injectSpeedInsights } from "@vercel/speed-insights";
 import Inbox from "./Pages/Inbox";
 import Sendmessage from "./Pages/Sendmessage";
+import ReactGA from "react-ga4";
+
 function App() {
   const { user } = useSelector((state) => state.user);
 
+  ReactGA.initialize("G-J9Z4Q5MZTY");
   inject();
   injectSpeedInsights();
 
