@@ -84,9 +84,9 @@ function BasicTemplate2({ resumeInfo }) {
                   {" "}
                   <p className="text-[9px] font-bold">
                     {project.projectTitle}{" "}
-                    <p className="text-[9px]">{`${convertDateYear(
+                    <span className="text-[9px]">{`${convertDateYear(
                       project.startDate
-                    )} - ${convertDateYear(project.endDate)}`}</p>
+                    )} - ${convertDateYear(project.endDate)}`}</span>
                   </p>
                   <p className="text-[9px] font-semibold">{project.subTitle}</p>
                   <p className="text-[9px]">{project.technologiesUsed}</p>
