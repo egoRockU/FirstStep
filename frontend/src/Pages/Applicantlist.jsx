@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import NavbarLoggedIn from "../Components/NavbarLoggedIn";
+import Navbar from "../Components/Newnavbar";
 import Footer from "../Components/Footer";
 import { CiSearch } from "react-icons/ci";
 import { MdOutlineSort } from "react-icons/md";
@@ -9,7 +10,11 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Loader from "../Components/Loader";
 import Pagination from "../Components/Pagination";
+import { useSelector } from "react-redux";
+
 function Applicantlist() {
+  const { user } = useSelector((state) => state.user);
+
   const [searchTerm, setSearchTerm] = useState("");
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
@@ -123,7 +128,7 @@ function Applicantlist() {
 
   return (
     <>
-      <NavbarLoggedIn />
+      {user ? <NavbarLoggedIn /> : <Navbar />}
       {/* TODO make footer snap on bottom of the screen */}
       {loading ? <Loader /> : <></>}
       <div className="flex pt-28">

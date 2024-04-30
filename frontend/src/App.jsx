@@ -49,6 +49,8 @@ function App() {
                 path="/changepassword/:token"
                 element={<ChangePassword />}
               />
+              <Route path="/applicantlist" element={<Applicantlist />} />
+              <Route path="/profile/:id" element={<Profilepage />} />
               <Route path="*" element={<Newlogin />} />
             </>
           )}
