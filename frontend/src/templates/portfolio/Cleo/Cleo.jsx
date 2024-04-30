@@ -5,23 +5,26 @@ import Contact from "./componets/Contact";
 import { useState } from "react";
 import Portfolios from "./componets/Portfolios";
 import Footer from "./componets/Footer";
-function Cleo() {
-
-    const [darkMode, setDarkMode] = useState(false);
-    return (
-        <>
-        <div className={darkMode && "dark"}>
-            <Header darkMode={darkMode} setDarkMode={setDarkMode}/>
-            <main className="bg-emerald-100	background-color: rgb(209 250 229); dark:bg-gray-700	">
-            <Home />
-            <Skills />
-            <Portfolios />
-            <Contact />
-            <Footer />
-            </main>
-        </div>            
-        </>
-    )
+function Cleo({ portfolioInfo }) {
+  const [darkMode, setDarkMode] = useState(false);
+  return (
+    <>
+      <div className={darkMode && "dark"}>
+        <Header
+          darkMode={darkMode}
+          setDarkMode={setDarkMode}
+          portfolioInfo={portfolioInfo}
+        />
+        <main className="bg-emerald-100	background-color: rgb(209 250 229); dark:bg-gray-700	">
+          <Home portfolioInfo={portfolioInfo} />
+          <Skills portfolioInfo={portfolioInfo} />
+          <Portfolios portfolioInfo={portfolioInfo} />
+          <Contact portfolioInfo={portfolioInfo} />
+          <Footer />
+        </main>
+      </div>
+    </>
+  );
 }
 
-export default Cleo
+export default Cleo;
