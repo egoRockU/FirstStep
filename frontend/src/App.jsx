@@ -52,6 +52,10 @@ function App() {
               <Route path="/applicantlist" element={<Applicantlist />} />
               <Route path="/profile/:id" element={<Profilepage />} />
               <Route
+                path="/employerprofile/:id"
+                element={<Employerprofilepage />}
+              />
+              <Route
                 path="/resume/:templateId/:resumeId"
                 element={<Generatedresume />}
               />
@@ -69,7 +73,7 @@ function App() {
               <Route path="/applicantlist" element={<Applicantlist />} />
               <Route path="/profile/:id" element={<Profilepage />} />
               <Route
-                path="/employerprofile"
+                path="/employerprofile/:id"
                 element={<Employerprofilepage />}
               />
               <Route path="/inbox" element={<Inbox />} />
