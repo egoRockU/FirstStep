@@ -77,7 +77,6 @@ const DataTable = ({ data, currentPage, totalPages, onPageChange }) => {
             <TableCell>Name</TableCell>
             <TableCell>Email</TableCell>
             <TableCell>Account</TableCell>
-            <TableCell>Actions</TableCell>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -112,10 +111,10 @@ const DataTable = ({ data, currentPage, totalPages, onPageChange }) => {
                     {selectedRows.includes(index) && menuOpen && (
                       <DropdownMenuContent>
                         <DropdownMenuItem onSelect={handleEdit}>
-                          Edit
+                          View
                         </DropdownMenuItem>
                         <DropdownMenuItem onSelect={handleDelete}>
-                          Delete
+                          Visit Profile
                         </DropdownMenuItem>
                       </DropdownMenuContent>
                     )}
