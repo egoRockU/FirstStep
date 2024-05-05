@@ -82,7 +82,7 @@ function Previewproject({ onClose, project }) {
                   {projectLink ? (
                     <a href={projectLink}>{projectLink}</a>
                   ) : (
-                    "No Github Link yet..."
+                    "No Project Link yet..."
                   )}
                 </p>
               </div>
@@ -90,9 +90,14 @@ function Previewproject({ onClose, project }) {
                 <div className="flex items-center px-1">
                   <FaGithub size={25} />
                 </div>
-                <p className="w-full align-center whitespace-normal hover:underline">
+                <p className="flex-1 align-center whitespace-normal hover:underline overflow-hidden">
                   {githubLink ? (
-                    <a href={githubLink}>{githubLink}</a>
+                    <a
+                      href={githubLink}
+                      className="block max-w-full overflow-hidden whitespace-nowrap overflow-ellipsis"
+                    >
+                      {githubLink}
+                    </a>
                   ) : (
                     "No Github Link yet..."
                   )}
