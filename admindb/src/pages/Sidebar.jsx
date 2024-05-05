@@ -1,5 +1,5 @@
 import React from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
 export default function Sidebar({ activeItem, onItemClick, theme }) {
@@ -8,14 +8,31 @@ export default function Sidebar({ activeItem, onItemClick, theme }) {
   const textColorClass = isDarkTheme ? "text-white" : "text-white-800";
   const bgColorClass = isLightTheme ? "bg-secondary-100" : "bg-secondary-900";
   const navigate = useNavigate();
+  const location = useLocation();
+
+  const goBack = () => {
+    if (location.pathname === "/dashboard") {
+      
+      return;
+    } else {
+      
+      navigate("/dashboard");
+    }
+  };
+
   return (
     <div
-    className={`w-64 flex flex-col overflow-y-auto overflow-x-hidden rounded-tr-lg border-r ${bgColorClass} shadow-lg`}
+      className={`w-64 flex flex-col overflow-y-auto overflow-x-hidden rounded-tr-lg border-r ${bgColorClass} shadow-lg`}
       style={{ borderTopLeftRadius: "30px", borderTopRightRadius: "30px" }}
     >
       <div className="p-4">
-      <h1 class={`text-primary text-3xl ${textColorClass}`} style={{ cursor: 'pointer' }} onClick={() => navigate(-1)}>FirstStep Admin</h1>
-
+        <h1
+          className={`text-primary text-3xl ${textColorClass}`}
+          style={{ cursor: "pointer" }}
+          onClick={goBack}
+        >
+          FirstStep Admin
+        </h1>
       </div>
       <nav className="mt-2">
         <ul className={`space-y-2 ${textColorClass}`}>
