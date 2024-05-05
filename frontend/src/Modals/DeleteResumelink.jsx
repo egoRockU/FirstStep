@@ -2,14 +2,17 @@ import axios from "axios";
 import { IoMdClose } from "react-icons/io";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { ImSpinner } from "react-icons/im";
+import { useState } from "react";
 
 function DeleteResumelink({ profileId, link, onClose }) {
-  // TODO add loader/spinner
   const navigate = useNavigate();
   const linkSplit = link.split("/");
   const resumeId = linkSplit[linkSplit.length - 1];
+  const [loading, setLoading] = useState(false);
 
   const handleDelete = () => {
+    setLoading(true);
     const input = {
       profileId,
       _id: resumeId,
@@ -21,11 +24,13 @@ function DeleteResumelink({ profileId, link, onClose }) {
         },
       })
       .then((res) => {
+        setLoading(false);
         toast.success(res.data.message, { onClose: () => navigate(0) });
         onClose();
       })
       .catch((err, res) => {
         console.log(err);
+        setLoading(false);
         toast.error(res.data.message, { onClose: () => navigate(0) });
         onClose();
       });
@@ -59,7 +64,11 @@ function DeleteResumelink({ profileId, link, onClose }) {
             className="text-lg py-1 px-3 border-2 border-red-500 text-red-500 hover:bg-red-300"
             onClick={handleDelete}
           >
-            YES, DELETE THIS RESUME
+            {loading ? (
+              <ImSpinner className="animate-spin mr-2" />
+            ) : (
+              "YES, DELETE THIS RESUME"
+            )}
           </button>
         </div>
       </div>

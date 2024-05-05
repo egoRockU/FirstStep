@@ -6,6 +6,7 @@ import Pagination from "../Components/Pagination";
 import axios from "axios";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import Loader from "../Components/Loader";
 
 function Inbox() {
   const { user } = useSelector((state) => state.user);
@@ -15,6 +16,7 @@ function Inbox() {
   const [selectedMessage, setSelectedMessage] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [messages, setMessages] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   const openMessageModal = (message) => {
     setSelectedMessage(message);
@@ -26,13 +28,7 @@ function Inbox() {
   }, []);
 
   // Pagination
-  const hMessages = [
-    { id: "message1", from: "Sender 1", subject: "Lorem ipsum dolor 1" },
-    { id: "message2", from: "Sender 2", subject: "Lorem ipsum dolor 2" },
-    { id: "message3", from: "Sender 3", subject: "Lorem ipsum dolor 3" },
-    { id: "message4", from: "Sender 4", subject: "Lorem ipsum dolor 4" },
-  ];
-  const messagesPerPage = 2;
+  const messagesPerPage = 5;
   const totalMessages = messages.length;
   const totalPagesCount = Math.ceil(totalMessages / messagesPerPage);
 
@@ -48,15 +44,16 @@ function Inbox() {
   );
 
   const getMessages = () => {
+    setLoading(true);
     const { profileType, profileId } = user;
     const inputs = {
       profileId,
     };
     let apiLink;
     if (profileType === "applicant") {
-      apiLink = "/api/applicantprofile/getMessages";
+      apiLink = "/api/applicantprofile/getmessages";
     } else if (profileType === "employer") {
-      apiLink = "/api/employerprofile/getMessages";
+      apiLink = "/api/employerprofile/getmessages";
     }
 
     axios
@@ -66,6 +63,7 @@ function Inbox() {
         },
       })
       .then((res) => {
+        setLoading(false);
         setMessages(res.data);
       })
       .catch((err) => {
@@ -76,6 +74,7 @@ function Inbox() {
   return (
     <>
       <NavbarLoggedIn />
+      {loading ? <Loader /> : <></>}
       <div className="flex flex-col pt-20 w-full">
         <div className="flex flex-col gap-2 w-3/5 mx-auto pt-20">
           <div className="pb-5">
@@ -84,14 +83,22 @@ function Inbox() {
           <div className="flex flex-col gap-4 pb-10">
             {currentMessages.map((message) => (
               <div
-                key={message.id}
+                key={message._id}
                 className="flex flex-col border border-[#444b88] p-4 hover:bg-[#bad2ff]"
                 onClick={() => openMessageModal(message)}
               >
-                <h1 className="text-lg">
-                  <span className="text-[#444b88]">From:</span>{" "}
-                  {`${message.sender.values.firstName} ${message.sender.values.lastName}`}
-                </h1>
+                {user.profileId === message.sender.profileId && (
+                  <h1 className="text-lg">
+                    <span className="text-[#444b88]">Sent to:</span>{" "}
+                    {`${message.receiver.values.firstName} ${message.receiver.values.lastName}`}
+                  </h1>
+                )}
+                {user.profileId !== message.sender.profileId && (
+                  <h1 className="text-lg">
+                    <span className="text-[#444b88]">From:</span>{" "}
+                    {`${message.sender.values.firstName} ${message.sender.values.lastName}`}
+                  </h1>
+                )}
                 <h1 className="text-xl">
                   <span className="text-[#444b88]">Subject:</span>{" "}
                   {message.subject}
@@ -119,6 +126,9 @@ function Inbox() {
         <Messagemodal
           closeModal={() => setModalOpen(false)}
           message={selectedMessage}
+          userId={user.profileId}
+          userType={user.profileType}
+          reload={() => getMessages()}
         />
       )}
     </>

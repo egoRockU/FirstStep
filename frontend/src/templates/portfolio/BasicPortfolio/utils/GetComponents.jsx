@@ -17,74 +17,88 @@ const getSkillsComponent = (skills) => {
       case "python":
         skillsComponent.push(
           <>
-            <img src={Python} alt="" />
-            <p className="absolute inset-0 flex items-center justify-center text-white bg-black bg-opacity-50">
-              Python
-            </p>
+            <div className="relative group">
+              <img src={Python} alt="" />
+              <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition duration-300 bg-black bg-opacity-50">
+                <p className="text-white">Python</p>
+              </div>
+            </div>
           </>
         );
         break;
       case "javascript":
         skillsComponent.push(
           <>
-            <img src={Javascript} alt="" />
-            <p className="absolute inset-0 flex items-center justify-center text-white bg-black bg-opacity-50">
-              Javascript
-            </p>
+            <div className="relative group">
+              <img src={Javascript} alt="" />
+              <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition duration-300 bg-black bg-opacity-50">
+                <p className="text-white">Javascript</p>
+              </div>
+            </div>
           </>
         );
         break;
       case "java":
         skillsComponent.push(
           <>
-            <img src={Java} alt="" />
-            <p className="absolute inset-0 flex items-center justify-center text-white bg-black bg-opacity-50">
-              Java
-            </p>
+            <div className="relative group">
+              <img src={Java} alt="" />
+              <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition duration-300 bg-black bg-opacity-50">
+                <p className="text-white">Java</p>
+              </div>
+            </div>
           </>
         );
         break;
       case "c++":
         skillsComponent.push(
           <>
-            <img src={CPP} alt="" />
-            <p className="absolute inset-0 flex items-center justify-center text-white bg-black bg-opacity-50">
-              C++
-            </p>
+            <div className="relative group">
+              <img src={CPP} alt="" />
+              <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition duration-300 bg-black bg-opacity-50">
+                <p className="text-white">C++</p>
+              </div>
+            </div>
           </>
         );
         break;
       case "react.js":
         skillsComponent.push(
           <>
-            <img src={React} alt="" />
-            <p className="absolute inset-0 flex items-center justify-center text-white bg-black bg-opacity-50">
-              React JS
-            </p>
+            <div className="relative group">
+              <img src={React} alt="" />
+              <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition duration-300 bg-black bg-opacity-50">
+                <p className="text-white">React JS</p>
+              </div>
+            </div>
           </>
         );
         break;
       case "node.js":
         skillsComponent.push(
           <>
-            <img src={Node} alt="" />
-            <p className="absolute inset-0 flex items-center justify-center text-white bg-black bg-opacity-50">
-              Node JS
-            </p>
+            <div className="relative group">
+              <img src={Node} alt="" />
+              <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition duration-300 bg-black bg-opacity-50">
+                <p className="text-white">Node JS</p>
+              </div>
+            </div>
           </>
         );
         break;
       default:
         skillsComponent.push(
           <>
-            <img
-              src={SkillDefault}
-              alt=""
-              className="w-full h-full object-cover rounded-lg"
-            />
-            <p className="absolute inset-0 flex items-center justify-center text-white bg-black bg-opacity-50">
-              {skill}
-            </p>
+            <div className="relative group">
+              <img
+                src={SkillDefault}
+                alt=""
+                className="w-full h-full object-cover rounded-lg"
+              />
+              <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition duration-300 bg-black bg-opacity-50">
+                <p className="text-white">{skill}</p>
+              </div>
+            </div>
           </>
         );
         break;

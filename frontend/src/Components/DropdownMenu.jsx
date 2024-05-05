@@ -1,28 +1,24 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { logoutUser } from "../slices/userSlice";
 import profile from "../images/profile.svg";
-import bell from "../images/bell.svg";
 import { toast } from "react-toastify";
+import { ImSpinner } from "react-icons/im";
+import { useSelector } from "react-redux";
 
 const DropdownMenu = () => {
+  const { loading } = useSelector((state) => state.user);
   const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
   const dispatch = useDispatch();
   let userObj = JSON.parse(localStorage.getItem("user"));
   let profileImg = localStorage.getItem("profileImage");
+  const [pfImg, setPfImg] = useState();
 
-  if (profileImg) {
-    try {
-      profileImg = JSON.parse(profileImg);
-    } catch (err) {
-      console.log(err);
-      profileImg = "";
-    }
-  } else {
-    profileImg = "";
-  }
+  useEffect(() => {
+    parseImage(profileImg);
+  }, [profileImg]);
 
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
@@ -48,6 +44,19 @@ const DropdownMenu = () => {
     }
   };
 
+  const parseImage = (profileImg) => {
+    if (profileImg) {
+      try {
+        setPfImg(JSON.parse(profileImg));
+      } catch (err) {
+        console.log(err);
+        setPfImg("");
+      }
+    } else {
+      setPfImg("");
+    }
+  };
+
   return (
     <div className="relative inline-block text-left">
       <div>
@@ -60,7 +69,7 @@ const DropdownMenu = () => {
           aria-expanded="true"
         >
           <img
-            src={profileImg ? profileImg : profile}
+            src={pfImg ? pfImg : profile}
             alt=""
             className="text-black duration-500 mx-2 cursor-pointer w-8 h-8 rounded-full border-2 border-[#444b88] p-0.5"
           />
@@ -87,7 +96,7 @@ const DropdownMenu = () => {
               className="block px-4 py-2 text-lg text-gray-700 hover:bg-gray-100 w-full text-left"
               role="menuitem"
             >
-              Logout
+              {loading ? <ImSpinner className="animate-spin mr-2" /> : "Logout"}
             </button>
           </div>
         </div>

@@ -7,6 +7,7 @@ import Portfoliopreview from "../Modals/Portfoliopreview";
 import BasicTemplate from "../images/portfolioTemplates/BasicTemplate.png";
 import Ezekel from "../images/portfolioTemplates/Ezekel.png";
 import BasicTemplate2 from "../images/portfolioTemplates/Lime.png";
+import Cleo from "../images/portfolioTemplates/Cleo.png";
 
 function Chooseportfolio() {
   const location = useLocation();
@@ -30,6 +31,7 @@ function Chooseportfolio() {
     { id: 1, title: "Basic Template", imageUrl: BasicTemplate },
     { id: 2, title: "Ezekel", imageUrl: Ezekel },
     { id: 3, title: "Lime", imageUrl: BasicTemplate2 },
+    { id: 4, title: "Cleo", imageUrl: Cleo },
   ];
 
   const handleOpen = (template) => {

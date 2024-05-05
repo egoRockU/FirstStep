@@ -1,8 +1,23 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Eze from "../img/eze.png";
 import { MdOutlineKeyboardArrowRight } from "react-icons/md";
+import { convertResLink } from "../../../../utils/convertResLink.js";
+
 const Home = ({ portfolioInfo }) => {
-  const { profileImg, firstName, lastName, bio } = portfolioInfo;
+  const { profileImg, firstName, lastName, bio, resume } = portfolioInfo;
+  const [resumeLink, setResumeLink] = useState();
+
+  useEffect(() => {
+    getResumeLink();
+  }, [resume]);
+
+  const getResumeLink = () => {
+    if (resume.resumeId) {
+      setResumeLink(convertResLink(resume));
+    } else {
+      setResumeLink(false);
+    }
+  };
 
   return (
     <div
@@ -20,15 +35,19 @@ const Home = ({ portfolioInfo }) => {
           <p className="text-gray-500 py-4 max-w-md">{bio}</p>
 
           <div>
-            <button
-              className="group text-white w-fit px-6 py-3 my-2 flex items-center rounded-md
+            {resumeLink && (
+              <a href={resumeLink}>
+                <button
+                  className="group text-white w-fit px-6 py-3 my-2 flex items-center rounded-md
                     bg-gradient-to-r from-cyan-500 to-blue-500"
-            >
-              Portfolio
-              <span className="group-hover:rotate-90 duration-300">
-                <MdOutlineKeyboardArrowRight size={25} className="ml-1" />
-              </span>
-            </button>
+                >
+                  Resume
+                  <span className="group-hover:rotate-90 duration-300">
+                    <MdOutlineKeyboardArrowRight size={25} className="ml-1" />
+                  </span>
+                </button>
+              </a>
+            )}
           </div>
         </div>
 

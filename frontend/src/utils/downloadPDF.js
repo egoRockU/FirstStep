@@ -6,18 +6,26 @@ const doc = new jsPDF({
   format: "letter",
 });
 
-const downloadPDF = (DIV_NAME) => {
+const downloadPDF = (DIV_NAME, filename) => {
   const container = document.getElementsByClassName(DIV_NAME)[0];
 
   doc.html(container, {
     callback: function (doc) {
       var string = doc.output("datauristring");
-      var embed = "<embed width='100%' height='100%' src='" + string + "'/>";
+      var embed =
+        "<embed width='100%' height='100%' src='" +
+        string +
+        "' download='" +
+        filename +
+        "'/>";
       var x = window.open();
       x.document.open();
       x.document.write(embed);
       x.document.close();
     },
+    // callback: function (doc) {
+    //   doc.save(filename);
+    // },
     margin: [20, 0, 20, 0],
     autoPaging: "text",
     x: 0,

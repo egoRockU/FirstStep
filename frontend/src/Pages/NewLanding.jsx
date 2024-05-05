@@ -255,7 +255,10 @@ function NewLanding() {
                     care that for you. All you need to do is choose a template
                     and finalize your inputs and we will handle it.
                   </h2>
-                  <button className="bg-transparent border border-black text-black py-3 px-6 rounded-lg hover:bg-black hover:text-white font-semibold">
+                  <button
+                    className="bg-transparent border border-black text-black py-3 px-6 rounded-lg hover:bg-black hover:text-white font-semibold"
+                    onClick={() => navigate("/createresume")}
+                  >
                     Try it
                   </button>
                 </div>
@@ -276,7 +279,10 @@ function NewLanding() {
                     layout. We will handle that for you. We already have designs
                     that will surely fit to your liking!
                   </h2>
-                  <button className="bg-transparent border border-black text-black py-3 px-6 rounded-lg hover:bg-black hover:text-white font-semibold">
+                  <button
+                    className="bg-transparent border border-black text-black py-3 px-6 rounded-lg hover:bg-black hover:text-white font-semibold"
+                    onClick={() => navigate("/createportfolio")}
+                  >
                     Try it
                   </button>
                 </div>
@@ -312,7 +318,10 @@ function NewLanding() {
                     what skills or positions you are looking for and view their
                     profile, resume, or portfolio.
                   </h2>
-                  <button className="bg-transparent border border-black text-black py-3 px-6 rounded-lg hover:bg-black hover:text-white font-semibold">
+                  <button
+                    className="bg-transparent border border-black text-black py-3 px-6 rounded-lg hover:bg-black hover:text-white font-semibold"
+                    onClick={() => navigate("/applicantlist")}
+                  >
                     Try it
                   </button>
                 </div>

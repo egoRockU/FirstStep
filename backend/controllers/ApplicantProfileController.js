@@ -42,19 +42,39 @@ export const getMessages = async (req, res) => {
   try {
     const results = await ApplicantProfile.findById(profileId)
       .select("messages")
-      .populate("messages");
+      .populate({ path: "messages", options: { sort: { createdAt: -1 } } });
 
     let messages = [];
     for (const message of results.messages) {
       let mWithVal = await getMessageValues(message._id);
       messages.push(mWithVal);
     }
-
     res.status(200).send(messages);
   } catch (err) {
     res.status(500).send({
       status: false,
       message: "Failed to retrieve messages",
+    });
+  }
+};
+
+export const deleteMessage = async (req, res) => {
+  const { profileId, messageId } = req.body;
+  try {
+    await ApplicantProfile.findOneAndUpdate(
+      { _id: profileId },
+      { $pull: { messages: messageId } },
+      { new: true }
+    );
+    res.status(200).send({
+      status: true,
+      message: "Message Successfully Deleted!",
+    });
+  } catch (err) {
+    console.error(`Error updating model: ${err}`);
+    res.status(500).send({
+      status: false,
+      message: "Not Updated!",
     });
   }
 };
