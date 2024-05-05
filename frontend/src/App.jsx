@@ -25,7 +25,6 @@ import Applicantlist from "./Pages/Applicantlist";
 import ChangePassword from "./Pages/ChangePassword";
 import { inject } from "@vercel/analytics";
 import { injectSpeedInsights } from "@vercel/speed-insights";
-import Messagemodal from "./Modals/Messagemodal";
 
 function App() {
   const { user } = useSelector((state) => state.user);
@@ -114,7 +113,6 @@ function App() {
               )}
             </>
           )}
-          <Route path="/message" element={<Messagemodal/>}/>
         </Routes>
       </BrowserRouter>
 

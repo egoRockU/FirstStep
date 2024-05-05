@@ -18,7 +18,7 @@ function Sendmessage() {
                   To: <img src={logo} alt="" /> Recipient{" "}
                 </h1>
                 <h1 className="flex text-xl gap-2">
-                  To: <img src={logo} alt="" /> Sender{" "}
+                From: <img src={logo} alt="" /> Sender{" "}
                 </h1>
               </div>
               <div className=" flex items-center gap-2 w-full pt-8">
