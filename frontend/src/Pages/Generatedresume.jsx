@@ -10,6 +10,7 @@ import { useState } from "react";
 import BasicTemplate from "../templates/resume/basicTemplate";
 import BasicTemplate2 from "../templates/resume/basicTemplate2";
 import TwoColumn from "../templates/resume/twoColumn";
+import Tapang from "../templates/resume/tapang";
 
 function Generatedresume() {
   const { user } = useSelector((state) => state.user);
@@ -49,6 +50,9 @@ function Generatedresume() {
         break;
       case "3":
         setTemplate(<TwoColumn resumeInfo={resumeInfo} />);
+        break;
+      case "4":
+        setTemplate(<Tapang resumeInfo={resumeInfo} />);
         break;
       default:
         setTemplate(<BasicTemplate resumeInfo={resumeInfo} />);
