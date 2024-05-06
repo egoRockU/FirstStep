@@ -48,7 +48,10 @@ function Previewproject({ onClose, project }) {
             pagination={{
               clickable: true,
             }}
-            navigation={true}
+            navigation={{
+              nextEl: ".swiper-button-next",
+              prevEl: ".swiper-button-prev",
+            }}
             modules={[Pagination, Navigation]}
             className="mySwiper rounded-lg"
           >
@@ -62,6 +65,8 @@ function Previewproject({ onClose, project }) {
                 />
               </SwiperSlide>
             ))}
+            <div className="swiper-button-prev bg-black bg-opacity-50 text-white"></div>
+            <div className="swiper-button-next bg-black bg-opacity-50 text-white"></div>
           </Swiper>
         </div>
         <div className="text-lg w-full flex justify-center">{subTitle}</div>
@@ -78,11 +83,11 @@ function Previewproject({ onClose, project }) {
                 <div className="flex items-center px-1">
                   <FaGlobe size={25} />
                 </div>
-                <p className="w-full align-center whitespace-normal hover:underline">
+                <p className="w-full align-center whitespace-nowrap overflow-hidden overflow-ellipsis">
                   {projectLink ? (
                     <a href={projectLink}>{projectLink}</a>
                   ) : (
-                    "No Github Link yet..."
+                    "No Project :Link yet..."
                   )}
                 </p>
               </div>
@@ -90,7 +95,7 @@ function Previewproject({ onClose, project }) {
                 <div className="flex items-center px-1">
                   <FaGithub size={25} />
                 </div>
-                <p className="w-full align-center whitespace-normal hover:underline">
+                <p className="w-full align-center whitespace-nowrap overflow-hidden overflow-ellipsis">
                   {githubLink ? (
                     <a href={githubLink}>{githubLink}</a>
                   ) : (
