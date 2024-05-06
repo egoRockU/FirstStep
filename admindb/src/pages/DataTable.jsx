@@ -23,7 +23,7 @@ import {
   PaginationPrevious,
 } from "../components/ui/pagination";
 
-const DataTable = ({ data, currentPage, totalPages, onPageChange }) => {
+const DataTable = ({ data, currentPage, totalPages, onPageChange,  }) => {
   const [selectedRows, setSelectedRows] = useState([]);
   const [selectAllChecked, setSelectAllChecked] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
@@ -55,11 +55,9 @@ const DataTable = ({ data, currentPage, totalPages, onPageChange }) => {
     setMenuOpen(true);
   };
 
-  const handleEdit = () => {
-    setMenuOpen(false);
-  };
-
-  const handleDelete = () => {
+  const handleView = () => {
+    
+    console.log("Viewing selected rows:", selectedRows);
     setMenuOpen(false);
   };
 
@@ -110,10 +108,10 @@ const DataTable = ({ data, currentPage, totalPages, onPageChange }) => {
                     </DropdownMenuTrigger>
                     {selectedRows.includes(index) && menuOpen && (
                       <DropdownMenuContent>
-                        <DropdownMenuItem onSelect={handleEdit}>
+                        <DropdownMenuItem onSelect={handleView}>
                           View
                         </DropdownMenuItem>
-                        <DropdownMenuItem onSelect={handleDelete}>
+                        <DropdownMenuItem onSelect={handleView}>
                           Visit Profile
                         </DropdownMenuItem>
                       </DropdownMenuContent>

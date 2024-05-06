@@ -23,8 +23,8 @@ const PaginationContent = React.forwardRef(({ className, ...props }, ref) => (
 ));
 PaginationContent.displayName = "PaginationContent";
 
-const PaginationItem = React.forwardRef(({ className, ...props }, ref) => (
-  <li ref={ref} className={cn("", className)} {...props} />
+const PaginationItem = React.forwardRef(({ isActive, className, ...props }, ref) => (
+  <li ref={ref} className={cn({ active: isActive }, className)} {...props} />
 ));
 PaginationItem.displayName = "PaginationItem";
 

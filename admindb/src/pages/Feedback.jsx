@@ -26,13 +26,15 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "../components/ui/pagination";
+import FeedbackReplyModal from "./FeedbackReplyModal";
 
 const exampleFeedback = [
   {
     id: 1,
-    sender: "John",
-    subject: "Ceya",
-    content: "Tententenene",
+    sender: "Sender",
+    subject: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+    content:
+      "Quisque vitae nibh id nisl viverra pharetra. In non magna ipsum. Nunc vitae scelerisque sapien. Nulla sed augue a nisl interdum interdum et venenatis magna. Ut eget sapien sed neque mattis dignissim. Morbi consectetur dolor ante, sit amet pretium justo dignissim eget. Mauris maximus consectetur purus, non aliquam sapien semper quis. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Etiam vehicula porttitor efficitur. ",
   },
   {
     id: 2,
@@ -101,6 +103,18 @@ const pageSize = 10;
 const Feedback = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedFeedback, setSelectedFeedback] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+
+  const openModal = () => {
+    if (!isDeleteModalOpen) {
+      setIsModalOpen(true);
+    }
+  };
+
+  const closeModal = () => setIsModalOpen(false);
+  const openDeleteModal = () => setIsDeleteModalOpen(true);
+  const closeDeleteModal = () => setIsDeleteModalOpen(false);
 
   const totalPages = Math.ceil(exampleFeedback.length / pageSize);
   const indexOfLastFeedback = currentPage * pageSize;
@@ -129,6 +143,7 @@ const Feedback = () => {
       );
     }
     setSelectedFeedback(null);
+    closeDeleteModal();
   };
 
   return (
@@ -136,13 +151,26 @@ const Feedback = () => {
       <h1 className="text-2xl font-semibold mb-4">Feedback</h1>
       <div className="feedback">
         {currentFeedback.map((feedback) => (
-          <Card key={feedback.id} className="mb-4">
+          <Card
+            key={feedback.id}
+            className="mb-4"
+            onClick={() => {
+              setSelectedFeedback(feedback); // Set selected feedback
+              openModal(); // Open reply modal
+            }}
+          >
             <div className="flex justify-end">
               <AlertDialog>
                 <AlertDialogTrigger asChild>
-                  <button className="text-red-500 hover:text-red-700">
+                  <button
+                    className="text-red-500 hover:text-red-700"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setSelectedFeedback(feedback);
+                      openDeleteModal();
+                    }}
+                  >
                     <IoMdClose style={{ fontSize: "2.5rem" }} />{" "}
-                    
                   </button>
                 </AlertDialogTrigger>
 
@@ -153,10 +181,22 @@ const Feedback = () => {
                   <AlertDialogDescription>
                     Are you sure you want to delete this feedback?
                   </AlertDialogDescription>
-                  <AlertDialogAction onClick={deleteFeedback}>
+                  <AlertDialogAction
+                    onClick={(e) => {
+                      deleteFeedback();
+                      e.stopPropagation();
+                    }}
+                  >
                     Delete
                   </AlertDialogAction>
-                  <AlertDialogCancel>Cancel</AlertDialogCancel>
+                  <AlertDialogCancel
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      closeDeleteModal();
+                    }}
+                  >
+                    Cancel
+                  </AlertDialogCancel>
                 </AlertDialogContent>
               </AlertDialog>
             </div>
@@ -171,19 +211,26 @@ const Feedback = () => {
       <Pagination>
         <PaginationPrevious onClick={prevPage} disabled={currentPage === 1} />
         <PaginationContent>
-          {[...Array(totalPages)].map((_, index) => (
-            <PaginationItem key={index} isActive={index + 1 === currentPage}>
-              <PaginationLink onClick={() => setCurrentPage(index + 1)}>
-                {index + 1}
-              </PaginationLink>
-            </PaginationItem>
-          ))}
+          <PaginationItem isActive={true}>
+            <PaginationLink onClick={() => setCurrentPage(currentPage)}>
+              {currentPage}
+            </PaginationLink>
+          </PaginationItem>
         </PaginationContent>
         <PaginationNext
           onClick={nextPage}
           disabled={currentPage === totalPages}
         />
       </Pagination>
+      <FeedbackReplyModal
+        isOpen={isModalOpen}
+        onClose={closeModal}
+        title={selectedFeedback ? selectedFeedback.sender : ""}
+        subject={selectedFeedback ? selectedFeedback.subject : ""}
+        description={selectedFeedback ? selectedFeedback.content : ""}
+        buttonText="Close"
+        buttonr="Reply"
+      />
     </div>
   );
 };
