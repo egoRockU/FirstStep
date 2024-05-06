@@ -25,6 +25,7 @@ import Applicantlist from "./Pages/Applicantlist";
 import ChangePassword from "./Pages/ChangePassword";
 import { inject } from "@vercel/analytics";
 import { injectSpeedInsights } from "@vercel/speed-insights";
+import Aboutus from "./Pages/Aboutus";
 
 function App() {
   const { user } = useSelector((state) => state.user);
@@ -80,6 +81,7 @@ function App() {
                   />
                   <Route path="/chooseresume" element={<Chooseresume />} />
                   <Route path="/createresume" element={<Createresume />} />
+                  <Route path="/terms" element={<Aboutus/>}/>
                   <Route
                     path="/resume/:templateId/:resumeId"
                     element={<Generatedresume />}
