@@ -127,6 +127,7 @@ const ApplicantProfileSchema = new Schema({
     type: [Schema.Types.ObjectId],
     required: false,
     default: [],
+    ref: "Message",
   },
 });
 

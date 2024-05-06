@@ -7,6 +7,7 @@ import Tailwind from "../img/logotailwind.png";
 import Sql from "../img/logosql.png";
 import Js from "../img/logojs.png";
 import CPP from "../img/logoc++.png";
+import Python from "../img/python.png";
 
 import {
   FaGithub,
@@ -83,6 +84,14 @@ export const getSkillAttrib = (skills) => {
           title: "C++",
           style: "shadow-blue-500",
         });
+        break;
+      case "python":
+        skillAttribs.push({
+          src: Python,
+          title: "Python",
+          style: "shadow-yellow-500",
+        });
+        break;
       default:
         break;
     }

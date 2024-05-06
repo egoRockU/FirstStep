@@ -1,7 +1,7 @@
 // SocialIcon.jsx
 import React from "react";
-import { FaFacebook, FaYoutube, FaTwitter, FaLinkedin } from "react-icons/fa";
-
+import { FaFacebook, FaYoutube,  FaLinkedin } from "react-icons/fa";
+import {FaXTwitter} from 'react-icons/fa6'
 const SocialIcon = ({ platform }) => {
   switch (platform.toLowerCase()) {
     case "facebook":
@@ -9,7 +9,7 @@ const SocialIcon = ({ platform }) => {
     case "youtube":
       return <FaYoutube />;
     case "twitter":
-      return <FaTwitter />;
+      return <FaXTwitter />;
     case "linkedin":
       return <FaLinkedin />;
     default:

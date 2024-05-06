@@ -1,16 +1,16 @@
 import React from "react";
-import { IoClose, IoLogoTwitter } from "react-icons/io5";
+import { IoClose } from "react-icons/io5";
 import { FaFacebook, FaYoutube, FaLinkedin } from "react-icons/fa";
 import { convertDate } from "../utils/convertDate";
 import { IoCloseOutline } from "react-icons/io5";
-
+import {FaXTwitter} from 'react-icons/fa6'
 const SocialCard = ({ socialLinks, onDelete }) => {
   const getPlatformIcon = (platform) => {
     switch (platform.toLowerCase()) {
       case "facebook":
         return <FaFacebook />;
       case "twitter":
-        return <IoLogoTwitter />;
+        return <FaXTwitter />;
       case "youtube":
         return <FaYoutube />;
       case "linkedin":

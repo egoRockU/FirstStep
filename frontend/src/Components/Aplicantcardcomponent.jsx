@@ -1,7 +1,7 @@
 import React from "react";
-import { IoClose, IoLogoTwitter } from "react-icons/io5";
+import { IoClose} from "react-icons/io5";
 import { FaFacebook, FaYoutube, FaLinkedin } from "react-icons/fa";
-
+import {FaXTwitter} from 'react-icons/fa6'
 
 
 const SocialCard = ({ socialLinks, onDelete }) => {
@@ -10,7 +10,7 @@ const SocialCard = ({ socialLinks, onDelete }) => {
       case "facebook":
         return <FaFacebook />;
       case "twitter":
-        return <IoLogoTwitter />;
+        return <FaXTwitter />;
       case "youtube":
         return <FaYoutube />;
       case "linkedin":
@@ -47,7 +47,7 @@ const IndustriesCard = ({ industries, onDelete }) => {
     <div className="flex flex-col w-full">
       <div className="grid grid-cols-2 mx-auto items-center gap-1">
         {industries.map((industry, index) => (
-          <div key={index} className="flex items-center py-1">
+          <div key={index} className="flex items-center py-1 ">
             <div className="flex text-center bg-[#BAD2FF] p-2 rounded-full w-auto">
               <p className="whitespace-nowrap">{industry}</p>
               <button onClick={() => onDelete(index)}>

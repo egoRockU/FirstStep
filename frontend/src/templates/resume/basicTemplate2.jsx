@@ -19,7 +19,8 @@ function BasicTemplate2({ resumeInfo }) {
   } = resumeInfo;
 
   const handleDownload = () => {
-    downloadPDF("container");
+    const filename = `${firstName} ${lastName}.pdf`;
+    downloadPDF("container", filename);
   };
 
   return (
@@ -31,7 +32,7 @@ function BasicTemplate2({ resumeInfo }) {
             <h1>{`${firstName} ${lastName}`}</h1>
             <p>{preferredCareer.join(" | ")}</p>
           </div>
-          <div className="text-center text-[11px]">
+          <div className="text-center text-[9px] tracking-tight">
             <p>{address}</p>
             <p>
               {contactNum} <span className="font-bold">{email}</span>
@@ -43,7 +44,7 @@ function BasicTemplate2({ resumeInfo }) {
             <p className="text-header text-[11px] font-bold">
               Career Objective
             </p>
-            <p className="text-[8px] text-justify leading-relaxed">{about}</p>
+            <p className="text-[8px] text-justify tracking-tight">{about}</p>
             <hr className="mt-2.5 border-gray-900 w-[100%] mx-auto" />
             <p className="text-header text-[11px] font-bold">Achievements</p>
             <div>
@@ -83,7 +84,7 @@ function BasicTemplate2({ resumeInfo }) {
                   {" "}
                   <p className="text-[9px] font-bold">
                     {project.projectTitle}{" "}
-                    <span className="space-x-11">{`${convertDateYear(
+                    <span className="text-[9px]">{`${convertDateYear(
                       project.startDate
                     )} - ${convertDateYear(project.endDate)}`}</span>
                   </p>
@@ -99,11 +100,9 @@ function BasicTemplate2({ resumeInfo }) {
               {certs.map((cert, index) => (
                 <div className="mb-2" key={index}>
                   {" "}
+                  <p className="text-[9px] font-bold">{cert.title} </p>
                   <p className="text-[9px] font-bold">
-                    {cert.title}{" "}
-                    <span className="space-x-11">
-                      {convertDate(cert.dateReceived)}
-                    </span>
+                    {convertDate(cert.dateReceived)}
                   </p>
                   <p className="text-[9px] font-semibold">{cert.description}</p>
                 </div>

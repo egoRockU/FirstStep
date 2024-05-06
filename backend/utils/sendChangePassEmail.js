@@ -3,7 +3,7 @@ import dotenv from "dotenv";
 dotenv.config();
 
 const sendChangePassReqEmail = async (email, urlToken) => {
-  let clientDomain = process.env.TEST_CLIENT_DOMAIN;
+  let clientDomain = process.env.CLIENT_DOMAIN;
   const url = `${clientDomain}/changepassword/${urlToken}`;
 
   let transporter = nodemailer.createTransport({

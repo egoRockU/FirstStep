@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import banner from "../images/signBg.jpg";
+import banner from "../images/banner.svg";
 import NavbarLoggedIn from "../Components/NavbarLoggedIn";
 import Footer from "../Components/Footer";
 import profile from "../images/profilee.png";
@@ -286,7 +286,7 @@ function editprofile() {
       <div className="bg-gray-100 mx-auto pb-20">
         <div className="container mx-auto">
           <img
-            src={selectedBanner}
+            src={selectedBanner || banner}
             alt=""
             className="w-full h-80 object-cover rounded-xl"
           />
@@ -317,7 +317,7 @@ function editprofile() {
                         <h1 className="underline cursor-pointer text-[#8B95EE]">
                           {email}
                         </h1>
-                        <p>{address}</p>
+                        {address !== ", " && <p>{address}</p>}
                         <p>{contactNum}</p>
                       </div>
                       <div className="break-all">{bio}</div>

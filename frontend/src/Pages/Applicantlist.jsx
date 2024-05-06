@@ -1,14 +1,20 @@
 import React, { useEffect, useState } from "react";
 import NavbarLoggedIn from "../Components/NavbarLoggedIn";
+import Navbar from "../Components/Newnavbar";
 import Footer from "../Components/Footer";
 import { CiSearch } from "react-icons/ci";
 import { MdOutlineSort } from "react-icons/md";
 import img from "../images/applicants.png";
+import profileDefault from "../images/profile.svg";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Loader from "../Components/Loader";
+import Pagination from "../Components/Pagination";
+import { useSelector } from "react-redux";
 
 function Applicantlist() {
+  const { user } = useSelector((state) => state.user);
+
   const [searchTerm, setSearchTerm] = useState("");
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
@@ -122,141 +128,117 @@ function Applicantlist() {
 
   return (
     <>
-      <NavbarLoggedIn />
-      {/* TODO make loader only appear below sort or use skeleton */}
+      {user ? <NavbarLoggedIn /> : <Navbar />}
+      {/* TODO make footer snap on bottom of the screen */}
       {loading ? <Loader /> : <></>}
-      <div className="min-h-screen flex flex-col justify-between">
-        <div className="py-28 pb-10">
-          <div className="w-full lg:w-[60%] mx-auto">
-            <div className="flex flex-col">
-              <h1 className="text-lg text-[#444b88]">List of Applicants</h1>
-              <hr className="w-full border-[#444b88]" />
-              <div className="w-full flex gap-6 px-4 pt-5">
-                <div className="relative">
-                  <select
-                    onChange={(e) => setFilter(e.target.value)}
-                    className="border border-[#444b88] py-1 px-5 bg-white appearance-none text-[#444b88]"
-                  >
-                    <option value="fullName">Name</option>
-                    <option value="address">Address</option>
-                    <option value="skills">Skills</option>
-                    <option value="preferredCareer">Industry</option>
-                  </select>
-                  <span className="absolute inset-y-0 right-0 flex items-center pointer-events-none">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="h-5 w-5 text-[#444b88]"
-                      viewBox="0 0 20 20"
-                      fill="currentColor"
-                    >
-                      <path
-                        fillRule="evenodd"
-                        d="M4.293 6.707a1 1 0 011.414 0L10 10.586l4.293-4.293a1 1 0 111.414 1.414l-5 5a1 1 0 01-1.414 0l-5-5a1 1 0 010-1.414z"
-                        clipRule="evenodd"
-                      />
-                    </svg>
-                  </span>
-                </div>
-                <div className="flex items-center w-full">
-                  <input
-                    type="text"
-                    placeholder="Search..."
-                    onChange={(e) => setSearchTerm(e.target.value)}
-                    className="border border-gray-300 px-5 py-1  w-full"
-                    onKeyPress={(e) => {
-                      if (e.key === "Enter") {
-                        getApplicants();
-                      }
-                    }}
-                  />
-                  <div
-                    className="bg-[#444b88] h-full flex justify-center items-center px-2"
-                    onClick={getApplicants}
-                  >
-                    <CiSearch size={25} color="white" />
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="flex flex-col gap-4 pt-12">
-              <div>
-                <button
-                  onClick={handleSort}
-                  className="bg-[#444b88] text-white border border-[#444b88] flex items-center gap-2 px-3"
+      <div className="flex pt-28">
+        <div className="w-full lg:w-[60%] mx-auto">
+          <div className="flex flex-col">
+            <h1 className="text-lg text-[#444b88]">List of Applicants</h1>
+            <hr className="w-full border-[#444b88]" />
+            <div className="w-full flex gap-6 px-4 pt-5">
+              <div className="relative">
+                <select
+                  onChange={(e) => setFilter(e.target.value)}
+                  className="border border-[#444b88] py-1 px-5 bg-white appearance-none text-[#444b88]"
                 >
-                  <MdOutlineSort size={25} />
-                  Sort
-                </button>
+                  <option value="fullName">Name</option>
+                  <option value="address">Address</option>
+                  <option value="skills">Skills</option>
+                  <option value="preferredCareer">Industry</option>
+                </select>
+                <span className="absolute inset-y-0 right-0 flex items-center pointer-events-none">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-5 w-5 text-[#444b88]"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M4.293 6.707a1 1 0 011.414 0L10 10.586l4.293-4.293a1 1 0 111.414 1.414l-5 5a1 1 0 01-1.414 0l-5-5a1 1 0 010-1.414z"
+                      clipRule="evenodd"
+                    />
+                  </svg>
+                </span>
               </div>
-              <div className="flex flex-col gap-7">
-                {applicants.length > 0 ? (
-                  currentApplicants.map((applicant) => (
-                    <div
-                      key={applicant._id}
-                      className="border border-[#444b88] p-4 flex gap-10 items-center cursor-pointer hover:bg-[#bad2ff]"
-                      onClick={() => clickapplicant(applicant._id)}
-                    >
-                      <img
-                        src={applicant.profileImg}
-                        alt={applicant.name}
-                        className="w-20 h-20 rounded-full mr-4"
-                      />
-                      <div>
-                        <h2 className="text-lg font-semibold text-[#444b88]">
-                          {`${applicant.firstName} ${applicant.lastName}`}
-                        </h2>
-                        <p className="text-sm text-black">{applicant.email}</p>
-                        <p className="text-sm text-gray-600">
-                          {applicant.address}
-                        </p>
-                        <p className="text-sm text-black">
-                          {applicant.contactNum}
-                        </p>
-                      </div>
-                    </div>
-                  ))
-                ) : (
-                  <p className="text-2xl text-[#444b88] p-2 text-center">{`Unable to find "${searchTerm}"`}</p>
-                )}
-              </div>
-            </div>
-            {totalPages > 1 && (
-              <div className="w-full py-4">
-                <div className="flex justify-end">
-                  {currentPage > 1 && (
-                    <button
-                      onClick={() => handlePageChange(currentPage - 1)}
-                      className="px-3 py-1 mx-1 bg-white text-[#444b88]"
-                    >
-                      {"<"}
-                    </button>
-                  )}
-                  {Array.from({ length: totalPages }, (_, i) => (
-                    <button
-                      key={i + 1}
-                      onClick={() => handlePageChange(i + 1)}
-                      className={`px-3 py-1 mx-1  bg-white text-[#444b88] rounded-full ${
-                        i + 1 === currentPage ? "bg-indigo-800 text-white" : ""
-                      }`}
-                    >
-                      {i + 1}
-                    </button>
-                  ))}
-                  {currentPage < totalPages && (
-                    <button
-                      onClick={() => handlePageChange(currentPage + 1)}
-                      className="px-3 py-1 mx-1  bg-white text-[#444b88]"
-                    >
-                      {">"}
-                    </button>
-                  )}
+              <div className="flex items-center w-full">
+                <input
+                  type="text"
+                  placeholder="Search..."
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  className="border border-gray-300 px-5 py-1  w-full"
+                  onKeyPress={(e) => {
+                    if (e.key === "Enter") {
+                      getApplicants();
+                    }
+                  }}
+                />
+                <div
+                  className="bg-[#444b88] h-full flex justify-center items-center px-2"
+                  onClick={getApplicants}
+                >
+                  <CiSearch size={25} color="white" />
                 </div>
               </div>
-            )}
+            </div>
           </div>
+          <div className="flex flex-col gap-4 pt-12">
+            <div>
+              <button
+                onClick={handleSort}
+                className="bg-[#444b88] text-white border border-[#444b88] flex items-center gap-2 px-3"
+              >
+                <MdOutlineSort size={25} />
+                Sort
+              </button>
+            </div>
+            <div className="flex flex-col gap-7">
+              {applicants.length > 0 ? (
+                currentApplicants.map((applicant) => (
+                  <div
+                    key={applicant._id}
+                    className="border border-[#444b88] p-4 flex gap-10 items-center cursor-pointer hover:bg-indigo-100"
+                    onClick={() => clickapplicant(applicant._id)}
+                  >
+                    <img
+                      src={
+                        applicant.profileImg
+                          ? applicant.profileImg
+                          : profileDefault
+                      }
+                      alt={applicant.name}
+                      className="w-20 h-20 rounded-full mr-4"
+                    />
+                    <div>
+                      <h2 className="text-lg font-semibold text-[#444b88]">
+                        {`${applicant.firstName} ${applicant.lastName}`}
+                      </h2>
+                      <p className="text-sm text-black">{applicant.email}</p>
+                      <p className="text-sm text-gray-600">
+                        {applicant.address}
+                      </p>
+                      <p className="text-sm text-black">
+                        {applicant.contactNum}
+                      </p>
+                    </div>
+                  </div>
+                ))
+              ) : (
+                <p className="text-2xl text-[#444b88] p-2 text-center">{`Unable to find "${searchTerm}"`}</p>
+              )}
+            </div>
+          </div>
+          {totalPages > 1 && (
+            <Pagination
+              currentPage={currentPage}
+              totalPages={totalPages}
+              handlePageChange={handlePageChange}
+            />
+          )}
         </div>
-        <Footer />
       </div>
+      <Footer />
     </>
   );
 }

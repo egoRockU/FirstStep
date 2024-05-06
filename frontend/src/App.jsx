@@ -25,11 +25,15 @@ import Applicantlist from "./Pages/Applicantlist";
 import ChangePassword from "./Pages/ChangePassword";
 import { inject } from "@vercel/analytics";
 import { injectSpeedInsights } from "@vercel/speed-insights";
+import Inbox from "./Pages/Inbox";
+import Sendmessage from "./Pages/Sendmessage";
+import ReactGA from "react-ga4";
 import Aboutus from "./Pages/Aboutus";
 
 function App() {
   const { user } = useSelector((state) => state.user);
 
+  ReactGA.initialize("G-J9Z4Q5MZTY");
   inject();
   injectSpeedInsights();
 
@@ -46,6 +50,20 @@ function App() {
                 path="/changepassword/:token"
                 element={<ChangePassword />}
               />
+              <Route path="/applicantlist" element={<Applicantlist />} />
+              <Route path="/profile/:id" element={<Profilepage />} />
+              <Route
+                path="/employerprofile/:id"
+                element={<Employerprofilepage />}
+              />
+              <Route
+                path="/resume/:templateId/:resumeId"
+                element={<Generatedresume />}
+              />
+              <Route
+                path="/portfolio/:templateId/:portfolioId"
+                element={<Generatedportfolio />}
+              />
               <Route path="*" element={<Newlogin />} />
             </>
           )}
@@ -56,9 +74,11 @@ function App() {
               <Route path="/applicantlist" element={<Applicantlist />} />
               <Route path="/profile/:id" element={<Profilepage />} />
               <Route
-                path="/employerprofile"
+                path="/employerprofile/:id"
                 element={<Employerprofilepage />}
               />
+              <Route path="/inbox" element={<Inbox />} />
+              <Route path="/message" element={<Sendmessage />} />
               <Route path="*" element={<NotFound />} />
 
               {!user.profileType && (

@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from "react";
 import Nav from "./components/Nav";
 import ProfilePic from "./images/female_avatar_efig.svg";
-import Item from "./images/item.png";
 import Hero from "./images/hero.jpg";
-import Python from "./images/skills/python.webp";
 import { identifySocialLinks, getSkillsComponent } from "./utils/GetComponents";
-import { BiLogoGmail } from "react-icons/bi";
 import { Link } from "react-router-dom";
-import { FaGithub, FaLinkedinIn } from "react-icons/fa";
 import ProjectsModal from "./components/ProjectsModal";
+import { IoPersonCircleOutline } from "react-icons/io5";
+import { MdEmail } from "react-icons/md";
+import { MdPlace } from "react-icons/md";
+import { BsTelephone } from "react-icons/bs";
+import { convertResLink } from "../../../utils/convertResLink";
 
 const BasicPortfolio = ({ portfolioInfo }) => {
   const {
@@ -23,17 +24,20 @@ const BasicPortfolio = ({ portfolioInfo }) => {
     about,
     skills,
     projects,
+    resume,
   } = portfolioInfo;
 
   const [showModal, setShowModal] = useState(false);
   const [socialComponent, setSocialComponent] = useState([]);
   const [skillsComponent, setSkillsComponent] = useState([]);
   const [selectedProject, setSelectedProject] = useState();
+  const [resumeLink, setResumeLink] = useState();
 
   useEffect(() => {
     setSocialComponent(identifySocialLinks(socialLinks));
     setSkillsComponent(getSkillsComponent(skills));
-  }, [socialLinks, skills]);
+    getResumeLink();
+  }, [socialLinks, skills, resume]);
 
   const handleOpenProject = (project) => {
     setSelectedProject(project);
@@ -43,6 +47,14 @@ const BasicPortfolio = ({ portfolioInfo }) => {
   const handleCloseProject = () => {
     setSelectedProject();
     setShowModal(false);
+  };
+
+  const getResumeLink = () => {
+    if (resume.resumeId) {
+      setResumeLink(convertResLink(resume));
+    } else {
+      setResumeLink(false);
+    }
   };
 
   return (
@@ -65,9 +77,14 @@ const BasicPortfolio = ({ portfolioInfo }) => {
             <h1 className="heading text-base mb-8 lg:text-lg !leading-normal">
               {bio}
             </h1>
-            <button className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 border border-blue-700 rounded-full">
-              Resume
-            </button>
+
+            {resumeLink && (
+              <a href={resumeLink}>
+                <button className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 border border-blue-700 rounded-full">
+                  Resume
+                </button>
+              </a>
+            )}
             <div className="flex mt-6 justify-center items-center mx-auto space-x-4">
               {socialComponent.map((component, key) => (
                 <div key={key}>{component}</div>
@@ -183,18 +200,44 @@ const BasicPortfolio = ({ portfolioInfo }) => {
               </p>
             </div>
             {/* bottom */}
-            <div className="w-1/2 mx-auto justify-center text-center text-2xl mb-8">
-              <p className="text-justify text-white mt-5">
-                {`${firstName} ${lastName}`}
-              </p>
-              <p className="text-justify text-white mt-5">{email}</p>
-              <p className="text-justify text-white mt-5">{address}</p>
-              <p className="text-justify text-white mt-5">{contactNum}</p>
+
+            <div className="md:w-1/2 sm:w-full text-2xl mb-8 space-y-5 mx-auto spa">
+              <div className="flex items-center space-x-4">
+                <div className="flex text-center text-white justify-center ">
+                  <IoPersonCircleOutline size={35} className="cursor-pointer" />
+                </div>
+                <div className="flex-1 text-white">
+                  {`${firstName} ${lastName}`}
+                </div>
+              </div>
+
+              <div className="flex items-center space-x-4">
+                <div className="flex text-center text-white justify-center">
+                  <MdEmail size={35} className="cursor-pointer" />
+                </div>
+                <div className="flex-1 text-white">{email}</div>
+              </div>
+
+              <div className="flex items-center space-x-4">
+                <div className="flex text-center text-white justify-center">
+                  <MdPlace size={35} className="cursor-pointer" />
+                </div>
+                <div className="flex-1 text-white">{address}</div>
+              </div>
+
+              <div className="flex items-center space-x-4">
+                <div className="flex text-center text-white justify-center">
+                  <BsTelephone size={35} className="cursor-pointer" />
+                </div>
+                <div className="flex-1 text-white">{contactNum}</div>
+              </div>
             </div>
 
             <div className="flex justify-center items-center mx-auto space-x-4">
               {socialComponent.map((component, key) => (
-                <div key={key}>{component}</div>
+                <div key={key} style={{ color: "white" }}>
+                  {component}
+                </div>
               ))}
             </div>
           </div>

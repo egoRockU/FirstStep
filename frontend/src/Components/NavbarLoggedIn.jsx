@@ -3,13 +3,10 @@ import { useNavigate } from "react-router-dom";
 import logo from "../images/Logo.svg";
 import DropdownMenu from "./DropdownMenu";
 import { GiHamburgerMenu } from "react-icons/gi";
-import bell from "../images/bell.svg";
-
+import MessageDropdownMenu from "./MessageDropdownMenu";
 function NavbarLoggedIn() {
   const navigate = useNavigate();
   const [showMenu, setShowMenu] = useState(false);
-
-  const [scrollOpacity, setScrollOpacity] = useState(1);
 
   const clickResume = () => {
     navigate("/createresume");
@@ -58,11 +55,7 @@ function NavbarLoggedIn() {
         </div>
         <div>
           <div className="items-center gap-2 hidden lg:flex ">
-            <img
-              src={bell}
-              alt=""
-              className="text-black duration-500  cursor-pointer w-8 h-8"
-            />
+            <MessageDropdownMenu />
             <DropdownMenu />
           </div>
         </div>
@@ -90,6 +83,7 @@ function NavbarLoggedIn() {
               </ul>
               <div className="lg:flex items-center gap-2">
                 <DropdownMenu />
+                <MessageDropdownMenu />
               </div>
             </div>
           </div>
