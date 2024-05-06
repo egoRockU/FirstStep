@@ -17,7 +17,7 @@ function BasicTemplate({ resumeInfo }) {
     awards,
     certs,
     characterReference,
-  } = resumeInfo;
+  } = resumeInfo || {};
 
   const handleDownload = () => {
     const filename = `${firstName} ${lastName}.pdf`;
@@ -34,7 +34,7 @@ function BasicTemplate({ resumeInfo }) {
               <div>
                 <h2 className="text-2xl font-bold">{`${firstName} ${lastName}`}</h2>
                 <p className="text-xs text-gray-600">
-                  {preferredCareer.join(" | ")}
+                  {preferredCareer && preferredCareer.join(" | ")}
                 </p>
               </div>
               <div>
@@ -53,9 +53,8 @@ function BasicTemplate({ resumeInfo }) {
             <div className="mt-5">
               <h3 className="text-sm  text-gray-800 font-bold mb-2">Skills</h3>
               <ul className="list-disc list-inside text-xs">
-                {skills.map((skill, index) => (
-                  <li key={index}>{skill}</li>
-                ))}
+                {skills &&
+                  skills.map((skill, index) => <li key={index}>{skill}</li>)}
               </ul>
             </div>
 
@@ -64,43 +63,45 @@ function BasicTemplate({ resumeInfo }) {
               <h3 className="text-md font-bold mb-2">
                 Activities and Involvements
               </h3>
-              {activitiesAndInvolvements.map((activity, index) => (
-                <div key={index} className="mb-5">
-                  <h4 className="text-sm font-semibold">{activity.title}</h4>
-                  <p className="text-sm text-gray-700">
-                    {activity.typeOfActivity} |{" "}
-                    {convertDate(activity.startDate).substring(0, 4)} {" - "}
-                    {convertDate(activity.endDate).substring(0, 4)}
-                  </p>
-                  <ul className="list-disc list-inside text-xs">
-                    {activity.description && <li>{activity.description}</li>}
-                  </ul>
-                </div>
-              ))}
+              {activitiesAndInvolvements &&
+                activitiesAndInvolvements.map((activity, index) => (
+                  <div key={index} className="mb-5">
+                    <h4 className="text-sm font-semibold">{activity.title}</h4>
+                    <p className="text-sm text-gray-700">
+                      {activity.typeOfActivity} |{" "}
+                      {convertDate(activity.startDate).substring(0, 4)} {" - "}
+                      {convertDate(activity.endDate).substring(0, 4)}
+                    </p>
+                    <ul className="list-disc list-inside text-xs">
+                      {activity.description && <li>{activity.description}</li>}
+                    </ul>
+                  </div>
+                ))}
             </div>
 
             <div className="mt-5">
               <hr className="my-3 border-gray-700 w-[100%] mx-auto"></hr>
               <div>
                 <p className="text-header text-md font-bold mb-2">Projects</p>
-                {projects.map((project, index) => (
-                  <div className="mt-4" key={index}>
-                    {" "}
-                    <p className="text-sm  text-gray-800 font-bold">
-                      {project.projectTitle}
-                      {" | "}
-                      <span className="space-x-11">
-                        {convertDate(project.startDate).substring(0, 4)} -{" "}
-                        {convertDate(project.endDate).substring(0, 4)}
-                      </span>
-                    </p>
-                    <p className="text-xs  text-gray-700 font-semibold">
-                      {project.subTitle}
-                    </p>
-                    <p className="text-[10px]">{project.technologiesUsed}</p>
-                    <p className="text-[10px]">{project.description}</p>
-                  </div>
-                ))}
+                {projects &&
+                  projects.map((project, index) => (
+                    <div className="mt-4" key={index}>
+                      {" "}
+                      <p className="text-sm  text-gray-800 font-bold">
+                        {project.projectTitle}
+                        {" | "}
+                        <span className="space-x-11">
+                          {convertDate(project.startDate).substring(0, 4)} -{" "}
+                          {convertDate(project.endDate).substring(0, 4)}
+                        </span>
+                      </p>
+                      <p className="text-xs  text-gray-700 font-semibold">
+                        {project.subTitle}
+                      </p>
+                      <p className="text-[10px]">{project.technologiesUsed}</p>
+                      <p className="text-[10px]">{project.description}</p>
+                    </div>
+                  ))}
               </div>
             </div>
 
@@ -109,20 +110,21 @@ function BasicTemplate({ resumeInfo }) {
               <h3 className="text-md font-bold mb-2">Education</h3>
               <div>
                 <div>
-                  {education.map((educ, index) => (
-                    <div className="mb-5" key={index}>
-                      <p className="text-sm  text-gray-700 ">
-                        {educ.schoolName}
-                      </p>
-                      <p className="text-xs text-red-600 font-semibold">
-                        {`${educ.degree}, ${educ.program}`}
-                      </p>
-                      <p className="text-[10px]">
-                        {convertDate(educ.startDate).substring(0, 4)} -{" "}
-                        {convertDate(educ.endDate).substring(0, 4)}
-                      </p>
-                    </div>
-                  ))}
+                  {education &&
+                    education.map((educ, index) => (
+                      <div className="mb-5" key={index}>
+                        <p className="text-sm  text-gray-700 ">
+                          {educ.schoolName}
+                        </p>
+                        <p className="text-xs text-red-600 font-semibold">
+                          {`${educ.degree}, ${educ.program}`}
+                        </p>
+                        <p className="text-[10px]">
+                          {convertDate(educ.startDate).substring(0, 4)} -{" "}
+                          {convertDate(educ.endDate).substring(0, 4)}
+                        </p>
+                      </div>
+                    ))}
                 </div>
               </div>
             </div>
@@ -131,17 +133,20 @@ function BasicTemplate({ resumeInfo }) {
               <hr className="my-3 border-gray-700 w-[100%] mx-auto"></hr>
               <p className="text-header text-md font-bold mb-2">Awards</p>
               <div>
-                {awards.map((award, index) => (
-                  <div className="mb-2" key={index}>
-                    <p className="text-xs font-bold  text-gray-800 ">
-                      {award.title}
-                    </p>
-                    <p className="text-xs  text-gray-700">
-                      {convertDate(award.dateReceived)}
-                    </p>
-                    <p className="text-xs text-justify">{award.description}</p>
-                  </div>
-                ))}
+                {awards &&
+                  awards.map((award, index) => (
+                    <div className="mb-2" key={index}>
+                      <p className="text-xs font-bold  text-gray-800 ">
+                        {award.title}
+                      </p>
+                      <p className="text-xs  text-gray-700">
+                        {convertDate(award.dateReceived)}
+                      </p>
+                      <p className="text-xs text-justify">
+                        {award.description}
+                      </p>
+                    </div>
+                  ))}
               </div>
             </div>
 
@@ -152,19 +157,20 @@ function BasicTemplate({ resumeInfo }) {
                 Certifications
               </p>
               <div>
-                {certs.map((cert, index) => (
-                  <div className="mb-4" key={index}>
-                    <p className="text-sm  text-gray-800 font-bold">
-                      {cert.title} |
-                      <span className="space-x-11">
-                        {convertDate(cert.dateReceived)}
-                      </span>
-                    </p>
-                    <p className="text-xs  text-gray-700 font-semibold">
-                      {cert.description}
-                    </p>
-                  </div>
-                ))}
+                {certs &&
+                  certs.map((cert, index) => (
+                    <div className="mb-4" key={index}>
+                      <p className="text-sm  text-gray-800 font-bold">
+                        {cert.title} |
+                        <span className="space-x-11">
+                          {convertDate(cert.dateReceived)}
+                        </span>
+                      </p>
+                      <p className="text-xs  text-gray-700 font-semibold">
+                        {cert.description}
+                      </p>
+                    </div>
+                  ))}
               </div>
             </div>
 
@@ -173,19 +179,20 @@ function BasicTemplate({ resumeInfo }) {
               <h3 className="text-md font-bold mb-2">References</h3>
               <div>
                 <div>
-                  {characterReference.map((char, index) => (
-                    <div className="mb-5" key={index}>
-                      <p className="text-sm  text-gray-800 ">{char.name}</p>
-                      <p className="text-xs text-gray-700 font-semibold">
-                        {char.position}
-                      </p>
-                      <p className="text-xs text-gray-700 font-semibold">
-                        {char.email}
-                      </p>
-                      <p className="text-[10px]">{char.contactNum}</p>
-                      <p className="text-[10px]">{char.website}</p>
-                    </div>
-                  ))}
+                  {characterReference &&
+                    characterReference.map((char, index) => (
+                      <div className="mb-5" key={index}>
+                        <p className="text-sm  text-gray-800 ">{char.name}</p>
+                        <p className="text-xs text-gray-700 font-semibold">
+                          {char.position}
+                        </p>
+                        <p className="text-xs text-gray-700 font-semibold">
+                          {char.email}
+                        </p>
+                        <p className="text-[10px]">{char.contactNum}</p>
+                        <p className="text-[10px]">{char.website}</p>
+                      </div>
+                    ))}
                 </div>
               </div>
             </div>
