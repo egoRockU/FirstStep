@@ -557,7 +557,7 @@ function CreateApplicantProfilepage() {
                           {/* skill  card*/}
                           <SkillsCard skills={skills} onDelete={deleteSkill} />
                         </div>
-                        <div className="border-2 p-3 px-5 bg-[#8B95EE] border-[#444B88]">
+                        <div className="border-2 p-3 px-5 bg-[#8B95EE] border-[#444B88] cursor-pointer">
                           <h1 onClick={openAddSkillModal}>+ Add Skills</h1>
                         </div>
                         {isAddSkillModalOpen && (

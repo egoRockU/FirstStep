@@ -28,6 +28,9 @@ import { injectSpeedInsights } from "@vercel/speed-insights";
 import Inbox from "./Pages/Inbox";
 import Sendmessage from "./Pages/Sendmessage";
 import ReactGA from "react-ga4";
+import Terms from "./Pages/Termsandconditions";
+import PrivacyPolicy from "./Pages/PrivacyPolicy";
+import Aboutus from "./Pages/Aboutus";
 
 function App() {
   const { user } = useSelector((state) => state.user);
@@ -40,6 +43,9 @@ function App() {
     <>
       <BrowserRouter>
         <Routes>
+          <Route path="/termsandconditions" element={<Terms />} />
+          <Route path="/privacypolicy" element={<PrivacyPolicy />} />
+          <Route path="/about" element={<Aboutus />} />
           {!user && (
             <>
               <Route path="/" element={<NewLanding />} />

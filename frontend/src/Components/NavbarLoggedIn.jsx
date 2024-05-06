@@ -8,8 +8,6 @@ function NavbarLoggedIn() {
   const navigate = useNavigate();
   const [showMenu, setShowMenu] = useState(false);
 
-  const [scrollOpacity, setScrollOpacity] = useState(1);
-
   const clickResume = () => {
     navigate("/createresume");
   };

@@ -320,7 +320,7 @@ function editprofile() {
                         {address !== ", " && <p>{address}</p>}
                         <p>{contactNum}</p>
                       </div>
-                      <div>{bio}</div>
+                      <div className="break-all">{bio}</div>
                       <div>
                         {socialLinks.map((social, index) => (
                           <div className="flex items-center gap-1" key={index}>
@@ -367,7 +367,7 @@ function editprofile() {
               <div className="w-[800px]">
                 <div className="grid grid-cols-1 gap-4">
                   <div className="rounded-xl">
-                    <div className="bg-white p-4 flex flex-col items-center border-2 border-gray-300 rounded-t-lg">
+                    <div className="bg-white p-4 flex flex-col items-center border-2 border-gray-300 rounded-t-lg break-all">
                       <h1 className="text-[#444B88] font-base text-xl">
                         About
                       </h1>

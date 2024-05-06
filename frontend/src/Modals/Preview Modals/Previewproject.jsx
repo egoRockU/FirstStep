@@ -79,11 +79,11 @@ function Previewproject({ onClose, project }) {
             </div>
             <div className="flex w-full gap-4">
               {/* TODO fit the link inside the div  */}
-              <div className="flex w-1/2 items-center border-2 border-gray-400 rounded-md">
+              <div className="flex w-1/2 px-2 items-center border-2 border-gray-400 rounded-md">
                 <div className="flex items-center px-1">
                   <FaGlobe size={25} />
                 </div>
-                <p className="w-full align-center whitespace-nowrap overflow-hidden overflow-ellipsis">
+                <p className="w-full align-center break-all hover:underline">
                   {projectLink ? (
                     <a href={projectLink}>{projectLink}</a>
                   ) : (
@@ -91,11 +91,11 @@ function Previewproject({ onClose, project }) {
                   )}
                 </p>
               </div>
-              <div className="flex w-1/2 border-2 items-center border-gray-400 rounded-md">
+              <div className="flex w-1/2 px-2 border-2 items-center border-gray-400 rounded-md">
                 <div className="flex items-center px-1">
                   <FaGithub size={25} />
                 </div>
-                <p className="w-full align-center whitespace-nowrap overflow-hidden overflow-ellipsis">
+                <p className="w-full align-center whitespace-normal hover:underline">
                   {githubLink ? (
                     <a
                       href={githubLink}
