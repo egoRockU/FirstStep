@@ -1,34 +1,85 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import { useNavigate, useParams } from "react-router-dom";
 import NavbarLoggedIn from "../Components/NavbarLoggedIn";
+import Navbar from "../Components/Newnavbar";
 import Footer from "../Components/Footer";
-import profile from "../images/profilee.png";
-import banner from "../images/signBg.jpg";
-import { FaSquareXTwitter } from "react-icons/fa6";
-import { FaLinkedin } from "react-icons/fa";
+import profile from "../images/profile.svg";
+import defbanner from "../images/signBg.jpg";
+import SocialIcon from "../Components/SocialIcon";
+import axios from "axios";
 
 function Employerprofilepage() {
-  const [selectedImage, setSelectedImage] = useState(null);
-  const placeholderImage = { profile };
+  const { user } = useSelector((state) => state.user);
+  const navigate = useNavigate();
 
-  const handleImageChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = function (e) {
-        setSelectedImage(e.target.result);
-      };
-      reader.readAsDataURL(file);
-    }
+  const { id } = useParams();
+  const [fName, setFName] = useState("");
+  const [lName, setLName] = useState("");
+  const [profileImg, setProfileImg] = useState();
+  const [banner, setBanner] = useState();
+  const [email, setEmail] = useState("");
+  const [contactNum, setContactNum] = useState("");
+  const [address, setAddress] = useState("");
+  const [companyName, setCompanyName] = useState("");
+  const [bio, setBio] = useState("");
+  const [about, setAbout] = useState("");
+  const [socialLinks, setSocialLinks] = useState([]);
+  const [website, setWebsite] = useState("");
+
+  useEffect(() => {
+    getEmployer();
+  }, []);
+
+  const getEmployer = () => {
+    axios
+      .post(
+        "/api/employerprofile/retrieveone",
+        { profileId: id },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      )
+      .then((res) => {
+        const data = res.data;
+        setFName(data.firstName);
+        setLName(data.lastName);
+        setProfileImg(data.profileImg);
+        setBanner(data.banner);
+        setEmail(data.email);
+        setContactNum(data.contactNum);
+        setAddress(data.address);
+        setCompanyName(data.companyName);
+        setBio(data.bio);
+        setAbout(data.about);
+        setWebsite(data.website);
+        setSocialLinks(data.socialLinks);
+      })
+      .catch((err) => {
+        console.log(err.response.data.errorMessage);
+      });
+  };
+
+  const message = () => {
+    const state = {
+      rName: `${fName} ${lName}`,
+      rProfileImg: profileImg,
+      rId: id,
+      rType: "employer",
+    };
+    navigate("/message", { state });
   };
 
   return (
     <>
-      <NavbarLoggedIn />
+      {user ? <NavbarLoggedIn /> : <Navbar />}
       <div className="bg-gray-100 mx-auto h-[1000px]">
         <div className="container mx-auto">
           <img
-            src={banner}
-            alt=""
+            src={banner ? banner : defbanner}
+            alt="banner"
             className="w-full h-80 object-cover rounded-xl"
           />
         </div>
@@ -39,53 +90,39 @@ function Employerprofilepage() {
                 <div className="mx-auto bg-white px-5 py-2 rounded-lg">
                   <div className="flex flex-col">
                     <div className="flex justify-start pl-5">
-                      <input
-                        type="file"
-                        id="imageInput"
-                        accept="image/*"
-                        style={{ display: "none" }}
-                        onChange={handleImageChange}
-                      />
-                      <label htmlFor="imageInput" className="cursor-pointer">
+                      <label htmlFor="orofileImg">
                         <img
-                          src={selectedImage || placeholderImage.profile}
-                          alt=""
+                          src={profileImg ? profileImg : profile}
+                          alt="profileImg"
                           className="w-40 h-40 rounded-full border-2"
                         />
                       </label>
-                      {!selectedImage && (
-                        <div
-                          onClick={() =>
-                            document.getElementById("imageInput").click()
-                          }
-                          className="absolute cursor-pointer"
-                          style={{ zIndex: 1 }}
-                        ></div>
-                      )}
                     </div>
                     <div className="flex flex-col w-full p-5 space-y-2">
                       <div className="flex items-center gap-2">
                         <h1 className="text-2xl text-[#8B95EE]">
-                          Firstname Lastname
+                          {`${fName} ${lName}`}
                         </h1>
-                        <h1 className="text-lg text-[#444B88]">[Company Name]</h1>
+                        <h1 className="text-lg text-[#444B88]">
+                          [{companyName}]
+                        </h1>
                       </div>
                       <div className="flex flex-col">
-                        <h1 className="underline text-[#8B95EE]">
-                          Email.devs.jpg@gmail.com
-                        </h1>
-                        <p>City, Country</p>
-                        <p>0999-999-9112</p>
+                        <h1 className="underline text-[#8B95EE]">{email}</h1>
+                        {address !== ", " && <p>{address}</p>}
+                        <p>{contactNum}</p>
                       </div>
-                      <div>
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                        Neque architecto saepe dignissimos doloribus obcaecati
-                        officiis pariatur quas consequuntur totam numquam
-                        placeat, dolorem voluptate id ea.
+                      <div className="">
+                        <p className="break-words">{bio}</p>
                       </div>
                     </div>
                     <div className="w-full flex justify-center items-center">
-                        <button className="px-4 rounded-full border border-[#444B88] bg-[#8B95EE]">Message</button>
+                      <button
+                        className="px-4 rounded-full border border-[#444B88] bg-[#8B95EE]"
+                        onClick={message}
+                      >
+                        Message
+                      </button>
                     </div>
                   </div>
                 </div>
@@ -94,31 +131,32 @@ function Employerprofilepage() {
                 <div className="grid grid-cols-1 gap-4">
                   <div className="bg-white p-4 rounded-xl flex flex-col items-center gap-2">
                     <h1 className="text-[#444B88] font-base text-xl">About</h1>
-                    <textarea
-                      name="about"
-                      id=""
-                      cols="30"
-                      rows="5"
-                      placeholder="This user did not write anything yet."
-                      className="w-full p-2"
-                    ></textarea>
+                    {about ? (
+                      <p>{about}</p>
+                    ) : (
+                      <p>This user did not write anything yet.</p>
+                    )}
                   </div>
                   <div className="bg-white p-4 rounded-xl flex flex-col gap-2 items-center justify-center">
                     <h1 className="text-[#444B88] font-base">Website</h1>
-                    <input type="text" className="p-2 w-full " placeholder="This user did not put anything yet" />
+                    {website ? (
+                      <a href={website}>
+                        <p className="hover:underline">{website}</p>
+                      </a>
+                    ) : (
+                      <p>This user did not put anything yet...</p>
+                    )}
                   </div>
                   <div className="bg-white p-4 rounded-xl text-xl flex flex-col items-center gap-2 justify-center border-2 border-gray-300">
                     <h1 className="text-[#444B88] font-base">Social</h1>
                     <div>
-                        <div className="flex items-center gap-1">
-                          <FaLinkedin size={25} color="blue" />
-                          <p>LinkIn@linkin.com</p>
+                      {socialLinks.map((social, index) => (
+                        <div className="flex items-center gap-1" key={index}>
+                          <SocialIcon platform={social.platform} />
+                          <p>{social.link}</p>
                         </div>
-                        <div className="flex gap-1 items-center">
-                          <FaSquareXTwitter size={25} />
-                          <p>TwitterngPogi@twiiter.com</p>
-                        </div>
-                      </div>
+                      ))}
+                    </div>
                   </div>
                 </div>
               </div>

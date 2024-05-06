@@ -76,7 +76,7 @@ function NavbarloggedinBlack() {
               Portfolio Builder
             </li>
             <li
-              className="text-lg md:text-xl font-medium text-white"
+              className="text-lg md:text-xl font-medium text-white cursor-pointer"
               onClick={clickApplicants}
             >
               For Employers
@@ -85,7 +85,7 @@ function NavbarloggedinBlack() {
         </div>
         <div>
           <div className="items-center gap-2 hidden lg:flex ">
-          <MessageDropdownMenu />
+            <MessageDropdownMenu />
             <DropdownMenu />
           </div>
         </div>
@@ -113,7 +113,6 @@ function NavbarloggedinBlack() {
               </ul>
               <div className="lg:flex items-center gap-2">
                 <DropdownMenu />
-               
               </div>
             </div>
           </div>

@@ -5,8 +5,10 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { ImSpinner } from "react-icons/im";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 function Messagemodal({ closeModal, message, userId, userType, reload }) {
+  const { user } = useSelector((state) => state.user);
   const { _id, sender, receiver, subject, body } = message;
   const navigate = useNavigate();
   const [senderName, setSenderName] = useState();
@@ -74,6 +76,23 @@ function Messagemodal({ closeModal, message, userId, userType, reload }) {
     navigate("/message", { state });
   };
 
+  const visitProfile = (id, type) => {
+    if (type === "applicant") {
+      if (id === user.profileId && type === user.profileType) {
+        navigate("/editprofile");
+        return;
+      }
+      navigate(`/profile/${id}`);
+    }
+    if (type === "employer") {
+      if (id === user.profileId && type === user.profileType) {
+        navigate("/editemployer");
+        return;
+      }
+      navigate(`/employerprofile/${id}`);
+    }
+  };
+
   return (
     <div className="fixed inset-0 flex justify-center items-center">
       <div className="bg-white flex flex-col border w-2/4 border-[#444b88] shadow-xl">
@@ -88,18 +107,38 @@ function Messagemodal({ closeModal, message, userId, userType, reload }) {
               <img
                 src={senderImg ? senderImg : logo}
                 alt=""
-                className="size-7 rounded-full border-2 border-[#444b88]"
+                className="size-7 rounded-full border-2 border-[#444b88] cursor-pointer"
+                onClick={() =>
+                  visitProfile(sender.profileId, sender.profileType)
+                }
               />{" "}
-              {senderName}
+              <p
+                className="hover:underline cursor-pointer"
+                onClick={() =>
+                  visitProfile(sender.profileId, sender.profileType)
+                }
+              >
+                {senderName}
+              </p>
             </h1>
             <h1 className="flex text-xl gap-2">
               <span className="text-[#444b88]">To:</span>{" "}
               <img
                 src={receiverImg ? receiverImg : logo}
                 alt=""
-                className="size-7 rounded-full border-2 border-[#444b88]"
+                className="size-7 rounded-full border-2 border-[#444b88] cursor-pointer"
+                onClick={() =>
+                  visitProfile(receiver.profileId, receiver.profileType)
+                }
               />{" "}
-              {receiverName}
+              <p
+                className="hover:underline cursor-pointer"
+                onClick={() =>
+                  visitProfile(receiver.profileId, receiver.profileType)
+                }
+              >
+                {receiverName}
+              </p>
             </h1>
           </div>
           <div className="pt-5">

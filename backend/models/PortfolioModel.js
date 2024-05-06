@@ -72,6 +72,14 @@ const PortfolioSchema = new Schema({
     required: false,
     default: [],
   },
+  resume: {
+    type: {
+      resumeId: Schema.Types.ObjectId,
+      templateId: String,
+    },
+    required: false,
+    default: {},
+  },
 });
 
 const Portfolio = mongoose.model("Portfolio", PortfolioSchema);

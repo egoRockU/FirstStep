@@ -4,6 +4,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import placeholderBanner from "../images/signBg.jpg";
 import profileDefault from "../images/profile.svg";
 import NavbarLoggedIn from "../Components/NavbarLoggedIn";
+import Navbar from "../Components/Newnavbar";
 import Footer from "../Components/Footer";
 import SocialIcon from "../Components/SocialIcon";
 import axios from "axios";
@@ -18,8 +19,11 @@ import Awardspreview from "../Modals/Preview Modals/Awardspreview";
 import Activitiespreview from "../Modals/Preview Modals/Activitiespreview";
 import Educationpreview from "../Modals/Preview Modals/Educationpreview";
 import Previewproject from "../Modals/Preview Modals/Previewproject";
+import { useSelector } from "react-redux";
 
 function Profile() {
+  const { user } = useSelector((state) => state.user);
+
   const navigate = useNavigate();
   const { id } = useParams();
   const [fName, setFName] = useState("");
@@ -122,7 +126,7 @@ function Profile() {
 
   return (
     <>
-      <NavbarLoggedIn />
+      {user ? <NavbarLoggedIn /> : <Navbar />}
       <div className="bg-gray-100 mx-auto pb-10">
         <div className="container mx-auto">
           <img

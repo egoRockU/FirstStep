@@ -1,8 +1,10 @@
 import React, { useEffect } from "react";
 import NavbarLoggedIn from "../Components/NavbarLoggedIn";
+import Navbar from "../Components/Newnavbar";
 import Footer from "../Components/Footer";
 import resume from "../images/resume.png";
 import { useParams } from "react-router-dom";
+import { useSelector } from "react-redux";
 import axios from "axios";
 import { useState } from "react";
 import BasicTemplate from "../templates/resume/basicTemplate";
@@ -10,6 +12,7 @@ import BasicTemplate2 from "../templates/resume/basicTemplate2";
 import TwoColumn from "../templates/resume/twoColumn";
 
 function Generatedresume() {
+  const { user } = useSelector((state) => state.user);
   const { templateId, resumeId } = useParams();
   const [template, setTemplate] = useState();
 
@@ -56,7 +59,7 @@ function Generatedresume() {
   return (
     <>
       <div className="bg-white">
-        <NavbarLoggedIn />
+        {user ? <NavbarLoggedIn /> : <Navbar />}
         <div className="max-w-screen-2xl mx-auto px-4 pt-32 pb-24">
           <div className="w-5/6 mx-auto flex flex-col">
             <div className="w-full flex flex-col">

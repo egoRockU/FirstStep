@@ -49,6 +49,20 @@ function App() {
                 path="/changepassword/:token"
                 element={<ChangePassword />}
               />
+              <Route path="/applicantlist" element={<Applicantlist />} />
+              <Route path="/profile/:id" element={<Profilepage />} />
+              <Route
+                path="/employerprofile/:id"
+                element={<Employerprofilepage />}
+              />
+              <Route
+                path="/resume/:templateId/:resumeId"
+                element={<Generatedresume />}
+              />
+              <Route
+                path="/portfolio/:templateId/:portfolioId"
+                element={<Generatedportfolio />}
+              />
               <Route path="*" element={<Newlogin />} />
             </>
           )}
@@ -59,7 +73,7 @@ function App() {
               <Route path="/applicantlist" element={<Applicantlist />} />
               <Route path="/profile/:id" element={<Profilepage />} />
               <Route
-                path="/employerprofile"
+                path="/employerprofile/:id"
                 element={<Employerprofilepage />}
               />
               <Route path="/inbox" element={<Inbox />} />
