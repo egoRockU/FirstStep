@@ -61,6 +61,7 @@ function Createportfolio() {
   const [country, setCountry] = useState("");
   const [bio, setBio] = useState("");
   const [about, setAbout] = useState("");
+  const [resume, setResume] = useState({});
 
   useEffect(() => {
     getUserProfile();
@@ -286,6 +287,7 @@ function Createportfolio() {
         setProjectsData(profileObj.projects);
         setCertData(profileObj.certs);
         setImage(profileObj.profileImg);
+        setResume(profileObj.resume);
       });
   };
 
@@ -315,6 +317,7 @@ function Createportfolio() {
           preferredCareer: industries,
           certs: certData,
           projects: projectsData,
+          resume,
         };
 
         navigate("/chooseportfolio", { state: { portfolioInfo } });

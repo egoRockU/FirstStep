@@ -1,8 +1,11 @@
 import React from "react";
 import logo from "../images/newlogo.png";
 import { IoIosMailOpen } from "react-icons/io";
+import { useNavigate } from "react-router-dom";
 
 function Footer() {
+  const navigate = useNavigate();
+
   return (
     <div className="flex bg-white w-full border-t-[1px] ">
       <div className="flex flex-col md:flex-row w-full lg:w-1/2 mx-auto justify-around m-5 items-center">
@@ -13,11 +16,22 @@ function Footer() {
         <div>
           <ul className="flex flex-col gap-5 items-center md:items-start">
             <li className="text-[#444B88] cursor-pointer text-sm">Feedback</li>
-            <li className="text-[#444B88] cursor-pointer text-sm">About Us</li>
-            <li className="text-[#444B88] cursor-pointer text-sm">
+            <li
+              className="text-[#444B88] cursor-pointer text-sm"
+              onClick={() => navigate("/about")}
+            >
+              About Us
+            </li>
+            <li
+              className="text-[#444B88] cursor-pointer text-sm"
+              onClick={() => navigate("/termsandconditions")}
+            >
               Terms & Conditions
             </li>
-            <li className="text-[#444B88] cursor-pointer text-sm">
+            <li
+              className="text-[#444B88] cursor-pointer text-sm"
+              onClick={() => navigate("/privacypolicy")}
+            >
               Privacy Policy
             </li>
           </ul>

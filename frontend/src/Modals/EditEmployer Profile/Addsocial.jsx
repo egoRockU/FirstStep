@@ -1,6 +1,14 @@
 import React, { useState, useEffect } from "react";
+import Select from "react-select";
+import SocialIcon from "../../Components/SocialIcon";
 
-function SocialMediaLinks({ onClose, onSubmit, onEdit, formIndex, initialData }) {
+function SocialMediaLinks({
+  onClose,
+  onSubmit,
+  onEdit,
+  formIndex,
+  initialData,
+}) {
   const [formData, setFormData] = useState({
     platform: "",
     link: "",
@@ -12,9 +20,8 @@ function SocialMediaLinks({ onClose, onSubmit, onEdit, formIndex, initialData })
     }
   }, [initialData]);
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
+  const handleChange = (selectedOption) => {
+    setFormData({ ...formData, platform: selectedOption.value });
   };
 
   const handleSubmit = (e) => {
@@ -41,37 +48,49 @@ function SocialMediaLinks({ onClose, onSubmit, onEdit, formIndex, initialData })
     }
   };
 
+  const options = [
+    { value: "facebook", label: <SocialIcon platform="facebook" /> },
+    { value: "twitter", label: <SocialIcon platform="twitter" /> },
+    { value: "youtube", label: <SocialIcon platform="youtube" /> },
+    { value: "linkedin", label: <SocialIcon platform="linkedin" /> },
+  ];
 
-
-  
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-80 backdrop-blur-sm">
-      <div className="w-[600px] mx-4 p-4 bg-white shadow-md rounded-md">
-        <h2 className="text-2xl font-semibold mb-4 text-gray-800">Social Media Links</h2>
+      <div className="w-[700px] mx-4 p-4 bg-white shadow-md rounded-md">
+        <h2 className="text-2xl font-semibold mb-4 text-gray-800">
+          Social Media Links
+        </h2>
         <form onSubmit={handleSubmit}>
           <div className="flex items-center mb-4">
             <div className="mr-4">
-              <select
-                id="platform"
-                name="platform"
-                value={formData.platform}
+              <Select
+                options={options}
                 onChange={handleChange}
-                className="p-2 border-2 border-[#444B88] focus:outline-none focus:border-black-500 rounded-md"
-              >
-                <option value="">Select Platform</option>
-                <option value="facebook">Facebook</option>
-                <option value="twitter">Twitter</option>
-                <option value="youtube">YouTube</option>
-                <option value="linkedin">LinkedIn</option>
-              </select>
+                value={options.find(
+                  (option) => option.value === formData.platform
+                )}
+                placeholder="Select Platform"
+                className="p-2 focus:outline-none rounded-md w-60 text-sm"
+                isSearchable={false}
+                styles={{
+                  control: (provided) => ({
+                    ...provided,
+                    borderColor: "#444B88 ", 
+                  }),
+                }}
+              />
             </div>
+
             <div>
               <input
                 type="text"
                 id="link"
                 name="link"
                 value={formData.link}
-                onChange={handleChange}
+                onChange={(e) =>
+                  setFormData({ ...formData, link: e.target.value })
+                }
                 placeholder="Enter Link"
                 className="p-2 border-2 border-[#444B88] focus:outline-none focus:border-black-500 rounded-md w-96"
               />

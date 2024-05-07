@@ -3,10 +3,10 @@
 @tailwind utilities;
 
 .swiper-button-next{
-    color: white;
+    color: #444b88;
 }
 .swiper-button-prev{
-    color: white;
+    color: #444b88;
 }
 
 .Toastify__toast--success {

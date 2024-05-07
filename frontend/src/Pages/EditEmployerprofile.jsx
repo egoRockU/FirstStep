@@ -6,7 +6,7 @@ import banner from "../images/banner.svg";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useSelector } from "react-redux";
-
+import SocialIcon from "../Components/SocialIcon";
 function Editemployerprofilepage() {
   const navigate = useNavigate();
   const { user } = useSelector((state) => state.user);
@@ -140,18 +140,15 @@ function Editemployerprofilepage() {
                     <h1 className="text-lg">{website}</h1>
                   </div>
                   <div className="bg-white p-4 rounded-xl text-xl flex flex-col items-center gap-2 justify-center border-2 border-gray-300">
-                    <h1 className="text-[#444B88] font-base">Social</h1>
+                    <h1 className="text-[#444B88] font-base">Socials</h1>
                     {/* TODO add platform logo */}
                     <div>
-                      {socialLinks.map((social, index) => (
-                        <div
-                          className="flex flex-col lg:flex-row items-center gap-1 w-full"
-                          key={index}
-                        >
-                          <p className="text-lg">{social.platform}</p>
-                          <p className="text-lg">{social.link}</p>
-                        </div>
-                      ))}
+                    {socialLinks.map((social, index) => (
+                          <div className="flex items-center gap-1" key={index}>
+                            <SocialIcon platform={social.platform} />
+                            <p>{social.link}</p>
+                          </div>
+                        ))}
                       {/* <div className="flex items-center gap-1">
                         <FaLinkedin size={25} color="blue" />
                         <p>LinkIn@linkin.com</p>

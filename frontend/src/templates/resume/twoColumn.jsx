@@ -24,7 +24,7 @@ function TwoColumn({ resumeInfo }) {
     education,
     awards,
     certs,
-  } = resumeInfo;
+  } = resumeInfo || {};
   const handleDownload = () => {
     const filename = `${firstName} ${lastName}.pdf`;
     downloadPDF("container", filename);
@@ -52,7 +52,7 @@ function TwoColumn({ resumeInfo }) {
               <p className="text-[14px] font-semibold uppercase">{lastName}</p>
             </div>
             <p className="job-description uppercase italic text-[9px]">
-              {preferredCareer.join(" | ")}
+              {preferredCareer && preferredCareer.join(" | ")}
             </p>
             <p className="text-[11px] mt-2  font-bold">Contact</p>
             <p className="text-[9px] tracking-tight">{address}</p>
@@ -61,36 +61,40 @@ function TwoColumn({ resumeInfo }) {
             <hr className="border-gray-600  w-[178px] mt-2" />
             <p className="text-[11px] mt-1 font-bold">Skills</p>
             <ul className="text-[9px] list-disc">
-              {skills.map((skill, key) => (
-                <li key={key}>{skill}</li>
-              ))}
+              {skills && skills.map((skill, key) => <li key={key}>{skill}</li>)}
             </ul>
             <hr className="border-gray-600  w-[178px] mt-2" />
             <p className="text-[11px] mt-2 font-bold">Certificates</p>
             <div>
-              {certs.map((cert, key) => (
-                <div className="mb-2" key={key}>
-                  {" "}
-                  <p className="text-[9px] font-bold">
-                    {cert.title}{" "}
-                    <span className="space-x-11">
-                      {convertDate(cert.dateReceived)}
-                    </span>
-                  </p>
-                  <p className="text-[9px] font-semibold">{cert.description}</p>
-                </div>
-              ))}
+              {certs &&
+                certs.map((cert, key) => (
+                  <div className="mb-2" key={key}>
+                    {" "}
+                    <p className="text-[9px] font-bold">
+                      {cert.title}{" "}
+                      <span className="space-x-11">
+                        {convertDate(cert.dateReceived)}
+                      </span>
+                    </p>
+                    <p className="text-[9px] font-semibold">
+                      {cert.description}
+                    </p>
+                  </div>
+                ))}
             </div>
             <hr className="border-gray-600  w-[178px] mt-2" />
             <p className="text-[11px] mt-2 font-bold">Achievements</p>
             <div>
-              {awards.map((award, key) => (
-                <div className="mb-2" key={key}>
-                  <p className="text-[9px] font-bold ">{award.title}</p>
-                  <p className="text-[9px] ">{award.dateRecieved}</p>
-                  <p className="text-[9px] text-justify">{award.description}</p>
-                </div>
-              ))}
+              {awards &&
+                awards.map((award, key) => (
+                  <div className="mb-2" key={key}>
+                    <p className="text-[9px] font-bold ">{award.title}</p>
+                    <p className="text-[9px] ">{award.dateRecieved}</p>
+                    <p className="text-[9px] text-justify">
+                      {award.description}
+                    </p>
+                  </div>
+                ))}
             </div>
           </div>
 
@@ -101,17 +105,18 @@ function TwoColumn({ resumeInfo }) {
             <hr className="border-gray-600  w-[200px] mt-2" />
             <p className="text-[11px] mt-2 font-bold">Education</p>
             <div>
-              {education.map((educ, key) => (
-                <div className="mb-2" key={key}>
-                  <p className="text-[9px]">{`${educ.degree}, ${educ.program}`}</p>
-                  <p className="text-[9px] text-cyan-500 font-semibold">
-                    {educ.schoolName}
-                  </p>
-                  <p className="text-[9px]">{`${convertDateYear(
-                    educ.startDate
-                  )} - ${convertDateYear(educ.endDate)}`}</p>
-                </div>
-              ))}
+              {education &&
+                education.map((educ, key) => (
+                  <div className="mb-2" key={key}>
+                    <p className="text-[9px]">{`${educ.degree}, ${educ.program}`}</p>
+                    <p className="text-[9px] text-cyan-500 font-semibold">
+                      {educ.schoolName}
+                    </p>
+                    <p className="text-[9px]">{`${convertDateYear(
+                      educ.startDate
+                    )} - ${convertDateYear(educ.endDate)}`}</p>
+                  </div>
+                ))}
             </div>
             <hr className="border-gray-600  w-[200px] mt-2" />
 
@@ -119,41 +124,45 @@ function TwoColumn({ resumeInfo }) {
               Activities and Involvements
             </p>
             <div>
-              {activitiesAndInvolvements.map((activity, key) => (
-                <div className="mb-2" key={key}>
-                  <p className="text-[9px] font-bold">
-                    {activity.title}{" "}
-                    <span className="space-x-11">{`${convertDateYear(
-                      activity.startDate
-                    )} - ${convertDateYear(activity.startDate)}`}</span>
-                  </p>
-                  <p className="text-[9px]">{activity.typeOfActivity}</p>
-                  <p className="text-[9px]">
-                    {activity.organizationOrCompanyName}
-                  </p>
-                  <p className="text-[9px] text-justify">
-                    {activity.description}
-                  </p>
-                </div>
-              ))}
+              {activitiesAndInvolvements &&
+                activitiesAndInvolvements.map((activity, key) => (
+                  <div className="mb-2" key={key}>
+                    <p className="text-[9px] font-bold">
+                      {activity.title}{" "}
+                      <span className="space-x-11">{`${convertDateYear(
+                        activity.startDate
+                      )} - ${convertDateYear(activity.startDate)}`}</span>
+                    </p>
+                    <p className="text-[9px]">{activity.typeOfActivity}</p>
+                    <p className="text-[9px]">
+                      {activity.organizationOrCompanyName}
+                    </p>
+                    <p className="text-[9px] text-justify">
+                      {activity.description}
+                    </p>
+                  </div>
+                ))}
             </div>
             <hr className="border-gray-600  w-[200px] mt-2" />
 
             <p className="text-[11px] mt-2 font-bold">Project</p>
             <div>
-              {projects.map((project, key) => (
-                <div className="mb-2" key={key}>
-                  {" "}
-                  <p className="text-[9px] font-bold">
-                    {project.projectTitle}{" "}
-                    <span className="space-x-11">{`${convertDateYear(
-                      project.startDate
-                    )} - ${convertDateYear(project.endDate)}`}</span>
-                  </p>
-                  <p className="text-[9px] font-semibold">{project.subtitle}</p>
-                  <p className="text-[9px]">{project.technologiesUsed}</p>
-                </div>
-              ))}
+              {projects &&
+                projects.map((project, key) => (
+                  <div className="mb-2" key={key}>
+                    {" "}
+                    <p className="text-[9px] font-bold">
+                      {project.projectTitle}{" "}
+                      <span className="space-x-11">{`${convertDateYear(
+                        project.startDate
+                      )} - ${convertDateYear(project.endDate)}`}</span>
+                    </p>
+                    <p className="text-[9px] font-semibold">
+                      {project.subtitle}
+                    </p>
+                    <p className="text-[9px]">{project.technologiesUsed}</p>
+                  </div>
+                ))}
             </div>
           </div>
         </div>

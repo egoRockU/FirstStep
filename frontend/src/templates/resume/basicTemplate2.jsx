@@ -16,7 +16,7 @@ function BasicTemplate2({ resumeInfo }) {
     education,
     awards,
     certs,
-  } = resumeInfo;
+  } = resumeInfo || {};
 
   const handleDownload = () => {
     const filename = `${firstName} ${lastName}.pdf`;
@@ -30,7 +30,7 @@ function BasicTemplate2({ resumeInfo }) {
         <div className="container max-w-[459px] bg-white mx-auto pb-4 shadow-md my-2 rounded-lg font-serif">
           <div className="text-center font-bold text-[13px] py-2">
             <h1>{`${firstName} ${lastName}`}</h1>
-            <p>{preferredCareer.join(" | ")}</p>
+            <p>{preferredCareer && preferredCareer.join(" | ")}</p>
           </div>
           <div className="text-center text-[9px] tracking-tight">
             <p>{address}</p>
@@ -48,65 +48,75 @@ function BasicTemplate2({ resumeInfo }) {
             <hr className="mt-2.5 border-gray-900 w-[100%] mx-auto" />
             <p className="text-header text-[11px] font-bold">Achievements</p>
             <div>
-              {awards.map((award, index) => (
-                <div className="" key={index}>
-                  <p className="text-[9px] font-bold ">{award.title}</p>
-                  <p className="text-[9px] ">
-                    {convertDate(award.dateReceived)}
-                  </p>
-                  <p className="text-[9px] text-justify">{award.description}</p>
-                </div>
-              ))}
+              {awards &&
+                awards.map((award, index) => (
+                  <div className="" key={index}>
+                    <p className="text-[9px] font-bold ">{award.title}</p>
+                    <p className="text-[9px] ">
+                      {convertDate(award.dateReceived)}
+                    </p>
+                    <p className="text-[9px] text-justify">
+                      {award.description}
+                    </p>
+                  </div>
+                ))}
             </div>
             <hr className="my-2 border-gray-900 w-[100%] mx-auto" />
             <p className="text-header text-[11px] font-bold ">Education</p>
             <div>
-              {education.map((educ, index) => (
-                <div className="mb-2" key={index}>
-                  <p className="text-[9px]">
-                    {`${educ.degree}, ${educ.program}`}
-                  </p>
-                  <p className="text-[9px] text-cyan-500 font-semibold">
-                    {educ.schoolName}
-                  </p>
-                  <p className="text-[9px]">{`${convertDateYear(
-                    educ.startDate
-                  )} - ${convertDateYear(educ.endDate)}`}</p>
-                </div>
-              ))}
+              {education &&
+                education.map((educ, index) => (
+                  <div className="mb-2" key={index}>
+                    <p className="text-[9px]">
+                      {`${educ.degree}, ${educ.program}`}
+                    </p>
+                    <p className="text-[9px] text-cyan-500 font-semibold">
+                      {educ.schoolName}
+                    </p>
+                    <p className="text-[9px]">{`${convertDateYear(
+                      educ.startDate
+                    )} - ${convertDateYear(educ.endDate)}`}</p>
+                  </div>
+                ))}
             </div>
             <hr className="my-2 border-gray-900 w-[100%] mx-auto" />
 
             <p className="text-header text-[11px] font-bold">Projects</p>
             <div>
-              {projects.map((project, index) => (
-                <div className="mb-2" key={index}>
-                  {" "}
-                  <p className="text-[9px] font-bold">
-                    {project.projectTitle}{" "}
-                    <p className="text-[9px]">{`${convertDateYear(
-                      project.startDate
-                    )} - ${convertDateYear(project.endDate)}`}</p>
-                  </p>
-                  <p className="text-[9px] font-semibold">{project.subTitle}</p>
-                  <p className="text-[9px]">{project.technologiesUsed}</p>
-                </div>
-              ))}
+              {projects &&
+                projects.map((project, index) => (
+                  <div className="mb-2" key={index}>
+                    {" "}
+                    <p className="text-[9px] font-bold">
+                      {project.projectTitle}{" "}
+                      <span className="text-[9px]">{`${convertDateYear(
+                        project.startDate
+                      )} - ${convertDateYear(project.endDate)}`}</span>
+                    </p>
+                    <p className="text-[9px] font-semibold">
+                      {project.subTitle}
+                    </p>
+                    <p className="text-[9px]">{project.technologiesUsed}</p>
+                  </div>
+                ))}
             </div>
             <hr className="my-2 border-gray-900 w-[100%] mx-auto" />
 
             <p className="text-header text-[11px] font-bold">Certifications</p>
             <div>
-              {certs.map((cert, index) => (
-                <div className="mb-2" key={index}>
-                  {" "}
-                  <p className="text-[9px] font-bold">{cert.title} </p>
-                  <p className="text-[9px] font-bold">
-                    {convertDate(cert.dateReceived)}
-                  </p>
-                  <p className="text-[9px] font-semibold">{cert.description}</p>
-                </div>
-              ))}
+              {certs &&
+                certs.map((cert, index) => (
+                  <div className="mb-2" key={index}>
+                    {" "}
+                    <p className="text-[9px] font-bold">{cert.title} </p>
+                    <p className="text-[9px] font-bold">
+                      {convertDate(cert.dateReceived)}
+                    </p>
+                    <p className="text-[9px] font-semibold">
+                      {cert.description}
+                    </p>
+                  </div>
+                ))}
             </div>
             <hr className="my-2 border-gray-900 w-[100%] mx-auto" />
 
@@ -114,32 +124,32 @@ function BasicTemplate2({ resumeInfo }) {
               Activities and Involvements
             </p>
             <div>
-              {activitiesAndInvolvements.map((activity, index) => (
-                <div className="mb-2" key={index}>
-                  <p className="text-[9px] font-bold">
-                    {activity.title}{" "}
-                    <span className="space-x-11">{`${convertDateYear(
-                      activity.startDate
-                    )} - ${convertDateYear(activity.endDate)}`}</span>
-                  </p>
-                  <p className="text-[9px]">{activity.typeOfActivity}</p>
-                  <p className="text-[9px]">
-                    {activity.organizationOrCompanyName}
-                  </p>
-                  <p className="text-[9px] text-justify">
-                    {activity.description}
-                  </p>
-                </div>
-              ))}
+              {activitiesAndInvolvements &&
+                activitiesAndInvolvements.map((activity, index) => (
+                  <div className="mb-2" key={index}>
+                    <p className="text-[9px] font-bold">
+                      {activity.title}{" "}
+                      <span className="space-x-11">{`${convertDateYear(
+                        activity.startDate
+                      )} - ${convertDateYear(activity.endDate)}`}</span>
+                    </p>
+                    <p className="text-[9px]">{activity.typeOfActivity}</p>
+                    <p className="text-[9px]">
+                      {activity.organizationOrCompanyName}
+                    </p>
+                    <p className="text-[9px] text-justify">
+                      {activity.description}
+                    </p>
+                  </div>
+                ))}
             </div>
             <hr className="my-2 border-gray-900 w-[100%] mx-auto" />
 
             <p className="text-header text-[11px] font-bold">Skills</p>
             <div className="list-container flex gap-12">
               <ul className="left-list text-[9px] flex-1 list-disc">
-                {skills.map((skill, index) => (
-                  <li key={index}>{skill}</li>
-                ))}
+                {skills &&
+                  skills.map((skill, index) => <li key={index}>{skill}</li>)}
               </ul>
             </div>
           </div>

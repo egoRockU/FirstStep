@@ -48,7 +48,10 @@ function Previewproject({ onClose, project }) {
             pagination={{
               clickable: true,
             }}
-            navigation={true}
+            navigation={{
+              nextEl: ".swiper-button-next",
+              prevEl: ".swiper-button-prev",
+            }}
             modules={[Pagination, Navigation]}
             className="mySwiper rounded-lg"
           >
@@ -62,6 +65,8 @@ function Previewproject({ onClose, project }) {
                 />
               </SwiperSlide>
             ))}
+            <div className="swiper-button-prev bg-black bg-opacity-50 text-white"></div>
+            <div className="swiper-button-next bg-black bg-opacity-50 text-white"></div>
           </Swiper>
         </div>
         <div className="text-lg w-full flex justify-center">{subTitle}</div>
@@ -74,25 +79,30 @@ function Previewproject({ onClose, project }) {
             </div>
             <div className="flex w-full gap-4">
               {/* TODO fit the link inside the div  */}
-              <div className="flex w-1/2 items-center border-2 border-gray-400 rounded-md">
+              <div className="flex w-1/2 px-2 items-center border-2 border-gray-400 rounded-md">
                 <div className="flex items-center px-1">
                   <FaGlobe size={25} />
                 </div>
-                <p className="w-full align-center whitespace-normal hover:underline">
+                <p className="w-full align-center break-all hover:underline">
                   {projectLink ? (
                     <a href={projectLink}>{projectLink}</a>
                   ) : (
-                    "No Github Link yet..."
+                    "No Project :Link yet..."
                   )}
                 </p>
               </div>
-              <div className="flex w-1/2 border-2 items-center border-gray-400 rounded-md">
+              <div className="flex w-1/2 px-2 border-2 items-center border-gray-400 rounded-md">
                 <div className="flex items-center px-1">
                   <FaGithub size={25} />
                 </div>
                 <p className="w-full align-center whitespace-normal hover:underline">
                   {githubLink ? (
-                    <a href={githubLink}>{githubLink}</a>
+                    <a
+                      href={githubLink}
+                      className="block max-w-full overflow-hidden whitespace-nowrap overflow-ellipsis"
+                    >
+                      {githubLink}
+                    </a>
                   ) : (
                     "No Github Link yet..."
                   )}
