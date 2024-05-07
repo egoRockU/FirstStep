@@ -27,6 +27,10 @@ function Newnavbar() {
     navigate("/applicantlist");
   };
 
+  const clickAbout = () => {
+    navigate("/about");
+  };
+
   const identifyColors = () => {
     if (location.pathname != "/") {
       setColors(["white", "black"]);
@@ -65,7 +69,10 @@ function Newnavbar() {
             >
               Resume Builder
             </li>
-            <li className={`text-lg text-${colors[1]} cursor-pointer`}>
+            <li
+              className={`text-lg text-${colors[1]} cursor-pointer`}
+              onClick={clickAbout}
+            >
               About us
             </li>
           </ul>
