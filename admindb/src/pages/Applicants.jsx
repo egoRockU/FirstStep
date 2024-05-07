@@ -261,16 +261,8 @@ return (
                 onClick={() => onPageChange(currentPage - 1)}
                 disabled={currentPage === 1} // Disable if on first page
               />
-              {Array.from({ length: totalPages }, (_, index) => (
-                <PaginationItem key={index + 1}>
-                  <PaginationLink
-                    isActive={currentPage === index + 1}
-                    onClick={() => onPageChange(index + 1)}
-                  >
-                    {index + 1}
-                  </PaginationLink>
-                </PaginationItem>
-              ))}
+              <PaginationItem key={currentPage}>
+              <PaginationLink isActive={true}>{currentPage}</PaginationLink> </PaginationItem>
               <PaginationNext
                 onClick={() => onPageChange(currentPage + 1)}
                 disabled={currentPage === totalPages} // Disable if on last page
