@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import DataTable from "./DataTable";
 import { Input } from "../components/ui/input";
 import { CiSearch } from "react-icons/ci";
 import { FaRegTrashCan } from "react-icons/fa6";
@@ -13,15 +12,37 @@ import {
   AlertDialogAction,
   AlertDialogCancel,
 } from "../components/ui/alert-dialog";
+import {
+  Table,
+  TableHeader,
+  TableBody,
+  TableRow,
+  TableCell,
+  TableCaption,
+} from "../components/ui/table";
+import { Checkbox } from "../components/ui/checkbox";
+import {
+  DropdownMenu,
+  DropdownMenuTrigger,
+  DropdownMenuContent,
+  DropdownMenuItem,
+} from "../components/ui/dropdown-menu";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "../components/ui/pagination";
 
 export default function Employers() {
-  // Updated function name
   // Data
-  const data = [
-    { id: 1, name: "John Doe", email: "john@example.com", account: "Local" },
+  const [data, setData] = useState([
+    { id: 1, name: "John Dog", email: "john@example.com", account: "Local" },
     { id: 2, name: "Jane Smith", email: "jane@example.com", account: "Google" },
     { id: 3, name: "Bob Johnson", email: "bob@example.com", account: "Local" },
-    { id: 4, name: "John Doe", email: "john@example.com", account: "Google" },
+    { id: 4, name: "John loyd", email: "john@example.com", account: "Google" },
     { id: 5, name: "Jane Smith", email: "jane@example.com", account: "Local" },
     { id: 6, name: "Bob Johnson", email: "bob@example.com", account: "Google" },
     { id: 7, name: "John Doe", email: "john@example.com", account: "Local" },
@@ -39,7 +60,7 @@ export default function Employers() {
       email: "bob@example.com",
       account: "Google",
     },
-  ];
+  ]);
 
   // State pagination
   const [currentPage, setCurrentPage] = useState(1);
@@ -49,11 +70,10 @@ export default function Employers() {
   // Search state
   const [searchTerm, setSearchTerm] = useState("");
   const [searchInput, setSearchInput] = useState("");
-  const [deleteId, setDeleteId] = useState(null); // Track the id to delete
-
+  
   // Filter data base on search
-  const filteredData = data.filter((applicant) =>
-    applicant.name.toLowerCase().includes(searchTerm.toLowerCase())
+  const filteredData = data.filter((employer) =>
+    employer.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   // Changing Pages
@@ -79,23 +99,55 @@ export default function Employers() {
     }
   };
 
-  // Function to handle deleting an applicant
-  const handleDelete = (id) => {
-    // Set the id to delete
-    setDeleteId(id);
+  // Selected rows state
+  const [selectedRows, setSelectedRows] = useState([]);
+  const [selectAllChecked, setSelectAllChecked] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  const handleRowSelect = (index) => {
+    if (selectedRows.includes(index)) {
+      setSelectedRows(selectedRows.filter((rowIndex) => rowIndex !== index));
+    } else {
+      setSelectedRows([...selectedRows, index]);
+    }
   };
 
-  // Function to confirm delete
-  const confirmDelete = () => {
-    console.log("Deleting applicant with id:", deleteId);
-    //Simulation only of deletion
-    setDeleteId(null);
+  const handleSelectAll = (checked) => {
+    setSelectAllChecked(checked);
+    setSelectedRows(checked ? Array.from(Array(itemsPerPage).keys()) : []);
   };
+
+  const handleMenuClick = (index) => {
+    if (selectedRows.includes(index)) {
+      setSelectedRows([]);
+    } else {
+      setSelectedRows([index]);
+    }
+    setMenuOpen(true);
+  };
+  const handleDelete = () => {
+    const deletedRows = data.filter((_, index) => selectedRows.includes(index));
+    console.log("Deleted Data:", deletedRows);
+    const updatedData = data.filter(
+      (_, index) => !selectedRows.includes(index)
+    );
+    setData(updatedData);
+    setSelectedRows([]);
+  };
+
+  const handleView = () => {
+    console.log("Viewing selected rows:", selectedRows);
+    setMenuOpen(false);
+  };
+
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = Math.min(startIndex + itemsPerPage, filteredData.length);
+  const currentPageData = filteredData.slice(startIndex, endIndex);
 
   return (
     <div className="flex-1 space-y-4 p-4 pt-6 md:p-8">
       {/* Search bar and title */}
-      <h1 className="text-xl font-semibold">Employers</h1> {/* Updated title */}
+      <h1 className="text-xl font-semibold">Employers</h1>
       <div className="relative flex items-center">
         <Input
           type="text"
@@ -115,23 +167,97 @@ export default function Employers() {
               <AlertDialogTitle>Confirm Delete</AlertDialogTitle>
             </AlertDialogHeader>
             <AlertDialogDescription>
-              Are you sure you want to delete this applicant?
+              Are you sure you want to delete this employer?
             </AlertDialogDescription>
-            <AlertDialogAction as="button" onClick={confirmDelete}>
+            <AlertDialogAction as="button" onClick={handleDelete}>
               Delete
             </AlertDialogAction>
             <AlertDialogCancel as="button">Cancel</AlertDialogCancel>
           </AlertDialogContent>
         </AlertDialog>
       </div>
+
       {/* DataTable */}
-      <DataTable
-        data={filteredData}
-        currentPage={currentPage}
-        totalPages={totalPages}
-        onPageChange={onPageChange}
-        handleDelete={handleDelete}
-      />
+      <div>
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableCell>
+                <Checkbox
+                  checked={selectAllChecked}
+                  onCheckedChange={(isChecked) => handleSelectAll(isChecked)}
+                />
+              </TableCell>
+              <TableCell>Name</TableCell>
+              <TableCell>Email</TableCell>
+              <TableCell>Account</TableCell>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {currentPageData.map((row, index) => (
+              <TableRow key={index}>
+                <TableCell>
+                  <Checkbox
+                    checked={selectedRows.includes(index)}
+                    onCheckedChange={() => handleRowSelect(index)}
+                  />
+                </TableCell>
+                <TableCell>{row.name}</TableCell>
+                <TableCell>{row.email}</TableCell>
+                <TableCell>{row.account}</TableCell>
+                <TableCell>
+                  <div style={{ position: "relative" }}>
+                    <DropdownMenu>
+                      <DropdownMenuTrigger>
+                        <span
+                          onClick={() => handleMenuClick(index)}
+                          style={{
+                            cursor: "pointer",
+                            fontSize: "20px",
+                            transform: "rotate(90deg)",
+                            display: "inline-block",
+                            lineHeight: "1",
+                          }}
+                        >
+                          &#8942;
+                        </span>
+                      </DropdownMenuTrigger>
+                      {selectedRows.includes(index) && menuOpen && (
+                        <DropdownMenuContent>
+                          <DropdownMenuItem onSelect={handleView}>
+                            View
+                          </DropdownMenuItem>
+                          <DropdownMenuItem onSelect={handleView}>
+                            Visit Profile
+                          </DropdownMenuItem>
+                        </DropdownMenuContent>
+                      )}
+                    </DropdownMenu>
+                  </div>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+        <TableCaption style={{ whiteSpace: "nowrap" }}>
+          {selectedRows.length} of {filteredData.length} row(s) selected.
+        </TableCaption>
+        <Pagination>
+          <PaginationContent>
+            <PaginationPrevious
+              onClick={() => onPageChange(currentPage - 1)}
+              disabled={currentPage === 1} // Disable if on first page
+            />
+            <PaginationItem key={currentPage}>
+              <PaginationLink isActive={true}>{currentPage}</PaginationLink>
+            </PaginationItem>
+            <PaginationNext
+              onClick={() => onPageChange(currentPage + 1)}
+              disabled={currentPage === totalPages} // Disable if on last page
+            />
+          </PaginationContent>
+        </Pagination>
+      </div>
     </div>
   );
 }
