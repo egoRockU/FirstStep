@@ -4,12 +4,16 @@ import { Input } from "../components/ui/input";
 import { Label } from "../components/ui/label";
 import logo from "../images/logo.png";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import { useDispatch } from "react-redux";
+import { loginAdmin } from "@/slice/userSlice";
 
 export default function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleLogin = () => {
     if (username === "admin" && password === "123") {
@@ -18,6 +22,22 @@ export default function Login() {
     } else {
       setError("Invalid username or password");
     }
+  };
+
+  const login = (e) => {
+    e.preventDefault();
+    const inputs = {
+      username,
+      password,
+    };
+    dispatch(loginAdmin(inputs)).then((res) => {
+      if (res.error) {
+        console.log(res.error.message);
+        setError(res.error.message);
+      } else {
+        navigate("/dashboard");
+      }
+    });
   };
 
   return (
@@ -51,7 +71,7 @@ export default function Login() {
               required
             />
           </div>
-          <Button type="button" className="w-full" onClick={handleLogin}>
+          <Button type="button" className="w-full" onClick={login}>
             Login
           </Button>
         </div>

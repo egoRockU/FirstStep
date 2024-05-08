@@ -32,7 +32,7 @@ const verifyEmail = asyncHandler(async (req, res) => {
       return;
     }
 
-    sendEmailVerified(res, "https://first-step-mu.vercel.app/");
+    sendEmailVerified(res, "https://firststep-ts.vercel.app/");
   } catch (err) {
     if (err.name === "TokenExpiredError") {
       const decode = jwt.decode(urlToken);

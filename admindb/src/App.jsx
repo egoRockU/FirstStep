@@ -8,16 +8,36 @@ import Login from "./pages/Login";
 import Viewemployee from "./pages/Viewemployee";
 import Viewuser from "./pages/Viewuser";
 import ReplyFeedback from "./pages/ReplyFeedback";
+import { useSelector } from "react-redux";
+
 function App() {
+  const { user } = useSelector((state) => state.user);
+
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<Login />} />
-        <Route path="/dashboard/*" element={<DashboardWithThemeProvider />} />
-        <Route path="/adminprofile" element={<AdminprofileWithThemeProvider />} /> 
-        <Route path="/view" element={<Viewuser />} />
-        <Route path = "/reply" element={<ReplyFeedback/>} />
-        <Route path="/viewemployee" element={<Viewemployee />} />
+        {!user && (
+          <>
+            <Route path="/" element={<Login />} />
+            <Route path="*" element={<Login />} />
+          </>
+        )}
+        {user && (
+          <>
+            <Route
+              path="/dashboard/*"
+              element={<DashboardWithThemeProvider />}
+            />
+            <Route
+              path="/adminprofile"
+              element={<AdminprofileWithThemeProvider />}
+            />
+            <Route path="/view" element={<Viewuser />} />
+            <Route path="/reply" element={<ReplyFeedback />} />
+            <Route path="/viewemployee" element={<Viewemployee />} />
+            <Route path="*" element={<DashboardWithThemeProvider />} />
+          </>
+        )}
       </Routes>
     </Router>
   );
@@ -31,7 +51,7 @@ function DashboardWithThemeProvider() {
   );
 }
 
-function AdminprofileWithThemeProvider() { 
+function AdminprofileWithThemeProvider() {
   return (
     <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
       <Adminprofile />

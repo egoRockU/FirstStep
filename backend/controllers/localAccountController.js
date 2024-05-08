@@ -98,6 +98,43 @@ const loginLocal = asyncHandler(async (req, res) => {
   }
 });
 
+const loginAdmin = asyncHandler(async (req, res) => {
+  const { username, password } = req.body;
+
+  const accountExist = await LocalAccount.findOne({
+    $or: [{ email: username }, { username }],
+  });
+
+  if (!accountExist) {
+    res.status(401).json({ error: "Account does not Exist" });
+    throw new Error("Account does not Exist");
+  }
+
+  if (!accountExist.isAdmin) {
+    res.status(401).json({ error: "This account is not an admin" });
+    throw new Error("Invalid Account");
+  }
+
+  const correctPassword = await bcrypt.compare(password, accountExist.password);
+
+  if (correctPassword) {
+    generateAuthToken(accountExist.email, res);
+    const user = {
+      email: accountExist.email,
+      id: accountExist._id.toString(),
+      username: accountExist.username,
+    };
+
+    res.status(200).json({
+      message: "Admin Logged In!",
+      user,
+    });
+  } else {
+    res.status(401).json({ error: "Incorrect Password" });
+    throw new Error("Incorrect Password");
+  }
+});
+
 const changeLocalPassword = asyncHandler(async (req, res) => {
   const { email, newPassword } = req.body;
 
@@ -174,4 +211,5 @@ export {
   changeLocalPassword,
   logout,
   addProfile,
+  loginAdmin,
 };

@@ -12,10 +12,13 @@ import {
 import { Button } from "../components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "../components/ui/avatar";
 import { ModeToggle } from "../components/ui/mode-toggle";
+import { useDispatch } from "react-redux";
+import { logoutAdmin } from "@/slice/userSlice";
 
 export default function UserNav() {
   const navigate = useNavigate();
   const [showProfile, setShowProfile] = useState(false);
+  const dispatch = useDispatch();
 
   const handleProfileClick = () => {
     setShowProfile(!showProfile);
@@ -23,7 +26,12 @@ export default function UserNav() {
 
   const openAdminProfilePage = () => {
     setShowProfile(false);
-    navigate("/adminprofile"); 
+    navigate("/adminprofile");
+  };
+
+  const logout = () => {
+    dispatch(logoutAdmin());
+    navigate("/");
   };
 
   return (
@@ -51,7 +59,7 @@ export default function UserNav() {
           </DropdownMenuItem>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
-        <DropdownMenuItem onClick={() => console.log("logout")}>
+        <DropdownMenuItem onClick={logout}>
           Log out
           <DropdownMenuShortcut></DropdownMenuShortcut>
         </DropdownMenuItem>
