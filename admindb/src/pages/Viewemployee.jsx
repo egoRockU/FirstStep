@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Card,
   CardHeader,
@@ -7,29 +7,59 @@ import {
 } from "../components/ui/card";
 import { FaRegEdit } from "react-icons/fa";
 import { Button } from "../components/ui/button";
+import axios from "axios";
 
-const Viewemployee = ({ name, email, theme }) => {
+const Viewemployee = ({ data, name, email, theme }) => {
+  const { _id, accountId, accountType } = data;
+  const placeholderImg =
+    "https://blueypedia.fandom.com/extensions-ucp/mw139/fandom/AgeDeclaration/resources/images/adult.png";
   const [personalDetailsEditable, setPersonalDetailsEditable] = useState(false);
   const [accountDetailsEditable, setAccountDetailsEditable] = useState(false);
-  const [editedName, setEditedName] = useState(name);
-  const [editedEmail, setEditedEmail] = useState(email);
+  const [profileImg, setProfileImg] = useState();
+  const [fName, setFName] = useState("");
+  const [lName, setLName] = useState("");
+  const [empEmail, setEmpEmail] = useState("");
+  const [contactNum, setContactNum] = useState("");
+  const [city, setCity] = useState("");
+  const [country, setCountry] = useState("");
+  const [address, setAddress] = useState("");
+  const [bio, setBio] = useState("");
+  const [about, setAbout] = useState("");
+  const [accEmail, setAccEmail] = useState("");
+  const [verifier, setVerifier] = useState("");
+
+  useEffect(() => {
+    getEmployer();
+  }, []);
 
   const togglePersonalDetailsEdit = () => {
     setPersonalDetailsEditable(!personalDetailsEditable);
   };
 
   const toggleAccountDetailsEdit = () => {
+    if (accountType === "Google") {
+      alert(
+        "Google Accounts can't be edited because it might not work as intended after modifying some values"
+      );
+
+      return;
+    }
     setAccountDetailsEditable(!accountDetailsEditable);
   };
 
   const handlePersonalDetailsSubmit = (e) => {
     e.preventDefault();
-    setPersonalDetailsEditable(false);
+    updateMainInfo();
   };
 
   const handleAccountDetailsSubmit = (e) => {
     e.preventDefault();
-    setAccountDetailsEditable(false);
+    const proceed = confirm(
+      "Are you sure you want to change these account values? "
+    );
+    if (proceed) {
+      updateAccountInfo();
+    }
   };
 
   const handleSave = (e) => {
@@ -42,13 +72,95 @@ const Viewemployee = ({ name, email, theme }) => {
   };
 
   const handleDiscardChanges = (e) => {
-    setEditedName(name);
-    setEditedEmail(email);
     setPersonalDetailsEditable(false);
     setAccountDetailsEditable(false);
+    getEmployer();
   };
 
   const isDarkTheme = theme === "dark";
+
+  const getEmployer = () => {
+    const inputs = {
+      _id,
+      accountId,
+      accountType,
+    };
+
+    axios
+      .post("/api/admin/getemployerprofile", inputs, {
+        headers: { "Content-Type": "application/json" },
+      })
+      .then((res) => {
+        const employer = res.data.employer;
+        const account = res.data.account;
+        setProfileImg(employer.profileImg);
+        setFName(employer.firstName);
+        setLName(employer.lastName);
+        setEmpEmail(employer.email);
+        setContactNum(employer.contactNum);
+        setCity(employer.address.split(",")[0]);
+        setCountry(employer.address.split(", ")[1]);
+        setAddress(employer.address);
+        setBio(employer.bio);
+        setAbout(employer.about);
+        setAccEmail(account.email);
+        setVerifier(account.sub || account.password);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const updateMainInfo = () => {
+    const input = {
+      _id,
+      set: {
+        firstName: fName,
+        lastName: lName,
+        fullName: `${fName} ${lName}`,
+        email,
+        contactNum,
+        address: `${city}, ${country}`,
+        bio,
+        about,
+      },
+    };
+    axios
+      .post("/api/employerprofile/update", input, {
+        headers: {
+          "Content-type": "application/json",
+        },
+      })
+      .then((res) => {
+        console.log(res.data.message);
+        setPersonalDetailsEditable(false);
+      })
+      .catch((err) => {
+        console.log(err.response.data.error);
+      });
+  };
+
+  const updateAccountInfo = () => {
+    const input = {
+      _id: accountId,
+      email: accEmail,
+      password: verifier,
+    };
+
+    axios
+      .post("/api/localaccounts/updateaccount", input, {
+        headers: {
+          "Content-type": "application/json",
+        },
+      })
+      .then((res) => {
+        console.log(res.data.message);
+        setAccountDetailsEditable(false);
+      })
+      .catch((err) => {
+        console.log(err.respoonse.data.error);
+      });
+  };
 
   return (
     <div className="space-y-4">
@@ -68,13 +180,21 @@ const Viewemployee = ({ name, email, theme }) => {
             <form onSubmit={handlePersonalDetailsSubmit}>
               <div className="space-y-2">
                 <div className="flex items-center">
-                  <span className="font-extrabold mr-2">
-                    First Name, Last Name:
-                  </span>
+                  <span className="font-extrabold mr-2">Name:</span>
                   <input
                     type="text"
-                    value={editedName}
-                    onChange={(e) => setEditedName(e.target.value)}
+                    value={fName}
+                    onChange={(e) => setFName(e.target.value)}
+                    className={`w-full max-w-xs px-3 py-1 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-200 ${
+                      isDarkTheme
+                        ? "bg-gray-700 text-white"
+                        : "bg-white-200 text-gray-800"
+                    }`}
+                  />
+                  <input
+                    type="text"
+                    value={lName}
+                    onChange={(e) => setLName(e.target.value)}
                     className={`w-full max-w-xs px-3 py-1 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-200 ${
                       isDarkTheme
                         ? "bg-gray-700 text-white"
@@ -86,8 +206,8 @@ const Viewemployee = ({ name, email, theme }) => {
                   <span className="font-semibold mr-2">Email:</span>
                   <input
                     type="email"
-                    value={editedEmail}
-                    onChange={(e) => setEditedEmail(e.target.value)}
+                    value={empEmail}
+                    onChange={(e) => setEmpEmail(e.target.value)}
                     className={`w-full max-w-xs px-3 py-1 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-200 ${
                       isDarkTheme
                         ? "bg-gray-700 text-white"
@@ -99,7 +219,8 @@ const Viewemployee = ({ name, email, theme }) => {
                   <span className="font-semibold mr-2">Contact Number:</span>
                   <input
                     type="text"
-                    defaultValue="1234567890"
+                    value={contactNum}
+                    onChange={(e) => setContactNum(e.target.value)}
                     className={`w-full max-w-xs px-3 py-1 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-200 ${
                       isDarkTheme
                         ? "bg-gray-700 text-white"
@@ -111,7 +232,18 @@ const Viewemployee = ({ name, email, theme }) => {
                   <span className="font-semibold mr-2">Address:</span>
                   <input
                     type="text"
-                    defaultValue="123 Street, City, Country"
+                    value={city}
+                    onChange={(e) => setCity(e.target.value)}
+                    className={`w-full max-w-xs px-3 py-1 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-200 ${
+                      isDarkTheme
+                        ? "bg-gray-700 text-white"
+                        : "bg-white-200 text-gray-800"
+                    }`}
+                  />
+                  <input
+                    type="text"
+                    value={country}
+                    onChange={(e) => setCountry(e.target.value)}
                     className={`w-full max-w-xs px-3 py-1 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-200 ${
                       isDarkTheme
                         ? "bg-gray-700 text-white"
@@ -120,9 +252,11 @@ const Viewemployee = ({ name, email, theme }) => {
                   />
                 </div>
                 <div className="flex items-center">
+                  {/* TODO make this textbox a bit bigger */}
                   <span className="font-semibold mr-2">Bio:</span>
                   <textarea
-                    defaultValue="DOGLIKEFESH"
+                    value={bio}
+                    onChange={(e) => setBio(e.target.value)}
                     className={`w-full max-w-xs px-3 py-1 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-200 overflow-hidden resize-none ${
                       isDarkTheme
                         ? "bg-gray-700 text-white"
@@ -131,9 +265,11 @@ const Viewemployee = ({ name, email, theme }) => {
                   />
                 </div>
                 <div className="flex items-center">
+                  {/* TODO make this textbox a bit bigger */}
                   <span className="font-semibold mr-2">About:</span>
                   <textarea
-                    defaultValue="DOGEATER"
+                    value={about}
+                    onChange={(e) => setAbout(e.target.value)}
                     className={`w-full max-w-xs px-3 py-1 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-200 overflow-hidden resize-none ${
                       isDarkTheme
                         ? "bg-gray-700 text-white"
@@ -146,31 +282,30 @@ const Viewemployee = ({ name, email, theme }) => {
           ) : (
             <div className="flex space-x-4">
               <img
-                src="https://blueypedia.fandom.com/extensions-ucp/mw139/fandom/AgeDeclaration/resources/images/adult.png"
+                src={profileImg ? profileImg : placeholderImg}
                 alt="Avatar"
                 className="w-20 h-20 rounded-full border-4 border-black object-cover"
               />
               <div className="space-y-2">
                 <div>
-                  <span className="font-extrabold">First Name, Last Name:</span>{" "}
-                  {name}
+                  <span className="font-extrabold">Name:</span>{" "}
+                  {`${fName} ${lName}`}
                 </div>
                 <div>
-                  <span className="font-semibold">Email:</span> {email}
+                  <span className="font-semibold">Email:</span> {empEmail}
                 </div>
                 <div>
                   <span className="font-semibold">Contact Number:</span>{" "}
-                  1234567890
+                  {contactNum}
                 </div>
                 <div>
-                  <span className="font-semibold">Address:</span> G9 ANTIPOLO
-                  STREET FAIRVIEW QUIZON CITY
+                  <span className="font-semibold">Address:</span> {address}
                 </div>
                 <div>
-                  <span className="font-semibold">Bio:</span> DOGLIKEFESH
+                  <span className="font-semibold">Bio:</span> {bio}
                 </div>
                 <div>
-                  <span className="font-semibold">About:</span> DOGEATER
+                  <span className="font-semibold">About:</span> {about}
                 </div>
               </div>
             </div>
@@ -197,8 +332,8 @@ const Viewemployee = ({ name, email, theme }) => {
                   <span className="font-semibold mr-2">Email:</span>
                   <input
                     type="email"
-                    value={editedEmail}
-                    onChange={(e) => setEditedEmail(e.target.value)}
+                    value={accEmail}
+                    onChange={(e) => setAccEmail(e.target.value)}
                     className={`w-full max-w-xs px-3 py-1 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-200 overflow-hidden resize-none ${
                       isDarkTheme
                         ? "bg-gray-700 text-white"
@@ -209,8 +344,9 @@ const Viewemployee = ({ name, email, theme }) => {
                 <div className="flex items-center">
                   <span className="font-semibold mr-2">Password:</span>
                   <input
-                    type="password"
-                    value="password"
+                    type="text"
+                    value={verifier}
+                    onChange={(e) => setVerifier(e.target.value)}
                     className={`w-full max-w-xs px-3 py-1 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-200 overflow-hidden resize-none ${
                       isDarkTheme
                         ? "bg-gray-700 text-white"
@@ -223,13 +359,22 @@ const Viewemployee = ({ name, email, theme }) => {
           ) : (
             <div className="flex flex-col space-y-4">
               <div>
-                <span className="font-semibold">Email:</span> {email}
+                <span className="font-semibold">Email:</span> {accEmail}
               </div>
               <div>
                 <div>
                   <div>
-                    <span className="font-semibold">Password:</span>{" "}
-                    <span>********</span>
+                    {accountType === "Google" ? (
+                      <>
+                        <span className="font-semibold">Sub:</span>{" "}
+                        <span>{verifier}</span>
+                      </>
+                    ) : (
+                      <>
+                        <span className="font-semibold">Password:</span>{" "}
+                        <span>{verifier}</span>
+                      </>
+                    )}
                   </div>
                 </div>
               </div>

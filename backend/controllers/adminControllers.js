@@ -125,3 +125,52 @@ export const deleteApplicant = async (req, res) => {
     });
   }
 };
+
+export const getEmployers = async (req, res) => {
+  try {
+    const Employers = await EmployerProfile.find().select(
+      "firstName lastName email accountId"
+    );
+
+    let updatedEmployers = [];
+    for (const employer of Employers) {
+      let newEmployer = await getAccountValues(employer);
+      updatedEmployers.push(newEmployer);
+    }
+
+    res.status(200).send(updatedEmployers);
+  } catch (err) {
+    res.status(500).send({
+      status: false,
+      message: "Failed to Retrieve Employers",
+    });
+  }
+};
+
+export const getEmployerProfile = async (req, res) => {
+  try {
+    const { _id, accountId, accountType } = req.body;
+
+    const employer = await EmployerProfile.findById(_id).select(
+      "profileImg firstName lastName email contactNum address bio about"
+    );
+
+    let account;
+    if (accountType === "Google") {
+      account = await GoogleAccount.findById(accountId).select("email sub");
+    }
+    if (accountType === "Local") {
+      account = await LocalAccount.findById(accountId).select("email password");
+    }
+
+    res.status(200).send({
+      employer,
+      account,
+    });
+  } catch (err) {
+    res.status(500).send({
+      status: false,
+      message: "Failed to Retrieve Applicant",
+    });
+  }
+};

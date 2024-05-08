@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Input } from "../components/ui/input";
 import { CiSearch } from "react-icons/ci";
 import { FaRegTrashCan } from "react-icons/fa6";
@@ -37,37 +37,40 @@ import {
 } from "../components/ui/pagination";
 import Viewemployee from "./Viewemployee";
 import { Button } from "../components/ui/button";
+import axios from "axios";
 
 export default function Employers() {
   // Data
-  const [data, setData] = useState([
-    {
-      id: 1,
-      name: "Employer",
-      email: "employee@example.com",
-      account: "Local",
-    },
-    { id: 2, name: "Jane Smith", email: "jane@example.com", account: "Google" },
-    { id: 3, name: "Bob Johnson", email: "bob@example.com", account: "Local" },
-    { id: 4, name: "John loyd", email: "john@example.com", account: "Google" },
-    { id: 5, name: "Jane Smith", email: "jane@example.com", account: "Local" },
-    { id: 6, name: "Bob Johnson", email: "bob@example.com", account: "Google" },
-    { id: 7, name: "John Doe", email: "john@example.com", account: "Local" },
-    { id: 8, name: "Jane Smith", email: "jane@example.com", account: "Google" },
-    { id: 9, name: "Bob Johnson", email: "bob@example.com", account: "Local" },
-    {
-      id: 10,
-      name: "Bob Johnson",
-      email: "bob@example.com",
-      account: "Google",
-    },
-    {
-      id: 11,
-      name: "Bob Johnson",
-      email: "bob@example.com",
-      account: "Google",
-    },
-  ]);
+  // const [data, setData] = useState([
+  //   {
+  //     id: 1,
+  //     name: "Employer",
+  //     email: "employee@example.com",
+  //     account: "Local",
+  //   },
+  //   { id: 2, name: "Jane Smith", email: "jane@example.com", account: "Google" },
+  //   { id: 3, name: "Bob Johnson", email: "bob@example.com", account: "Local" },
+  //   { id: 4, name: "John loyd", email: "john@example.com", account: "Google" },
+  //   { id: 5, name: "Jane Smith", email: "jane@example.com", account: "Local" },
+  //   { id: 6, name: "Bob Johnson", email: "bob@example.com", account: "Google" },
+  //   { id: 7, name: "John Doe", email: "john@example.com", account: "Local" },
+  //   { id: 8, name: "Jane Smith", email: "jane@example.com", account: "Google" },
+  //   { id: 9, name: "Bob Johnson", email: "bob@example.com", account: "Local" },
+  //   {
+  //     id: 10,
+  //     name: "Bob Johnson",
+  //     email: "bob@example.com",
+  //     account: "Google",
+  //   },
+  //   {
+  //     id: 11,
+  //     name: "Bob Johnson",
+  //     email: "bob@example.com",
+  //     account: "Google",
+  //   },
+  // ]);
+
+  const [data, setData] = useState([]);
 
   // State pagination
   const [currentPage, setCurrentPage] = useState(1);
@@ -80,8 +83,12 @@ export default function Employers() {
 
   // Filter data based on search
   const filteredData = data.filter((employer) =>
-    employer.name.toLowerCase().includes(searchTerm.toLowerCase())
+    employer.fullName.toLowerCase().includes(searchTerm.toLowerCase())
   );
+
+  useEffect(() => {
+    getEmployers();
+  }, []);
 
   // Changing Pages
   const onPageChange = (page) => {
@@ -145,7 +152,7 @@ export default function Employers() {
     setIsDropdownOpen(false);
     setActiveItem("Viewemployee");
     setActiveDropdownItem(
-      <Viewemployee name={rowData.name} email={rowData.email} />
+      <Viewemployee data={rowData} name={rowData.name} email={rowData.email} />
     );
   };
 
@@ -156,6 +163,12 @@ export default function Employers() {
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = Math.min(startIndex + itemsPerPage, filteredData.length);
   const currentPageData = filteredData.slice(startIndex, endIndex);
+
+  const getEmployers = () => {
+    axios.get("/api/admin/getEmployers").then((res) => {
+      setData(res.data);
+    });
+  };
 
   return (
     <>
@@ -228,9 +241,9 @@ export default function Employers() {
                         onCheckedChange={() => handleRowSelect(index)}
                       />
                     </TableCell>
-                    <TableCell>{row.name}</TableCell>
+                    <TableCell>{row.fullName}</TableCell>
                     <TableCell>{row.email}</TableCell>
-                    <TableCell>{row.account}</TableCell>
+                    <TableCell>{row.accountType}</TableCell>
                     <TableCell>
                       <div style={{ position: "relative" }}>
                         <DropdownMenu>

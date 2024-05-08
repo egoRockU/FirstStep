@@ -13,8 +13,6 @@ const Viewuser = ({ data, name, email, theme }) => {
   const { _id, accountId, accountType } = data;
   const placeholderImg =
     "https://blueypedia.fandom.com/extensions-ucp/mw139/fandom/AgeDeclaration/resources/images/adult.png";
-  const [applicant, setApplicant] = useState();
-  const [account, setAccount] = useState();
   const [profileImg, setProfileImg] = useState();
   const [fName, setFName] = useState("");
   const [lName, setLName] = useState("");
@@ -31,8 +29,6 @@ const Viewuser = ({ data, name, email, theme }) => {
   const [portfolio, setPortfolio] = useState();
   const [personalDetailsEditable, setPersonalDetailsEditable] = useState(false);
   const [accountDetailsEditable, setAccountDetailsEditable] = useState(false);
-  const [editedName, setEditedName] = useState(name);
-  const [editedEmail, setEditedEmail] = useState(email);
 
   useEffect(() => {
     getApplicant();
@@ -97,9 +93,6 @@ const Viewuser = ({ data, name, email, theme }) => {
       .then((res) => {
         const applicant = res.data.applicant;
         const account = res.data.account;
-        setApplicant(res.data.applicant);
-        setAccount(res.data.account);
-
         setProfileImg(applicant.profileImg);
         setFName(applicant.firstName);
         setLName(applicant.lastName);
@@ -113,12 +106,12 @@ const Viewuser = ({ data, name, email, theme }) => {
         setAccEmail(account.email);
         setVerifier(account.sub || account.password);
         setResume(
-          applicant.resume
+          applicant.resume.templateId
             ? `${mainAppDomain}/resume/${applicant.resume.templateId}/${applicant.resume.resumeId}`
             : "No resume yet..."
         );
         setPortfolio(
-          applicant.portfolio
+          applicant.portfolio.templateId
             ? `${mainAppDomain}/portfolio/${applicant.portfolio.templateId}/${applicant.portfolio.portfolioId}`
             : "No portfolio yet..."
         );
