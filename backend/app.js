@@ -7,6 +7,7 @@ import EmployerPriofileRoutes from "./routes/EmployerProfileRoutes.js";
 import ResumeRoutes from "./routes/ResumeRoutes.js";
 import PortfolioRoutes from "./routes/PortfolioRoutes.js";
 import MessageRoutes from "./routes/MessageRoutes.js";
+import AdminRoutes from "./routes/adminRoutes.js";
 import { verifyEmail, requestAnotherEmail } from "./controllers/verifyEmail.js";
 import {
   changePasswordRequest,
@@ -41,6 +42,7 @@ app.get("/requestverifylink/:email", requestAnotherEmail);
 app.post("/requestchangepass", changePasswordRequest);
 app.get("/verifyToken/:token", verifyToken);
 app.use("/message", MessageRoutes);
+app.use("/admin", AdminRoutes);
 
 app.use(errorHandler);
 
