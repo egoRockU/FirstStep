@@ -7,6 +7,10 @@ const EmployerProfileSchema = new Schema({
     type: Schema.Types.ObjectId,
     required: false,
   },
+  accountType: {
+    type: String,
+    required: false,
+  },
   profileImg: {
     type: String,
     required: false,
@@ -24,6 +28,10 @@ const EmployerProfileSchema = new Schema({
   lastName: {
     type: String,
     required: true,
+  },
+  fullName: {
+    type: String,
+    required: false,
   },
   email: {
     type: String,

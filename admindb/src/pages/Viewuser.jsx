@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Card,
   CardHeader,
@@ -7,28 +7,66 @@ import {
 } from "../components/ui/card";
 import { FaRegEdit } from "react-icons/fa";
 import { Button } from "../components/ui/button";
-const Viewuser = ({ name, email, theme }) => {
+import axios from "axios";
+const Viewuser = ({ data, name, email, theme }) => {
+  const mainAppDomain = import.meta.env.VITE_MAIN_CLIENT_DOMAIN;
+  const { _id, accountId, accountType } = data;
+  const placeholderImg =
+    "https://blueypedia.fandom.com/extensions-ucp/mw139/fandom/AgeDeclaration/resources/images/adult.png";
+  const [applicant, setApplicant] = useState();
+  const [account, setAccount] = useState();
+  const [profileImg, setProfileImg] = useState();
+  const [fName, setFName] = useState("");
+  const [lName, setLName] = useState("");
+  const [appEmail, setAppEmail] = useState("");
+  const [contactNum, setContactNum] = useState("");
+  const [city, setCity] = useState("");
+  const [country, setCountry] = useState("");
+  const [address, setAddress] = useState("");
+  const [bio, setBio] = useState("");
+  const [about, setAbout] = useState("");
+  const [accEmail, setAccEmail] = useState("");
+  const [verifier, setVerifier] = useState("");
+  const [resume, setResume] = useState();
+  const [portfolio, setPortfolio] = useState();
   const [personalDetailsEditable, setPersonalDetailsEditable] = useState(false);
   const [accountDetailsEditable, setAccountDetailsEditable] = useState(false);
   const [editedName, setEditedName] = useState(name);
   const [editedEmail, setEditedEmail] = useState(email);
+
+  useEffect(() => {
+    getApplicant();
+  }, []);
 
   const togglePersonalDetailsEdit = () => {
     setPersonalDetailsEditable(!personalDetailsEditable);
   };
 
   const toggleAccountDetailsEdit = () => {
+    if (accountType === "Google") {
+      alert(
+        "Google Accounts can't be edited because it might not work as intended after modifying some values"
+      );
+
+      return;
+    }
+
     setAccountDetailsEditable(!accountDetailsEditable);
   };
 
   const handlePersonalDetailsSubmit = (e) => {
     e.preventDefault();
-    setPersonalDetailsEditable(false);
+    updateMainInfo();
   };
 
   const handleAccountDetailsSubmit = (e) => {
     e.preventDefault();
-    setAccountDetailsEditable(false);
+    const proceed = confirm(
+      "Are you sure you want to change these account values? "
+    );
+    if (proceed) {
+      updateAccountInfo();
+    }
   };
   const handleSave = (e) => {
     if (personalDetailsEditable) {
@@ -39,13 +77,108 @@ const Viewuser = ({ name, email, theme }) => {
     }
   };
   const handleDiscardChanges = (e) => {
-    setEditedName(name);
-    setEditedEmail(email);
     setPersonalDetailsEditable(false);
     setAccountDetailsEditable(false);
+    getApplicant();
   };
 
   const isDarkTheme = theme === "dark";
+
+  const getApplicant = () => {
+    const inputs = {
+      _id,
+      accountId,
+      accountType,
+    };
+    axios
+      .post("/api/admin/getapplicantprofile", inputs, {
+        headers: { "Content-Type": "application/json" },
+      })
+      .then((res) => {
+        console.log(res.data);
+        const applicant = res.data.applicant;
+        const account = res.data.account;
+        setApplicant(res.data.applicant);
+        setAccount(res.data.account);
+
+        setProfileImg(applicant.profileImg);
+        setFName(applicant.firstName);
+        setLName(applicant.lastName);
+        setAppEmail(applicant.email);
+        setContactNum(applicant.contactNum);
+        setCity(applicant.address.split(",")[0]);
+        setCountry(applicant.address.split(", ")[1]);
+        setAddress(applicant.address);
+        setBio(applicant.bio);
+        setAbout(applicant.about);
+        setAccEmail(account.email);
+        setVerifier(account.sub || account.password);
+        setResume(
+          applicant.resume
+            ? `${mainAppDomain}/resume/${applicant.resume.templateId}/${applicant.resume.resumeId}`
+            : "No resume yet..."
+        );
+        setPortfolio(
+          applicant.portfolio
+            ? `${mainAppDomain}/portfolio/${applicant.portfolio.templateId}/${applicant.portfolio.portfolioId}`
+            : "No portfolio yet..."
+        );
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const updateMainInfo = () => {
+    const input = {
+      _id,
+      set: {
+        firstName: fName,
+        lastName: lName,
+        fullName: `${fName} ${lName}`,
+        email,
+        contactNum,
+        address: `${city}, ${country}`,
+        bio,
+        about,
+      },
+    };
+    axios
+      .post("/api/applicantprofile/update", input, {
+        headers: {
+          "Content-type": "application/json",
+        },
+      })
+      .then((res) => {
+        console.log(res.data.message);
+        setPersonalDetailsEditable(false);
+      })
+      .catch((err) => {
+        console.log(err.response.data.error);
+      });
+  };
+
+  const updateAccountInfo = () => {
+    const input = {
+      _id: accountId,
+      email: accEmail,
+      password: verifier,
+    };
+
+    axios
+      .post("/api/localaccounts/updateaccount", input, {
+        headers: {
+          "Content-type": "application/json",
+        },
+      })
+      .then((res) => {
+        console.log(res.data.message);
+        setAccountDetailsEditable(false);
+      })
+      .catch((err) => {
+        console.log(err.respoonse.data.error);
+      });
+  };
 
   return (
     <div className="space-y-4">
@@ -65,13 +198,21 @@ const Viewuser = ({ name, email, theme }) => {
             <form onSubmit={handlePersonalDetailsSubmit}>
               <div className="space-y-2">
                 <div className="flex items-center">
-                  <span className="font-extrabold mr-2">
-                    First Name, Last Name:
-                  </span>
+                  <span className="font-extrabold mr-2">Name:</span>
                   <input
                     type="text"
-                    value={editedName}
-                    onChange={(e) => setEditedName(e.target.value)}
+                    value={fName}
+                    onChange={(e) => setFName(e.target.value)}
+                    className={`w-full max-w-xs px-3 py-1 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-200 ${
+                      isDarkTheme
+                        ? "bg-gray-700 text-white"
+                        : "bg-white-200 text-gray-800"
+                    }`}
+                  />
+                  <input
+                    type="text"
+                    value={lName}
+                    onChange={(e) => setLName(e.target.value)}
                     className={`w-full max-w-xs px-3 py-1 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-200 ${
                       isDarkTheme
                         ? "bg-gray-700 text-white"
@@ -83,8 +224,8 @@ const Viewuser = ({ name, email, theme }) => {
                   <span className="font-semibold mr-2">Email:</span>
                   <input
                     type="email"
-                    value={editedEmail}
-                    onChange={(e) => setEditedEmail(e.target.value)}
+                    value={appEmail}
+                    onChange={(e) => setAppEmail(e.target.value)}
                     className={`w-full max-w-xs px-3 py-1 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-200 ${
                       isDarkTheme
                         ? "bg-gray-700 text-white"
@@ -96,7 +237,8 @@ const Viewuser = ({ name, email, theme }) => {
                   <span className="font-semibold mr-2">Contact Number:</span>
                   <input
                     type="text"
-                    defaultValue="1234567890"
+                    value={contactNum}
+                    onChange={(e) => setContactNum(e.target.value)}
                     className={`w-full max-w-xs px-3 py-1 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-200 ${
                       isDarkTheme
                         ? "bg-gray-700 text-white"
@@ -108,7 +250,20 @@ const Viewuser = ({ name, email, theme }) => {
                   <span className="font-semibold mr-2">Address:</span>
                   <input
                     type="text"
-                    defaultValue="123 Street, City, Country"
+                    placeholder="City"
+                    value={city}
+                    onChange={(e) => setCity(e.target.value)}
+                    className={`w-full max-w-xs px-3 py-1 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-200 ${
+                      isDarkTheme
+                        ? "bg-gray-700 text-white"
+                        : "bg-white-200 text-gray-800"
+                    }`}
+                  />
+                  <input
+                    type="text"
+                    placeholder="Country"
+                    value={country}
+                    onChange={(e) => setCountry(e.target.value)}
                     className={`w-full max-w-xs px-3 py-1 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-200 ${
                       isDarkTheme
                         ? "bg-gray-700 text-white"
@@ -117,9 +272,11 @@ const Viewuser = ({ name, email, theme }) => {
                   />
                 </div>
                 <div className="flex items-center">
+                  {/* TODO make this textbox a bit bigger */}
                   <span className="font-semibold mr-2">Bio:</span>
                   <textarea
-                    defaultValue="DOGLIKEFESH"
+                    value={bio}
+                    onChange={(e) => setBio(e.target.value)}
                     className={`w-full max-w-xs px-3 py-1 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-200 overflow-hidden resize-none ${
                       isDarkTheme
                         ? "bg-gray-700 text-white"
@@ -128,9 +285,11 @@ const Viewuser = ({ name, email, theme }) => {
                   />
                 </div>
                 <div className="flex items-center">
+                  {/* TODO make this textbox a bit bigger */}
                   <span className="font-semibold mr-2">About:</span>
                   <textarea
-                    defaultValue="DOGEATER"
+                    value={about}
+                    onChange={(e) => setAbout(e.target.value)}
                     className={`w-full max-w-xs px-3 py-1 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-200 overflow-hidden resize-none ${
                       isDarkTheme
                         ? "bg-gray-700 text-white"
@@ -143,31 +302,30 @@ const Viewuser = ({ name, email, theme }) => {
           ) : (
             <div className="flex space-x-4">
               <img
-                src="https://blueypedia.fandom.com/extensions-ucp/mw139/fandom/AgeDeclaration/resources/images/adult.png"
+                src={profileImg ? profileImg : placeholderImg}
                 alt="Avatar"
                 className="w-20 h-20 rounded-full border-4 border-black object-cover"
               />
               <div className="space-y-2">
                 <div>
-                  <span className="font-extrabold">First Name, Last Name:</span>{" "}
-                  {name}
+                  <span className="font-extrabold">Name</span>{" "}
+                  {`${fName} ${lName}`}
                 </div>
                 <div>
-                  <span className="font-semibold">Email:</span> {email}
+                  <span className="font-semibold">Email:</span> {appEmail}
                 </div>
                 <div>
                   <span className="font-semibold">Contact Number:</span>{" "}
-                  1234567890
+                  {contactNum}
                 </div>
                 <div>
-                  <span className="font-semibold">Address:</span> G9 ANTIPOLO
-                  STREET FAIRVIEW QUIZON CITY
+                  <span className="font-semibold">Address:</span> {address}
                 </div>
                 <div>
-                  <span className="font-semibold">Bio:</span> DOGLIKEFESH
+                  <span className="font-semibold">Bio:</span> {bio}
                 </div>
                 <div>
-                  <span className="font-semibold">About:</span> DOGEATER
+                  <span className="font-semibold">About:</span> {about}
                 </div>
               </div>
             </div>
@@ -195,8 +353,8 @@ const Viewuser = ({ name, email, theme }) => {
                     <span className="font-semibold mr-2">Email:</span>
                     <input
                       type="email"
-                      value={editedEmail}
-                      onChange={(e) => setEditedEmail(e.target.value)}
+                      value={accEmail}
+                      onChange={(e) => setAccEmail(e.target.value)}
                       className={`w-full max-w-xs px-3 py-1 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-200 overflow-hidden resize-none ${
                         isDarkTheme
                           ? "bg-gray-700 text-white"
@@ -207,8 +365,9 @@ const Viewuser = ({ name, email, theme }) => {
                   <div className="flex items-center">
                     <span className="font-semibold mr-2">Password:</span>
                     <input
-                      type="password"
-                      value="password"
+                      type="text"
+                      value={verifier}
+                      onChange={(e) => setVerifier(e.target.value)}
                       className={`w-full max-w-xs px-3 py-1 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-200 overflow-hidden resize-none ${
                         isDarkTheme
                           ? "bg-gray-700 text-white"
@@ -221,13 +380,22 @@ const Viewuser = ({ name, email, theme }) => {
             ) : (
               <div className="flex flex-col space-y-4">
                 <div>
-                  <span className="font-semibold">Email:</span> {email}
+                  <span className="font-semibold">Email:</span> {accEmail}
                 </div>
                 <div>
                   <div>
                     <div>
-                      <span className="font-semibold">Password:</span>{" "}
-                      <span>********</span>
+                      {accountType === "Google" ? (
+                        <>
+                          <span className="font-semibold">Sub:</span>{" "}
+                          <span>{verifier}</span>
+                        </>
+                      ) : (
+                        <>
+                          <span className="font-semibold">Password:</span>{" "}
+                          <span>{verifier}</span>
+                        </>
+                      )}
                     </div>
                   </div>
                 </div>
@@ -247,9 +415,7 @@ const Viewuser = ({ name, email, theme }) => {
         <CardContent>
           <div className="space-y-2">
             <div>
-              <span className="font-semibold">
-                reusumelink.firststep.dsadasdas.com
-              </span>
+              <span className="font-semibold">{resume}</span>
             </div>
           </div>
         </CardContent>
@@ -265,9 +431,7 @@ const Viewuser = ({ name, email, theme }) => {
         <CardContent>
           <div className="space-y-2">
             <div>
-              <span className="font-semibold">
-                portfolilolink.firststep.dsadasdas.com
-              </span>
+              <span className="font-semibold">{portfolio}</span>
             </div>
           </div>
         </CardContent>

@@ -195,6 +195,34 @@ const addProfile = asyncHandler(async (req, res) => {
   });
 });
 
+const updateAccount = asyncHandler(async (req, res) => {
+  const { _id, email, password } = req.body;
+  const oldPass = await LocalAccount.findById(_id).select("password");
+
+  let newPassHash;
+  if (password !== oldPass.password) {
+    newPassHash = await bcrypt.hash(password, saltRounds);
+  } else {
+    newPassHash = oldPass.password;
+  }
+
+  const updateResult = await LocalAccount.findByIdAndUpdate(
+    _id,
+    {
+      email: email,
+      password: newPassHash,
+    },
+    { new: true }
+  );
+
+  if (!updateResult) throw new Error("Error Updating Account");
+
+  res.status(201).json({
+    message: "Account updated successfully!",
+    _id: updateResult,
+  });
+});
+
 const logout = asyncHandler(async (req, res) => {
   res.cookie("access_token", "", {
     httpOnly: true,
@@ -212,4 +240,5 @@ export {
   logout,
   addProfile,
   loginAdmin,
+  updateAccount,
 };

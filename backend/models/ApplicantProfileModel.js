@@ -16,6 +16,10 @@ const ApplicantProfileSchema = new Schema({
     type: Schema.Types.ObjectId,
     required: false,
   },
+  accountType: {
+    type: String,
+    required: false,
+  },
   profileImg: {
     type: String,
     required: false,
