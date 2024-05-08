@@ -85,3 +85,43 @@ export const getApplicantProfile = async (req, res) => {
     });
   }
 };
+
+export const deleteApplicant = async (req, res) => {
+  try {
+    const { deletedRows } = req.body;
+
+    for (const row of deletedRows) {
+      const { _id, accountType, accountId } = row;
+      const applicantProfile = await ApplicantProfile.findById(_id);
+
+      if (applicantProfile.resume.resumeId) {
+        await Resume.findByIdAndDelete(applicantProfile.resume.resumeId);
+      }
+
+      if (applicantProfile.portfolio.portfolioId) {
+        await Portfolio.findByIdAndDelete(
+          applicantProfile.portfolio.portfolioId
+        );
+      }
+
+      if (accountType == "Google") {
+        await GoogleAccount.findByIdAndDelete(accountId);
+      }
+
+      if (accountType == "Local") {
+        await LocalAccount.findByIdAndDelete(accounId);
+      }
+
+      await ApplicantProfile.findByIdAndDelete(_id);
+    }
+
+    res.status(200).send({
+      message: "Successfully Deleted Applicants",
+    });
+  } catch (err) {
+    res.status(500).send({
+      status: false,
+      message: "Failed to Delete Items",
+    });
+  }
+};

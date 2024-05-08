@@ -95,7 +95,6 @@ const Viewuser = ({ data, name, email, theme }) => {
         headers: { "Content-Type": "application/json" },
       })
       .then((res) => {
-        console.log(res.data);
         const applicant = res.data.applicant;
         const account = res.data.account;
         setApplicant(res.data.applicant);
