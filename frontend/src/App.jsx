@@ -27,6 +27,7 @@ import { inject } from "@vercel/analytics";
 import { injectSpeedInsights } from "@vercel/speed-insights";
 import Inbox from "./Pages/Inbox";
 import Sendmessage from "./Pages/Sendmessage";
+import Sendfeedback from "./Pages/Sendfeedback";
 import ReactGA from "react-ga4";
 import Terms from "./Pages/Termsandconditions";
 import PrivacyPolicy from "./Pages/PrivacyPolicy";
@@ -84,6 +85,7 @@ function App() {
               />
               <Route path="/inbox" element={<Inbox />} />
               <Route path="/message" element={<Sendmessage />} />
+              <Route path="/feedback" element={<Sendfeedback />} />
               <Route path="*" element={<NotFound />} />
 
               {!user.profileType && (

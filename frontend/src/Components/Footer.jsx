@@ -15,7 +15,12 @@ function Footer() {
         </div>
         <div>
           <ul className="flex flex-col gap-5 items-center md:items-start">
-            <li className="text-[#444B88] cursor-pointer text-sm">Feedback</li>
+            <li
+              className="text-[#444B88] cursor-pointer text-sm"
+              onClick={() => navigate("/feedback")}
+            >
+              Feedback
+            </li>
             <li
               className="text-[#444B88] cursor-pointer text-sm"
               onClick={() => navigate("/about")}
