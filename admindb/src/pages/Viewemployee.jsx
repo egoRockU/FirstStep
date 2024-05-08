@@ -7,7 +7,8 @@ import {
 } from "../components/ui/card";
 import { FaRegEdit } from "react-icons/fa";
 import { Button } from "../components/ui/button";
-const Viewuser = ({ name, email, theme }) => {
+
+const Viewemployee = ({ name, email, theme }) => {
   const [personalDetailsEditable, setPersonalDetailsEditable] = useState(false);
   const [accountDetailsEditable, setAccountDetailsEditable] = useState(false);
   const [editedName, setEditedName] = useState(name);
@@ -30,6 +31,7 @@ const Viewuser = ({ name, email, theme }) => {
     e.preventDefault();
     setAccountDetailsEditable(false);
   };
+
   const handleSave = (e) => {
     if (personalDetailsEditable) {
       handlePersonalDetailsSubmit(e);
@@ -38,6 +40,7 @@ const Viewuser = ({ name, email, theme }) => {
       handleAccountDetailsSubmit(e);
     }
   };
+
   const handleDiscardChanges = (e) => {
     setEditedName(name);
     setEditedEmail(email);
@@ -187,89 +190,51 @@ const Viewuser = ({ name, email, theme }) => {
           </div>
         </CardHeader>
         <CardContent>
-          <CardContent>
-            {accountDetailsEditable ? (
-              <form onSubmit={handleAccountDetailsSubmit}>
-                <div className="space-y-2">
-                  <div className="flex items-center">
-                    <span className="font-semibold mr-2">Email:</span>
-                    <input
-                      type="email"
-                      value={editedEmail}
-                      onChange={(e) => setEditedEmail(e.target.value)}
-                      className={`w-full max-w-xs px-3 py-1 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-200 overflow-hidden resize-none ${
-                        isDarkTheme
-                          ? "bg-gray-700 text-white"
-                          : "bg-white-200 text-gray-800"
-                      }`}
-                    />
-                  </div>
-                  <div className="flex items-center">
-                    <span className="font-semibold mr-2">Password:</span>
-                    <input
-                      type="password"
-                      value="password"
-                      className={`w-full max-w-xs px-3 py-1 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-200 overflow-hidden resize-none ${
-                        isDarkTheme
-                          ? "bg-gray-700 text-white"
-                          : "bg-white-200 text-gray-800"
-                      }`}
-                    />
-                  </div>
+          {accountDetailsEditable ? (
+            <form onSubmit={handleAccountDetailsSubmit}>
+              <div className="space-y-2">
+                <div className="flex items-center">
+                  <span className="font-semibold mr-2">Email:</span>
+                  <input
+                    type="email"
+                    value={editedEmail}
+                    onChange={(e) => setEditedEmail(e.target.value)}
+                    className={`w-full max-w-xs px-3 py-1 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-200 overflow-hidden resize-none ${
+                      isDarkTheme
+                        ? "bg-gray-700 text-white"
+                        : "bg-white-200 text-gray-800"
+                    }`}
+                  />
                 </div>
-              </form>
-            ) : (
-              <div className="flex flex-col space-y-4">
-                <div>
-                  <span className="font-semibold">Email:</span> {email}
+                <div className="flex items-center">
+                  <span className="font-semibold mr-2">Password:</span>
+                  <input
+                    type="password"
+                    value="password"
+                    className={`w-full max-w-xs px-3 py-1 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-200 overflow-hidden resize-none ${
+                      isDarkTheme
+                        ? "bg-gray-700 text-white"
+                        : "bg-white-200 text-gray-800"
+                    }`}
+                  />
                 </div>
+              </div>
+            </form>
+          ) : (
+            <div className="flex flex-col space-y-4">
+              <div>
+                <span className="font-semibold">Email:</span> {email}
+              </div>
+              <div>
                 <div>
                   <div>
-                    <div>
-                      <span className="font-semibold">Password:</span>{" "}
-                      <span>********</span>
-                    </div>
+                    <span className="font-semibold">Password:</span>{" "}
+                    <span>********</span>
                   </div>
                 </div>
               </div>
-            )}
-          </CardContent>
-        </CardContent>
-      </Card>
-
-      {/* Resume Link Card */}
-      <Card>
-        <CardHeader>
-          <div className="flex justify-between items-center">
-            <CardTitle>Resume Link</CardTitle>
-          </div>
-        </CardHeader>
-        <CardContent>
-          <div className="space-y-2">
-            <div>
-              <span className="font-semibold">
-                reusumelink.firststep.dsadasdas.com
-              </span>
             </div>
-          </div>
-        </CardContent>
-      </Card>
-
-      {/* Portfolio Link Card */}
-      <Card>
-        <CardHeader>
-          <div className="flex justify-between items-center">
-            <CardTitle>Portfolio Link</CardTitle>
-          </div>
-        </CardHeader>
-        <CardContent>
-          <div className="space-y-2">
-            <div>
-              <span className="font-semibold">
-                portfolilolink.firststep.dsadasdas.com
-              </span>
-            </div>
-          </div>
+          )}
         </CardContent>
       </Card>
 
@@ -298,4 +263,4 @@ const Viewuser = ({ name, email, theme }) => {
   );
 };
 
-export default Viewuser;
+export default Viewemployee;

@@ -5,6 +5,7 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Dashboard from "./pages/Dashboard";
 import Adminprofile from "./pages/Adminprofile";
 import Login from "./pages/Login";
+import Viewemployee from "./pages/Viewemployee";
 import Viewuser from "./pages/Viewuser";
 import ReplyFeedback from "./pages/ReplyFeedback";
 function App() {
@@ -16,6 +17,7 @@ function App() {
         <Route path="/adminprofile" element={<AdminprofileWithThemeProvider />} /> 
         <Route path="/view" element={<Viewuser />} />
         <Route path = "/reply" element={<ReplyFeedback/>} />
+        <Route path="/viewemployee" element={<Viewemployee />} />
       </Routes>
     </Router>
   );

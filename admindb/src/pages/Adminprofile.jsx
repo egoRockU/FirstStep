@@ -34,6 +34,24 @@ export default function AdminProfile({ theme }) {
               <div className="grid gap-4">
                 <div className="grid gap-2">
                   <Label
+                    htmlFor="username"
+                    className={isDarkTheme ? "text-white" : "text-white-800"}
+                  >
+                    Change Username
+                  </Label>
+                  <Input
+                    id="username"
+                    placeholder="Username"
+                    required
+                    className={`w-full px-3 py-2 rounded-md focus:outline-none ${
+                      isDarkTheme
+                        ? "bg-gray-700 text-white"
+                        : "bg-gray-200 text-gray-800"
+                    }`}
+                  />
+                </div>
+                <div className="grid gap-2">
+                  <Label
                     htmlFor="currentPassword"
                     className={isDarkTheme ? "text-white" : "text-white-800"}
                   >
@@ -92,13 +110,13 @@ export default function AdminProfile({ theme }) {
 
                 <div className="flex justify-between mt-4">
                   <Button
-                    className={isDarkTheme ? "text-red-500" : "text-green-500"}
+                    className={isDarkTheme ? "text-green-500" : "text-red-500"}
                     onClick={() => navigate(-1)}
                   >
                     Cancel
                   </Button>
                   <Button
-                    className={isDarkTheme ? "text-green-500" : "text-red-500"}
+                    className={isDarkTheme ? "text-red-500" : "text-green-500"}
                   >
                     Save
                   </Button>

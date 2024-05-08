@@ -28,80 +28,80 @@ import {
 } from "../components/ui/pagination";
 import FeedbackReplyModal from "./FeedbackReplyModal";
 
-const exampleFeedback = [
-  {
-    id: 1,
-    sender: "Sender",
-    subject: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-    content:
-      "Quisque vitae nibh id nisl viverra pharetra. In non magna ipsum. Nunc vitae scelerisque sapien. Nulla sed augue a nisl interdum interdum et venenatis magna. Ut eget sapien sed neque mattis dignissim. Morbi consectetur dolor ante, sit amet pretium justo dignissim eget. Mauris maximus consectetur purus, non aliquam sapien semper quis. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Etiam vehicula porttitor efficitur. ",
-  },
-  {
-    id: 2,
-    sender: "Michael",
-    subject: "Rorjan",
-    content: "Trojan",
-  },
-  {
-    id: 3,
-    sender: "Bob",
-    subject: "The builder",
-    content: "Akkkn",
-  },
-  {
-    id: 4,
-    sender: "John",
-    subject: "Ceya",
-    content: "Tententenene",
-  },
-  {
-    id: 5,
-    sender: "Michael",
-    subject: "Rorjan",
-    content: "Trojan",
-  },
-  {
-    id: 6,
-    sender: "Bob",
-    subject: "The builder",
-    content: "Akkkn",
-  },
-  {
-    id: 7,
-    sender: "John",
-    subject: "Ceya",
-    content: "Tententenene",
-  },
-  {
-    id: 8,
-    sender: "Michael",
-    subject: "Rorjan",
-    content: "Trojan",
-  },
-  {
-    id: 9,
-    sender: "Bob",
-    subject: "The builder",
-    content: "Akkkn",
-  },
-  {
-    id: 10,
-    sender: "Bob",
-    subject: "The builder",
-    content: "Akkkn",
-  },
-  {
-    id: 11,
-    sender: "Bob",
-    subject: "The builder",
-    content: "Akkkn",
-  },
-];
-
 const pageSize = 10;
 
 const Feedback = () => {
   const [currentPage, setCurrentPage] = useState(1);
+  const [feedbackData, setFeedbackData] = useState([
+    {
+      id: 1,
+      sender: "Sender",
+      subject: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+      content:
+        "Quisque vitae nibh id nisl viverra pharetra. In non magna ipsum. Nunc vitae scelerisque sapien. Nulla sed augue a nisl interdum interdum et venenatis magna. Ut eget sapien sed neque mattis dignissim. Morbi consectetur dolor ante, sit amet pretium justo dignissim eget. Mauris maximus consectetur purus, non aliquam sapien semper quis. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Etiam vehicula porttitor efficitur. ",
+    },
+    {
+      id: 2,
+      sender: "Michael",
+      subject: "Rorjan",
+      content: "Trojan",
+    },
+    {
+      id: 3,
+      sender: "Bob",
+      subject: "The builder",
+      content: "Akkkn",
+    },
+    {
+      id: 4,
+      sender: "John",
+      subject: "Ceya",
+      content: "Tententenene",
+    },
+    {
+      id: 5,
+      sender: "Michael",
+      subject: "Rorjan",
+      content: "Trojan",
+    },
+    {
+      id: 6,
+      sender: "Bob",
+      subject: "The builder",
+      content: "Akkkn",
+    },
+    {
+      id: 7,
+      sender: "John",
+      subject: "Ceya",
+      content: "Tententenene",
+    },
+    {
+      id: 8,
+      sender: "Michael",
+      subject: "Rorjan",
+      content: "Trojan",
+    },
+    {
+      id: 9,
+      sender: "Bob",
+      subject: "The builder",
+      content: "Akkkn",
+    },
+    {
+      id: 10,
+      sender: "Bob",
+      subject: "The builder",
+      content: "Akkkn",
+    },
+    {
+      id: 11,
+      sender: "Bob",
+      subject: "The builder",
+      content: "Akkkn",
+    },
+  ]);
+
   const [selectedFeedback, setSelectedFeedback] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
@@ -116,10 +116,10 @@ const Feedback = () => {
   const openDeleteModal = () => setIsDeleteModalOpen(true);
   const closeDeleteModal = () => setIsDeleteModalOpen(false);
 
-  const totalPages = Math.ceil(exampleFeedback.length / pageSize);
+  const totalPages = Math.ceil(feedbackData.length / pageSize);
   const indexOfLastFeedback = currentPage * pageSize;
   const indexOfFirstFeedback = indexOfLastFeedback - pageSize;
-  const currentFeedback = exampleFeedback.slice(
+  const currentFeedback = feedbackData.slice(
     indexOfFirstFeedback,
     indexOfLastFeedback
   );
@@ -137,11 +137,10 @@ const Feedback = () => {
   };
 
   const deleteFeedback = () => {
-    if (selectedFeedback) {
-      const updatedFeedback = exampleFeedback.filter(
-        (feedback) => feedback.id !== selectedFeedback.id
-      );
-    }
+    const updatedFeedbackData = feedbackData.filter(
+      (feedback) => feedback.id !== selectedFeedback.id
+    );
+    setFeedbackData(updatedFeedbackData);
     setSelectedFeedback(null);
     closeDeleteModal();
   };
