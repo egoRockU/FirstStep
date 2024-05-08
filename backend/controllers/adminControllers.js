@@ -109,7 +109,7 @@ export const deleteApplicant = async (req, res) => {
       }
 
       if (accountType == "Local") {
-        await LocalAccount.findByIdAndDelete(accounId);
+        await LocalAccount.findByIdAndDelete(accountId);
       }
 
       await ApplicantProfile.findByIdAndDelete(_id);
@@ -171,6 +171,34 @@ export const getEmployerProfile = async (req, res) => {
     res.status(500).send({
       status: false,
       message: "Failed to Retrieve Applicant",
+    });
+  }
+};
+
+export const deleteEmployer = async (req, res) => {
+  try {
+    const { deletedRows } = req.body;
+
+    for (const row of deletedRows) {
+      const { _id, accountType, accountId } = row;
+
+      if (accountType == "Google") {
+        await GoogleAccount.findByIdAndDelete(accountId);
+      }
+
+      if (accountType == "Local") {
+        await LocalAccount.findByIdAndDelete(accountId);
+      }
+
+      await EmployerProfile.findByIdAndDelete(_id);
+    }
+    res.status(200).send({
+      message: "Successfully Deleted Employers",
+    });
+  } catch (err) {
+    res.status(500).send({
+      status: false,
+      message: "Failed to Delete Items",
     });
   }
 };

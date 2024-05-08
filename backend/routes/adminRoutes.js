@@ -7,6 +7,7 @@ import {
   deleteApplicant,
   getEmployers,
   getEmployerProfile,
+  deleteEmployer,
 } from "../controllers/adminControllers.js";
 
 router.get("/getcounts", getCounts);
@@ -15,5 +16,6 @@ router.post("/getapplicantprofile", getApplicantProfile);
 router.post("/deleteapplicants", deleteApplicant);
 router.get("/getEmployers", getEmployers);
 router.post("/getemployerprofile", getEmployerProfile);
+router.post("/deleteemployers", deleteEmployer);
 
 export default router;

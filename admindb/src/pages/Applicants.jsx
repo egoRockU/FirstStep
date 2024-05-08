@@ -57,7 +57,7 @@ export default function Applicants() {
 
   useEffect(() => {
     getApplicants();
-  }, []);
+  }, [data]);
 
   // Changing Pages
   const onPageChange = (page) => {

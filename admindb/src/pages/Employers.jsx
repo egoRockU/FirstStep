@@ -40,36 +40,6 @@ import { Button } from "../components/ui/button";
 import axios from "axios";
 
 export default function Employers() {
-  // Data
-  // const [data, setData] = useState([
-  //   {
-  //     id: 1,
-  //     name: "Employer",
-  //     email: "employee@example.com",
-  //     account: "Local",
-  //   },
-  //   { id: 2, name: "Jane Smith", email: "jane@example.com", account: "Google" },
-  //   { id: 3, name: "Bob Johnson", email: "bob@example.com", account: "Local" },
-  //   { id: 4, name: "John loyd", email: "john@example.com", account: "Google" },
-  //   { id: 5, name: "Jane Smith", email: "jane@example.com", account: "Local" },
-  //   { id: 6, name: "Bob Johnson", email: "bob@example.com", account: "Google" },
-  //   { id: 7, name: "John Doe", email: "john@example.com", account: "Local" },
-  //   { id: 8, name: "Jane Smith", email: "jane@example.com", account: "Google" },
-  //   { id: 9, name: "Bob Johnson", email: "bob@example.com", account: "Local" },
-  //   {
-  //     id: 10,
-  //     name: "Bob Johnson",
-  //     email: "bob@example.com",
-  //     account: "Google",
-  //   },
-  //   {
-  //     id: 11,
-  //     name: "Bob Johnson",
-  //     email: "bob@example.com",
-  //     account: "Google",
-  //   },
-  // ]);
-
   const [data, setData] = useState([]);
 
   // State pagination
@@ -88,7 +58,7 @@ export default function Employers() {
 
   useEffect(() => {
     getEmployers();
-  }, []);
+  }, [data]);
 
   // Changing Pages
   const onPageChange = (page) => {
@@ -136,6 +106,7 @@ export default function Employers() {
   };
   const handleDelete = () => {
     const deletedRows = data.filter((_, index) => selectedRows.includes(index));
+    deleteEmployers(deletedRows);
     console.log("Deleted Data:", deletedRows);
     const updatedData = data.filter(
       (_, index) => !selectedRows.includes(index)
@@ -168,6 +139,22 @@ export default function Employers() {
     axios.get("/api/admin/getEmployers").then((res) => {
       setData(res.data);
     });
+  };
+
+  const deleteEmployers = (selectedRows) => {
+    const input = { deletedRows: selectedRows };
+
+    axios
+      .post("/api/admin/deleteemployers", input, {
+        headers: { "Content-Type": "application/json" },
+      })
+      .then((res) => {
+        alert("Employer(s) has been Successfully Deleted!");
+        console.log(res.data.message);
+      })
+      .catch((err) => {
+        console.log(err.response.data);
+      });
   };
 
   return (
