@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Card,
   CardHeader,
@@ -27,84 +27,21 @@ import {
   PaginationPrevious,
 } from "../components/ui/pagination";
 import FeedbackReplyModal from "./FeedbackReplyModal";
+import axios from "axios";
 
 const pageSize = 10;
 
 const Feedback = () => {
   const [currentPage, setCurrentPage] = useState(1);
-  const [feedbackData, setFeedbackData] = useState([
-    {
-      id: 1,
-      sender: "Sender",
-      subject: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-      content:
-        "Quisque vitae nibh id nisl viverra pharetra. In non magna ipsum. Nunc vitae scelerisque sapien. Nulla sed augue a nisl interdum interdum et venenatis magna. Ut eget sapien sed neque mattis dignissim. Morbi consectetur dolor ante, sit amet pretium justo dignissim eget. Mauris maximus consectetur purus, non aliquam sapien semper quis. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Etiam vehicula porttitor efficitur. ",
-    },
-    {
-      id: 2,
-      sender: "Michael",
-      subject: "Rorjan",
-      content: "Trojan",
-    },
-    {
-      id: 3,
-      sender: "Bob",
-      subject: "The builder",
-      content: "Akkkn",
-    },
-    {
-      id: 4,
-      sender: "John",
-      subject: "Ceya",
-      content: "Tententenene",
-    },
-    {
-      id: 5,
-      sender: "Michael",
-      subject: "Rorjan",
-      content: "Trojan",
-    },
-    {
-      id: 6,
-      sender: "Bob",
-      subject: "The builder",
-      content: "Akkkn",
-    },
-    {
-      id: 7,
-      sender: "John",
-      subject: "Ceya",
-      content: "Tententenene",
-    },
-    {
-      id: 8,
-      sender: "Michael",
-      subject: "Rorjan",
-      content: "Trojan",
-    },
-    {
-      id: 9,
-      sender: "Bob",
-      subject: "The builder",
-      content: "Akkkn",
-    },
-    {
-      id: 10,
-      sender: "Bob",
-      subject: "The builder",
-      content: "Akkkn",
-    },
-    {
-      id: 11,
-      sender: "Bob",
-      subject: "The builder",
-      content: "Akkkn",
-    },
-  ]);
+  const [feedbackData, setFeedbackData] = useState([]);
 
   const [selectedFeedback, setSelectedFeedback] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+
+  useEffect(() => {
+    getFeedbacks();
+  }, []);
 
   const openModal = () => {
     if (!isDeleteModalOpen) {
@@ -138,11 +75,35 @@ const Feedback = () => {
 
   const deleteFeedback = () => {
     const updatedFeedbackData = feedbackData.filter(
-      (feedback) => feedback.id !== selectedFeedback.id
+      (feedback) => feedback._id !== selectedFeedback._id
     );
+    removeFeedback(selectedFeedback._id);
     setFeedbackData(updatedFeedbackData);
     setSelectedFeedback(null);
     closeDeleteModal();
+  };
+
+  const getFeedbacks = () => {
+    axios.get("/api/feedback/getAll").then((res) => {
+      setFeedbackData(res.data);
+    });
+  };
+
+  const removeFeedback = (id) => {
+    axios
+      .post(
+        "/api/feedback/deletefeedback",
+        { _id: id },
+        {
+          headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        }
+      )
+      .then((res) => {
+        console.log("Feedback has been successfully deleted");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   return (
@@ -151,7 +112,7 @@ const Feedback = () => {
       <div className="feedback">
         {currentFeedback.map((feedback) => (
           <Card
-            key={feedback.id}
+            key={feedback._id}
             className="mb-4"
             onClick={() => {
               setSelectedFeedback(feedback); // Set selected feedback
@@ -200,10 +161,10 @@ const Feedback = () => {
               </AlertDialog>
             </div>
             <CardHeader>
-              <CardTitle>{feedback.sender}</CardTitle>
+              <CardTitle>{`${feedback.sender.values.firstName} ${feedback.sender.values.lastName}`}</CardTitle>
               <CardDescription>{feedback.subject}</CardDescription>
             </CardHeader>
-            <CardContent>{feedback.content}</CardContent>
+            <CardContent>{feedback.body}</CardContent>
           </Card>
         ))}
       </div>
@@ -224,9 +185,13 @@ const Feedback = () => {
       <FeedbackReplyModal
         isOpen={isModalOpen}
         onClose={closeModal}
-        title={selectedFeedback ? selectedFeedback.sender : ""}
+        title={
+          selectedFeedback
+            ? `${selectedFeedback.sender.values.firstName} ${selectedFeedback.sender.values.lastName}`
+            : ""
+        }
         subject={selectedFeedback ? selectedFeedback.subject : ""}
-        description={selectedFeedback ? selectedFeedback.content : ""}
+        body={selectedFeedback ? selectedFeedback.body : ""}
         buttonText="Close"
         buttonr="Reply"
       />

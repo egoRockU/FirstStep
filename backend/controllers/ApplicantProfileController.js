@@ -7,7 +7,7 @@ import {
   handleUpdate,
   handlePush,
 } from "../utils/controllerUtils.js";
-import getMessageValues from "../utils/getMessageValues.js";
+import { getMessageValues } from "../utils/getMessageValues.js";
 
 export const createController = async (req, res) => {
   await handleCreate(ApplicantProfile, req.body, res);

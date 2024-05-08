@@ -37,4 +37,22 @@ const getMessageValues = async (messageId) => {
   }
 };
 
-export default getMessageValues;
+const getFeedbackValues = async (feedback) => {
+  try {
+    const { sender } = feedback;
+    if (sender.profileType === "applicant") {
+      sender.values = await ApplicantProfile.findById(sender.profileId).select(
+        "firstName lastName profileImg"
+      );
+    } else {
+      sender.values = await EmployerProfile.findById(sender.profileId).select(
+        "firstName lastName profileImg"
+      );
+    }
+    return feedback;
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export { getFeedbackValues, getMessageValues };
