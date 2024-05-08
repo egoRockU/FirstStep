@@ -135,6 +135,35 @@ const loginAdmin = asyncHandler(async (req, res) => {
   }
 });
 
+const updateAdmin = asyncHandler(async (req, res) => {
+  const { _id, username, currentPassword, newPassword } = req.body;
+
+  const oldPass = await LocalAccount.findById(_id).select("password");
+  const correctCurrentPassword = await bcrypt.compare(
+    currentPassword,
+    oldPass.password
+  );
+
+  let password;
+  if (correctCurrentPassword) {
+    password = await bcrypt.hash(newPassword, saltRounds);
+  } else {
+    res.status(401).json({ error: "Incorrect Current Password" });
+    throw new Error("Updating Local Account Failed");
+  }
+
+  const updateResult = await LocalAccount.findByIdAndUpdate(_id, {
+    username,
+    password,
+  });
+
+  if (!updateResult) {
+    res.status(401).json({ error: "Updating Local Account Failed" });
+    throw new Error("Updating Local Account Failed");
+  }
+  res.status(200).send({ message: "Username Update Success!" });
+});
+
 const changeLocalPassword = asyncHandler(async (req, res) => {
   const { email, newPassword } = req.body;
 
@@ -241,4 +270,5 @@ export {
   addProfile,
   loginAdmin,
   updateAccount,
+  updateAdmin,
 };
