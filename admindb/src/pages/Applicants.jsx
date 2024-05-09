@@ -38,7 +38,10 @@ import {
 import Viewuser from "./Viewuser";
 import { Button } from "../components/ui/button";
 import axios from "axios";
+import { Link } from "react-router-dom";
+
 export default function Applicants() {
+  const mainAppDomain = import.meta.env.VITE_MAIN_CLIENT_DOMAIN;
   const [data, setData] = useState([]);
 
   // State pagination
@@ -252,8 +255,13 @@ export default function Applicants() {
                               >
                                 View
                               </DropdownMenuItem>
-                              <DropdownMenuItem onSelect={handleView}>
-                                Visit Profile
+                              <DropdownMenuItem>
+                                <a
+                                  href={`${mainAppDomain}/profile/${row._id}`}
+                                  target="_blank"
+                                >
+                                  Visit Profile{" "}
+                                </a>
                               </DropdownMenuItem>
                             </DropdownMenuContent>
                           )}

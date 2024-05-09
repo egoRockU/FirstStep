@@ -40,6 +40,7 @@ import { Button } from "../components/ui/button";
 import axios from "axios";
 
 export default function Employers() {
+  const mainAppDomain = import.meta.env.VITE_MAIN_CLIENT_DOMAIN;
   const [data, setData] = useState([]);
 
   // State pagination
@@ -255,8 +256,13 @@ export default function Employers() {
                               >
                                 View
                               </DropdownMenuItem>
-                              <DropdownMenuItem onSelect={handleView}>
-                                Visit Profile
+                              <DropdownMenuItem>
+                                <a
+                                  href={`${mainAppDomain}/employerprofile/${row._id}`}
+                                  target="_blank"
+                                >
+                                  Visit Profile
+                                </a>
                               </DropdownMenuItem>
                             </DropdownMenuContent>
                           )}
