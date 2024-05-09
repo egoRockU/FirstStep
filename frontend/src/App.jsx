@@ -30,7 +30,7 @@ import Sendmessage from "./Pages/Sendmessage";
 import Sendfeedback from "./Pages/Sendfeedback";
 import ReactGA from "react-ga4";
 import Terms from "./Pages/Termsandconditions";
-import PrivacyPolicy from "./Pages/PrivacyPolicy";
+import PrivacyPolicypage from "./Pages/PrivacyPolicypage";
 import Aboutus from "./Pages/Aboutus";
 
 function App() {
@@ -45,7 +45,7 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/termsandconditions" element={<Terms />} />
-          <Route path="/privacypolicy" element={<PrivacyPolicy />} />
+          <Route path="/privacypolicy" element={<PrivacyPolicypage/>} />
           <Route path="/about" element={<Aboutus />} />
           {!user && (
             <>

@@ -94,7 +94,7 @@ function Messagemodal({ closeModal, message, userId, userType, reload }) {
   };
 
   return (
-    <div className="fixed inset-0 flex justify-center items-center">
+    <div className="fixed inset-0 flex justify-center items-center bg-black bg-opacity-50">
       <div className="bg-white flex flex-col border w-2/4 border-[#444b88] shadow-xl">
         <div className="w-full flex justify-end py-1 px-2" onClick={closeModal}>
           {" "}
@@ -142,7 +142,7 @@ function Messagemodal({ closeModal, message, userId, userType, reload }) {
             </h1>
           </div>
           <div className="pt-5">
-            <h1 className="flex text-lg gap-2">
+            <h1 className="flex text-lg gap-2 break-all">
               <span className="text-[#444b88]">Subject</span>
               {subject}
             </h1>
@@ -150,7 +150,7 @@ function Messagemodal({ closeModal, message, userId, userType, reload }) {
 
           <div className="pt-8">
             <div className="w-full border border-[#444b88] py-4 px-4">
-              <h1 className="pb-20 text-base text-black">{body}</h1>
+              <h1 className="pb-20 text-base text-black break-all">{body}</h1>
             </div>
           </div>
           <div className="w-full justify-end flex gap-4 pt-5">
