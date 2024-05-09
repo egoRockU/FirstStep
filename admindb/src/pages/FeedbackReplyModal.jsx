@@ -12,8 +12,8 @@ const FeedbackReplyModal = ({
   isOpen,
   onClose,
   title,
-  description,
   subject,
+  body,
   buttonText,
   buttonr,
   disableOnDelete,
@@ -53,9 +53,7 @@ const FeedbackReplyModal = ({
           <CardContent className="w-2xl h-70 overflow-hidden">
             <div className="overflow-y-auto h-full">
               {/* Description */}
-              <CardDescription className="text-primary">
-                {description}
-              </CardDescription>
+              <CardDescription className="text-primary">{body}</CardDescription>
             </div>
           </CardContent>
         </Card>
@@ -77,9 +75,7 @@ const FeedbackReplyModal = ({
         </div>
 
         {/* Reply Modal */}
-        {replyModalOpen && (
-          <ReplyFeedback onClose={closeReplyModal} />
-        )}
+        {replyModalOpen && <ReplyFeedback onClose={closeReplyModal} />}
       </div>
     </div>
   );

@@ -8,7 +8,7 @@ import {
   handleRetrieveOne,
   handleUpdate,
 } from "../utils/controllerUtils.js";
-import getMessageValues from "../utils/getMessageValues.js";
+import { getMessageValues } from "../utils/getMessageValues.js";
 
 const retrieveAll = asyncHandler(async (req, res) => {
   await handleRetrieve(EmployerProfile, res);

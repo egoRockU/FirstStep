@@ -98,6 +98,72 @@ const loginLocal = asyncHandler(async (req, res) => {
   }
 });
 
+const loginAdmin = asyncHandler(async (req, res) => {
+  const { username, password } = req.body;
+
+  const accountExist = await LocalAccount.findOne({
+    $or: [{ email: username }, { username }],
+  });
+
+  if (!accountExist) {
+    res.status(401).json({ error: "Account does not Exist" });
+    throw new Error("Account does not Exist");
+  }
+
+  if (!accountExist.isAdmin) {
+    res.status(401).json({ error: "This account is not an admin" });
+    throw new Error("Invalid Account");
+  }
+
+  const correctPassword = await bcrypt.compare(password, accountExist.password);
+
+  if (correctPassword) {
+    generateAuthToken(accountExist.email, res);
+    const user = {
+      email: accountExist.email,
+      id: accountExist._id.toString(),
+      username: accountExist.username,
+    };
+
+    res.status(200).json({
+      message: "Admin Logged In!",
+      user,
+    });
+  } else {
+    res.status(401).json({ error: "Incorrect Password" });
+    throw new Error("Incorrect Password");
+  }
+});
+
+const updateAdmin = asyncHandler(async (req, res) => {
+  const { _id, username, currentPassword, newPassword } = req.body;
+
+  const oldPass = await LocalAccount.findById(_id).select("password");
+  const correctCurrentPassword = await bcrypt.compare(
+    currentPassword,
+    oldPass.password
+  );
+
+  let password;
+  if (correctCurrentPassword) {
+    password = await bcrypt.hash(newPassword, saltRounds);
+  } else {
+    res.status(401).json({ error: "Incorrect Current Password" });
+    throw new Error("Updating Local Account Failed");
+  }
+
+  const updateResult = await LocalAccount.findByIdAndUpdate(_id, {
+    username,
+    password,
+  });
+
+  if (!updateResult) {
+    res.status(401).json({ error: "Updating Local Account Failed" });
+    throw new Error("Updating Local Account Failed");
+  }
+  res.status(200).send({ message: "Username Update Success!" });
+});
+
 const changeLocalPassword = asyncHandler(async (req, res) => {
   const { email, newPassword } = req.body;
 
@@ -158,6 +224,34 @@ const addProfile = asyncHandler(async (req, res) => {
   });
 });
 
+const updateAccount = asyncHandler(async (req, res) => {
+  const { _id, email, password } = req.body;
+  const oldPass = await LocalAccount.findById(_id).select("password");
+
+  let newPassHash;
+  if (password !== oldPass.password) {
+    newPassHash = await bcrypt.hash(password, saltRounds);
+  } else {
+    newPassHash = oldPass.password;
+  }
+
+  const updateResult = await LocalAccount.findByIdAndUpdate(
+    _id,
+    {
+      email: email,
+      password: newPassHash,
+    },
+    { new: true }
+  );
+
+  if (!updateResult) throw new Error("Error Updating Account");
+
+  res.status(201).json({
+    message: "Account updated successfully!",
+    _id: updateResult,
+  });
+});
+
 const logout = asyncHandler(async (req, res) => {
   res.cookie("access_token", "", {
     httpOnly: true,
@@ -174,4 +268,7 @@ export {
   changeLocalPassword,
   logout,
   addProfile,
+  loginAdmin,
+  updateAccount,
+  updateAdmin,
 };

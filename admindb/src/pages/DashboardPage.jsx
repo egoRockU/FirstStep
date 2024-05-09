@@ -1,12 +1,37 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   Card,
   CardContent,
   CardHeader,
   CardTitle,
+  CardDescription,
 } from "../components/ui/card";
+import axios from "axios";
 
 export default function DashboardPage() {
+  const [resume, setResume] = useState(0);
+  const [portfolio, setPortfolio] = useState(0);
+  const [applicant, setApplicant] = useState(0);
+  const [employer, setEmployer] = useState(0);
+  const [google, setGoogle] = useState(0);
+  const [local, setLocal] = useState(0);
+
+  useEffect(() => {
+    getCounts();
+  }, []);
+
+  const getCounts = () => {
+    axios.get("/api/admin/getcounts").then((res) => {
+      const counts = res.data.counts;
+      setResume(counts.resume);
+      setPortfolio(counts.portfolio);
+      setApplicant(counts.applicant);
+      setEmployer(counts.employer);
+      setGoogle(counts.googleAccount);
+      setLocal(counts.localAccount);
+    });
+  };
+
   return (
     <div className="flex-1 space-y-4 p-4 pt-6 md:p-8">
       <div className="flex items-center justify-between space-y-2"></div>
@@ -15,7 +40,7 @@ export default function DashboardPage() {
         <div className="col-span-3">
           <Card>
             <CardHeader>
-              <CardTitle>Generated Resumes</CardTitle>
+              <CardTitle>Generated Resumes: {resume}</CardTitle>
             </CardHeader>
             <CardContent className="pl-2"></CardContent>
           </Card>
@@ -23,7 +48,7 @@ export default function DashboardPage() {
         <div className="col-span-3">
           <Card>
             <CardHeader>
-              <CardTitle>Generated Portfolios</CardTitle>
+              <CardTitle>Generated Portfolios: {portfolio}</CardTitle>
             </CardHeader>
             <CardContent className="pl-2"></CardContent>
           </Card>
@@ -31,7 +56,7 @@ export default function DashboardPage() {
         <div className="col-span-3">
           <Card>
             <CardHeader>
-              <CardTitle>Applicant Count</CardTitle>
+              <CardTitle>Applicant Count: {applicant}</CardTitle>
             </CardHeader>
             <CardContent className="pl-2"></CardContent>
           </Card>
@@ -40,7 +65,7 @@ export default function DashboardPage() {
         <div className="col-span-3">
           <Card>
             <CardHeader>
-              <CardTitle>Employer Count</CardTitle>
+              <CardTitle>Employer Count: {employer}</CardTitle>
             </CardHeader>
             <CardContent className="pl-2"></CardContent>
           </Card>
@@ -48,7 +73,7 @@ export default function DashboardPage() {
         <div className="col-span-3">
           <Card>
             <CardHeader>
-              <CardTitle>Google Accounts</CardTitle>
+              <CardTitle>Google Accounts: {google}</CardTitle>
             </CardHeader>
             <CardContent className="pl-2"></CardContent>
           </Card>
@@ -56,7 +81,7 @@ export default function DashboardPage() {
         <div className="col-span-3">
           <Card>
             <CardHeader>
-              <CardTitle>Local Accounts</CardTitle>
+              <CardTitle>Local Accounts: {local}</CardTitle>
             </CardHeader>
             <CardContent className="pl-2"></CardContent>
           </Card>

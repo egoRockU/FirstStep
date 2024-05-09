@@ -8,15 +8,17 @@ import {
 import { FaRegEdit } from "react-icons/fa";
 import { Button } from "../components/ui/button";
 import axios from "axios";
-const Viewuser = ({ data, name, email, theme }) => {
-  const mainAppDomain = import.meta.env.VITE_MAIN_CLIENT_DOMAIN;
+
+const Viewemployee = ({ data, name, email, theme }) => {
   const { _id, accountId, accountType } = data;
   const placeholderImg =
     "https://blueypedia.fandom.com/extensions-ucp/mw139/fandom/AgeDeclaration/resources/images/adult.png";
+  const [personalDetailsEditable, setPersonalDetailsEditable] = useState(false);
+  const [accountDetailsEditable, setAccountDetailsEditable] = useState(false);
   const [profileImg, setProfileImg] = useState();
   const [fName, setFName] = useState("");
   const [lName, setLName] = useState("");
-  const [appEmail, setAppEmail] = useState("");
+  const [empEmail, setEmpEmail] = useState("");
   const [contactNum, setContactNum] = useState("");
   const [city, setCity] = useState("");
   const [country, setCountry] = useState("");
@@ -25,13 +27,9 @@ const Viewuser = ({ data, name, email, theme }) => {
   const [about, setAbout] = useState("");
   const [accEmail, setAccEmail] = useState("");
   const [verifier, setVerifier] = useState("");
-  const [resume, setResume] = useState();
-  const [portfolio, setPortfolio] = useState();
-  const [personalDetailsEditable, setPersonalDetailsEditable] = useState(false);
-  const [accountDetailsEditable, setAccountDetailsEditable] = useState(false);
 
   useEffect(() => {
-    getApplicant();
+    getEmployer();
   }, []);
 
   const togglePersonalDetailsEdit = () => {
@@ -46,7 +44,6 @@ const Viewuser = ({ data, name, email, theme }) => {
 
       return;
     }
-
     setAccountDetailsEditable(!accountDetailsEditable);
   };
 
@@ -64,6 +61,7 @@ const Viewuser = ({ data, name, email, theme }) => {
       updateAccountInfo();
     }
   };
+
   const handleSave = (e) => {
     if (personalDetailsEditable) {
       handlePersonalDetailsSubmit(e);
@@ -72,49 +70,41 @@ const Viewuser = ({ data, name, email, theme }) => {
       handleAccountDetailsSubmit(e);
     }
   };
+
   const handleDiscardChanges = (e) => {
     setPersonalDetailsEditable(false);
     setAccountDetailsEditable(false);
-    getApplicant();
+    getEmployer();
   };
 
   const isDarkTheme = theme === "dark";
 
-  const getApplicant = () => {
+  const getEmployer = () => {
     const inputs = {
       _id,
       accountId,
       accountType,
     };
+
     axios
-      .post("/api/admin/getapplicantprofile", inputs, {
+      .post("/api/admin/getemployerprofile", inputs, {
         headers: { "Content-Type": "application/json" },
       })
       .then((res) => {
-        const applicant = res.data.applicant;
+        const employer = res.data.employer;
         const account = res.data.account;
-        setProfileImg(applicant.profileImg);
-        setFName(applicant.firstName);
-        setLName(applicant.lastName);
-        setAppEmail(applicant.email);
-        setContactNum(applicant.contactNum);
-        setCity(applicant.address.split(",")[0]);
-        setCountry(applicant.address.split(", ")[1]);
-        setAddress(applicant.address);
-        setBio(applicant.bio);
-        setAbout(applicant.about);
+        setProfileImg(employer.profileImg);
+        setFName(employer.firstName);
+        setLName(employer.lastName);
+        setEmpEmail(employer.email);
+        setContactNum(employer.contactNum);
+        setCity(employer.address.split(",")[0]);
+        setCountry(employer.address.split(", ")[1]);
+        setAddress(employer.address);
+        setBio(employer.bio);
+        setAbout(employer.about);
         setAccEmail(account.email);
         setVerifier(account.sub || account.password);
-        setResume(
-          applicant.resume.templateId
-            ? `${mainAppDomain}/resume/${applicant.resume.templateId}/${applicant.resume.resumeId}`
-            : "No resume yet..."
-        );
-        setPortfolio(
-          applicant.portfolio.templateId
-            ? `${mainAppDomain}/portfolio/${applicant.portfolio.templateId}/${applicant.portfolio.portfolioId}`
-            : "No portfolio yet..."
-        );
       })
       .catch((err) => {
         console.log(err);
@@ -136,7 +126,7 @@ const Viewuser = ({ data, name, email, theme }) => {
       },
     };
     axios
-      .post("/api/applicantprofile/update", input, {
+      .post("/api/employerprofile/update", input, {
         headers: {
           "Content-type": "application/json",
         },
@@ -216,8 +206,8 @@ const Viewuser = ({ data, name, email, theme }) => {
                   <span className="font-semibold mr-2">Email:</span>
                   <input
                     type="email"
-                    value={appEmail}
-                    onChange={(e) => setAppEmail(e.target.value)}
+                    value={empEmail}
+                    onChange={(e) => setEmpEmail(e.target.value)}
                     className={`w-full max-w-xs px-3 py-1 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-200 ${
                       isDarkTheme
                         ? "bg-gray-700 text-white"
@@ -242,7 +232,6 @@ const Viewuser = ({ data, name, email, theme }) => {
                   <span className="font-semibold mr-2">Address:</span>
                   <input
                     type="text"
-                    placeholder="City"
                     value={city}
                     onChange={(e) => setCity(e.target.value)}
                     className={`w-full max-w-xs px-3 py-1 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-200 ${
@@ -253,7 +242,6 @@ const Viewuser = ({ data, name, email, theme }) => {
                   />
                   <input
                     type="text"
-                    placeholder="Country"
                     value={country}
                     onChange={(e) => setCountry(e.target.value)}
                     className={`w-full max-w-xs px-3 py-1 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-200 ${
@@ -300,11 +288,11 @@ const Viewuser = ({ data, name, email, theme }) => {
               />
               <div className="space-y-2">
                 <div>
-                  <span className="font-extrabold">Name</span>{" "}
+                  <span className="font-extrabold">Name:</span>{" "}
                   {`${fName} ${lName}`}
                 </div>
                 <div>
-                  <span className="font-semibold">Email:</span> {appEmail}
+                  <span className="font-semibold">Email:</span> {empEmail}
                 </div>
                 <div>
                   <span className="font-semibold">Contact Number:</span>{" "}
@@ -337,95 +325,61 @@ const Viewuser = ({ data, name, email, theme }) => {
           </div>
         </CardHeader>
         <CardContent>
-          <CardContent>
-            {accountDetailsEditable ? (
-              <form onSubmit={handleAccountDetailsSubmit}>
-                <div className="space-y-2">
-                  <div className="flex items-center">
-                    <span className="font-semibold mr-2">Email:</span>
-                    <input
-                      type="email"
-                      value={accEmail}
-                      onChange={(e) => setAccEmail(e.target.value)}
-                      className={`w-full max-w-xs px-3 py-1 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-200 overflow-hidden resize-none ${
-                        isDarkTheme
-                          ? "bg-gray-700 text-white"
-                          : "bg-white-200 text-gray-800"
-                      }`}
-                    />
-                  </div>
-                  <div className="flex items-center">
-                    <span className="font-semibold mr-2">Password:</span>
-                    <input
-                      type="text"
-                      value={verifier}
-                      onChange={(e) => setVerifier(e.target.value)}
-                      className={`w-full max-w-xs px-3 py-1 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-200 overflow-hidden resize-none ${
-                        isDarkTheme
-                          ? "bg-gray-700 text-white"
-                          : "bg-white-200 text-gray-800"
-                      }`}
-                    />
-                  </div>
+          {accountDetailsEditable ? (
+            <form onSubmit={handleAccountDetailsSubmit}>
+              <div className="space-y-2">
+                <div className="flex items-center">
+                  <span className="font-semibold mr-2">Email:</span>
+                  <input
+                    type="email"
+                    value={accEmail}
+                    onChange={(e) => setAccEmail(e.target.value)}
+                    className={`w-full max-w-xs px-3 py-1 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-200 overflow-hidden resize-none ${
+                      isDarkTheme
+                        ? "bg-gray-700 text-white"
+                        : "bg-white-200 text-gray-800"
+                    }`}
+                  />
                 </div>
-              </form>
-            ) : (
-              <div className="flex flex-col space-y-4">
-                <div>
-                  <span className="font-semibold">Email:</span> {accEmail}
+                <div className="flex items-center">
+                  <span className="font-semibold mr-2">Password:</span>
+                  <input
+                    type="text"
+                    value={verifier}
+                    onChange={(e) => setVerifier(e.target.value)}
+                    className={`w-full max-w-xs px-3 py-1 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-200 overflow-hidden resize-none ${
+                      isDarkTheme
+                        ? "bg-gray-700 text-white"
+                        : "bg-white-200 text-gray-800"
+                    }`}
+                  />
                 </div>
+              </div>
+            </form>
+          ) : (
+            <div className="flex flex-col space-y-4">
+              <div>
+                <span className="font-semibold">Email:</span> {accEmail}
+              </div>
+              <div>
                 <div>
                   <div>
-                    <div>
-                      {accountType === "Google" ? (
-                        <>
-                          <span className="font-semibold">Sub:</span>{" "}
-                          <span>{verifier}</span>
-                        </>
-                      ) : (
-                        <>
-                          <span className="font-semibold">Password:</span>{" "}
-                          <span>{verifier}</span>
-                        </>
-                      )}
-                    </div>
+                    {accountType === "Google" ? (
+                      <>
+                        <span className="font-semibold">Sub:</span>{" "}
+                        <span>{verifier}</span>
+                      </>
+                    ) : (
+                      <>
+                        <span className="font-semibold">Password:</span>{" "}
+                        <span>{verifier}</span>
+                      </>
+                    )}
                   </div>
                 </div>
               </div>
-            )}
-          </CardContent>
-        </CardContent>
-      </Card>
-
-      {/* Resume Link Card */}
-      <Card>
-        <CardHeader>
-          <div className="flex justify-between items-center">
-            <CardTitle>Resume Link</CardTitle>
-          </div>
-        </CardHeader>
-        <CardContent>
-          <div className="space-y-2">
-            <div>
-              <span className="font-semibold">{resume}</span>
             </div>
-          </div>
-        </CardContent>
-      </Card>
-
-      {/* Portfolio Link Card */}
-      <Card>
-        <CardHeader>
-          <div className="flex justify-between items-center">
-            <CardTitle>Portfolio Link</CardTitle>
-          </div>
-        </CardHeader>
-        <CardContent>
-          <div className="space-y-2">
-            <div>
-              <span className="font-semibold">{portfolio}</span>
-            </div>
-          </div>
+          )}
         </CardContent>
       </Card>
 
@@ -454,4 +408,4 @@ const Viewuser = ({ data, name, email, theme }) => {
   );
 };
 
-export default Viewuser;
+export default Viewemployee;
