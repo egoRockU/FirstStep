@@ -45,11 +45,11 @@ const SocialCard = ({ socialLinks, onDelete }) => {
 const IndustriesCard = ({ industries, onDelete }) => {
   return (
     <div className="flex flex-col w-full">
-      <div className="grid grid-cols-2 mx-auto items-center gap-1">
+      <div className="grid grid-cols-1 mx-auto items-center gap-1">
         {industries.map((industry, index) => (
           <div key={index} className="flex items-center py-1 ">
-            <div className="flex text-center bg-[#BAD2FF] p-2 rounded-full w-auto">
-              <p className="whitespace-nowrap">{industry}</p>
+            <div className="flex text-center bg-[#BAD2FF] p-2 rounded-full">
+              <p className="break-all">{industry}</p>
               <button onClick={() => onDelete(index)}>
                 <IoClose size={25} />
               </button>

@@ -131,7 +131,7 @@ function Applicantlist() {
       {user ? <NavbarLoggedIn /> : <Navbar />}
       {/* TODO make footer snap on bottom of the screen */}
       {loading ? <Loader /> : <></>}
-      <div className="flex pt-28">
+      <div className="flex pt-28 min-h-screen pb-10">
         <div className="w-full lg:w-[60%] mx-auto">
           <div className="flex flex-col">
             <h1 className="text-lg text-[#444b88]">List of Applicants</h1>
