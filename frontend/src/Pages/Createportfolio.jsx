@@ -298,11 +298,6 @@ function Createportfolio() {
       );
 
       if (proceed) {
-        let imageUrl = image;
-
-        if (imageFile) {
-          imageUrl = await uploadImage(imageFile);
-        }
         const portfolioInfo = {
           profileImg: image,
           firstName: fName,
