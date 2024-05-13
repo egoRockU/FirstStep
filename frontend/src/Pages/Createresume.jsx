@@ -27,6 +27,8 @@ import {
   ProjectsCard,
   AwardCard,
 } from "../Components/Cardcomponents";
+import industrySuggestions from "../suggestions/industries.json";
+import skillSuggestions from "../suggestions/skills.json";
 import AddSocial from "../Modals/EditApplicant Profile/Addsocial";
 import AddIndustry from "../Modals/EditApplicant Profile/Addindustry";
 import AddSkill from "../Modals/EditApplicant Profile/Addskill";
@@ -127,16 +129,6 @@ function Createresume() {
   //industry
   const [industries, setIndustries] = useState([]);
   const [isAddIndustryModalOpen, setAddIndustryModalOpen] = useState(false);
-  const [industrySuggestions] = useState([
-    "Web Developer",
-    "Game Developer",
-    "Graphic Designer",
-    "Software Developer",
-    "Video Game Developer",
-    "CyberSecurity",
-    "Artificial Intelligence and Machine Learning",
-    "Mobile App Development",
-  ]);
   const onSubmitIndustries = (formData) => {
     if (!formData) {
       toast.error("Please provide Industry");
@@ -173,16 +165,6 @@ function Createresume() {
   const closeAddSkillModal = () => {
     setAddSkillModalOpen(false);
   };
-
-  const [skillSuggestions] = useState([
-    "JavaScript",
-    "Python",
-    "Java",
-    "C++",
-    "React",
-    "Node.js",
-    "Ruby",
-  ]);
 
   const onSubmitSkills = (formData) => {
     if (!formData) {
@@ -417,7 +399,6 @@ function Createresume() {
       if (selectedFile) {
         const imageUrl = URL.createObjectURL(selectedFile);
         setImage(imageUrl);
-        
       }
     } catch (error) {
       console.error("Error handling file change:", error);
@@ -460,15 +441,14 @@ function Createresume() {
       const proceed = confirm(
         "Are you sure you want to use these values to be displayed on your resume?"
       );
-  
+
       if (proceed) {
-        let imageUrl = image; 
-        
+        let imageUrl = image;
+
         if (imageFile) {
-    
           imageUrl = await uploadImage(imageFile);
         }
-  
+
         const resumeInfo = {
           profileImg: imageUrl,
           firstName: fName,
@@ -487,7 +467,7 @@ function Createresume() {
           projects: projectsData,
           characterReference: charRefData,
         };
-  
+
         navigate("/chooseresume", { state: { resumeInfo } });
       }
     } catch (error) {
@@ -522,8 +502,8 @@ function Createresume() {
                     <IoIosArrowDropdownCircle
                       onClick={() => togglePersonalInfoVisibility()}
                       size={25}
-                    color="444b88"
-                      />
+                      color="444b88"
+                    />
                   )}
                 </div>
                 {personalInfoVisible && (
