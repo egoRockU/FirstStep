@@ -6,6 +6,8 @@ import AddIndustry from "../Modals/EditApplicant Profile/Addindustry";
 import AddSkill from "../Modals/EditApplicant Profile/Addskill";
 import AddCertificates from "../Modals/Edit Profile/Addcertificates";
 import Addprojects from "../Modals/Edit Profile/Addprojects";
+import industrySuggestions from "../suggestions/industries.json";
+import skillSuggestions from "../suggestions/skills.json";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import {
@@ -98,16 +100,6 @@ function Createportfolio() {
   //industry
   const [industries, setIndustries] = useState([]);
   const [isAddIndustryModalOpen, setAddIndustryModalOpen] = useState(false);
-  const [industrySuggestions] = useState([
-    "Web Developer",
-    "Game Developer",
-    "Graphic Designer",
-    "Software Developer",
-    "Video Game Developer",
-    "CyberSecurity",
-    "Artificial Intelligence and Machine Learning",
-    "Mobile App Development",
-  ]);
   const onSubmitIndustries = (formData) => {
     if (!formData) {
       toast.error("Please provide Industry");
@@ -144,16 +136,6 @@ function Createportfolio() {
   const closeAddSkillModal = () => {
     setAddSkillModalOpen(false);
   };
-
-  const [skillSuggestions] = useState([
-    "JavaScript",
-    "Python",
-    "Java",
-    "C++",
-    "React",
-    "Node.js",
-    "Ruby",
-  ]);
 
   const onSubmitSkills = (formData) => {
     if (!formData) {
@@ -298,11 +280,6 @@ function Createportfolio() {
       );
 
       if (proceed) {
-        let imageUrl = image;
-
-        if (imageFile) {
-          imageUrl = await uploadImage(imageFile);
-        }
         const portfolioInfo = {
           profileImg: image,
           firstName: fName,

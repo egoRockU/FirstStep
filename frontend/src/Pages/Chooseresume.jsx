@@ -8,6 +8,7 @@ import bt1prev from "../images/resumeTemplates/1.png";
 import bt2prev from "../images/resumeTemplates/2.png";
 import twoColumn from "../images/resumeTemplates/twoColumn.png";
 import tapang from "../images/resumeTemplates/Tapang.png";
+import simple from "../images/resumeTemplates/Simple.png";
 
 function Chooseresume() {
   const location = useLocation();
@@ -27,6 +28,7 @@ function Chooseresume() {
     { id: 2, title: "Basic Template2", imageUrl: bt2prev },
     { id: 3, title: "Two Column", imageUrl: twoColumn },
     { id: 4, title: "Tapang", imageUrl: tapang },
+    { id: 5, title: "Simple", imageUrl: simple },
   ];
 
   const [showPreviewModal, setShowPreviewModal] = useState(false);
