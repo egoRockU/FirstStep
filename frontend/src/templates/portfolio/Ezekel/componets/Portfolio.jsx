@@ -1,27 +1,6 @@
 import React from "react";
-import HTML from "../img/HTML.jpg";
-import Reactjs from "../img/reactjs.png";
-import Tailwindcss from "../img/tailwindcss.png";
-
 const Portfolio = ({ portfolioInfo }) => {
   const { projects } = portfolioInfo;
-
-  const portfolios = [
-    {
-      id: 1,
-      src: HTML,
-    },
-
-    {
-      id: 2,
-      src: Reactjs,
-    },
-
-    {
-      id: 3,
-      src: Tailwindcss,
-    },
-  ];
 
   return (
     <div
