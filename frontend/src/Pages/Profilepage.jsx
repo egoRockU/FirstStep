@@ -146,7 +146,7 @@ function Profile() {
                         <img
                           src={profileImg ? profileImg : profileDefault}
                           alt=""
-                          className="w-40 h-40 rounded-full border-2"
+                          className="w-40 h-40 rounded-full border-2 object-cover"
                         />
                       </label>
                       <div className="flex justify-center items-center">
