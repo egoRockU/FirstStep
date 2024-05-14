@@ -32,6 +32,8 @@ import ReactGA from "react-ga4";
 import Terms from "./Pages/Termsandconditions";
 import PrivacyPolicypage from "./Pages/PrivacyPolicypage";
 import Aboutus from "./Pages/Aboutus";
+import Supportus from "./Pages/Supportus";
+
 
 function App() {
   const { user } = useSelector((state) => state.user);
@@ -47,6 +49,7 @@ function App() {
           <Route path="/termsandconditions" element={<Terms />} />
           <Route path="/privacypolicy" element={<PrivacyPolicypage/>} />
           <Route path="/about" element={<Aboutus />} />
+          <Route path="/supportus" element={<Supportus/>}/>
           {!user && (
             <>
               <Route path="/" element={<NewLanding />} />

@@ -7,7 +7,7 @@ function Footer() {
   const navigate = useNavigate();
 
   return (
-    <div className="flex bg-white w-full border-t-[1px] ">
+    <div className="flex bg-white w-full border-t-[1px]">
       <div className="flex flex-col md:flex-row w-full lg:w-1/2 mx-auto justify-around m-5 items-center">
         <div className="flex h-full">
           <img src={logo} alt="Logo" className="w-8 h-8" />
@@ -38,6 +38,12 @@ function Footer() {
               onClick={() => navigate("/privacypolicy")}
             >
               Privacy Policy
+            </li>
+            <li
+              className="text-[#444B88] cursor-pointer text-sm"
+              onClick={() => navigate("/supportus")}
+            >
+              Support us
             </li>
           </ul>
           <p className="mt-2">@2024 FirstStep. All rights reserved.</p>
