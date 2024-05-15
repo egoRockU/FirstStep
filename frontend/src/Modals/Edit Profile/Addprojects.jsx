@@ -4,6 +4,7 @@ import { IoMdAdd } from "react-icons/io";
 import { projectImagesUpload } from "../../utils/projectimageUpload";
 import { editProject } from "../../utils/projectimageEdit";
 import { toast } from "react-toastify";
+import { ImSpinner } from "react-icons/im";
 
 import "react-toastify/dist/ReactToastify.css";
 
@@ -48,22 +49,6 @@ function Addprojects({ onClose, onSubmit, onEdit, formIndex, initialData }) {
     }
   };
 
-  // const handleDeleteImage =  async  (index) => {
-  //   try {
-  //     const updatedPreviews = [...imagePreviews];
-  //     updatedPreviews.splice(index, 1);
-  //     setImagePreviews(updatedPreviews);
-
-  //     const updatedFormData = {
-  //       ...formData,
-  //       previewImages: formData.previewImages.filter((_, i) => i !== index),
-  //     };
-  //     setFormData(updatedFormData);
-  //   } catch (error) {
-  //     console.error("Error deleting image:", error);
-  //   }
-  // };
-
   const handleDeleteImage = (index) => {
     try {
       const updatedPreviews = [...imagePreviews];
@@ -87,6 +72,7 @@ function Addprojects({ onClose, onSubmit, onEdit, formIndex, initialData }) {
   };
 
   const handleSubmit = async (e) => {
+    setLoading(true);
     e.preventDefault();
     console.log("handleSubmit called");
     try {
@@ -120,7 +106,7 @@ function Addprojects({ onClose, onSubmit, onEdit, formIndex, initialData }) {
         githubLink: "",
         projectLink: "",
       });
-
+      setLoading(false);
       toast.success("Successfully saved!");
     } catch (error) {
       console.error("Error uploading project images:", error);
@@ -128,26 +114,6 @@ function Addprojects({ onClose, onSubmit, onEdit, formIndex, initialData }) {
     }
   };
 
-  // const handleEdit = async (e) => {
-  //   e.preventDefault();
-  //   onEdit(formIndex, formData);
-  //   onClose();
-
-  //   try {
-  //     const selectedImageUrls = [];
-  //     imagePreviews.forEach((preview, index) => {
-  //       if (formData.previewImages.includes(preview)) {
-  //         selectedImageUrls.push(formData.previewImages[index]);
-  //       }
-  //     });
-
-  //     for (const imageUrl of selectedImageUrls) {
-  //       await deleteImageFromFirebase(imageUrl, setImagePreviews, imagePreviews);
-  //     }
-  //   } catch (error) {
-  //     console.error("Error deleting images from Firebase:", error);
-  //   }
-  // };
   const handleEdit = async (e) => {
     e.preventDefault();
 
@@ -352,7 +318,11 @@ function Addprojects({ onClose, onSubmit, onEdit, formIndex, initialData }) {
                 type="submit"
                 className="bg-[#8B95EE] border border-[#444B88] text-black px-4 py-2 rounded-md"
               >
-                Save
+                {loading ? (
+                  <ImSpinner className="animate-spin mr-2" />
+                ) : (
+                  <p>Save</p>
+                )}
               </button>
             )}
             {initialData && (
@@ -361,7 +331,11 @@ function Addprojects({ onClose, onSubmit, onEdit, formIndex, initialData }) {
                 onClick={handleEdit}
                 className="bg-[#8B95EE] border border-[#444B88] text-black px-4 py-2 rounded-md mr-2"
               >
-                Save Changes
+                {loading ? (
+                  <ImSpinner className="animate-spin mr-2" />
+                ) : (
+                  <p>Save Changes</p>
+                )}
               </button>
             )}
           </div>

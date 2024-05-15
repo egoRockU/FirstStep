@@ -10,11 +10,11 @@ import AddSocial from "../Modals/EditEmployer Profile/Addsocial";
 import { updateAccountProfileValues } from "../utils/updateAccountProfileValues";
 import { useDispatch } from "react-redux";
 import { updateUser } from "../slices/userSlice";
-import { IoClose } from "react-icons/io5";
 import { toast } from "react-toastify";
 import { uploadBanner, uploadImage } from "../utils/imageEmpUpload";
 import { getDownloadURL } from "firebase/storage";
 import { SocialCard } from "../Components/Employercard";
+import { ImSpinner } from "react-icons/im";
 
 function CreateEmployerpage() {
   // TODO add change alert to toast
@@ -25,6 +25,7 @@ function CreateEmployerpage() {
   const [selectedBanner, setSelectedBanner] = useState(null);
   const [selectedImageFile, setSelectedImageFile] = useState(null);
   const [selectedBannerFile, setSelectedBannerFile] = useState(null);
+  const [loading, setLoading] = useState(false);
   //image
   const handleImageChange = (e) => {
     const imageFile = e.target.files[0];
@@ -104,16 +105,28 @@ function CreateEmployerpage() {
   const [inputs, setInputs] = useState({});
 
   const createProfile = async () => {
+    setLoading(true);
     let profileImageURL = "";
     let bannerImageURL = "";
 
     if (selectedImageFile) {
-      profileImageURL = await uploadImage(selectedImageFile, getDownloadURL);
+      try {
+        profileImageURL = await uploadImage(selectedImageFile, getDownloadURL);
+      } catch (err) {
+        setLoading(false);
+        return;
+      }
     }
 
     if (selectedBannerFile) {
-      bannerImageURL = await uploadBanner(selectedBannerFile, getDownloadURL);
+      try {
+        bannerImageURL = await uploadBanner(selectedBannerFile, getDownloadURL);
+      } catch (err) {
+        setLoading(false);
+        return;
+      }
     }
+
     setSelectedImage(profileImageURL);
     setSelectedBanner(bannerImageURL);
     const updatedInputs = {
@@ -136,16 +149,19 @@ function CreateEmployerpage() {
             userAccountType,
             userEmail
           ).then((newUserData) => {
+            setLoading(false);
             dispatch(updateUser(newUserData));
             navigate("/editemployer");
           });
         }
         if (res.data.status == false) {
+          setLoading(false);
           alert("Employer profile not created");
         }
       })
       .catch((err) => {
         console.log(err);
+        setLoading(false);
         alert(err.response.data.message);
         console.log(err.response.data.errorMessage);
       });
@@ -392,12 +408,21 @@ function CreateEmployerpage() {
                   >
                     Cancel
                   </button>
-                  <button
-                    className="text-lg bg-[#8B95EE] border border-[#444B88] hover:bg-blue-600 px-2"
-                    onClick={createProfile}
-                  >
-                    Save
-                  </button>
+                  {loading ? (
+                    <button
+                      className="text-lg bg-[#8B95EE] border border-[#444B88] hover:bg-blue-600 px-2"
+                      disabled
+                    >
+                      <ImSpinner className="animate-spin mr-2" />
+                    </button>
+                  ) : (
+                    <button
+                      className="text-lg bg-[#8B95EE] border border-[#444B88] hover:bg-blue-600 px-2"
+                      onClick={createProfile}
+                    >
+                      Save
+                    </button>
+                  )}
                 </div>
               </div>
             </div>
