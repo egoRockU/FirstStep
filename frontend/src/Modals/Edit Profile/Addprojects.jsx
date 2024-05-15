@@ -229,6 +229,7 @@ function Addprojects({ onClose, onSubmit, onEdit, formIndex, initialData }) {
                   type="text"
                   name="technologiesUsed"
                   value={formData.technologiesUsed}
+                  placeholder="Write down the tools you used in creating this project."
                   onChange={handleChange}
                   className="w-full border border-[#444B88] py-2 px-2 rounded-md"
                   required
@@ -277,6 +278,7 @@ function Addprojects({ onClose, onSubmit, onEdit, formIndex, initialData }) {
                   id="description"
                   value={formData.description}
                   onChange={handleChange}
+                  placeholder="Add more information about this project."
                   rows={8}
                   className="border border-[#444B88] rounded-md px-2 w-full"
                 ></textarea>
@@ -288,6 +290,7 @@ function Addprojects({ onClose, onSubmit, onEdit, formIndex, initialData }) {
                 <input
                   type="text"
                   name="githubLink"
+                  placeholder="Please include http:// or https:// before the domain."
                   value={formData.githubLink}
                   onChange={handleChange}
                   className="w-full border border-[#444B88] py-2 px-2 rounded-md"
@@ -301,6 +304,7 @@ function Addprojects({ onClose, onSubmit, onEdit, formIndex, initialData }) {
                   value={formData.projectLink}
                   onChange={handleChange}
                   className="w-full border border-[#444B88] py-2 px-2 rounded-md"
+                  placeholder="Please include http:// or https:// before the domain."
                   required
                 />
               </div>

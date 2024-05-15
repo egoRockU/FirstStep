@@ -150,6 +150,7 @@ function Addeduc({ onClose, onSubmit, onEdit, formIndex, initialData }) {
               type="text"
               id="degree"
               name="degree"
+              placeholder="Ex. Bachelor or Science, Bachelor of Arts, Senior High, etc"
               value={formData.degree}
               onChange={handleChange}
               required
@@ -164,6 +165,7 @@ function Addeduc({ onClose, onSubmit, onEdit, formIndex, initialData }) {
               type="text"
               id="program"
               name="program"
+              placeholder="Ex. Computer Science, Information Technology, STEM, etc"
               value={formData.program}
               onChange={handleChange}
               required

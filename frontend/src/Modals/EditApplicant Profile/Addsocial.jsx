@@ -76,7 +76,7 @@ function SocialMediaLinks({
                 styles={{
                   control: (provided) => ({
                     ...provided,
-                    borderColor: "#444B88 ", 
+                    borderColor: "#444B88 ",
                   }),
                 }}
               />
@@ -91,7 +91,7 @@ function SocialMediaLinks({
                 onChange={(e) =>
                   setFormData({ ...formData, link: e.target.value })
                 }
-                placeholder="Enter Link"
+                placeholder="Please include http:// or https:// before the domain."
                 className="p-2 border-2 border-[#444B88] focus:outline-none focus:border-black-500 rounded-md w-96"
               />
             </div>
