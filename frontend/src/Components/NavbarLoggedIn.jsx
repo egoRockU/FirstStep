@@ -26,7 +26,7 @@ function NavbarLoggedIn() {
 
   return (
     <nav className="bg-white py-4 shadow-lg fixed w-full z-50 top-0">
-      <div className="flex w-full lg:w-[60%] justify-between mx-auto relative">
+      <div className="flex w-[90%] xl:w-[60%] justify-between mx-auto relative">
         <div className="flex items-center gap-1" onClick={clickLanding}>
           <img src={logo} alt="" className="w-6 h-6 hover:scale-125" />
           <h1 className="text-2xl text-black">FirstStep</h1>
@@ -68,7 +68,7 @@ function NavbarLoggedIn() {
         </div>
         {/* Overlay menu */}
         {showMenu && (
-          <div className="lg:hidden absolute top-full flex justify-end bg-white bg-opacity-80 w-full py-2.5 shadow-lg">
+          <div className="lg:hidden absolute top-full  flex justify-end bg-white bg-opacity-80 py-8 w-full shadow-lg">
             <div className="flex flex-col items-center">
               <ul className="flex flex-col lg:flex-row lg:flex-grow lg:justify-end space-y-4 lg:space-y-0 lg:space-x-10">
                 <li className="text-lg md:text-xl font-medium text-black whitespace-nowrap">

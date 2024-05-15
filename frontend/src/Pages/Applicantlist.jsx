@@ -208,7 +208,7 @@ function Applicantlist() {
                           : profileDefault
                       }
                       alt={applicant.name}
-                      className="w-20 h-20 rounded-full mr-4"
+                      className="w-20 h-20 rounded-full mr-4 object-cover"
                     />
                     <div>
                       <h2 className="text-lg font-semibold text-[#444b88]">

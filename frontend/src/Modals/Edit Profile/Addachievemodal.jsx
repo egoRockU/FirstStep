@@ -97,6 +97,7 @@ function Addachievemodal({
               type="text"
               id="typeOfActivity"
               name="typeOfActivity"
+              placeholder="Internship, Training, Extra Curricular, etc."
               value={formData.typeOfActivity}
               onChange={handleChange}
               className="border border-[#444B88] rounded-md px-4 py-2 w-full"
@@ -174,6 +175,7 @@ function Addachievemodal({
               name="description"
               value={formData.description}
               onChange={handleChange}
+              placeholder="Add more information about this activity."
               className="border border-[#444B88] rounded-md px-4 py-2 w-full"
             />
           </div>

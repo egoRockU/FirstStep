@@ -1,8 +1,5 @@
 import React from "react";
 import Footer from "../Components/Footer";
-import fb from "../images/fb.png";
-import yt from "../images/yt.png";
-import twt from "../images/x.webp";
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import axios from "axios";
@@ -18,7 +15,6 @@ import skillSuggestions from "../suggestions/skills.json";
 import { updateAccountProfileValues } from "../utils/updateAccountProfileValues";
 import { useDispatch } from "react-redux";
 import { updateUser } from "../slices/userSlice";
-import { IoClose } from "react-icons/io5";
 import { toast } from "react-toastify";
 import { uploadBanner, uploadImage } from "../utils/imageUpload";
 import { getDownloadURL } from "firebase/storage";
@@ -36,6 +32,7 @@ import {
   IndustriesCard,
   SkillsCard,
 } from "../Components/Aplicantcardcomponent";
+import { ImSpinner } from "react-icons/im";
 
 function CreateApplicantProfilepage() {
   const dispatch = useDispatch();
@@ -43,6 +40,7 @@ function CreateApplicantProfilepage() {
   //social
   const [isAddSocialModalOpen, setAddSocialModalOpen] = useState(false);
   const [socialLinks, setSocialLinks] = useState([]);
+
   const onSubmitSocialMedia = (formData) => {
     if (!formData.platform || !formData.link) {
       toast.error("Please provide both platform and link");
@@ -220,15 +218,26 @@ function CreateApplicantProfilepage() {
   };
 
   const createProfile = async () => {
+    setLoading(true);
     let profileImageURL = "";
     let bannerImageURL = "";
 
     if (selectedImageFile) {
-      profileImageURL = await uploadImage(selectedImageFile, getDownloadURL);
+      try {
+        profileImageURL = await uploadImage(selectedImageFile, getDownloadURL);
+      } catch (err) {
+        setLoading(false);
+        return;
+      }
     }
 
     if (selectedBannerFile) {
-      bannerImageURL = await uploadBanner(selectedBannerFile, getDownloadURL);
+      try {
+        bannerImageURL = await uploadBanner(selectedBannerFile, getDownloadURL);
+      } catch (err) {
+        setLoading(false);
+        return;
+      }
     }
     setSelectedImage(profileImageURL);
     setSelectedBanner(bannerImageURL);
@@ -261,6 +270,7 @@ function CreateApplicantProfilepage() {
           });
         }
         if (res.data.status == false) {
+          setLoading(false);
           toast.error("Not Inserted");
         }
       })
@@ -270,10 +280,6 @@ function CreateApplicantProfilepage() {
         console.log(err.response.data.errorMessage);
       });
   };
-
-  if (loading) {
-    return <Loader />;
-  }
 
   return (
     <div className="bg-gray-100">
@@ -483,12 +489,21 @@ function CreateApplicantProfilepage() {
                     >
                       Cancel
                     </button>
-                    <button
-                      className="text-lg bg-[#8B95EE] border border-[#444B88] hover:bg-blue-600 px-2"
-                      onClick={createProfile}
-                    >
-                      Save
-                    </button>
+                    {loading ? (
+                      <button
+                        className="text-lg bg-[#8B95EE] border border-[#444B88] hover:bg-blue-600 px-2"
+                        disabled
+                      >
+                        <ImSpinner className="animate-spin mr-2" />
+                      </button>
+                    ) : (
+                      <button
+                        className="text-lg bg-[#8B95EE] border border-[#444B88] hover:bg-blue-600 px-2"
+                        onClick={createProfile}
+                      >
+                        Save
+                      </button>
+                    )}
                   </div>
                 </div>
               </div>

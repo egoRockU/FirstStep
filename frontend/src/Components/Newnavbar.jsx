@@ -95,7 +95,7 @@ function Newnavbar() {
         <div className="w-full lg:hidden">
           <ul className="flex flex-col items-end space-y-4 py-4 px-4">
             <li
-              className="text-lg text-white cursor-pointer"
+              className={`text-lg text-${colors[1]} cursor-pointer`}
               onClick={() => {
                 clickApplicants();
                 setMenuOpen(false);
@@ -104,7 +104,7 @@ function Newnavbar() {
               Find Talents
             </li>
             <li
-              className="text-lg text-white cursor-pointer"
+              className={`text-lg text-${colors[1]} cursor-pointer`}
               onClick={() => {
                 clickPortfolio();
                 setMenuOpen(false);
@@ -113,7 +113,7 @@ function Newnavbar() {
               Portfolio Builder
             </li>
             <li
-              className="text-lg text-white cursor-pointer"
+              className={`text-lg text-${colors[1]} cursor-pointer`}
               onClick={() => {
                 clickResume();
                 setMenuOpen(false);
@@ -122,7 +122,7 @@ function Newnavbar() {
               Resume Builder
             </li>
             <li
-              className="text-lg text-white cursor-pointer"
+              className={`text-lg text-${colors[1]} cursor-pointer`}
               onClick={() => {
                 clickAbout();
                 setMenuOpen(false);

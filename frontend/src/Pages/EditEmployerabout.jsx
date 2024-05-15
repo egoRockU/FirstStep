@@ -167,11 +167,11 @@ function Editemployerabout() {
 
   return (
     <>
+      <NavbarLoggedIn />
       <div className="bg-gray-200">
-        <NavbarLoggedIn />
-        <div className="max-w-screen-2xl mx-auto px-4 w-1/2">
+        <div className="max-w-screen-2xl mx-auto px-4  w-[90%] xl:w-1/2">
           <div className="w-full" style={{ position: "relative" }}>
-            <div>
+            <div className="w-full">
               <input
                 type="file"
                 id="imageInputbanner"
@@ -203,15 +203,41 @@ function Editemployerabout() {
             </div>
           </div>
           <div className="bg-white h-full mb-10 shadow-lg">
-            <div className="flex">
-              <div className="p-5 w-3/4 space-y-5">
+            <div className="flex flex-col lg:flex-row items-center lg:items-start">
+              <div className="flex flex-col justify-center items-center w-full lg:w-1/4">
+                <input
+                  type="file"
+                  id="imageInput"
+                  accept="image/*"
+                  style={{ display: "none" }}
+                  onChange={handleImageChange}
+                />
+                <label htmlFor="imageInput" className="cursor-pointer mt-10">
+                  <img
+                    src={selectedImage || placeholderImage}
+                    alt=""
+                    className="w-40 h-40 rounded-full border-4 border-black  object-cover"
+                  />
+                </label>
+                {!selectedImage && (
+                  <div
+                    onClick={() =>
+                      document.getElementById("imageInput").click()
+                    }
+                    className="inset-0 cursor-pointer"
+                    style={{ zIndex: 1 }}
+                  ></div>
+                )}
+                <div className="w-full h-full mt-5"></div>
+              </div>
+              <div className="p-5 space-y-5 w-full">
                 <div>
-                  <h1 className="text-xl">
+                  <h1 className="text-xl flex lg:flex-col">
                     Edit your Profile{" "}
-                    <span className="text-blue-300 text-lg">Employer</span>
+                    <span className="text-blue-300 ml-5 lg:ml-0 text-lg">Employer</span>
                   </h1>
                 </div>
-                <div className="flex space-x-4">
+                <div className="flex flex-col xl:flex-row xl:space-x-4">
                   <div className="flex flex-col w-full">
                     <h1 className="text-lg">First Name</h1>
                     <input
@@ -244,7 +270,7 @@ function Editemployerabout() {
                     name="name"
                     value={email}
                     id=""
-                    className="text-base border-2 border-[#444B88] p-2"
+                    className="text-sm md:text-lg border-2 border-[#444B88] p-2"
                     required
                     onChange={(e) => setEmail(e.target.value)}
                   />
@@ -304,7 +330,7 @@ function Editemployerabout() {
                     name="name"
                     value={bio}
                     id=""
-                    className="text-base border-2 border-[#444B88] p-2 h-40"
+                    className="text-sm lg:text-lg border-2 border-[#444B88] p-2 h-40"
                     placeholder="Tell me something about yourself.."
                     required
                     onChange={(e) => setBio(e.target.value)}
@@ -317,7 +343,7 @@ function Editemployerabout() {
                     name="name"
                     value={about}
                     id=""
-                    className="text-base border-2 border-[#444B88] p-2 h-40"
+                    className="text-sm lg:text-base border-2 border-[#444B88] p-2 h-40"
                     placeholder="Tell me something about yourself.."
                     required
                     onChange={(e) => setAbout(e.target.value)}
@@ -356,54 +382,28 @@ function Editemployerabout() {
                   <input
                     type="text"
                     value={website}
-                    className="text-base border-2 border-[#444B88] p-2 w-full"
+                    className="text-sm md:text-base border-2 border-[#444B88] p-2 w-full"
                     required
                     onChange={(e) => setWebsite(e.target.value)}
                   />
                 </div>
               </div>
-              <div className="flex flex-col justify-center items-center w-1/4">
-                <input
-                  type="file"
-                  id="imageInput"
-                  accept="image/*"
-                  style={{ display: "none" }}
-                  onChange={handleImageChange}
-                />
-                <label htmlFor="imageInput" className="cursor-pointer mt-10">
-                  <img
-                    src={selectedImage || placeholderImage}
-                    alt=""
-                    className="w-40 h-40 rounded-full border-4 border-black  object-cover"
-                  />
-                </label>
-                {!selectedImage && (
-                  <div
-                    onClick={() =>
-                      document.getElementById("imageInput").click()
-                    }
-                    className="inset-0 cursor-pointer"
-                    style={{ zIndex: 1 }}
-                  ></div>
-                )}
-                <div className="w-full h-full mt-5"></div>
-                <div className="flex justify-around w-full pb-5">
-                  <button
-                    className="text-lg border border-black py-1 px-1 rounded-sm"
-                    onClick={() => {
-                      navigate("/editemployer");
-                    }}
-                  >
-                    Cancel
-                  </button>
-                  <button
-                    className="text-lg bg-[#8B95EE] border border-[#444B88] hover:bg-blue-600 py-1 rounded-sm"
-                    onClick={onSave}
-                  >
-                    Save Changes
-                  </button>
-                </div>
-              </div>
+            </div>
+            <div className="flex gap-5 justify-end px-10 w-full pb-5">
+              <button
+                className="text-md md:text-lg border border-black py-1 px-1 rounded-sm"
+                onClick={() => {
+                  navigate("/editemployer");
+                }}
+              >
+                Cancel
+              </button>
+              <button
+                className="text-md lg:text-lg bg-[#8B95EE] border border-[#444B88] hover:bg-blue-600 py-1 rounded-sm"
+                onClick={onSave}
+              >
+                Save Changes
+              </button>
             </div>
           </div>
         </div>

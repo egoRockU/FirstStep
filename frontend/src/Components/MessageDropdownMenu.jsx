@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import bell from "../images/Envelope.svg";
+import message from "../images/Message.svg";
 import logo from "../images/profile.svg";
 import Messagemodal from "../Modals/Messagemodal";
 import axios from "axios";
@@ -69,7 +69,7 @@ const MessageDropdownMenu = () => {
           aria-expanded={isOpen ? "true" : "false"}
         >
           <img
-            src={bell}
+            src={message}
             alt=""
             className="text-black duration-500 mx-2 cursor-pointer w-8 h-8"
           />

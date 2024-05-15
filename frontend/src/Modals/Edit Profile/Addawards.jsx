@@ -102,6 +102,7 @@ function AddAwards({ onClose, onSubmit, onEdit, formIndex, initialData }) {
               name="description"
               value={formData.description}
               onChange={handleChange}
+              placeholder="Add more information about this award"
               className="border border-[#444B88] rounded-md px-4 py-2 w-full"
             />
           </div>
