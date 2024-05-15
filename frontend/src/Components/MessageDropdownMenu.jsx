@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import bell from "../images/bell.svg";
+import bell from "../images/Envelope.svg";
 import logo from "../images/profile.svg";
 import Messagemodal from "../Modals/Messagemodal";
 import axios from "axios";
