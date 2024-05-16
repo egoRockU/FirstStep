@@ -96,14 +96,14 @@ function Addeduc({ onClose, onSubmit, onEdit, formIndex, initialData }) {
 
   return (
     <div className="fixed inset-0 flex justify-center items-center bg-gray-900 bg-opacity-50">
-      <div className="bg-white p-8 rounded-sm w-1/3 flex flex-col gap-4">
+      <div className="bg-white p-8 rounded-md w-80 md:w-1/3 flex flex-col">
         <div className="flex w-full justify-between">
-          <h2 className="text-xl text-[#444B88]">Add education</h2>
+          <h2 className="text-base md:text-xl font-bold text-[#444B88]">Add education</h2>
           <IoCloseOutline size={25} onClick={handleCancel} />
         </div>
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
-            <label htmlFor="schoolName" className="block text-[#444B88]">
+            <label htmlFor="schoolName" className="block text-[#444B88] text-sm md:text-lg">
               School Name
             </label>
             <input
@@ -114,7 +114,7 @@ function Addeduc({ onClose, onSubmit, onEdit, formIndex, initialData }) {
               onChange={handleSchoolsChange}
               onKeyDown={handleKeyDown}
               required
-              className="border border-[#444B88] rounded-md px-4 py-2 w-full"
+              className="border border-[#444B88] rounded-md px-4 py-2 w-full text-sm md:text-lg"
             />
             <div className="relative pt-1">
               {showSuggestions && (
@@ -143,7 +143,7 @@ function Addeduc({ onClose, onSubmit, onEdit, formIndex, initialData }) {
             </div>
           </div>
           <div className="mb-4">
-            <label htmlFor="degree" className="block text-[#444B88]">
+            <label htmlFor="degree" className="block text-[#444B88] text-sm md:text-lg">
               Degree
             </label>
             <input
@@ -154,11 +154,11 @@ function Addeduc({ onClose, onSubmit, onEdit, formIndex, initialData }) {
               value={formData.degree}
               onChange={handleChange}
               required
-              className="border border-[#444B88] rounded-md px-4 py-2 w-full"
+              className="border border-[#444B88] rounded-md px-4 py-2 w-full text-sm md:text-lg"
             />
           </div>
           <div className="mb-4">
-            <label htmlFor="program" className="block text-[#444B88]">
+            <label htmlFor="program" className="block text-[#444B88] text-sm md:text-lg">
               Program
             </label>
             <input
@@ -169,11 +169,11 @@ function Addeduc({ onClose, onSubmit, onEdit, formIndex, initialData }) {
               value={formData.program}
               onChange={handleChange}
               required
-              className="border border-[#444B88] rounded-md px-4 py-2 w-full"
+              className="border border-[#444B88] rounded-md px-4 py-2 w-full text-sm md:text-lg"
             />
           </div>
           <div className="mb-4">
-            <label htmlFor="startDate" className="block text-[#444B88]">
+            <label htmlFor="startDate" className="block text-[#444B88] text-sm md:text-lg">
               Start Date:
             </label>
             <input
@@ -187,11 +187,11 @@ function Addeduc({ onClose, onSubmit, onEdit, formIndex, initialData }) {
                   : ""
               }
               onChange={handleChange}
-              className="border border-[#444B88] rounded-md px-4 py-2 w-full"
+              className="border border-[#444B88] rounded-md px-4 py-2 w-full text-sm md:text-lg"
             />
           </div>
           <div className="mb-4">
-            <label htmlFor="endDate" className="block text-[#444B88]">
+            <label htmlFor="endDate" className="block text-[#444B88] text-sm md:text-lg ">
               End Date:
             </label>
             <input
@@ -205,11 +205,11 @@ function Addeduc({ onClose, onSubmit, onEdit, formIndex, initialData }) {
                   : ""
               }
               onChange={handleChange}
-              className="border border-[#444B88] rounded-md px-4 py-2 w-full"
+              className="border border-[#444B88] rounded-md px-4 py-2 w-full text-sm md:text-lg"
             />
           </div>
           <div className="mb-4">
-            <label htmlFor="grade" className="block text-[#444B88]">
+            <label htmlFor="grade" className="block text-[#444B88] text-sm md:text-lg">
               Grade:
             </label>
             <input
@@ -219,14 +219,14 @@ function Addeduc({ onClose, onSubmit, onEdit, formIndex, initialData }) {
               value={formData.grade}
               onChange={handleChange}
               required
-              className="border border-[#444B88] rounded-md px-4 py-2 w-full"
+              className="border border-[#444B88] rounded-md px-4 py-2 w-full text-sm md:text-lg"
             />
           </div>
           <div className="flex justify-end mb-4">
             <button
               type="button"
               onClick={handleCancel}
-              className="border border-[#444B88] text-black px-4 py-2 rounded-md mr-2"
+              className="border border-[#444B88] text-black px-4 py-2 rounded-md mr-2 text-sm md:text-lg"
             >
               Cancel
             </button>
@@ -235,7 +235,7 @@ function Addeduc({ onClose, onSubmit, onEdit, formIndex, initialData }) {
               <button
                 type="submit"
                 disabled={submitting}
-                className="bg-[#8B95EE] border border-[#444B88] text-white px-4 py-2 rounded-md flex justify-center items-center gap-2"
+                className="bg-[#8B95EE] border border-[#444B88] text-white px-4 py-2 rounded-md flex justify-center items-center gap-2 text-sm md:text-lg"
               >
                 {submitting ? (
                   <ImSpinner className="animate-spin mr-2" />
