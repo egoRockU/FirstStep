@@ -364,7 +364,7 @@ function editprofile() {
                   Edit
                 </button>
               </div>
-              <div className="w-[90%] mx-auto lg:w-[60%]">
+              <div className="w-[90%] mx-auto lg:w-[60%] pt-4 lg:pt-0">
                 <div className="grid grid-cols-1 gap-4">
                   <div className="rounded-xl">
                     <div className="bg-white p-4 flex flex-col items-center border-2 border-gray-300 rounded-t-lg break-all">

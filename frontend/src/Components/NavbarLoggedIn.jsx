@@ -71,13 +71,13 @@ function NavbarLoggedIn() {
           <div className="lg:hidden absolute top-full  flex justify-end bg-white bg-opacity-80 py-8 w-full shadow-lg">
             <div className="flex flex-col items-center">
               <ul className="flex flex-col lg:flex-row lg:flex-grow lg:justify-end space-y-4 lg:space-y-0 lg:space-x-10">
-                <li className="text-lg md:text-xl font-medium text-black whitespace-nowrap">
+                <li className="text-lg md:text-xl font-medium text-black whitespace-nowrap"onClick={clickResume} >
                   Resume Builder
                 </li>
-                <li className="text-lg md:text-xl font-medium text-black whitespace-nowrap">
+                <li className="text-lg md:text-xl font-medium text-black whitespace-nowrap"onClick={clickPortfolio} >
                   Portfolio Builder
                 </li>
-                <li className="text-lg md:text-xl font-medium text-black whitespace-nowrap">
+                <li className="text-lg md:text-xl font-medium text-black whitespace-nowrap"onClick={clickApplicants} >
                   For Employers
                 </li>
               </ul>

@@ -43,7 +43,7 @@ const SocialCard = ({ socialLinks, onDelete }) => {
 const IndustriesCard = ({ industries, onDelete }) => {
   return (
     <div className="flex flex-col w-full pb-4">
-      <div className="grid grid-cols-2 mx-auto gap-2 items-center">
+      <div className="grid grid-cols-1 mx-auto gap-2 items-center">
         {industries.map((industry, index) => (
           <div key={index} className="flex items-center py-1">
             <div className="flex text-center bg-[#BAD2FF] p-2 rounded-full w-auto">
@@ -64,7 +64,7 @@ const SkillsCard = ({ skills, onDelete }) => {
     <div className="flex flex-col w-full items-center">
       {skills.map((skill, index) => (
         <div key={index} className="flex items-center gap-2 p-1">
-          <p className="text-lg">{skill}</p>
+          <p className="text-base lg:text-lg">{skill}</p>
           <button onClick={() => onDelete(index)}>
             <IoClose size={20} />
           </button>
