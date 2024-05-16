@@ -84,7 +84,7 @@ function NewLanding() {
               )}
               {user && (
                 <button
-                  className="bg-blue-300 py-4 px-32 rounded-full whitespace-nowrap text-white hover:bg-blue-600"
+                  className="bg-blue-300 py-4 px-24 rounded-full whitespace-nowrap text-white hover:bg-blue-600"
                   onClick={editProfile}
                 >
                   Edit your Profile!
@@ -123,7 +123,7 @@ function NewLanding() {
           >
             {!user && (
               <button
-                className="bg-blue-300 py-4 px-32 rounded-full text-white hover:bg-blue-600"
+                className="bg-blue-300 py-4 px-24 lg:px-32 rounded-full text-white hover:bg-blue-600"
                 onClick={clickjoin}
               >
                 Join Today!
@@ -131,7 +131,7 @@ function NewLanding() {
             )}
             {user && (
               <button
-                className="bg-blue-300 py-4 px-32 rounded-full text-white hover:bg-blue-600"
+                className="bg-blue-300 py-4 px-24 lg:px-32 rounded-full text-white hover:bg-blue-600"
                 onClick={editProfile}
               >
                 Edit your Profile!

@@ -11,21 +11,21 @@ function EducationCard({ education, onDelete, onEdit }) {
   return (
     <div className="w-full bg-white hover:bg-[#BAD2FF] border-2 border-[#444B88] flex justify-between items-center">
       <div className="w-full flex flex-col gap-3 p-5" onClick={onEdit}>
-        <div className="flex items-center gap-3 w-full">
-          <p className="text-2xl text-[#444B88] ">{education.schoolName}</p>
+        <div className="flex flex-col lg:flex-row items-start lg:items-center gap-3 w-full">
+          <p className="text-base lg:text-2xl text-[#444B88] ">{education.schoolName}</p>
           <p className="text-sm">
             {convertDate(education.startDate)} -{" "}
             {convertDate(education.endDate)}
           </p>
         </div>
-        <div className="text-xl">
+        <div className="text-base lg:text-xl">
           {education.degree} - {education.program}
         </div>
         <div className="text-sm">{education.fieldOfStudy}</div>
         
       </div>
       <button onClick={handleDeleteClick}>
-        <IoCloseOutline size={50} />
+        <IoCloseOutline size={30} />
       </button>
     </div>
   );
@@ -51,7 +51,7 @@ function ActivitiesCard({ activity, onDelete, onEdit }) {
         </div>
       </div>
       <button onClick={handleDeleteClick}>
-        <IoCloseOutline size={50} />
+        <IoCloseOutline size={30} />
       </button>
     </div>
   );
@@ -66,8 +66,8 @@ function ProjectsCard({ projectsData, onDelete, onEdit }) {
   return (
     <div className="w-full bg-white hover:bg-[#BAD2FF] border-2 border-[#444B88] flex justify-between items-center">
       <div className="w-full flex flex-col gap-3 p-5" onClick={onEdit}>
-        <div className="flex items-center gap-3 w-full">
-          <p className="text-3xl text-[#444B88] font-bold">
+        <div className="flex flex-col lg:flex-row items-start lg:items-center gap-3 w-full">
+          <p className="text-xl lg:text-3xl text-[#444B88] font-bold">
             {projectsData.projectTitle}
           </p>
           <p className="text-sm">
@@ -79,7 +79,7 @@ function ProjectsCard({ projectsData, onDelete, onEdit }) {
         <div className="text-sm italic">{projectsData.technologiesUsed}</div>
       </div>
       <button onClick={handleDeleteClick}>
-        <IoCloseOutline size={50} />
+        <IoCloseOutline size={30} />
       </button>
     </div>
   );
