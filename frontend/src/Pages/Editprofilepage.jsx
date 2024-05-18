@@ -293,11 +293,11 @@ function editprofile() {
         </div>
         <div className="flex mt-[-60px]">
           <div className="container mx-auto">
-            <div className="flex justify-around">
-              <div className="w-[500px] h-full">
+            <div className="flex flex-col lg:flex-row justify-around">
+              <div className="w-[90%] mx-auto lg:w-1/4 h-full">
                 <div className="mx-auto bg-white px-5 py-2 rounded-t-lg">
                   <div className="flex flex-col">
-                    <div className="flex justify-start pl-10">
+                    <div className="flex justify-center lg:justify-start lg:pl-10">
                       <label htmlFor="imageInput" className="cursor-pointer">
                         <img
                           src={selectedImage}
@@ -307,7 +307,7 @@ function editprofile() {
                       </label>
                     </div>
 
-                    <div className="flex flex-col w-full p-5 space-y-2">
+                    <div className="flex flex-col w-full p-5 space-y-2 items-center lg:items-start">
                       <div className="flex">
                         <h1 className="text-2xl text-[#8B95EE]">
                           {fName} {lName}
@@ -364,7 +364,7 @@ function editprofile() {
                   Edit
                 </button>
               </div>
-              <div className="w-[800px]">
+              <div className="w-[90%] mx-auto lg:w-[60%] pt-4 lg:pt-0">
                 <div className="grid grid-cols-1 gap-4">
                   <div className="rounded-xl">
                     <div className="bg-white p-4 flex flex-col items-center border-2 border-gray-300 rounded-t-lg break-all">
@@ -372,7 +372,7 @@ function editprofile() {
                         About
                       </h1>
                       {!about && <p>This user did not write anything yet...</p>}
-                      {about}
+                      <p className="text-sm md:text-lg">{about}</p>
                     </div>
                     <div className="w-full">
                       <button
