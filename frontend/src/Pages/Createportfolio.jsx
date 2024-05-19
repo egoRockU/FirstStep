@@ -309,7 +309,7 @@ function Createportfolio() {
       <div className="bg-gray-200">
         <NavbarLoggedIn />
         <div className="max-w-screen-2xl mx-auto px-4 pt-32 pb-24">
-          <div className="flex flex-col mx-auto w-full xl:w-1/2 bg-white px-4 py-3">
+          <div className="flex flex-col mx-auto w-full lg:2/3 xl:w-1/2 bg-white px-4 py-3">
             <div className="text-center flex flex-col w-full justify-center py-4">
               <h1 className="text-2xl font-bold text-[#444B88]">
                 Portfolio Builder
