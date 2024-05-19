@@ -45,6 +45,8 @@ export default function Applicants() {
   const [data, setData] = useState([]);
   //loading state
   const [loading, setLoading] = useState(true);
+  const [deleteLoading, setDeleteLoading] = useState(false);
+
   // State pagination
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
@@ -109,14 +111,24 @@ export default function Applicants() {
   };
   const handleDelete = () => {
     const deletedRows = data.filter((_, index) => selectedRows.includes(index));
-    deleteApplicants(deletedRows);
-    console.log("Deleted Data:", deletedRows);
-    const updatedData = data.filter(
-      (_, index) => !selectedRows.includes(index)
-    );
-    setData(updatedData);
-    setSelectedRows([]);
+    setDeleteLoading(true);
+    deleteApplicants(deletedRows)
+      .then(() => {
+        console.log("Deleted Data:", deletedRows);
+        const updatedData = data.filter(
+          (_, index) => !selectedRows.includes(index)
+        );
+        setData(updatedData);
+        setSelectedRows([]);
+      })
+      .catch((error) => {
+        console.error("Error deleting data: ", error);
+      })
+      .finally(() => {
+        setDeleteLoading(false);
+      });
   };
+
   const [activeDropdownItem, setActiveDropdownItem] = useState(null);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [activeItem, setActiveItem] = useState(null);
@@ -143,18 +155,16 @@ export default function Applicants() {
       .get("/api/admin/getapplicants")
       .then((res) => {
         setData(res.data);
-        setLoading(false); 
+        setLoading(false);
       })
       .catch((error) => {
         console.error("Error fetching data: ", error);
-        setLoading(false); 
+        setLoading(false);
       });
   };
-
   const deleteApplicants = (selectedRows) => {
     const input = { deletedRows: selectedRows };
-
-    axios
+    return axios
       .post("/api/admin/deleteapplicants", input, {
         headers: { "Content-Type": "application/json" },
       })
@@ -171,7 +181,7 @@ export default function Applicants() {
     <>
       {loading ? (
         <div className="flex justify-center items-center h-full">
-         <ImSpinner className="animate-spin text-blue-500 h-8 w-8" />
+          <ImSpinner className="animate-spin text-blue-500 h-8 w-8" />
         </div>
       ) : activeItem === "View" ? (
         <div className="my-100">
@@ -207,8 +217,13 @@ export default function Applicants() {
                   Are you sure you want to delete this applicant?
                 </AlertDialogDescription>
                 <AlertDialogAction as="button" onClick={handleDelete}>
-                  Delete
+                  {deleteLoading ? (
+                    <ImSpinner className="animate-spin text-blue-500 h-8 w-8" />
+                  ) : (
+                    "Delete"
+                  )}
                 </AlertDialogAction>
+
                 <AlertDialogCancel as="button">Cancel</AlertDialogCancel>
               </AlertDialogContent>
             </AlertDialog>
