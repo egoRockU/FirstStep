@@ -203,8 +203,8 @@ function Editemployerabout() {
             </div>
           </div>
           <div className="bg-white h-full mb-10 shadow-lg">
-            <div className="flex flex-col lg:flex-row items-center lg:items-start">
-              <div className="flex flex-col justify-center items-center w-full lg:w-1/4">
+            <div className="flex flex-col lg:flex-row-reverse lg:pr-4 items-center lg:items-start">
+              <div className="flex flex-col justify-center items-center w-full lg:w-1/3">
                 <input
                   type="file"
                   id="imageInput"

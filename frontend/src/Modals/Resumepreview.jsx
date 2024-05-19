@@ -37,15 +37,15 @@ function Resumepreview({ title, image, onClose, resumeInfo, templateId }) {
 
   return (
     <div className="bg-gray-400 bg-opacity-40 h-screen w-full items-self-center">
-      <div className="max-w-screen-2xl mx-auto pt-10 pb-10 h-full flex items-center">
-        <div className="bg-white flex flex-col w-1/2 mx-auto">
+      <div className="h-full mx-auto lg:pt-10 lg:h-full flex items-center">
+        <div className="bg-white flex flex-col w-[80%] lg:h-auto lg:w-1/2 mx-auto">
           <div className="flex flex-col">
             <div className="flex justify-between py-2 px-4 border border-gray-400">
               <h1 className="text-lg font-bold text-[#444b88]">{title}</h1>
               <IoClose size={25} onClick={handleClose} />
             </div>
             <div className="flex flex-col w-full bg-white border border-gray-400">
-              <div className="w-full h-[40rem]">
+              <div className="lg:w-full lg:h-[40rem]">
                 <img
                   src={image}
                   alt=""

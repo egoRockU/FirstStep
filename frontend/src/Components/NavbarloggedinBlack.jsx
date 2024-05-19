@@ -57,7 +57,7 @@ function NavbarloggedinBlack() {
         transition: "background-color 0.3s ease-in-out",
       }}
     >
-      <div className="flex w-full lg:w-[80%] justify-between mx-auto relative">
+      <div className="flex w-[90%] xl:w-[60%] justify-between mx-auto relative">
         <div className="flex items-center gap-1 cursor-pointer" onClick={clickLanding}>
           <img src={logo} alt="logo" className="w-6 h-6 hover:scale-125" />
           <h1 className="text-2xl text-white">FirstStep</h1>

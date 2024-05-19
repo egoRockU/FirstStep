@@ -32,12 +32,6 @@ function Newregister() {
     setInputs({ email: email, password: password });
   }, [email, password]);
 
-  const bgStyle = {
-    background: `url(${bg}) center/cover no-repeat`,
-    height: "100vh",
-    fontFamily: "Montserrat, sans-serif",
-  };
-
   const handleRegister = (e) => {
     e.preventDefault();
 
@@ -199,148 +193,151 @@ function Newregister() {
   };
 
   return (
-    <div style={bgStyle} className="flex flex-col">
-      <div>
-        <Newnavbar />
-      </div>
-      <div className="w-full h-full flex justify-center items-center">
-        <div className="py-5 w-[65%] mx-auto bg-white opacity-80 flex">
-          <div className="w-1/2">
-            <div className="w-full flex justify-center items-center h-full">
-              <img src={newlogo} alt="" className="w-[5%]" />
-              <h1 className="text-3xl">FirstStep</h1>
+    <>
+      <Newnavbar />
+      <div className="relative flex flex-col w-screen h-screen top-10 md:top-0">
+        <img
+          src={bg}
+          alt=""
+          className="absolute inset-0 w-full h-full object-cover"
+        />
+        <div className="absolute inset-0 w-full h-full flex justify-center items-center">
+          <div className="lg:py-5 w-full xl:w-[60%] h-auto mx-auto bg-white opacity-80 flex flex-col lg:flex-row pt-10">
+            <div className="w-full lg:w-1/2 mx-auto">
+              <div className="w-full flex justify-center items-center h-full ">
+                <img src={newlogo} alt="" className="w-[5%]" />
+                <h1 className="text-2xl lg:text-3xl">FirstStep</h1>
+              </div>
             </div>
-          </div>
-          <div className="w-1/2">
-            <div className="w-full h-full flex flex-col items-center justify-center">
-              <h1 className="text-3xl">Register</h1>
-              <form className="w-full mb-4">
-                <div className="flex flex-col w-full h-1/2 mt-5 space-y-6 items-center ">
-                  <input
-                    style={{
-                      backgroundColor: "#E5E8FF",
-                      fontFamily: "Montserrat, sans-serif",
-                      border: "2px solid #4B0082",
-                    }}
-                    type="email"
-                    placeholder="Email"
-                    className="w-1/2 p-2 border rounded-md custom-input placeholder-black font-base"
-                    onChange={(e) => setEmail(e.target.value)}
-                  />
-                  <input
-                    style={{
-                      backgroundColor: "#E5E8FF",
-                      fontFamily: "Montserrat, sans-serif",
-                      border: "2px solid #4B0082",
-                    }}
-                    type="email"
-                    placeholder="Confirm Email"
-                    className="w-1/2 p-2 border rounded-md custom-input font-base placeholder-black"
-                    onChange={(e) => setConfirmEmail(e.target.value)}
-                  />
-                  <input
-                    style={{
-                      backgroundColor: "#E5E8FF",
-                      fontFamily: "Montserrat, sans-serif",
-                      border: "2px solid #4B0082",
-                    }}
-                    type="password"
-                    placeholder="Password"
-                    className="w-1/2 p-2 mb-4 border rounded-md custom-input font-base placeholder-black"
-                    onChange={(e) => setPassword(e.target.value)}
-                  />
-                  <input
-                    style={{
-                      backgroundColor: "#E5E8FF",
-                      fontFamily: "Montserrat, sans-serif",
-                      border: "2px solid #4B0082",
-                    }}
-                    type="password"
-                    placeholder="Confirm Password"
-                    className="w-1/2 p-2 border rounded-md custom-input font-base placeholder-black"
-                    onChange={(e) => setConfirmPassword(e.target.value)}
-                  />
-                  <div className="form-group flex flex-col gap-2">
-                    <label>
-                      <span onClick={handleTermsOpen}>
-                        <input
-                          type="checkbox"
-                          onChange={handleTermsCheckboxChange}
-                          checked={agreeTerms}
-                        />{" "}
-                        I agree to the{" "}
-                        <span className="text-blue-400 cursor-pointer">
-                          Terms and Conditions
-                        </span>
-                      </span>
-                    </label>
-                    <label>
-                      <span onClick={handlePolicyOpen}>
-                        <input
-                          type="checkbox"
-                          onChange={handlePolicyCheckboxChange}
-                          checked={agreeToPrivacyPolicy}
-                        />{" "}
-                        {""}I agree to{" "}
-                        <span className="text-blue-400 cursor-pointer">
-                          Privacy Policy
-                        </span>
-                      </span>
-                    </label>
-                  </div>
-                  <button
-                    type="submit"
-                    className=" bg-indigo-400 w-1/2 p-2 rounded-full text-black"
-                    onClick={handleRegister}
-                  >
-                    Register
-                  </button>
-                  {error && (
-                    <p className="text-[#FF0000] bg-[#FFB1B1] p-2 px-10 rounded-lg">
-                      {error}
-                    </p>
-                  )}
-                  {isLoading && <Loader />} {/* Show loader while loading */}
-                  <div className="flex justify-between gap-3 items-center">
-                    <div className="h-[1px] bg-black w-48"></div>
-                    <h1 className="text-lg">OR</h1>
-                    <div className="h-[1px] bg-black w-48"></div>
-                  </div>
-                  <GoogleOAuthProvider clientId={googleClientId}>
-                    <GoogleLogin
-                      onSuccess={handleGoogleRegister}
-                      type="buttton"
-                      size="large"
-                      text="signup_with"
-                      shape="pill"
-                      logo_alignment="center"
+            <div className="w-full lg:w-2/3">
+              <div className="w-full h-full flex flex-col gap-2 items-center justify-center">
+                <h1 className="text-2xl lg:text-3xl">Register</h1>
+                <form className="w-full">
+                  <div className="flex flex-col gap-3 lg:gap-5 w-full pt-3 items-center ">
+                    <input
+                      style={{
+                        backgroundColor: "#E5E8FF",
+                        fontFamily: "Montserrat, sans-serif",
+                        border: "2px solid #4B0082",
+                      }}
+                      type="email"
+                      placeholder="Email"
+                      className="w-[80%] lg:w-1/2 p-2 border rounded-md custom-input placeholder-black font-base"
+                      onChange={(e) => setEmail(e.target.value)}
                     />
-                  </GoogleOAuthProvider>
-                  <h1 className=" cursor-pointer">
-                    Already have an Account? Login{" "}
-                    <span className="text-blue-400" onClick={clickLogin}>
-                      Here.
-                    </span>
-                  </h1>
-                </div>
-              </form>
+                    <input
+                      style={{
+                        backgroundColor: "#E5E8FF",
+                        fontFamily: "Montserrat, sans-serif",
+                        border: "2px solid #4B0082",
+                      }}
+                      type="email"
+                      placeholder="Confirm Email"
+                      className="w-[80%] lg:w-1/2 p-2 border rounded-md custom-input font-base placeholder-black"
+                      onChange={(e) => setConfirmEmail(e.target.value)}
+                    />
+                    <input
+                      style={{
+                        backgroundColor: "#E5E8FF",
+                        fontFamily: "Montserrat, sans-serif",
+                        border: "2px solid #4B0082",
+                      }}
+                      type="password"
+                      placeholder="Password"
+                      className="w-[80%] lg:w-1/2 p-2  border rounded-md custom-input font-base placeholder-black"
+                      onChange={(e) => setPassword(e.target.value)}
+                    />
+                    <input
+                      style={{
+                        backgroundColor: "#E5E8FF",
+                        fontFamily: "Montserrat, sans-serif",
+                        border: "2px solid #4B0082",
+                      }}
+                      type="password"
+                      placeholder="Confirm Password"
+                      className="w-[80%] lg:w-1/2 p-2 border rounded-md custom-input font-base placeholder-black"
+                      onChange={(e) => setConfirmPassword(e.target.value)}
+                    />
+                    <div className="form-group flex flex-col gap-2">
+                      <label>
+                        <span onClick={handleTermsOpen}>
+                          <input
+                            type="checkbox"
+                            onChange={handleTermsCheckboxChange}
+                            checked={agreeTerms}
+                          />{" "}
+                          I agree to the{" "}
+                          <span className="text-blue-400 cursor-pointer">
+                            Terms and Conditions
+                          </span>
+                        </span>
+                      </label>
+                      <label>
+                        <span onClick={handlePolicyOpen}>
+                          <input
+                            type="checkbox"
+                            onChange={handlePolicyCheckboxChange}
+                            checked={agreeToPrivacyPolicy}
+                          />{" "}
+                          {""}I agree to{" "}
+                          <span className="text-blue-400 cursor-pointer">
+                            Privacy Policy
+                          </span>
+                        </span>
+                      </label>
+                    </div>
+                    <button
+                      type="submit"
+                      className=" bg-indigo-400 w-1/2 p-2 rounded-full text-black"
+                      onClick={handleRegister}
+                    >
+                      Register
+                    </button>
+                    {error && (
+                      <p className="text-[#FF0000] bg-[#FFB1B1] p-2 px-10 rounded-lg">
+                        {error}
+                      </p>
+                    )}
+                    {isLoading && <Loader />} {/* Show loader while loading */}
+                    <div className="flex justify-between gap-3 items-center">
+                      <h1 className="text-lg">OR</h1>
+                    </div>
+                    <GoogleOAuthProvider clientId={googleClientId}>
+                      <GoogleLogin
+                        onSuccess={handleGoogleRegister}
+                        type="buttton"
+                        size="large"
+                        text="signup_with"
+                        shape="pill"
+                        logo_alignment="center"
+                      />
+                    </GoogleOAuthProvider>
+                    <h1 className=" cursor-pointer pb-4">
+                      Already have an Account? Login{" "}
+                      <span className="text-blue-400" onClick={clickLogin}>
+                        Here.
+                      </span>
+                    </h1>
+                  </div>
+                </form>
+              </div>
             </div>
           </div>
         </div>
+        <Terms
+          isOpen={isTermsOpen}
+          onClose={handleTermsClose}
+          onAccept={handleAcceptTerms}
+          onDecline={handleDeclineTerms}
+        />
+        <Privacyandpolicy
+          isOpen={isPolicyOpen}
+          onClose={handlePolicyClose}
+          onAccept={handleAcceptPolicy}
+          onDecline={handleDeclinePolicy}
+        />
       </div>
-      <Terms
-        isOpen={isTermsOpen}
-        onClose={handleTermsClose}
-        onAccept={handleAcceptTerms}
-        onDecline={handleDeclineTerms}
-      />
-      <Privacyandpolicy
-        isOpen={isPolicyOpen}
-        onClose={handlePolicyClose}
-        onAccept={handleAcceptPolicy}
-        onDecline={handleDeclinePolicy}
-      />
-    </div>
+    </>
   );
 }
 

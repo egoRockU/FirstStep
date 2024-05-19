@@ -10,11 +10,11 @@ function Aboutus() {
     <>
       {user ? <NavbarLoggedIn /> : <Navbar />}
       <div className="pt-20 w-full pb-20">
-        <div className="w-[80%] mx-auto pt-16">
+        <div className="w-full lg:w-[80%] mx-auto pt-16">
           <div className="text-center w-full">
             <p className="text-2xl font-bold text-[#444b88]">About us</p>
           </div>
-          <div className="w-[60%] mx-auto pt-20 flex flex-col gap-4">
+          <div className="w-[90%] lg:w-[60%] mx-auto pt-20 flex flex-col gap-4">
             <p className="text-xl text-[#444b88]">What is FirstStep?</p>
             <p>
               FirstStep is an online profile and portfolio building system for
@@ -29,7 +29,7 @@ function Aboutus() {
               related field.
             </p>
           </div>
-          <div className="w-[60%] mx-auto pt-20 flex flex-col gap-4">
+          <div className="w-[90%] lg:w-[60%] mx-auto pt-20 flex flex-col gap-4">
             <p className="text-xl text-[#444b88]">Who are we?</p>
             <div className="flex flex-col gap-8 items-center">
               <div className="text-center">

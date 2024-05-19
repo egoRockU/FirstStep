@@ -265,7 +265,7 @@ function CreateApplicantProfilepage() {
     <div className="bg-gray-100">
       <NavbarLoggedIn />
       <div className="max-w-screen-2xl mx-auto">
-        <div className="flex container mx-auto space-x-4 w-full lg:w-1/2">
+        <div className="flex container mx-auto space-x-4 w-[80%] xl:w-1/2">
           <div className="h-full w-full">
             <div className="w-full" style={{ position: "relative" }}>
               <div>
@@ -302,7 +302,7 @@ function CreateApplicantProfilepage() {
 
             <div className="bg-white h-full mb-10 shadow-lg">
               <div className="flex flex-col lg:flex-row">
-                <div className="flex flex-col justify-center items-center w-full lg:w-1/4 lg:pl-2">
+                <div className="flex flex-col justify-center items-center w-full xl:w-1/4 lg:pl-2">
                   <input
                     type="file"
                     id="imageInput"
@@ -355,7 +355,7 @@ function CreateApplicantProfilepage() {
                     </div>
                   </div>
                 </div>
-                <div className="p-5 w-full lg:w-3/4 space-y-5">
+                <div className="p-5 w-full xl:w-3/4 space-y-5">
                   <div> 
                     <h1 className="text-xl">
                       Edit your Profile{" "}

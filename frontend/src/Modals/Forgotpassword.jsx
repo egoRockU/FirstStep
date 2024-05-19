@@ -42,7 +42,7 @@ function Forgotpassword({ onClose, errorMessage }) {
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-60 z-50">
       <div className="flex flex-col justify-center items-center w-full h-full ">
-        <div className="w-1/4 bg-white shadow-lg">
+        <div className="w-[90%] mx-auto lg:w-[45%] xl:w-1/3 bg-white shadow-lg">
           <div className="flex flex-col items-start justify-start h-1/4 px-4 py-4 gap-4">
             <div className="flex flex-col justify-between w-full">
               <div className="flex justify-between w-full">

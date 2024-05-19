@@ -67,7 +67,7 @@ function Addachievemodal({
 
   return (
     <div className="fixed inset-0 flex justify-center items-center bg-gray-900 bg-opacity-50">
-      <div className="bg-white p-8 overflow-y-scroll shadow-lg rounded-md w-80 md:w-1/3">
+      <div className="bg-white p-8 overflow-y-scroll shadow-lg rounded-md w-80 lg:w-1/3 mt-20">
         <div className="w-full flex justify-between">
           <h2 className="text-base md:text-xl font-bold text-[#444B88]">
             Add Activities and Involvements
@@ -179,7 +179,7 @@ function Addachievemodal({
               className="border border-[#444B88] rounded-md px-4 py-2 w-full text-sm md:text-lg"
             />
           </div>
-          <div className="flex justify-end mb-4">
+          <div className="flex justify-end ">
             <button
               type="button"
               onClick={handleCancel}

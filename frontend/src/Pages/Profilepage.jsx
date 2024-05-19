@@ -135,13 +135,13 @@ function Profile() {
             className="w-full h-80 object-cover rounded-xl"
           />
         </div>
-        <div className="flex mt-[-60px]">
+        <div className="flex  mt-[-60px]">
           <div className="container mx-auto">
-            <div className="flex justify-around">
-              <div className="w-[500px] h-full">
+            <div className="flex flex-col lg:flex-row justify-around">
+              <div className="w-[90%] mx-auto lg:w-[30%] h-full">
                 <div className="mx-auto bg-white px-5 py-2 rounded-lg">
                   <div className="flex flex-col">
-                    <div className="flex justify-around">
+                    <div className="flex flex-col lg:flex-row items-center space-y-4 lg:space-y-0 lg:justify-around">
                       <label htmlFor="imageInput" className="">
                         <img
                           src={profileImg ? profileImg : profileDefault}
@@ -151,14 +151,14 @@ function Profile() {
                       </label>
                       <div className="flex justify-center items-center">
                         <button
-                          className="p-1 px-4 rounded-2xl border border-[#444B88] bg-[#8B95EE]"
+                          className="p-1 px-2 lg:px-4 rounded-2xl border border-[#444B88] bg-[#8B95EE]"
                           onClick={message}
                         >
                           Message
                         </button>
                       </div>
                     </div>
-                    <div className="flex flex-col w-full p-5 space-y-2">
+                    <div className="flex flex-col w-full p-5 space-y-2 items-center lg:items-start">
                       <div className="flex">
                         <h1 className="text-2xl text-[#8B95EE]">
                           {`${fName} ${lName}`}
@@ -172,7 +172,7 @@ function Profile() {
                       <div className="break-all">{bio}</div>
                       <div>
                         {socialLinks.map((social, index) => (
-                          <div className="flex items-center gap-1" key={index}>
+                          <div className="flex items-center gap-1 break-all" key={index}>
                             <SocialIcon platform={social.platform} />
                             <p>{social.link}</p>
                           </div>
@@ -208,10 +208,10 @@ function Profile() {
                   </div>
                 </div>
               </div>
-              <div className="w-[800px]">
+              <div className="w-[90%] lg:w-[60%] mx-auto pt-5 lg:pt-0">
                 <div className="grid grid-cols-1 gap-4">
                   <div className="bg-white p-4 rounded-xl flex flex-col items-center border-2 border-gray-300 break-all">
-                    <h1 className="text-[#444B88] font-base text-xl">About</h1>
+                    <h1 className="text-[#444B88] font-base text-sm lg:text-lg">About</h1>
                     {!about && <p>This user did not write anything yet...</p>}
                     {about}
                   </div>

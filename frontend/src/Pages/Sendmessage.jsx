@@ -120,8 +120,8 @@ function Sendmessage() {
               Send Message
             </h1>
           </div>
-          <div className="border border-[#444b88] w-3/5 mx-auto">
-            <div className="flex flex-col px-10 py-6 ">
+          <div className="border border-[#444b88] w-[90%] lg:w-3/5 mx-auto">
+            <div className="flex flex-col px-4 lg:px-10 py-6 ">
               <div className="flex flex-col text-[#444b88]">
                 <h1 className="flex text-xl gap-2">
                   To:{" "}
