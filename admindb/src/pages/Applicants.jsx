@@ -39,11 +39,12 @@ import Viewuser from "./Viewuser";
 import { Button } from "../components/ui/button";
 import axios from "axios";
 import { Link } from "react-router-dom";
-
+import { ImSpinner } from "react-icons/im";
 export default function Applicants() {
   const mainAppDomain = import.meta.env.VITE_MAIN_CLIENT_DOMAIN;
   const [data, setData] = useState([]);
-
+  //loading state
+  const [loading, setLoading] = useState(true);
   // State pagination
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
@@ -138,9 +139,16 @@ export default function Applicants() {
   const currentPageData = filteredData.slice(startIndex, endIndex);
 
   const getApplicants = () => {
-    axios.get("/api/admin/getapplicants").then((res) => {
-      setData(res.data);
-    });
+    axios
+      .get("/api/admin/getapplicants")
+      .then((res) => {
+        setData(res.data);
+        setLoading(false); 
+      })
+      .catch((error) => {
+        console.error("Error fetching data: ", error);
+        setLoading(false); 
+      });
   };
 
   const deleteApplicants = (selectedRows) => {
@@ -161,7 +169,11 @@ export default function Applicants() {
 
   return (
     <>
-      {activeItem === "View" ? (
+      {loading ? (
+        <div className="flex justify-center items-center h-full">
+         <ImSpinner className="animate-spin text-blue-500 h-8 w-8" />
+        </div>
+      ) : activeItem === "View" ? (
         <div className="my-100">
           {activeDropdownItem}
           <div className="mt-5 ml-5">
