@@ -38,10 +38,15 @@ import {
 import Viewemployee from "./Viewemployee";
 import { Button } from "../components/ui/button";
 import axios from "axios";
+import { ImSpinner } from "react-icons/im";
 
 export default function Employers() {
   const mainAppDomain = import.meta.env.VITE_MAIN_CLIENT_DOMAIN;
   const [data, setData] = useState([]);
+
+  //loading state
+  const [loading, setLoading] = useState(true);
+  const [deleteLoading, setDeleteLoading] = useState(false);
 
   // State pagination
   const [currentPage, setCurrentPage] = useState(1);
@@ -107,13 +112,22 @@ export default function Employers() {
   };
   const handleDelete = () => {
     const deletedRows = data.filter((_, index) => selectedRows.includes(index));
-    deleteEmployers(deletedRows);
-    console.log("Deleted Data:", deletedRows);
-    const updatedData = data.filter(
-      (_, index) => !selectedRows.includes(index)
-    );
-    setData(updatedData);
-    setSelectedRows([]);
+    setDeleteLoading(true);
+    deleteEmployers(deletedRows)
+      .then(() => {
+        console.log("Deleted Data:", deletedRows);
+        const updatedData = data.filter(
+          (_, index) => !selectedRows.includes(index)
+        );
+        setData(updatedData);
+        setSelectedRows([]);
+      })
+      .catch((error) => {
+        console.error("Error deleting data: ", error);
+      })
+      .finally(() => {
+        setDeleteLoading(false);
+      });
   };
   const [activeDropdownItem, setActiveDropdownItem] = useState(null);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -137,15 +151,22 @@ export default function Employers() {
   const currentPageData = filteredData.slice(startIndex, endIndex);
 
   const getEmployers = () => {
-    axios.get("/api/admin/getEmployers").then((res) => {
-      setData(res.data);
-    });
+    axios
+      .get("/api/admin/getEmployers")
+      .then((res) => {
+        setData(res.data);
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.error("Error fetching data: ", error);
+        setLoading(false);
+      });
   };
 
   const deleteEmployers = (selectedRows) => {
     const input = { deletedRows: selectedRows };
 
-    axios
+    return axios
       .post("/api/admin/deleteemployers", input, {
         headers: { "Content-Type": "application/json" },
       })
@@ -160,7 +181,11 @@ export default function Employers() {
 
   return (
     <>
-      {activeItem === "Viewemployee" ? (
+      {loading ? (
+        <div className="flex justify-center items-center h-full">
+          <ImSpinner className="animate-spin text-blue-500 h-8 w-8" />
+        </div>
+      ) : activeItem === "Viewemployee" ? (
         <div className="my-100">
           {activeDropdownItem}
           <div className="mt-5 ml-5">
@@ -196,7 +221,11 @@ export default function Employers() {
                   {/* Changed text */}
                 </AlertDialogDescription>
                 <AlertDialogAction as="button" onClick={handleDelete}>
-                  Delete
+                {deleteLoading ? (
+                    <ImSpinner className="animate-spin text-blue-500 h-8 w-8" />
+                  ) : (
+                    "Delete"
+                  )}
                 </AlertDialogAction>
                 <AlertDialogCancel as="button">Cancel</AlertDialogCancel>
               </AlertDialogContent>
