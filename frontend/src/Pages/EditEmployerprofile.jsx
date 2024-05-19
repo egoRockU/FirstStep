@@ -80,10 +80,10 @@ function Editemployerprofilepage() {
         <div className="flex mt-[-60px]">
           <div className="container mx-auto">
             <div className="flex flex-col lg:flex-row justify-around gap-3 items-center">
-              <div className="w-full lg:w-1/2 h-full">
+              <div className="w-full lg:w-[40%] xl:w-[30%] h-full">
                 <div className="mx-auto bg-white px-5 py-2 rounded-t-lg">
                   <div className="flex flex-col">
-                    <div className="flex justify-center lg:justify-start pl-5">
+                    <div className="flex justify-center xl:justify-start pl-5">
                       <label htmlFor="imageInput" className="cursor-pointer">
                         <img
                           src={selectedImage || placeholderImage.profile}
@@ -93,8 +93,8 @@ function Editemployerprofilepage() {
                       </label>
                     </div>
                     <div className="flex flex-col w-full p-5 space-y-2">
-                      <div className="flex flex-col lg:flex-row items-center gap-2">
-                        <h1 className="text-xl lg:text-2xl text-[#8B95EE]">
+                      <div className="flex flex-col xl:flex-row items-center gap-2">
+                        <h1 className="text-xl xl:text-2xl text-[#8B95EE]">
                           {fName} {lName}
                         </h1>
                         {companyName && (
@@ -120,7 +120,7 @@ function Editemployerprofilepage() {
                   Edit
                 </button>
               </div>
-              <div className="w-full lg:w-1/2">
+              <div className="w-full lg:w-[55%]">
                 <div className="grid grid-cols-1 gap-4">
                   <div className="bg-white p-4 rounded-xl flex flex-col items-center gap-2 border-2 border-gray-300">
                     <h1 className="text-[#444B88] font-base text-sm md:text-xl">About</h1>

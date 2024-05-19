@@ -65,7 +65,7 @@ function Chooseportfolio() {
                   Pick a template you want to use
                 </p>
               </div>
-              <div className="grid grid-cols-2 gap-4 text-center w-2/3 mx-auto pt-10">
+              <div className="flex flex-col lg:grid lg:grid-cols-2 gap-4 text-center w-[90%] lg:w-2/3 mx-auto pt-10">
                 {resumeTemplates.map((template, index) => (
                   <div
                     key={index}

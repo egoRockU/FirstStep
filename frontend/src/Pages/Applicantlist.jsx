@@ -183,7 +183,7 @@ function Applicantlist() {
               </div>
             </div>
           </div>
-          <div className="flex flex-col gap-4 pt-12">
+          <div className="flex flex-col gap-4 pt-5 pl-4 lg:pl-0 lg:pt-12">
             <div>
               <button
                 onClick={handleSort}

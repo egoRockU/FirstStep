@@ -44,7 +44,7 @@ function Portfoliopreview({
   return (
     <div className="bg-gray-400 bg-opacity-40 h-[100vh] flex flex-col justify-center">
       <div className="max-w-screen-2xl mx-auto pt-10 pb-10 ">
-        <div className="bg-white flex flex-col w-1/2 mx-auto">
+        <div className="bg-white flex flex-col w-[90%] lg:w-1/2 mx-auto">
           <div className="flex flex-col">
             <div className="flex justify-between py-2 px-4 border border-gray-400">
               <h1 className="text-lg font-bold text-[#444b88]">{title}</h1>

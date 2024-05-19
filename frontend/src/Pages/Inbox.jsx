@@ -76,7 +76,7 @@ function Inbox() {
       <NavbarLoggedIn />
       {loading ? <Loader /> : <></>}
       <div className="flex flex-col pt-20 w-full min-h-screen">
-        <div className="flex flex-col gap-2 w-3/5 mx-auto pt-16">
+        <div className="flex flex-col gap-2 w-[90%] lg:w-3/5 mx-auto pt-16">
           <div className="pb-5">
             <h1 className="text-2xl font-bold text-[#444b88]">Inbox</h1>
           </div>
