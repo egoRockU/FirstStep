@@ -193,7 +193,7 @@ function Applicantlist() {
                 Sort
               </button>
             </div>
-            <div className="flex flex-col gap-7">
+            <div className="flex flex-col gap-7 w-[90%] mx-auto lg:w-full">
               {applicants.length > 0 ? (
                 currentApplicants.map((applicant) => (
                   <div
@@ -211,10 +211,10 @@ function Applicantlist() {
                       className="w-20 h-20 rounded-full mr-4 object-cover"
                     />
                     <div>
-                      <h2 className="text-lg font-semibold text-[#444b88]">
+                      <h2 className="text-md lg:text-lg font-semibold text-[#444b88]">
                         {`${applicant.firstName} ${applicant.lastName}`}
                       </h2>
-                      <p className="text-sm text-black">{applicant.email}</p>
+                      <p className="text-sm text-black break-all">{applicant.email}</p>
                       <p className="text-sm text-gray-600">
                         {applicant.address}
                       </p>
