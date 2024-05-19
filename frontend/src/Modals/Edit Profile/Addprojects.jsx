@@ -148,15 +148,15 @@ function Addprojects({ onClose, onSubmit, onEdit, formIndex, initialData }) {
   };
   return (
     <div className="fixed inset-0 flex justify-center items-center bg-gray-900 bg-opacity-50 py-5">
-      <div className="bg-white w-2/5 h-[85%] p-4 overflow-y-scroll shadow-lg rounded-md">
+      <div className="bg-white h-[85%] p-4 overflow-y-scroll shadow-lg rounded-md w-80 md:w-1/3 flex flex-col">
         <div className="flex w-full justify-between">
-          <h1 className="text-lg text-black">Add Projects</h1>
+          <h1 className="text-base md:text-xl font-bold text-black">Add Projects</h1>
           <IoMdClose size={25} onClick={handleCancel} />
         </div>
         <form onSubmit={handleSubmit}>
           <div className="mt-4 px-3">
             <div className="flex items-center">
-              <h1 className="mr-2">Preview Images:</h1>
+              <h1 className="mr-2 text-sm md:text-lg">Preview Images:</h1>
               <p>{imagePreviews.length}/5</p>
             </div>
             <div className="grid grid-cols-3 gap-12">
@@ -202,42 +202,42 @@ function Addprojects({ onClose, onSubmit, onEdit, formIndex, initialData }) {
             </div>
             <div className="flex flex-col mt-3 gap-y-5">
               <div>
-                <h1 className="text-lg text-[#444B88]">Project Title</h1>
+                <h1 className="text-[#444B88] text-sm md:text-lg">Project Title</h1>
                 <input
                   type="text"
                   name="projectTitle"
                   value={formData.projectTitle}
                   onChange={handleChange}
-                  className="w-full border border-[#444B88] py-2 px-2 rounded-md"
+                  className="w-full border border-[#444B88] py-2 px-2 rounded-md text-sm md:text-lg"
                   required
                 />
               </div>
               <div>
-                <h1 className="text-lg text-[#444B88]">Subtitle</h1>
+                <h1 className="text-sm md:text-lg text-[#444B88]">Subtitle</h1>
                 <input
                   type="text"
                   name="subTitle"
                   value={formData.subTitle}
                   onChange={handleChange}
-                  className="w-full border border-[#444B88] py-2 px-2 rounded-md"
+                  className="w-full border border-[#444B88] py-2 px-2 rounded-md text-sm md:text-lg"
                   required
                 />
               </div>
               <div>
-                <h1 className="text-lg text-[#444B88]">Technologies Used</h1>
+                <h1 className="text-sm md:text-lg text-[#444B88]">Technologies Used</h1>
                 <input
                   type="text"
                   name="technologiesUsed"
                   value={formData.technologiesUsed}
                   placeholder="Write down the tools you used in creating this project."
                   onChange={handleChange}
-                  className="w-full border border-[#444B88] py-2 px-2 rounded-md"
+                  className="w-full border border-[#444B88] py-2 px-2 rounded-md text-sm md:text-lg"
                   required
                 />
               </div>
               <div className="flex w-full justify-between gap-5">
                 <div className="flex flex-col w-1/2">
-                  <h1 className="text-lg text-[#444B88]">Start Date</h1>
+                  <h1 className="text-sm md:text-lg text-[#444B88]">Start Date</h1>
                   <input
                     type="date"
                     name="startDate"
@@ -249,12 +249,12 @@ function Addprojects({ onClose, onSubmit, onEdit, formIndex, initialData }) {
                         : ""
                     }
                     onChange={handleChange}
-                    className="text-lg  border border-[#444B88] rounded-md px-2 py-2"
+                    className="border border-[#444B88] rounded-md px-2 py-2 text-sm md:text-lg"
                     required
                   />
                 </div>
                 <div className="flex flex-col w-1/2">
-                  <h1 className="text-lg text-[#444B88]">End Date</h1>
+                  <h1 className="text-sm md:text-lg text-[#444B88]">End Date</h1>
                   <input
                     type="date"
                     name="endDate"
@@ -266,13 +266,13 @@ function Addprojects({ onClose, onSubmit, onEdit, formIndex, initialData }) {
                         : ""
                     }
                     onChange={handleChange}
-                    className="text-lg border border-[#444B88] rounded-md px-2 py-2"
+                    className="border border-[#444B88] rounded-md px-2 py-2 text-sm md:text-lg"
                     required
                   />
                 </div>
               </div>
               <div>
-                <h1 className="text-lg text-[#444B88]">Description</h1>
+                <h1 className="text-sm md:text-lg text-[#444B88]">Description</h1>
                 <textarea
                   name="description"
                   id="description"
@@ -280,11 +280,11 @@ function Addprojects({ onClose, onSubmit, onEdit, formIndex, initialData }) {
                   onChange={handleChange}
                   placeholder="Add more information about this project."
                   rows={8}
-                  className="border border-[#444B88] rounded-md px-2 w-full"
+                  className="border border-[#444B88] rounded-md px-2 w-full text-sm md:text-lg"
                 ></textarea>
               </div>
               <div>
-                <h1 className="text-lg text-[#444B88]">
+                <h1 className="text-sm md:text-lg text-[#444B88]">
                   Github Repository Link
                 </h1>
                 <input
@@ -293,17 +293,17 @@ function Addprojects({ onClose, onSubmit, onEdit, formIndex, initialData }) {
                   placeholder="Please include http:// or https:// before the domain."
                   value={formData.githubLink}
                   onChange={handleChange}
-                  className="w-full border border-[#444B88] py-2 px-2 rounded-md"
+                  className="w-full border border-[#444B88] py-2 px-2 rounded-md text-sm md:text-lg"
                 />
               </div>
               <div>
-                <h1 className="text-lg text-[#444B88]">Project Link</h1>
+                <h1 className="text-sm md:text-lg text-[#444B88]">Project Link</h1>
                 <input
                   type="text"
                   name="projectLink"
                   value={formData.projectLink}
                   onChange={handleChange}
-                  className="w-full border border-[#444B88] py-2 px-2 rounded-md"
+                  className="w-full border border-[#444B88] py-2 px-2 rounded-md text-sm md:text-lg"
                   placeholder="Please include http:// or https:// before the domain."
                   required
                 />
@@ -313,14 +313,14 @@ function Addprojects({ onClose, onSubmit, onEdit, formIndex, initialData }) {
           <div className="w-full flex justify-end mt-4 gap-2">
             <button
               onClick={handleCancel}
-              className="border border-[#444B88] px-2 py-1 rounded-md"
+              className="border border-[#444B88] px-2 py-1 rounded-md text-sm md:text-lg"
             >
               Cancel
             </button>
             {!initialData && (
               <button
                 type="submit"
-                className="bg-[#8B95EE] border border-[#444B88] text-black px-4 py-2 rounded-md"
+                className="bg-[#8B95EE] border border-[#444B88] text-black px-4 py-2 rounded-md text-sm md:text-lg"
               >
                 {loading ? (
                   <ImSpinner className="animate-spin mr-2" />
@@ -333,7 +333,7 @@ function Addprojects({ onClose, onSubmit, onEdit, formIndex, initialData }) {
               <button
                 type="button"
                 onClick={handleEdit}
-                className="bg-[#8B95EE] border border-[#444B88] text-black px-4 py-2 rounded-md mr-2"
+                className="bg-[#8B95EE] border border-[#444B88] text-black px-4 py-2 rounded-md mr-2 text-sm md:text-lg"
               >
                 {loading ? (
                   <ImSpinner className="animate-spin mr-2" />
