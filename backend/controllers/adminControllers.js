@@ -94,11 +94,14 @@ export const deleteApplicant = async (req, res) => {
       const { _id, accountType, accountId } = row;
       const applicantProfile = await ApplicantProfile.findById(_id);
 
-      if (applicantProfile.resume.resumeId) {
+      if (applicantProfile.resume && applicantProfile.resume.resumeId) {
         await Resume.findByIdAndDelete(applicantProfile.resume.resumeId);
       }
 
-      if (applicantProfile.portfolio.portfolioId) {
+      if (
+        applicantProfile.portfolio &&
+        applicantProfile.portfolio.portfolioId
+      ) {
         await Portfolio.findByIdAndDelete(
           applicantProfile.portfolio.portfolioId
         );
@@ -119,6 +122,7 @@ export const deleteApplicant = async (req, res) => {
       message: "Successfully Deleted Applicants",
     });
   } catch (err) {
+    console.log(err);
     res.status(500).send({
       status: false,
       message: "Failed to Delete Items",

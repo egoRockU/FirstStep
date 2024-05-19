@@ -285,7 +285,7 @@ function CreateApplicantProfilepage() {
     <div className="bg-gray-100">
       <NavbarLoggedIn />
       <div className="max-w-screen-2xl mx-auto px-4">
-        <div className="flex h-9/12 container mx-auto space-x-4 w-1/2">
+        <div className="flex h-9/12 container mx-auto space-x-4 w-full lg:w-1/2">
           <div className="h-full w-full">
             <div className="w-full" style={{ position: "relative" }}>
               <div>
@@ -321,15 +321,70 @@ function CreateApplicantProfilepage() {
             </div>
 
             <div className="bg-white h-full mb-10 shadow-lg">
-              <div className="flex">
-                <div className="p-5 w-3/4 space-y-5">
+              <div className="flex flex-col lg:flex-row-reverse lg:pr-2">
+                <div className="flex flex-col justify-center items-center w-full lg:w-1/4">
+                  <input
+                    type="file"
+                    id="imageInput"
+                    accept="image/*"
+                    style={{ display: "none" }}
+                    onChange={handleImageChange}
+                  />
+                  <label htmlFor="imageInput" className="cursor-pointer mt-10">
+                    <img
+                      src={selectedImage || placeholderImage}
+                      alt=""
+                      className="w-40 h-40 rounded-full border-4 border-black object-cover"
+                    />
+                  </label>
+                  {!selectedImage && (
+                    <div
+                      onClick={() =>
+                        document.getElementById("imageInput").click()
+                      }
+                      className="inset-0 cursor-pointer"
+                      style={{ zIndex: 1 }}
+                    ></div>
+                  )}
+                  <div className="w-1/2 lg:w-full h-full pt-5 ">
+                    <div className="border-2 border-[#444B88] p-1">
+                      <div className="flex flex-col justify-center items-center w-full gap-1">
+                        <h1 className="text-2xl ">Skills</h1>
+                        <div className="flex flex-col items-center">
+                          {" "}
+                          {/* skill  card*/}
+                          <SkillsCard skills={skills} onDelete={deleteSkill} />
+                        </div>
+
+                        <div className="border-2 py-1 px-5 mt-5 bg-[#8B95EE] border-[#444B88]">
+                          <h1 onClick={openAddSkillModal}>+ Add Skills</h1>
+                        </div>
+
+                        {isAddSkillModalOpen && (
+                          <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
+                            <div className="bg-white p-4 rounded-md">
+                              {/* {add Skills`3} */}
+                              <AddSkill
+                                onClose={closeAddSkillModal}
+                                suggestions={skillSuggestions}
+                                onSubmit={onSubmitSkills}
+                              />
+                            </div>
+                          </div>
+                        )}
+                        <div className="flex flex-wrap"></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div className="p-5 lg:w-3/4 space-y-5 ">
                   <div>
                     <h1 className="text-xl">
                       Initialize your Profile{" "}
                       <span className="text-blue-300 text-lg">Applicant</span>
                     </h1>
                   </div>
-                  <div className="flex space-x-5">
+                  <div className="flex flex-col lg:flex-row lg:space-x-5">
                     <div className="flex-1">
                       {/* Input here */}
                       <FirstNameInput
@@ -377,7 +432,7 @@ function CreateApplicantProfilepage() {
                         />
                       </div>
                       <button
-                        className="p-2 px-5 bg-[#8B95EE] w-1/3"
+                        className="p-2 px-5 bg-[#8B95EE]"
                         onClick={openAddSocialModal}
                       >
                         + Add Social link
@@ -427,62 +482,8 @@ function CreateApplicantProfilepage() {
                     )}
                   </div>
                 </div>
-                <div className="flex flex-col justify-center items-center w-1/4">
-                  <input
-                    type="file"
-                    id="imageInput"
-                    accept="image/*"
-                    style={{ display: "none" }}
-                    onChange={handleImageChange}
-                  />
-                  <label htmlFor="imageInput" className="cursor-pointer mt-10">
-                    <img
-                      src={selectedImage || placeholderImage}
-                      alt=""
-                      className="w-40 h-40 rounded-full border-4 border-black object-cover"
-                    />
-                  </label>
-                  {!selectedImage && (
-                    <div
-                      onClick={() =>
-                        document.getElementById("imageInput").click()
-                      }
-                      className="inset-0 cursor-pointer"
-                      style={{ zIndex: 1 }}
-                    ></div>
-                  )}
-                  <div className="w-full h-full mt-5 ">
-                    <div className="border-2 border-[#444B88] p-1">
-                      <div className="flex flex-col justify-center items-center w-full gap-1">
-                        <h1 className="text-2xl ">Skills</h1>
-                        <div className="flex flex-col items-center">
-                          {" "}
-                          {/* skill  card*/}
-                          <SkillsCard skills={skills} onDelete={deleteSkill} />
-                        </div>
-
-                        <div className="border-2 py-1 px-5 mt-5 bg-[#8B95EE] border-[#444B88]">
-                          <h1 onClick={openAddSkillModal}>+ Add Skills</h1>
-                        </div>
-
-                        {isAddSkillModalOpen && (
-                          <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
-                            <div className="bg-white p-4 rounded-md">
-                              {/* {add Skills`3} */}
-                              <AddSkill
-                                onClose={closeAddSkillModal}
-                                suggestions={skillSuggestions}
-                                onSubmit={onSubmitSkills}
-                              />
-                            </div>
-                          </div>
-                        )}
-                        <div className="flex flex-wrap"></div>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="flex justify-between w-9/12 mb-2">
+              </div>
+              <div className="flex gap-5 w-full justify-end px-4 py-2">
                     <button
                       className="text-lg border border-black px-2"
                       onClick={goback}
@@ -505,8 +506,6 @@ function CreateApplicantProfilepage() {
                       </button>
                     )}
                   </div>
-                </div>
-              </div>
             </div>
           </div>
         </div>

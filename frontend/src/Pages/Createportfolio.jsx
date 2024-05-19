@@ -309,7 +309,7 @@ function Createportfolio() {
       <div className="bg-gray-200">
         <NavbarLoggedIn />
         <div className="max-w-screen-2xl mx-auto px-4 pt-32 pb-24">
-          <div className="flex flex-col mx-auto w-1/2 bg-white px-4 py-3">
+          <div className="flex flex-col mx-auto w-full xl:w-1/2 bg-white px-4 py-3">
             <div className="text-center flex flex-col w-full justify-center py-4">
               <h1 className="text-2xl font-bold text-[#444B88]">
                 Portfolio Builder
@@ -338,12 +338,12 @@ function Createportfolio() {
                 </div>
                 {personalInfoVisible && (
                   <div className="flex flex-col w-full px-4 py-3 mx-auto">
-                    <div className="flex">
-                      <div className="w-1/3 flex items-start justify-center">
+                    <div className="flex flex-col xl:flex-row">
+                      <div className="w-full xl:w-1/3 flex items-start justify-center">
                         <img
                           src={image ? image : profile}
                           alt=""
-                          className="w-[80%] h-[60%] border-2 border-black cursor-pointer rounded-full"
+                          className="w-40 h-40 lg:w-36 lg:h-36 xl:w-[80%] xl:h-[60%]  border-2 border-black cursor-pointer rounded-full"
                           onClick={handleImageClick}
                         />
                         <input
@@ -353,8 +353,8 @@ function Createportfolio() {
                           onChange={handleFileChange}
                         />
                       </div>
-                      <div className="w-3/4">
-                        <div className="flex gap-2">
+                      <div className="w-[90%] mx-auto xl:w-3/4">
+                        <div className="flex flex-col xl:flex-row lg:gap-2">
                           <FirstNameInput
                             value={fName}
                             onChange={(e) => setFName(e.target.value)}
@@ -372,7 +372,7 @@ function Createportfolio() {
                           value={contactNum}
                           onChange={(e) => setContactNum(e.target.value)}
                         />
-                        <div className="flex gap-2">
+                        <div className="flex flex-col lg:flex-row gap-2">
                           <CityInput
                             value={city}
                             onChange={(e) => setCity(e.target.value)}
@@ -451,19 +451,19 @@ function Createportfolio() {
                         </div>
                       </div>
                       <div>
-                        <h1 className="text-xl text-[#444B88]">Bio</h1>
+                        <h1 className="text-base lg:text-xl text-[#444B88]">Bio</h1>
                         <textarea
                           name="bio"
                           id="bio"
                           cols="30"
                           rows="5"
                           value={bio}
-                          className="border border-[#444b88] w-full px-2 py-1"
+                          className="border border-[#444b88] w-full px-2 py-1 text-sm lg:text-base"
                           onChange={(e) => setBio(e.target.value)}
                         ></textarea>
                       </div>
                       <div>
-                        <h1 className="text-xl text-[#444B88]">
+                        <h1 className="text-base lg:text-xl text-[#444B88]">
                           Professional Summary or About
                         </h1>
                         <textarea
@@ -472,7 +472,7 @@ function Createportfolio() {
                           cols="30"
                           rows="10"
                           value={about}
-                          className="border border-[#444b88] w-full px-2 py-1"
+                          className="border border-[#444b88] w-full px-2 py-1 text-sm lg:text-base"
                           onChange={(e) => setAbout(e.target.value)}
                         ></textarea>
                       </div>
@@ -514,7 +514,7 @@ function Createportfolio() {
               <div className="flex flex-col">
                 <div className="flex flex-col items-center justify-between px-4 py-3 border border-[#444b88] rounded-t-lg">
                   <div className="flex justify-between w-full">
-                    <h1 className="text-xl text-[#8B95EE]">Projects</h1>
+                    <h1 className="text-base lg:text-xl text-[#8B95EE]">Projects</h1>
                     {Projectsvisible ? (
                       <IoIosArrowDropupCircle
                         onClick={() => toggleProjectsvisibility()}
@@ -548,7 +548,7 @@ function Createportfolio() {
                 </div>
                 <div className="w-full">
                   <button
-                    className="w-full bg-[#444B88] border-[#BCBCBC] border-1 p-2 text-white rounded-b-lg"
+                    className="w-full bg-[#444B88] border-[#BCBCBC] border-1 p-2 text-white rounded-b-lg text-sm lg:text-base"
                     onClick={() => setShowAddProjectsModal(true)}
                   >
                     Add

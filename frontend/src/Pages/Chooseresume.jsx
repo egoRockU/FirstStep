@@ -58,14 +58,14 @@ function Chooseresume() {
           <div className="flex flex-col w-full items-center bg-white pb-10 shadow-lg">
             <div className="flex flex-col w-full mx-auto pt-10">
               <div className="flex flex-col items-center w-full gap-3">
-                <h1 className="text-2xl text-[#444b88] font-bold">
+                <h1 className="text-xl   lg:text-2xl text-[#444b88] font-bold">
                   CHOOSE A TEMPLATE
                 </h1>
                 <p className="italic text-base">
                   Pick a template you want to use
                 </p>
               </div>
-              <div className="grid grid-cols-3 gap-4 text-center w-2/3 mx-auto pt-10">
+              <div className="grid grid-cols-2 lg:grid lg:grid-cols-3 gap-4 text-center w-[90%] lg:w-2/3 mx-auto pt-10">
                 {resumeTemplates.map((template, index) => (
                   <div
                     key={index}
@@ -77,7 +77,7 @@ function Chooseresume() {
                       className="w-full h-auto pb-4 hover:scale-105 transform transition-transform duration-300 hover:rounded-lg"
                       onClick={() => handleOpen(template)}
                     />
-                    <h3 className="text-lg font-semibold text-[#444b88]">
+                    <h3 className="text-sm lg:text-lg font-semibold text-[#444b88]">
                       {template.title}
                     </h3>
                   </div>

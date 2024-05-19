@@ -69,7 +69,7 @@ function Generatedresume() {
       <div className="bg-white">
         {user ? <NavbarLoggedIn /> : <Navbar />}
         <div className="max-w-screen-2xl mx-auto px-4 pt-32 pb-24">
-          <div className="w-5/6 mx-auto flex flex-col">
+          <div className="w-full lg:w-5/6 mx-auto flex flex-col">
             <div className="w-full flex flex-col">
               <div className="w-full flex justify-center py-3">
                 <h1 className="text-2xl font-bold text-[#444b88]">RESUME</h1>

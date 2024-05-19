@@ -142,7 +142,7 @@ function CreateEmployerpage() {
       })
       .then((res) => {
         if (res.data.status == true) {
-          alert(res.data.message);
+          toast.success(res.data.message);
           updateAccountProfileValues(
             res.data._id,
             "employer",
@@ -204,7 +204,7 @@ function CreateEmployerpage() {
     <>
       <div className="bg-gray-200">
         <NavbarLoggedIn />
-        <div className="max-w-screen-2xl mx-auto px-4 w-1/2">
+        <div className="max-w-screen-2xl mx-auto px-4 w-full lg:w-[70%] xl:w-1/2">
           <div className="w-full" style={{ position: "relative" }}>
             <div>
               <input
@@ -238,15 +238,41 @@ function CreateEmployerpage() {
             </div>
           </div>
           <div className="bg-white h-full mb-10 shadow-lg">
-            <div className="flex">
-              <div className="p-5 w-3/4 space-y-5">
+            <div className="flex flex-col lg:flex-row-reverse">
+              <div className="flex flex-col justify-center items-center w-full lg:w-1/4">
+                <input
+                  type="file"
+                  id="imageInput"
+                  accept="image/*"
+                  style={{ display: "none" }}
+                  onChange={handleImageChange}
+                />
+                <label htmlFor="imageInput" className="cursor-pointer pt-10">
+                  <img
+                    src={selectedImage || placeholderImage}
+                    alt=""
+                    className="w-40 h-40 rounded-full border-4 border-black object-cover"
+                  />
+                </label>
+                {!selectedImage && (
+                  <div
+                    onClick={() =>
+                      document.getElementById("imageInput").click()
+                    }
+                    className="inset-0 cursor-pointer"
+                    style={{ zIndex: 1 }}
+                  ></div>
+                )}
+                <div className="w-full h-full mt-5"></div>
+              </div>
+              <div className="p-5 w-full lg:w-3/4 space-y-5">
                 <div>
                   <h1 className="text-xl">
                     Initialize your Profile{" "}
                     <span className="text-blue-300 text-lg">Employer</span>
                   </h1>
                 </div>
-                <div className="flex space-x-4">
+                <div className="flex flex-col lg:flex-row lg:space-x-4">
                   <div className="flex flex-col w-full">
                     <h1 className="text-lg">First Name</h1>
                     <input
@@ -376,32 +402,8 @@ function CreateEmployerpage() {
                   />
                 </div>
               </div>
-              <div className="flex flex-col justify-center items-center w-1/4">
-                <input
-                  type="file"
-                  id="imageInput"
-                  accept="image/*"
-                  style={{ display: "none" }}
-                  onChange={handleImageChange}
-                />
-                <label htmlFor="imageInput" className="cursor-pointer mt-10">
-                  <img
-                    src={selectedImage || placeholderImage}
-                    alt=""
-                    className="w-40 h-40 rounded-full border-4 border-black object-cover"
-                  />
-                </label>
-                {!selectedImage && (
-                  <div
-                    onClick={() =>
-                      document.getElementById("imageInput").click()
-                    }
-                    className="inset-0 cursor-pointer"
-                    style={{ zIndex: 1 }}
-                  ></div>
-                )}
-                <div className="w-full h-full mt-5"></div>
-                <div className="flex justify-between w-9/12 mb-2">
+            </div>
+            <div className="flex gap-5 w-full justify-end px-4 py-2">
                   <button
                     className="text-lg border border-black px-2"
                     onClick={goback}
@@ -424,8 +426,6 @@ function CreateEmployerpage() {
                     </button>
                   )}
                 </div>
-              </div>
-            </div>
           </div>
         </div>
         <Footer />

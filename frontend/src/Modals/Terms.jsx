@@ -6,7 +6,7 @@ function Terms({ isOpen, onAccept, onDecline }) {
       {isOpen && (
         <div className="fixed inset-0 overflow-y-auto z-50 flex items-center justify-center">
           <div className="fixed inset-0 bg-black opacity-50"></div>
-          <div className="bg-white p-8 w-1/3 rounded-lg z-50">
+          <div className="bg-white p-8 w-[90%] lg:w-[45%] xl:w-1/3 rounded-lg z-50">
             <div className="flex flex-col justify-between mb-4">
               <h2 className="text-3xl font-semibold">
                 Terms and Conditions for FirstStep

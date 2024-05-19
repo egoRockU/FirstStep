@@ -11,7 +11,7 @@ function Supportus() {
     <>
       {user ? <NavbarLoggedIn /> : <Navbar />}
       <div className="pt-20 pb-20">
-        <div className="w-[80%] mx-auto pt-20">
+        <div className="w-[90%] lg:w-[80%] mx-auto pt-20">
           <div className="text-center">
             <h1 className="text-2xl font-bold text-[#444b88]">Support Us</h1>
           </div>
@@ -23,7 +23,7 @@ function Supportus() {
               </a>
             </h1>
           </div>
-          <div className="w-[50%] mx-auto text-center pt-20 items-center flex flex-col gap-4">
+          <div className="w-[90%] lg:w-[50%] mx-auto text-center pt-20 items-center flex flex-col gap-4">
             <h1 className="text-xl text-[#444b88]">
               Scan to Donate using G-Cash
             </h1>

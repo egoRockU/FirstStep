@@ -69,8 +69,8 @@ function Editemployerprofilepage() {
   return (
     <>
       <NavbarLoggedIn />
-      <div className="bg-gray-100 mx-auto p-10 w-full">
-        <div className="container mx-auto">
+      <div className="bg-gray-100 mx-auto p-10 w-full min-h-screen">
+        <div className="w-full lg:container mx-auto">
           <img
             src={selectedBanner || banner}
             alt=""
@@ -79,11 +79,11 @@ function Editemployerprofilepage() {
         </div>
         <div className="flex mt-[-60px]">
           <div className="container mx-auto">
-            <div className="flex flex-col lg:flex-row justify-around gap-3">
-              <div className="w-full lg:w-1/2 xl:w-1/3 h-full">
+            <div className="flex flex-col lg:flex-row justify-around gap-3 items-center">
+              <div className="w-full lg:w-[40%] xl:w-[30%] h-full">
                 <div className="mx-auto bg-white px-5 py-2 rounded-t-lg">
                   <div className="flex flex-col">
-                    <div className="flex justify-start pl-5">
+                    <div className="flex justify-center xl:justify-start pl-5">
                       <label htmlFor="imageInput" className="cursor-pointer">
                         <img
                           src={selectedImage || placeholderImage.profile}
@@ -93,18 +93,18 @@ function Editemployerprofilepage() {
                       </label>
                     </div>
                     <div className="flex flex-col w-full p-5 space-y-2">
-                      <div className="flex items-center gap-2">
-                        <h1 className="text-2xl text-[#8B95EE]">
+                      <div className="flex flex-col xl:flex-row items-center gap-2">
+                        <h1 className="text-xl xl:text-2xl text-[#8B95EE]">
                           {fName} {lName}
                         </h1>
                         {companyName && (
-                          <h1 className="text-lg text-[#444B88]">
+                          <h1 className="text-sm lg:text-lg text-[#444B88]">
                             [{companyName}]
                           </h1>
                         )}
                       </div>
                       <div className="flex flex-col">
-                        <h1 className="underline text-[#8B95EE]">{email}</h1>
+                        <h1 className="underline text-[#8B95EE] break-all text-base">{email}</h1>
                         {address !== ", " && <p>{address}</p>}
                         <p>{contactNum}</p>
                       </div>
@@ -120,10 +120,10 @@ function Editemployerprofilepage() {
                   Edit
                 </button>
               </div>
-              <div className="w-full lg:w-1/2">
+              <div className="w-full lg:w-[55%]">
                 <div className="grid grid-cols-1 gap-4">
                   <div className="bg-white p-4 rounded-xl flex flex-col items-center gap-2 border-2 border-gray-300">
-                    <h1 className="text-[#444B88] font-base text-xl">About</h1>
+                    <h1 className="text-[#444B88] font-base text-sm md:text-xl">About</h1>
                     {/* <textarea
                       name="about"
                       id=""
@@ -137,16 +137,15 @@ function Editemployerprofilepage() {
                   </div>
                   <div className="bg-white p-4 rounded-xl flex flex-col gap-2 items-center justify-center border-2 border-gray-300">
                     <h1 className="text-[#444B88] font-base">Website</h1>
-                    <h1 className="text-lg">{website}</h1>
+                    <h1 className="text-sm md:text-lg break-all">{website}</h1>
                   </div>
                   <div className="bg-white p-4 rounded-xl text-xl flex flex-col items-center gap-2 justify-center border-2 border-gray-300">
                     <h1 className="text-[#444B88] font-base">Socials</h1>
-                    {/* TODO add platform logo */}
                     <div>
                     {socialLinks.map((social, index) => (
                           <div className="flex items-center gap-1" key={index}>
                             <SocialIcon platform={social.platform} />
-                            <p>{social.link}</p>
+                            <p className="break-all text-sm md:text-lg">{social.link}</p>
                           </div>
                         ))}
                       {/* <div className="flex items-center gap-1">
