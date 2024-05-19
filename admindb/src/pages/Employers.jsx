@@ -173,6 +173,7 @@ export default function Employers() {
       .then((res) => {
         alert("Employer(s) has been Successfully Deleted!");
         console.log(res.data.message);
+        setDeleteLoading(false); 
       })
       .catch((err) => {
         console.log(err.response.data);
@@ -221,15 +222,18 @@ export default function Employers() {
                   {/* Changed text */}
                 </AlertDialogDescription>
                 <AlertDialogAction as="button" onClick={handleDelete}>
-                {deleteLoading ? (
-                    <ImSpinner className="animate-spin text-blue-500 h-8 w-8" />
-                  ) : (
-                    "Delete"
-                  )}
+                    Delete
                 </AlertDialogAction>
                 <AlertDialogCancel as="button">Cancel</AlertDialogCancel>
               </AlertDialogContent>
             </AlertDialog>
+            {deleteLoading && (
+              <div className="fixed inset-0 flex justify-center items-center bg-gray-900 bg-opacity-50 z-50">
+                <div className="flex justify-center items-center">
+                  <ImSpinner className="animate-spin text-blue-500 h-8 w-8" />
+                </div>
+              </div>
+            )}
           </div>
           {/* DataTable */}
           <div>
