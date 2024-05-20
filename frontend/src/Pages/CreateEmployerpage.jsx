@@ -15,6 +15,7 @@ import { uploadBanner, uploadImage } from "../utils/imageEmpUpload";
 import { getDownloadURL } from "firebase/storage";
 import { SocialCard } from "../Components/Employercard";
 import { ImSpinner } from "react-icons/im";
+import { setProfile } from "../utils/setProfile";
 
 function CreateEmployerpage() {
   // TODO add change alert to toast
@@ -151,6 +152,7 @@ function CreateEmployerpage() {
           ).then((newUserData) => {
             setLoading(false);
             dispatch(updateUser(newUserData));
+            setProfile(res.data._id, "employer");
             navigate("/editemployer");
           });
         }
@@ -404,28 +406,28 @@ function CreateEmployerpage() {
               </div>
             </div>
             <div className="flex gap-5 w-full justify-end px-4 py-2">
-                  <button
-                    className="text-lg border border-black px-2"
-                    onClick={goback}
-                  >
-                    Cancel
-                  </button>
-                  {loading ? (
-                    <button
-                      className="text-lg bg-[#8B95EE] border border-[#444B88] hover:bg-blue-600 px-2"
-                      disabled
-                    >
-                      <ImSpinner className="animate-spin mr-2" />
-                    </button>
-                  ) : (
-                    <button
-                      className="text-lg bg-[#8B95EE] border border-[#444B88] hover:bg-blue-600 px-2"
-                      onClick={createProfile}
-                    >
-                      Save
-                    </button>
-                  )}
-                </div>
+              <button
+                className="text-lg border border-black px-2"
+                onClick={goback}
+              >
+                Cancel
+              </button>
+              {loading ? (
+                <button
+                  className="text-lg bg-[#8B95EE] border border-[#444B88] hover:bg-blue-600 px-2"
+                  disabled
+                >
+                  <ImSpinner className="animate-spin mr-2" />
+                </button>
+              ) : (
+                <button
+                  className="text-lg bg-[#8B95EE] border border-[#444B88] hover:bg-blue-600 px-2"
+                  onClick={createProfile}
+                >
+                  Save
+                </button>
+              )}
+            </div>
           </div>
         </div>
         <Footer />
