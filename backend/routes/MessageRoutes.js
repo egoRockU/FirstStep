@@ -6,10 +6,11 @@ import {
   create,
   deleteMessage,
 } from "../controllers/MessageControllers.js";
+import authenticateToken from "../middlewares/authenticateToken.js";
 
-router.post("/getMessage", getMessage);
-router.get("/getAll", getAll);
-router.post("/create", create);
-router.post("/deleteMessage", deleteMessage);
+router.post("/getMessage", authenticateToken, getMessage);
+router.get("/getAll", authenticateToken, getAll);
+router.post("/create", authenticateToken, create);
+router.post("/deleteMessage", authenticateToken, deleteMessage);
 
 export default router;

@@ -5,9 +5,10 @@ import {
   create,
   deleteFeedback,
 } from "../controllers/feedbackControllers.js";
+import authenticateToken from "../middlewares/authenticateToken.js";
 
-router.get("/getAll", getAll);
-router.post("/create", create);
-router.post("/deletefeedback", deleteFeedback);
+router.get("/getAll", authenticateToken, getAll);
+router.post("/create", authenticateToken, create);
+router.post("/deletefeedback", authenticateToken, deleteFeedback);
 
 export default router;
