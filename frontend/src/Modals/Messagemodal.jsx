@@ -95,7 +95,7 @@ function Messagemodal({ closeModal, message, userId, userType, reload }) {
 
   return (
     <div className="fixed inset-0 flex justify-center items-center bg-black bg-opacity-50">
-      <div className="bg-white flex flex-col border w-2/4 border-[#444b88] shadow-xl">
+      <div className="bg-white flex flex-col border w-80 border-[#444b88] shadow-xl rounded-lg">
         <div className="w-full flex justify-end py-1 px-2" onClick={closeModal}>
           {" "}
           <IoMdClose size={30} />{" "}

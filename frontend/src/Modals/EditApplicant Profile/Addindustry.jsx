@@ -54,7 +54,7 @@ function AddIndustries({ onClose, suggestions, onSubmit }) {
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-80 backdrop-blur-sm">
       <div className="w-[600px] mx-4 p-4 bg-white shadow-md rounded-md">
-        <h2 className="text-2xl font-semibold mb-4 text-gray-800">
+        <h2 className="text-base md:text-xl font-semibold mb-4 text-gray-800">
           Add Industries
         </h2>
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
@@ -64,7 +64,7 @@ function AddIndustries({ onClose, suggestions, onSubmit }) {
             value={industries}
             onChange={handleIndustriesChange}
             onKeyDown={handleKeyDown}
-            className="p-2 border-2 border-[#444B88] focus:outline-none focus:border-black-500 rounded-md"
+            className="p-2 border-2 border-[#444B88] focus:outline-none focus:border-black-500 rounded-md text-sm md:text-lg"
           />
           <div className="relative">
             {showSuggestions && (
@@ -93,13 +93,13 @@ function AddIndustries({ onClose, suggestions, onSubmit }) {
             <button
               type="button"
               onClick={handleCancel}
-              className="border-2 border-[#444B88] px-4 py-2 rounded-lg text-white-600 hover:text-black-800 mr-2"
+              className="border-2 border-[#444B88] px-4 py-2 rounded-lg text-white-600 hover:text-black-800 mr-2 text-sm"
             >
               Cancel
             </button>
             <button
               type="submit"
-              className="border-2 border-[#444B88] bg-[#8B95EE] px-4 py-2 rounded-lg text-white hover:bg-[#6F77B5]"
+              className="border-2 border-[#444B88] bg-[#8B95EE] px-4 py-2 rounded-lg text-white hover:bg-[#6F77B5] text-sm"
             >
               Save
             </button>
