@@ -27,7 +27,7 @@ const SocialCard = ({ socialLinks, onDelete }) => {
           <div key={index} className="flex items-center py-1 space-x-2 justify-center">
             <div>{link.platform && getPlatformIcon(link.platform)}</div>
             <div>
-              <a href={link.link} className="text-sm md:text-lg" >{link.link}</a>
+              <a href={link.link} className="text-sm md:text-lg break-all" >{link.link}</a>
             </div>
             <div className="flex items-center">
               <button onClick={() => onDelete(index)}>

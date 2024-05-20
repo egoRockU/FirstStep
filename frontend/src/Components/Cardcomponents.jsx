@@ -40,7 +40,7 @@ function ActivitiesCard({ activity, onDelete, onEdit }) {
   return (
     <div className="w-full bg-white hover:bg-[#BAD2FF] border-2 border-[#444B88] flex justify-between items-center">
       <div className="w-full flex flex-col gap-3 p-5" onClick={onEdit}>
-        <div className="flex items-center gap-3 w-full">
+        <div className="flex flex-col lg:flex-row lg:items-center lg:gap-3 w-full">
           <p className="text-xl lg:text-2xl text-[#444B88]">{activity.title}</p>
           <p className="text-sm lg:text-lg">{activity.typeOfActivity}</p>
         </div>

@@ -69,7 +69,7 @@ function NavbarLoggedIn() {
         {/* Overlay menu */}
         {showMenu && (
           <div className="lg:hidden absolute top-full  flex justify-end bg-white bg-opacity-80 py-8 w-full shadow-lg">
-            <div className="flex flex-col items-center">
+            <div className="flex flex-col-reverse items-center">
               <ul className="flex flex-col lg:flex-row lg:flex-grow lg:justify-end space-y-4 lg:space-y-0 lg:space-x-10">
                 <li className="text-lg md:text-xl font-medium text-black whitespace-nowrap"onClick={clickResume} >
                   Resume Builder
@@ -81,7 +81,7 @@ function NavbarLoggedIn() {
                   For Employers
                 </li>
               </ul>
-              <div className="lg:flex items-center gap-2">
+              <div className="w-full flex justify-end items-start">
                 <DropdownMenu />
                 <MessageDropdownMenu />
               </div>

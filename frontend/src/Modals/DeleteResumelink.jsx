@@ -38,7 +38,7 @@ function DeleteResumelink({ profileId, link, onClose }) {
 
   return (
     <div className="fixed inset-0 flex justify-center items-center">
-      <div className="bg-white flex flex-col w-250 h-120 border border-gray-400 shadow-xl">
+      <div className="bg-white flex flex-col border border-gray-400 shadow-xl">
         <div className="w-full flex justify-between px-2 py-2 border-b border-gray-400">
           <h1 className="text-lg text-[#444b88] font-bold">DELETE RESUME</h1>
           <IoMdClose size={30} className="cursor-pointer" onClick={onClose} />

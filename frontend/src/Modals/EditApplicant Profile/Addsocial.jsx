@@ -62,8 +62,8 @@ function SocialMediaLinks({
           Social Media Links
         </h2>
         <form onSubmit={handleSubmit}>
-          <div className="flex items-center mb-4">
-            <div className="mr-4">
+          <div className="flex flex-col lg:flex-row items-center mb-4">
+            <div className="mr-4 w-full">
               <Select
                 options={options}
                 onChange={handleChange}
@@ -71,7 +71,7 @@ function SocialMediaLinks({
                   (option) => option.value === formData.platform
                 )}
                 placeholder="Select Platform"
-                className="p-2 focus:outline-none rounded-lg w-44 text-sm"
+                className="p-2 focus:outline-none rounded-lg  lg:w-44 text-sm"
                 isSearchable={false}
                 styles={{
                   control: (provided) => ({
@@ -82,7 +82,7 @@ function SocialMediaLinks({
               />
             </div>
 
-            <div>
+            <div className="w-full">
               <input
                 type="text"
                 id="link"
@@ -92,7 +92,7 @@ function SocialMediaLinks({
                   setFormData({ ...formData, link: e.target.value })
                 }
                 placeholder="Please include http:// or https:// before the domain."
-                className="p-2 border-2 border-[#444B88] focus:outline-none focus:border-black-500 rounded-lg w-52 md:w-96"
+                className="p-2 border-2 border-[#444B88] focus:outline-none focus:border-black-500 rounded-lg w-full lg:w-96"
               />
             </div>
           </div>
