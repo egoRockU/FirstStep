@@ -507,13 +507,13 @@ function Createresume() {
                   )}
                 </div>
                 {personalInfoVisible && (
-                  <div className="flex flex-col w-full px-4 py-3 mx-auto">
+                  <div className="flex flex-col w-full mx-auto">
                     <div className="flex flex-col xl:flex-row">
-                      <div className="w-full lg:w-1/3 mx-auto flex justify-center">
+                      <div className="w-full xl:w-1/3 flex items-start justify-center">
                         <img
                           src={image ? image : profile}
                           alt=""
-                          className=" w-40 h-40 lg:w-36 lg:h-36 xl:w-[80%] xl:h-[60%] border-2 border-black cursor-pointer rounded-full"
+                          className=" w-40 h-40 lg:w-36 lg:h-36 xl:w-[80%] xl:h-[60%] border-2 border-black cursor-pointer object-cover rounded-full"
                           onClick={handleImageClick}
                         />
                         <input
