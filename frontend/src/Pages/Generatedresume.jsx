@@ -12,6 +12,7 @@ import BasicTemplate2 from "../templates/resume/basicTemplate2";
 import TwoColumn from "../templates/resume/twoColumn";
 import Tapang from "../templates/resume/tapang";
 import Simple from "../templates/resume/simple";
+import Orange from "../templates/resume/orangeTemplate";
 
 function Generatedresume() {
   const { user } = useSelector((state) => state.user);
@@ -57,6 +58,9 @@ function Generatedresume() {
         break;
       case "5":
         setTemplate(<Simple resumeInfo={resumeInfo} />);
+        break;
+      case "6":
+        setTemplate(<Orange resumeInfo={resumeInfo} />);
         break;
       default:
         setTemplate(<BasicTemplate resumeInfo={resumeInfo} />);
