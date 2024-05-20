@@ -24,14 +24,14 @@ function Previewproject({ onClose, project }) {
 
   return (
     <div className="fixed inset-0 flex justify-center items-center bg-gray-900 bg-opacity-50 py-5">
-      <div className="bg-white w-2/5 h-[80%] shadow-lg rounded-md">
+      <div className="bg-white overflow-y-scroll  w-4/5 lg:w-1/2 h-[80%] shadow-lg rounded-lg">
         <div className="flex w-full justify-between items-center p-3 border-2">
           <div className="flex items-center gap-4">
             <h1 className="text-2xl text-[#444B88] font-semibold">{title}</h1>
             <div className="flex gap-2">
-              <h1 className="text-sm">{convertDateYear(startDate)}</h1>
-              <p>-</p>
-              <h1 className="text-sm">{convertDateYear(endDate)}</h1>
+              <h1 className="text-base font-semibold">{convertDateYear(startDate)}</h1>
+              <p className="text-base font-semibold">-</p>
+              <h1 className="text-base font-semibold">{convertDateYear(endDate)}</h1>
             </div>
           </div>
           <div>
@@ -60,7 +60,7 @@ function Previewproject({ onClose, project }) {
                 <img
                   src={image}
                   alt=""
-                  className="h-full w-full object-cover "
+                  className="w-full h-full object-cover "
                   key={key}
                 />
               </SwiperSlide>
@@ -69,21 +69,21 @@ function Previewproject({ onClose, project }) {
             <div className="swiper-button-next bg-black bg-opacity-50 text-white"></div>
           </Swiper>
         </div>
-        <div className="text-lg w-full flex justify-center">{subTitle}</div>
+        <div className="text-base text-center w-full flex justify-center">{subTitle}</div>
         <div className=" w-full mx-auto pt-3">
           <div className="w-3/4 mx-auto flex flex-col gap-8">
             <div className="flex w-full">
-              <div className="border-2 border-gray-400 w-full rounded-md px-1 py-1">
+              <div className="border-2 border-gray-400 w-full rounded-md px-1 py-1 text-center text-sm md:text-lg">
                 {description}
               </div>
             </div>
-            <div className="flex w-full gap-4">
+            <div className="flex flex-col md:flex-row w-full gap-4 items-center text-center justify-center">
               {/* TODO fit the link inside the div  */}
-              <div className="flex w-1/2 px-2 items-center border-2 border-gray-400 rounded-md">
+              <div className="flex w-full md:w-1/2 px-2 items-center border-2 border-gray-400 rounded-md">
                 <div className="flex items-center px-1">
                   <FaGlobe size={25} />
                 </div>
-                <p className="w-full align-center break-all hover:underline">
+                <p className="w-full align-center break-all hover:underline text-xs">
                   {projectLink ? (
                     <a href={projectLink}>{projectLink}</a>
                   ) : (
@@ -91,27 +91,35 @@ function Previewproject({ onClose, project }) {
                   )}
                 </p>
               </div>
-              <div className="flex w-1/2 px-2 border-2 items-center border-gray-400 rounded-md">
+              <div className="flex w-full md:w-1/2 px-2 border-2 items-center border-gray-400 rounded-md">
                 <div className="flex items-center px-1">
                   <FaGithub size={25} />
                 </div>
-                <p className="w-full align-center whitespace-normal hover:underline">
+
+                <p className="w-full align-center break-all hover:underline text-xs">
+                  {githubLink ? (
+                    <a href={githubLink}>{githubLink}</a>
+                  ) : (
+                    "No Github Link yet..."
+                  )}
+                </p>
+               {/* <p className="w-full align-center whitespace-normal hover:underline text-xs">
                   {githubLink ? (
                     <a
                       href={githubLink}
-                      className="block max-w-full overflow-hidden whitespace-nowrap overflow-ellipsis"
+                      className="block max-w-full whitespace-nowrap overflow-hidden truncate"
                     >
                       {githubLink}
                     </a>
                   ) : (
                     "No Github Link yet..."
                   )}
-                </p>
+                </p> */}
               </div>
             </div>
             <div>
-              <p>
-                <span className="text-[#444B88] text-md italic p-1">
+              <p className="text-sm md:text-md text-center md:text-left">
+                <span className="text-[#444B88] italic p-1">
                   Made using:
                 </span>
                 {technologiesUsed}
