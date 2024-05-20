@@ -28,7 +28,7 @@ const Nav = ({ name }) => {
     },
   ];
   return (
-    <div className="flex justify-between items-center w-full h-20 px-4 font-semibold text-lime-300 bg-gradient-to-r from-slate-500 to-slate-800 fixed z-40 shadow-lg">
+    <div className="flex justify-between items-center w-full h-14 md:h-20 px-9 font-semibold text-lime-300 bg-gradient-to-r from-slate-500 to-slate-800 fixed z-40 shadow-lg">
       <div className="cursor-pointer">
         <h1 className="ml-2 sm:text-4xl md:text-5xl">{name ? name : "Logo"}.</h1>
       </div>
@@ -67,7 +67,7 @@ const Nav = ({ name }) => {
           {links.map(({ id, link }) => (
             <li
               key={id}
-              className="px-4 cursor-pointer capitalize py-6 text-4xl"
+              className="px-4 cursor-pointer capitalize py-6 text-md md:text-lg"
             >
               {link}
             </li>

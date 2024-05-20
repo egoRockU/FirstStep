@@ -28,7 +28,7 @@ const Nav = ({ name }) => {
     },
   ];
   return (
-    <div className="flex justify-between items-center w-full h-20 px-4 font-semibold text-black bg-white fixed z-40 shadow-lg">
+    <div className="flex justify-between items-center w-full h-14 md:h-20 px-4 font-semibold text-black bg-white fixed z-40 shadow-lg">
       <div className="cursor-pointer">
         <h1 className="ml-2 sm:text-4xl md:text-5xl">{name ? name : "Logo"}</h1>
       </div>

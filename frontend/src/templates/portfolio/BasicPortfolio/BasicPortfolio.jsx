@@ -64,14 +64,14 @@ const BasicPortfolio = ({ portfolioInfo }) => {
         name="home"
         className="h-screen w-full bg-gradient-to-r from-cyan-950 to-blue-950"
       >
-        <div className="container mx-auto text-gray-200 h-full flex flex-col justify-center items-start pl-10">
+        <div className="container mx-auto text-gray-200 h-full flex flex-col justify-center items-start pl-5">
           <div className="z-10 w-full lg:w-2/5 2xl:w-1/2 mx-auto my-8 text-center mt-20">
             <img
               src={profileImg ? profileImg : ProfilePic}
               alt=""
-              className="w-80 mx-auto"
+              className="w-48 md:w-80 mx-auto"
             />
-            <h1 className="heading text-cyan-200 text-6xl font-bold lg:text-5xl !leading-normal">
+            <h1 className="heading text-cyan-200 text-xl md:text-6xl font-bold lg:text-5xl !leading-normal">
               {`${firstName} ${lastName}`}
             </h1>
             <h1 className="heading text-base mb-8 lg:text-lg !leading-normal">
@@ -102,7 +102,7 @@ const BasicPortfolio = ({ portfolioInfo }) => {
             <div className="relative">
               <div className="h-full rounded-full overflow-hidden">
                 <img
-                  className="mx-auto hidden md:block md:w-64 md: lg:w-full"
+                  className="mx-auto hidden md:block w-80"
                   src={profileImg ? profileImg : ProfilePic}
                   alt=""
                 />
@@ -201,7 +201,7 @@ const BasicPortfolio = ({ portfolioInfo }) => {
             </div>
             {/* bottom */}
 
-            <div className="md:w-1/2 sm:w-full text-2xl mb-8 space-y-5 mx-auto spa">
+            <div className="md:w-1/2 sm:w-full text-md md:text-xl mb-8 space-y-5 mx-auto ms-5">
               <div className="flex items-center space-x-4">
                 <div className="flex text-center text-white justify-center ">
                   <IoPersonCircleOutline size={35} className="cursor-pointer" />
@@ -215,7 +215,7 @@ const BasicPortfolio = ({ portfolioInfo }) => {
                 <div className="flex text-center text-white justify-center">
                   <MdEmail size={35} className="cursor-pointer" />
                 </div>
-                <div className="flex-1 text-white">{email}</div>
+                <div className="flex-1 text-white overflow-hidden">{email}</div>
               </div>
 
               <div className="flex items-center space-x-4">

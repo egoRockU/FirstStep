@@ -95,7 +95,7 @@ function Messagemodal({ closeModal, message, userId, userType, reload }) {
 
   return (
     <div className="fixed inset-0 flex justify-center items-center bg-black bg-opacity-50">
-      <div className="bg-white flex flex-col border w-80 border-[#444b88] shadow-xl rounded-lg">
+      <div className="bg-white flex flex-col border w-5/6 md:w-96 lg:w-2/5 h-2/3 md:h[600px] overflow-y-auto border-[#444b88] shadow-xl rounded-lg">
         <div className="w-full flex justify-end py-1 px-2" onClick={closeModal}>
           {" "}
           <IoMdClose size={30} />{" "}
@@ -150,7 +150,7 @@ function Messagemodal({ closeModal, message, userId, userType, reload }) {
 
           <div className="pt-8">
             <div className="w-full border border-[#444b88] py-4 px-4">
-              <h1 className="pb-20 text-base text-black break-all">{body}</h1>
+              <h1 className="pb-20 text-base text-black break-all overflow-y-auto">{body}</h1>
             </div>
           </div>
           <div className="w-full justify-end flex gap-4 pt-5">
