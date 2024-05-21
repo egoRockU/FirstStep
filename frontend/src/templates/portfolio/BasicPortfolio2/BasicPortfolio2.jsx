@@ -64,7 +64,7 @@ const BasicPortfolio2 = ({ portfolioInfo }) => {
         name="home"
         className="min-h-screen lg:px-[100px] lg:py-[60px] w-full bg-gradient-to-r from-slate-500 to-slate-800"
       >
-        <div className="sm:pt-[110px] lg:pt-64 flex justify-between lg:flex-row flex-col-reverse lg:mx-[30px] lg:gap[20px] lg:text-start items-center text-center text-lime-300">
+        <div className="sm:pt-[150px] lg:pt-50 flex justify-between lg:flex-row flex-col-reverse lg:mx-[30px] lg:gap[20px] lg:text-start items-center text-center text-lime-300">
           <div className="lg:w-[50%] w-full">
             <h2 className="lg:text-[66px] text-[40px] font-bold whitespace-pre-wrap">
               <span className="text-white">{firstName}</span> {lastName}
@@ -78,11 +78,11 @@ const BasicPortfolio2 = ({ portfolioInfo }) => {
               </a>
             )}
           </div>
-          <div>
+          <div className="lg:mr-36">
             <img
               src={profileImg ? profileImg : ProfilePic}
               alt=""
-              className="w-80"
+              className="w-80 my-20"
             />
           </div>
         </div>
@@ -97,7 +97,7 @@ const BasicPortfolio2 = ({ portfolioInfo }) => {
           <div className="relative">
             <div className="h-full rounded-full overflow-hidden">
               <img
-                className="mx-auto hidden md:block md:w-64 md: lg:w-full"
+                className="w-80"
                 src={profileImg ? profileImg : ProfilePic}
                 alt=""
               />
@@ -193,7 +193,7 @@ const BasicPortfolio2 = ({ portfolioInfo }) => {
           </div>
           {/* bottom */}
 
-          <div className="md:w-1/2 sm:w-full text-2xl mb-8 space-y-5 mx-auto spa">
+          <div className="md:w-1/2 sm:w-full text-md lg:text-xl mb-8 space-y-5 mx-auto px-10">
             <div className="flex items-center space-x-4">
               <div className="flex text-center text-white justify-center ">
                 <IoPersonCircleOutline
@@ -208,7 +208,7 @@ const BasicPortfolio2 = ({ portfolioInfo }) => {
               <div className="flex text-center text-white justify-center">
                 <MdEmail size={35} className="cursor-pointer text-lime-300" />
               </div>
-              <div className="flex-1 text-white">{email}</div>
+              <div className="flex-1 text-white overflow-hidden">{email}</div>
             </div>
 
             <div className="flex items-center space-x-4">
@@ -242,7 +242,7 @@ const BasicPortfolio2 = ({ portfolioInfo }) => {
       <div className="w-full bg-black">
         <div className="container mx-auto py-5 flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <span className="text-2xl font-bold text-lime-300">
+            <span className="text-2xl font-bold text-lime-300 ms-5">
               {lastName}.
             </span>
           </div>
