@@ -6,6 +6,7 @@ import Ezekel from "../templates/portfolio/Ezekel/Ezekel";
 import BasicPortfolio2 from "../templates/portfolio/BasicPortfolio2/BasicPortfolio2";
 import Cleo from "../templates/portfolio/Cleo/Cleo";
 import Marcus from "../templates/portfolio/Marcus/Marcus";
+import Grafil from "../templates/portfolio/Grafil/Grafil";
 
 function Generatedportfolio() {
   const { templateId, portfolioId } = useParams();
@@ -50,6 +51,9 @@ function Generatedportfolio() {
         break;
       case "5":
         setTemplate(<Marcus portfolioInfo={portfolioInfo} />);
+        break;
+      case "6":
+        setTemplate(<Grafil portfolioInfo={portfolioInfo} />);
         break;
       default:
         setTemplate(<BasicPortfolio portfolioInfo={portfolioInfo} />);

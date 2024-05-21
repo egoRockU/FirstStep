@@ -24,14 +24,14 @@ const SocialCard = ({ socialLinks, onDelete }) => {
     <div className="flex flex-col w-full">
       <div className="flex flex-col items-center">
         {socialLinks.map((link, index) => (
-          <div key={index} className="flex items-center py-1 justify-center">
+          <div key={index} className="flex items-center py-1 space-x-2 justify-center">
             <div>{link.platform && getPlatformIcon(link.platform)}</div>
             <div>
-              <a href={link.link}>{link.link}</a>
+              <a href={link.link} className="text-sm md:text-lg break-all" >{link.link}</a>
             </div>
-            <div>
+            <div className="flex items-center">
               <button onClick={() => onDelete(index)}>
-                <IoClose size={30} />
+                <IoClose size={25} />
               </button>
             </div>
           </div>
@@ -49,7 +49,7 @@ const IndustriesCard = ({ industries, onDelete }) => {
         {industries.map((industry, index) => (
           <div key={index} className="flex items-center py-1 ">
             <div className="flex text-center bg-[#BAD2FF] p-2 rounded-full">
-              <p className="break-all">{industry}</p>
+              <p className="break-all text-sm md:text-lg">{industry}</p>
               <button onClick={() => onDelete(index)}>
                 <IoClose size={25} />
               </button>

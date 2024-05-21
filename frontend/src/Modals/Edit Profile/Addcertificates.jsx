@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { IoCloseOutline } from "react-icons/io5";
 import { ImSpinner } from "react-icons/im";
 
-
 function AddCertificates({
   onClose,
   onSubmit,
@@ -20,7 +19,6 @@ function AddCertificates({
 
   const [imagePreview, setImagePreview] = useState(null);
   const [submitting, setSubmitting] = useState(false); // State to track submission process
-
 
   useEffect(() => {
     if (initialData) {
@@ -43,10 +41,10 @@ function AddCertificates({
     e.preventDefault();
     setSubmitting(true);
     setTimeout(async () => {
-      await onSubmit(formData); 
-      setSubmitting(false); 
+      await onSubmit(formData);
+      setSubmitting(false);
       onClose();
-    }, 1000); 
+    }, 1000);
   };
 
   const handleEdit = (e) => {
@@ -73,14 +71,14 @@ function AddCertificates({
 
   return (
     <div className="fixed inset-0 flex justify-center items-center bg-gray-900 bg-opacity-50">
-      <div className="bg-white p-5 rounded-xl w-1/3">
+      <div className="bg-white p-5 rounded-md w-80 md:w-1/3 flex flex-col">
         <div className="flex justify-between w-full">
-        <h2 className="text-xl text-[#444B88]">Add Certificates</h2>
-        <IoCloseOutline size={25} onClick={handleCancel} />
+          <h2 className="text-base md:text-xl font-bold text-[#444B88]">Add Certificates</h2>
+          <IoCloseOutline size={25} onClick={handleCancel} />
         </div>
         <form onSubmit={handleSubmit} className="flex flex-col gap-2">
           <div>
-            <label htmlFor="title" className="block text-[#444B88]">
+            <label htmlFor="title" className="block text-[#444B88] text-sm md:text-lg">
               Title:
             </label>
             <input
@@ -89,12 +87,12 @@ function AddCertificates({
               name="title"
               value={formData.title}
               onChange={handleChange}
-              className="border border-[#444B88] rounded-md px-2 py-2 w-full"
+              className="border border-[#444B88] rounded-md px-2 py-2 w-full text-sm md:text-lg"
               required
             />
           </div>
           <div>
-            <label htmlFor="dateReceived" className="block text-[#444B88]">
+            <label htmlFor="dateReceived" className="block text-[#444B88] text-sm md:text-lg">
               Date Received:
             </label>
             <input
@@ -109,35 +107,13 @@ function AddCertificates({
                   : ""
               }
               onChange={handleChange}
-              className="border border-[#444B88] rounded-md px-2 py-2 w-full"
+              className="border border-[#444B88] rounded-md px-2 py-2 w-full text-sm md:text-lg"
               required
             />
           </div>
-          {/*
-          <div>
-            <label htmlFor="image" className="block text-[#444B88]">
-              Image:
-            </label>
-            <input
-              type="file"
-              id="image"
-              name="image"
-              onChange={handleChange}
-              className="border border-[#444B88] rounded-md px-2 py-2 w-full"
-            />
-            </div>
-          <div>
-            {imagePreview && (
-              <img
-                src={imagePreview}
-                alt="Selected Image"
-                className="max-w-full h-auto"
-              />
-            )}
-          </div>
-          */}
+
           <div className="mb-4">
-            <label htmlFor="description" className="block text-[#444B88]">
+            <label htmlFor="description" className="block text-[#444B88] text-sm md:text-lg">
               Description:
             </label>
             <textarea
@@ -145,7 +121,8 @@ function AddCertificates({
               name="description"
               value={formData.description}
               onChange={handleChange}
-              className="border border-[#444B88] rounded-md px-2 py-2 w-full"
+              placeholder="Add more information about this certificate."
+              className="border border-[#444B88] rounded-md px-2 py-2 w-full text-sm md:text-lg"
               required
               rows={8}
             />
@@ -154,32 +131,39 @@ function AddCertificates({
             <button
               type="button"
               onClick={handleCancel}
-              className="border border-[#444B88] text-black px-4 py-2 rounded-md mr-2"
+              className="border border-[#444B88] text-black px-4 py-2 rounded-md mr-2 text-sm md:text-lg"
             >
               Cancel
             </button>
 
             {!initialData && (
-  <button
-    type="submit"
-    disabled={submitting}
-    className="bg-[#8B95EE] border border-[#444B88] text-white px-4 py-2 rounded-md flex justify-center items-center gap-2"
-  >
-    {submitting ? <ImSpinner className="animate-spin mr-2" /> : "Submit"}
-  </button>
-)}
+              <button
+                type="submit"
+                disabled={submitting}
+                className="bg-[#8B95EE] border border-[#444B88] text-white px-4 py-2 rounded-md flex justify-center items-center gap-2 text-sm md:text-lg"
+              >
+                {submitting ? (
+                  <ImSpinner className="animate-spin mr-2" />
+                ) : (
+                  "Submit"
+                )}
+              </button>
+            )}
 
-{initialData && (
-  <button
-    type="button"
-    onClick={handleEdit}
-    disabled={submitting}
-    className="bg-[#8B95EE] border border-[#444B88] text-black px-4 py-2 rounded-md mr-2"
-  >
-    {submitting ? <ImSpinner className="animate-spin mr-2" /> : "Save Changes"}
-  </button>
-)}
-
+            {initialData && (
+              <button
+                type="button"
+                onClick={handleEdit}
+                disabled={submitting}
+                className="bg-[#8B95EE] border border-[#444B88] text-black px-4 py-2 rounded-md mr-2"
+              >
+                {submitting ? (
+                  <ImSpinner className="animate-spin mr-2" />
+                ) : (
+                  "Save Changes"
+                )}
+              </button>
+            )}
           </div>
         </form>
         <button
@@ -202,7 +186,6 @@ function AddCertificates({
         </button>
       </div>
     </div>
-    
   );
 }
 

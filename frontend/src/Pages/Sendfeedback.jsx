@@ -72,8 +72,8 @@ function Sendfeedback() {
               Let us know how we can improve our site.
             </p>
           </div>
-          <div className="border border-[#444b88] w-3/5 mx-auto">
-            <div className="flex flex-col px-10 py-6 ">
+          <div className="border border-[#444b88] w-[90%] lg:w-3/5 mx-auto ">
+            <div className="flex flex-col px-3 lg:px-10 py-3 lg:py-6 ">
               <div className=" flex items-center gap-2 w-full pt-5">
                 <h1 className="text-xl">Subject:</h1>
                 <input

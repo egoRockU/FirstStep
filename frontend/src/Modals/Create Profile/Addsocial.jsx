@@ -1,6 +1,12 @@
 import React, { useState, useEffect } from "react";
 
-function SocialMediaLinks({ onClose, onSubmit, onEdit, formIndex, initialData }) {
+function SocialMediaLinks({
+  onClose,
+  onSubmit,
+  onEdit,
+  formIndex,
+  initialData,
+}) {
   const [formData, setFormData] = useState({
     platform: "",
     link: "",
@@ -41,13 +47,12 @@ function SocialMediaLinks({ onClose, onSubmit, onEdit, formIndex, initialData })
     }
   };
 
-
-
-  
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-80 backdrop-blur-sm">
       <div className="w-[600px] mx-4 p-4 bg-white shadow-md rounded-md">
-        <h2 className="text-2xl font-semibold mb-4 text-gray-800">Social Media Links</h2>
+        <h2 className="text-2xl font-semibold mb-4 text-gray-800">
+          Social Media Links
+        </h2>
         <form onSubmit={handleSubmit}>
           <div className="flex items-center mb-4">
             <div className="mr-4">
@@ -72,7 +77,7 @@ function SocialMediaLinks({ onClose, onSubmit, onEdit, formIndex, initialData })
                 name="link"
                 value={formData.link}
                 onChange={handleChange}
-                placeholder="Enter Link"
+                placeholder="Please include http:// or https:// before the domain."
                 className="p-2 border-2 border-[#444B88] focus:outline-none focus:border-black-500 rounded-md w-96"
               />
             </div>

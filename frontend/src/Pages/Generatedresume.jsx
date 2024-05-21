@@ -12,6 +12,7 @@ import BasicTemplate2 from "../templates/resume/basicTemplate2";
 import TwoColumn from "../templates/resume/twoColumn";
 import Tapang from "../templates/resume/tapang";
 import Simple from "../templates/resume/simple";
+import Orange from "../templates/resume/orangeTemplate";
 
 function Generatedresume() {
   const { user } = useSelector((state) => state.user);
@@ -58,6 +59,9 @@ function Generatedresume() {
       case "5":
         setTemplate(<Simple resumeInfo={resumeInfo} />);
         break;
+      case "6":
+        setTemplate(<Orange resumeInfo={resumeInfo} />);
+        break;
       default:
         setTemplate(<BasicTemplate resumeInfo={resumeInfo} />);
         break;
@@ -69,7 +73,7 @@ function Generatedresume() {
       <div className="bg-white">
         {user ? <NavbarLoggedIn /> : <Navbar />}
         <div className="max-w-screen-2xl mx-auto px-4 pt-32 pb-24">
-          <div className="w-5/6 mx-auto flex flex-col">
+          <div className="w-full lg:w-5/6 mx-auto flex flex-col">
             <div className="w-full flex flex-col">
               <div className="w-full flex justify-center py-3">
                 <h1 className="text-2xl font-bold text-[#444b88]">RESUME</h1>

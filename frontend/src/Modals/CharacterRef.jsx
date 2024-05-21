@@ -66,9 +66,9 @@ const CharacterRef = ({
 
   return (
     <div className="fixed inset-0 flex justify-center items-center bg-gray-900 bg-opacity-50">
-      <div className="bg-white p-8 rounded-sm w-1/3 flex flex-col gap-4">
+      <div className="bg-white p-8 rounded-lg w-80 md:w-1/3 flex flex-col gap-4">
         <div className="flex w-full justify-between">
-          <h2 className="text-xl text-[#444B88]">Character Reference</h2>
+          <h2 className="text-base md:text-xl font-bold text-[#444B88]">Character Reference</h2>
           <button onClick={onClose}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -88,7 +88,7 @@ const CharacterRef = ({
         </div>
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
-            <label htmlFor="name" className="block text-[#444B88]">
+            <label htmlFor="name" className="block text-[#444B88] text-sm md:text-lg">
               Name
             </label>
             <input
@@ -97,11 +97,11 @@ const CharacterRef = ({
               id="name"
               onChange={handleChange}
               value={formData.name}
-              className="border border-[#444B88] rounded-md px-4 py-2 w-full"
+              className="border border-[#444B88] rounded-md px-4 py-2 w-full text-sm md:text-lg"
             />
           </div>
           <div className="mb-4">
-            <label htmlFor="relationship" className="block text-[#444B88]">
+            <label htmlFor="relationship" className="block text-[#444B88] text-sm md:text-lg">
               Position
             </label>
             <input
@@ -110,11 +110,11 @@ const CharacterRef = ({
               id="position"
               onChange={handleChange}
               value={formData.position}
-              className="border border-[#444B88] rounded-md px-4 py-2 w-full"
+              className="border border-[#444B88] rounded-md px-4 py-2 w-full text-sm md:text-lg"
             />
           </div>
           <div className="mb-4">
-            <label htmlFor="contactNum" className="block text-[#444B88]">
+            <label htmlFor="contactNum" className="block text-[#444B88] text-sm md:text-lg">
               Contact Number
             </label>
             <input
@@ -123,11 +123,11 @@ const CharacterRef = ({
               id="contactNum"
               onChange={handleChange}
               value={formData.contactNum}
-              className="border border-[#444B88] rounded-md px-4 py-2 w-full"
+              className="border border-[#444B88] rounded-md px-4 py-2 w-full text-sm md:text-lg"
             />
           </div>
           <div className="mb-4">
-            <label htmlFor="email" className="block text-[#444B88]">
+            <label htmlFor="email" className="block text-[#444B88] text-sm md:text-lg">
               Email
             </label>
             <input
@@ -136,11 +136,11 @@ const CharacterRef = ({
               id="email"
               onChange={handleChange}
               value={formData.email}
-              className="border border-[#444B88] rounded-md px-4 py-2 w-full"
+              className="border border-[#444B88] rounded-md px-4 py-2 w-full text-sm md:text-lg"
             />
           </div>
           <div className="mb-4">
-            <label htmlFor="website" className="block text-[#444B88]">
+            <label htmlFor="website" className="block text-[#444B88] text-sm md:text-lg">
               Website
             </label>
             <input
@@ -148,14 +148,14 @@ const CharacterRef = ({
               id="website"
               onChange={handleChange}
               value={formData.website}
-              className="border border-[#444B88] rounded-md px-4 py-2 w-full"
+              className="border border-[#444B88] rounded-md px-4 py-2 w-full text-sm md:text-lg"
             ></input>
           </div>
           <div className="flex justify-end gap-2 mb-4">
             <button
               type="button"
               onClick={handleCancel}
-              className="border border-[#444B88] text-black px-4 py-2 rounded-md"
+              className="border border-[#444B88] text-black px-4 py-2 rounded-md text-sm md:text-lg" 
             >
               Cancel
             </button>
@@ -163,7 +163,7 @@ const CharacterRef = ({
               <button
                 type="submit"
                 disabled={submitting}
-                className="bg-[#8B95EE] border border-[#444B88] text-white px-4 py-2 rounded-md flex justify-center items-center gap-2"
+                className="bg-[#8B95EE] border border-[#444B88] text-white px-4 py-2 rounded-md flex justify-center items-center gap-2 text-sm md:text-lg"
               >
                 {submitting ? (
                   <ImSpinner className="animate-spin mr-2" />

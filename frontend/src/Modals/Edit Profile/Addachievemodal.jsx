@@ -67,16 +67,16 @@ function Addachievemodal({
 
   return (
     <div className="fixed inset-0 flex justify-center items-center bg-gray-900 bg-opacity-50">
-      <div className="bg-white p-8 rounded-sm w-1/3 ">
+      <div className="bg-white p-8 overflow-y-scroll shadow-lg rounded-md w-80 lg:w-1/3 mt-20">
         <div className="w-full flex justify-between">
-          <h2 className="text-xl text-[#444B88]">
+          <h2 className="text-base md:text-xl font-bold text-[#444B88]">
             Add Activities and Involvements
           </h2>
           <IoCloseOutline size={25} onClick={handleCancel} />
         </div>
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
-            <label htmlFor="title" className="block text-[#444B88]">
+            <label htmlFor="title" className="block text-[#444B88] text-sm md:text-lg">
               Title:
             </label>
             <input
@@ -85,26 +85,27 @@ function Addachievemodal({
               name="title"
               value={formData.title}
               onChange={handleChange}
-              className="border border-[#444B88] rounded-md px-4 py-2 w-full"
+              className="border border-[#444B88] rounded-md px-4 py-2 w-full text-sm md:text-lg"
               required
             />
           </div>
           <div className="mb-4">
-            <label htmlFor="type" className="block text-[#444B88]">
+            <label htmlFor="type" className="block text-[#444B88] text-sm md:text-lg">
               Type:
             </label>
             <input
               type="text"
               id="typeOfActivity"
               name="typeOfActivity"
+              placeholder="Internship, Training, Extra Curricular, etc."
               value={formData.typeOfActivity}
               onChange={handleChange}
-              className="border border-[#444B88] rounded-md px-4 py-2 w-full"
+              className="border border-[#444B88] rounded-md px-4 py-2 w-full text-sm md:text-lg"
               required
             />
           </div>
           <div className="mb-4">
-            <label htmlFor="organization" className="block text-[#444B88]">
+            <label htmlFor="organization" className="block text-[#444B88] text-sm md:text-lg">
               Organization/Company Name:
             </label>
             <input
@@ -113,11 +114,11 @@ function Addachievemodal({
               name="organizationOrCompanyName"
               value={formData.organizationOrCompanyName}
               onChange={handleChange}
-              className="border border-[#444B88] rounded-md px-4 py-2 w-full"
+              className="border border-[#444B88] rounded-md px-4 py-2 w-full text-sm md:text-lg"
             />
           </div>
           <div className="mb-4">
-            <label htmlFor="location" className="block text-[#444B88]">
+            <label htmlFor="location" className="block text-[#444B88] text-sm md:text-lg">
               Location:
             </label>
             <input
@@ -126,11 +127,11 @@ function Addachievemodal({
               name="location"
               value={formData.location}
               onChange={handleChange}
-              className="border border-[#444B88] rounded-md px-4 py-2 w-full"
+              className="border border-[#444B88] rounded-md px-4 py-2 w-full text-sm md:text-lg"
             />
           </div>
           <div className="mb-4">
-            <label htmlFor="startDate" className="block text-[#444B88]">
+            <label htmlFor="startDate" className="block text-[#444B88] text-sm md:text-lg">
               Start Date:
             </label>
             <input
@@ -143,12 +144,12 @@ function Addachievemodal({
                   : ""
               }
               onChange={handleChange}
-              className="border border-[#444B88] rounded-md px-4 py-2 w-full"
+              className="border border-[#444B88] rounded-md px-4 py-2 w-full text-sm md:text-lg"
               required
             />
           </div>
           <div className="mb-4">
-            <label htmlFor="endDate" className="block text-[#444B88]">
+            <label htmlFor="endDate" className="block text-[#444B88] text-sm md:text-lg">
               End Date:
             </label>
             <input
@@ -161,12 +162,12 @@ function Addachievemodal({
                   : ""
               }
               onChange={handleChange}
-              className="border border-[#444B88] rounded-md px-4 py-2 w-full"
+              className="border border-[#444B88] rounded-md px-4 py-2 w-full text-sm md:text-lg"
               required
             />
           </div>
           <div className="mb-4">
-            <label htmlFor="description" className="block text-[#444B88]">
+            <label htmlFor="description" className="block text-[#444B88] text-sm md:text-lg">
               Description:
             </label>
             <textarea
@@ -174,14 +175,15 @@ function Addachievemodal({
               name="description"
               value={formData.description}
               onChange={handleChange}
-              className="border border-[#444B88] rounded-md px-4 py-2 w-full"
+              placeholder="Add more information about this activity."
+              className="border border-[#444B88] rounded-md px-4 py-2 w-full text-sm md:text-lg"
             />
           </div>
-          <div className="flex justify-end mb-4">
+          <div className="flex justify-end ">
             <button
               type="button"
               onClick={handleCancel}
-              className="border border-[#444B88] text-black px-4 py-2 rounded-md mr-2"
+              className="border border-[#444B88] text-black px-4 py-2 rounded-md mr-2 text-sm md:text-lg"
             >
               Cancel
             </button>
@@ -190,7 +192,7 @@ function Addachievemodal({
               <button
                 type="submit"
                 disabled={submitting}
-                className="bg-[#8B95EE] border border-[#444B88] text-white px-4 py-2 rounded-md flex justify-center items-center gap-2"
+                className="bg-[#8B95EE] border border-[#444B88] text-white px-4 py-2 rounded-md flex justify-center items-center gap-2 text-sm md:text-lg"
               >
                 {submitting ? (
                   <ImSpinner className="animate-spin mr-2" />
@@ -205,7 +207,7 @@ function Addachievemodal({
                 type="button"
                 onClick={handleEdit}
                 disabled={submitting}
-                className="bg-[#8B95EE] border border-[#444B88] text-black px-4 py-2 rounded-md mr-2"
+                className="bg-[#8B95EE] border border-[#444B88] text-black px-4 py-2 rounded-md mr-2 text-sm md:text-lg"
               >
                 {submitting ? (
                   <ImSpinner className="animate-spin mr-2" />

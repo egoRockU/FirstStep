@@ -193,7 +193,6 @@ const Feedback = () => {
         subject={selectedFeedback ? selectedFeedback.subject : ""}
         body={selectedFeedback ? selectedFeedback.body : ""}
         buttonText="Close"
-        buttonr="Reply"
       />
     </div>
   );

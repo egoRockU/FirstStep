@@ -479,7 +479,7 @@ function Createresume() {
       <div className="bg-gray-200">
         <NavbarLoggedIn />
         <div className="max-w-screen-2xl mx-auto px-4 pt-32 pb-24">
-          <div className="flex flex-col mx-auto w-1/2 bg-white px-4 py-3">
+          <div className="flex flex-col mx-auto w-full lg:w-2/3 xl:w-1/2 bg-white px-4 py-3">
             <div className="text-center flex flex-col w-full justify-center py-4">
               <h1 className="text-2xl font-bold text-[#444B88]">
                 Resume Builder
@@ -507,13 +507,13 @@ function Createresume() {
                   )}
                 </div>
                 {personalInfoVisible && (
-                  <div className="flex flex-col w-full px-4 py-3 mx-auto">
-                    <div className="flex">
-                      <div className="w-1/3 mx-auto flex items-start justify-center">
+                  <div className="flex flex-col w-full mx-auto">
+                    <div className="flex flex-col xl:flex-row">
+                      <div className="w-full xl:w-1/3 flex items-start justify-center">
                         <img
                           src={image ? image : profile}
                           alt=""
-                          className="w-[80%] h-[60%] border-2 border-black cursor-pointer rounded-full"
+                          className=" w-40 h-40 lg:w-36 lg:h-36 xl:w-[80%] xl:h-[60%] border-2 border-black cursor-pointer object-cover rounded-full"
                           onClick={handleImageClick}
                         />
                         <input
@@ -523,8 +523,8 @@ function Createresume() {
                           onChange={handleFileChange}
                         />
                       </div>
-                      <div className="w-3/4">
-                        <div className="flex gap-2">
+                      <div className="w-[90%] mx-auto xl:w-3/4 pt-5">
+                        <div className="flex flex-col xl:flex-row xl:gap-2">
                           <FirstNameInput
                             value={fName}
                             onChange={(e) => setFName(e.target.value)}
@@ -542,7 +542,7 @@ function Createresume() {
                           value={contactNum}
                           onChange={(e) => setContactNumber(e.target.value)}
                         />
-                        <div className="flex gap-2">
+                        <div className="flex flex-col xl:flex-row xl:gap-2">
                           <CityInput
                             value={city}
                             onChange={(e) => setCity(e.target.value)}
@@ -557,11 +557,11 @@ function Createresume() {
                     <div className="flex flex-col gap-4">
                       <div>
                         <div>
-                          <h1 className="text-xl text-[#444B88]">
+                          <h1 className="text-md lg:text-xl text-[#444B88]">
                             Social Links
                           </h1>
                           <div className="border border-[#444B88] flex flex-col py-3">
-                            <div className="flex flex-col items-center">
+                            <div className="flex flex-col items-center space-y-4">
                               <SocialCard
                                 socialLinks={socialLinks}
                                 onDelete={deleteSocialLink}
@@ -589,11 +589,11 @@ function Createresume() {
                       </div>
                       <div>
                         <div>
-                          <h1 className="text-xl text-[#444B88]">
+                          <h1 className="text-md lg:text-xl text-[#444B88]">
                             Industries/Job Title
                           </h1>
                           <div className="border border-[#444B88] flex flex-col py-3">
-                            <div className="flex flex-col items-center">
+                            <div className="flex flex-col items-center space-y-4">
                               <IndustriesCard
                                 industries={industries}
                                 onDelete={deleteIndustry}
@@ -621,7 +621,7 @@ function Createresume() {
                         </div>
                       </div>
                       <div>
-                        <h1 className="text-xl text-[#444B88]">
+                        <h1 className="text-md lg:text-xl text-[#444B88]">
                           Professional Summary or About
                         </h1>
                         <textarea
@@ -630,15 +630,15 @@ function Createresume() {
                           value={about}
                           cols="30"
                           rows="10"
-                          className="border border-[#444b88] w-full px-2 py-1"
+                          className="border border-[#444b88] w-full px-2 py-1 text-sm lg:text-base"
                           onChange={(e) => setAbout(e.target.value)}
                         ></textarea>
                       </div>
                       <div>
                         <div>
-                          <h1 className="text-xl text-[#444B88]">Skills</h1>
+                          <h1 className="text-md lg:text-xl text-[#444B88]">Skills</h1>
                           <div className="border border-[#444B88] flex flex-col py-3">
-                            <div className="flex flex-col items-center">
+                            <div className="flex flex-col items-center space-y-3">
                               <SkillsCard
                                 skills={skills}
                                 onDelete={deleteSkill}
@@ -673,7 +673,7 @@ function Createresume() {
               <div className="flex flex-col rounded-lg">
                 <div className="flex flex-col items-center justify-between px-4 py-3 border border-[#444b88] rounded-t-lg">
                   <div className="flex justify-between w-full">
-                    <h1 className="text-xl text-[#8B95EE]">Education</h1>
+                    <h1 className="text-base lg:text-xl text-[#8B95EE]">Education</h1>
                     {Educationvisible ? (
                       <IoIosArrowDropupCircle
                         onClick={() => toggleEducationvisibility()}
@@ -707,7 +707,7 @@ function Createresume() {
                 </div>
                 <div className="w-full">
                   <button
-                    className="w-full bg-[#444B88] border-[#BCBCBC] border-1 p-2 text-white rounded-b-lg"
+                    className="w-full bg-[#444B88] border-[#BCBCBC] border-1 p-2 text-white rounded-b-lg text-sm lg:text-base"
                     onClick={() => setShowEducationModal(true)}
                   >
                     Add
@@ -731,7 +731,7 @@ function Createresume() {
               <div className="flex flex-col rounded-lg">
                 <div className="flex flex-col items-center justify-between px-4 py-3 border border-[#444b88] rounded-t-lg">
                   <div className="flex justify-between w-full">
-                    <h1 className="text-xl text-[#8B95EE]">
+                    <h1 className="text-base lg:text-xl text-[#8B95EE]">
                       Activities and Involvements
                     </h1>
                     {Activitiesvisible ? (
@@ -767,7 +767,7 @@ function Createresume() {
                 </div>
                 <div className="w-full">
                   <button
-                    className="w-full bg-[#444B88] border-[#BCBCBC] border-1 p-2 text-white rounded-b-lg"
+                    className="w-full bg-[#444B88] border-[#BCBCBC] border-1 p-2 text-white rounded-b-lg text-sm lg:text-base"
                     onClick={() => setShowAchievementModal(true)}
                   >
                     Add
@@ -791,7 +791,7 @@ function Createresume() {
               <div className="flex flex-col rounded-lg">
                 <div className="flex flex-col items-center justify-between px-4 py-3 border border-[#444b88] rounded-t-lg">
                   <div className="flex justify-between w-full">
-                    <h1 className="text-xl text-[#8B95EE]">Projects</h1>
+                    <h1 className="text-sm lg:text-xl text-[#8B95EE]">Projects</h1>
                     {Projectsvisible ? (
                       <IoIosArrowDropupCircle
                         onClick={() => toggleProjectsvisibility()}
@@ -825,7 +825,7 @@ function Createresume() {
                 </div>
                 <div className="w-full">
                   <button
-                    className="w-full bg-[#444B88] border-[#BCBCBC] border-1 p-2 text-white rounded-b-lg"
+                    className="w-full bg-[#444B88] border-[#BCBCBC] border-1 p-2 text-white rounded-b-lg text-sm lg:text-base"
                     onClick={() => setShowAddProjectsModal(true)}
                   >
                     Add
@@ -849,7 +849,7 @@ function Createresume() {
               <div className="flex flex-col rounded-lg">
                 <div className="flex flex-col items-center justify-between px-4 py-3 border border-[#444b88] rounded-t-lg">
                   <div className="flex justify-between w-full">
-                    <h1 className="text-xl text-[#8B95EE]">Awards</h1>
+                    <h1 className="text-sm lg:text-xl text-[#8B95EE]">Awards</h1>
                     {Awardsvisible ? (
                       <IoIosArrowDropupCircle
                         onClick={() => toggleAwardsvisibility()}
@@ -883,7 +883,7 @@ function Createresume() {
                 </div>
                 <div className="w-full">
                   <button
-                    className="w-full bg-[#444B88] border-[#BCBCBC] border-1 p-2 text-white rounded-b-lg"
+                    className="w-full bg-[#444B88] border-[#BCBCBC] border-1 p-2 text-white rounded-b-lg text-sm lg:text-base"
                     onClick={() => setShowAwardModal(true)}
                   >
                     Add
@@ -907,7 +907,7 @@ function Createresume() {
               <div className="flex flex-col rounded-lg">
                 <div className="flex flex-col items-center justify-between px-4 py-3 border border-[#444b88] rounded-t-lg">
                   <div className="flex justify-between w-full">
-                    <h1 className="text-xl text-[#8B95EE]">Certificates</h1>
+                    <h1 className="text-sm lg:text-xl text-[#8B95EE]">Certificates</h1>
                     {Certificatesvisible ? (
                       <IoIosArrowDropupCircle
                         onClick={() => toggleCertificatesvisibility()}
@@ -941,7 +941,7 @@ function Createresume() {
                 </div>
                 <div className="w-full">
                   <button
-                    className="w-full bg-[#444B88] border-[#BCBCBC] border-1 p-2 text-white rounded-b-lg"
+                    className="w-full bg-[#444B88] border-[#BCBCBC] border-1 p-2 text-white rounded-b-lg text-sm lg:text-base"
                     onClick={() => setShowCertModal(true)}
                   >
                     Add
@@ -965,7 +965,7 @@ function Createresume() {
               <div className="flex flex-col rounded-lg">
                 <div className="flex flex-col items-center justify-between px-4 py-3 border border-[#444b88] rounded-t-lg gap-4">
                   <div className="flex justify-between w-full pb-2">
-                    <h1 className="text-xl text-[#8B95EE]">
+                    <h1 className="text-sm lg:text-xl text-[#8B95EE]">
                       Character Reference
                     </h1>
                     {Charactervisible ? (
@@ -1017,7 +1017,7 @@ function Createresume() {
                 </div>
                 <div className="w-full">
                   <button
-                    className="w-full bg-[#444B88] border-[#BCBCBC] border-1 p-2 text-white rounded-b-lg"
+                    className="w-full bg-[#444B88] border-[#BCBCBC] border-1 p-2 text-white rounded-b-lg text-base lg:text-base"
                     onClick={() => setShowCharRefModal(true)}
                   >
                     Add

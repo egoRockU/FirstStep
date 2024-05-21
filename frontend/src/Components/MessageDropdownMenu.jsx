@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import bell from "../images/bell.svg";
+import { MdMessage } from "react-icons/md";
 import logo from "../images/profile.svg";
 import Messagemodal from "../Modals/Messagemodal";
 import axios from "axios";
@@ -68,23 +68,19 @@ const MessageDropdownMenu = () => {
           aria-haspopup="true"
           aria-expanded={isOpen ? "true" : "false"}
         >
-          <img
-            src={bell}
-            alt=""
-            className="text-black duration-500 mx-2 cursor-pointer w-8 h-8"
-          />
+          <MdMessage size={32} color="#444b88" className="items-center justify-center" />
         </button>
       </div>
 
       {isOpen && (
         <div
-          className="origin-top-right absolute right-0 mt-2 w-96 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-50"
+          className="origin-top-right absolute right-0 w-72 lg:w-96 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-50"
           role="menu"
           aria-orientation="vertical"
           aria-labelledby="message-dropdown"
         >
           <div className="py-1" role="none">
-            <div className="px-4 py-2 text-lg text-gray-700 font-semibold">
+            <div className="px-4 py-2 text=md lg:text-lg text-gray-700 font-semibold">
               Messages
             </div>
             {messages.map((message) => (

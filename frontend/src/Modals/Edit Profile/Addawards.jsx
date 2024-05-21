@@ -53,14 +53,14 @@ function AddAwards({ onClose, onSubmit, onEdit, formIndex, initialData }) {
 
   return (
     <div className="fixed inset-0 flex justify-center items-center bg-gray-900 bg-opacity-50 shadow-xl">
-      <div className="bg-white p-8 rounded-sm w-1/3">
+      <div className="bg-white p-8 rounded-md w-80 md:w-1/3 flex flex-col">
         <div className="w-full flex justify-between">
-          <h2 className="text-xl">Add Award</h2>
+          <h2 className="text-base md:text-xl font-bold text-[#444B88]">Add Award</h2>
           <IoCloseOutline size={25} onClick={handleCancel} />
         </div>
         <form onSubmit={handleSubmit} className="flex flex-col gap-2">
           <div className="">
-            <label htmlFor="title" className="block text-[#444B88]" required>
+            <label htmlFor="title" className="block text-[#444B88] text-sm md:text-lg" required>
               Title:
             </label>
             <input
@@ -69,12 +69,12 @@ function AddAwards({ onClose, onSubmit, onEdit, formIndex, initialData }) {
               name="title"
               value={formData.title}
               onChange={handleChange}
-              className="border border-[#444B88] rounded-md px-4 py-2 w-full"
+              className="border border-[#444B88] rounded-md px-4 py-2 w-full text-sm md:text-lg"
               required
             />
           </div>
           <div className="">
-            <label htmlFor="dateReceived" className="block text-[#444B88]">
+            <label htmlFor="dateReceived" className="block text-[#444B88] text-sm md:text-lg">
               Date Received:
             </label>
             <input
@@ -89,12 +89,12 @@ function AddAwards({ onClose, onSubmit, onEdit, formIndex, initialData }) {
                   : ""
               }
               onChange={handleChange}
-              className="border border-[#444B88] rounded-md px-4 py-2 w-full"
+              className="border border-[#444B88] rounded-md px-4 py-2 w-full text-sm md:text-lg"
               required
             />
           </div>
           <div className="">
-            <label htmlFor="description" className="block text-[#444B88]">
+            <label htmlFor="description" className="block text-[#444B88] text-sm md:text-lg">
               Description:
             </label>
             <textarea
@@ -102,14 +102,15 @@ function AddAwards({ onClose, onSubmit, onEdit, formIndex, initialData }) {
               name="description"
               value={formData.description}
               onChange={handleChange}
-              className="border border-[#444B88] rounded-md px-4 py-2 w-full"
+              placeholder="Add more information about this award"
+              className="border border-[#444B88] rounded-md px-4 py-2 w-full text-sm md:text-lg"
             />
           </div>
           <div className="flex justify-end mb-4">
             <button
               type="button"
               onClick={handleCancel}
-              className="border border-[#444B88] text-black px-4 py-2 rounded-md mr-2"
+              className="border border-[#444B88] text-black px-4 py-2 rounded-md mr-2 text-sm md:text-lg"
             >
               Cancel
             </button>
@@ -118,7 +119,7 @@ function AddAwards({ onClose, onSubmit, onEdit, formIndex, initialData }) {
               <button
                 type="submit"
                 disabled={submitting}
-                className="bg-[#8B95EE] border border-[#444B88] text-white px-4 py-2 rounded-md flex justify-center items-center gap-2"
+                className="bg-[#8B95EE] border border-[#444B88] text-white px-4 py-2 rounded-md flex justify-center items-center gap-2 text-sm md:text-lg"
               >
                 {submitting ? (
                   <ImSpinner className="animate-spin mr-2" />

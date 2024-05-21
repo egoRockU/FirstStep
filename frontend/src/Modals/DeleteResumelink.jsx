@@ -38,30 +38,30 @@ function DeleteResumelink({ profileId, link, onClose }) {
 
   return (
     <div className="fixed inset-0 flex justify-center items-center">
-      <div className="bg-white flex flex-col w-250 h-120 border border-gray-400 shadow-xl">
+      <div className="w-80 md:w-2/5 lg:w-1/4 rounded-lg bg-white flex flex-col border border-gray-400 shadow-xl">
         <div className="w-full flex justify-between px-2 py-2 border-b border-gray-400">
-          <h1 className="text-lg text-[#444b88] font-bold">DELETE RESUME</h1>
+          <h1 className="text-lg text-[#444b88] font-bold">Delete Resume</h1>
           <IoMdClose size={30} className="cursor-pointer" onClick={onClose} />
         </div>
         <div className="flex flex-col gap-2 p-4">
           <div className="text-center">
-            <h1 className="text-lg font-bold">
+            <h1 className="text-base md:text-lg font-semibold">
               ARE YOU SURE YOU WANT TO DELETE THIS RESUME?
             </h1>
           </div>
           <div className="text-center">
-            <h1 className="text-base text-[#444b88]">{link}</h1>
+            <h1 className="text-sm md:text-md overflow-hidden text-[#444b88]">{link}</h1>
           </div>
         </div>
         <div className="w-full flex justify-end gap-5 px-3 py-2">
           <button
-            className="text-lg py-1 px-3 border-2 border-[#444b88] text-[#444b88] hover:bg-[#bad2ff]"
+            className="text-sm md:text-md lg:text-lg rounded-lg py-1 px-3 border-2 border-[#444b88] text-[#444b88] hover:bg-[#bad2ff]"
             onClick={onClose}
           >
             NO
           </button>
           <button
-            className="text-lg py-1 px-3 border-2 border-red-500 text-red-500 hover:bg-red-300"
+            className="text-xs md:text-md lg:text-lg rounded-lg py-1 px-3 border-2 border-red-500 text-red-500 hover:bg-red-300"
             onClick={handleDelete}
           >
             {loading ? (

@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import ReplyFeedback from "./ReplyFeedback";
 import {
   Card,
   CardHeader,
@@ -15,18 +14,9 @@ const FeedbackReplyModal = ({
   subject,
   body,
   buttonText,
-  buttonr,
   disableOnDelete,
 }) => {
   const [replyModalOpen, setReplyModalOpen] = useState(false);
-
-  const openReplyModal = () => {
-    setReplyModalOpen(true);
-  };
-
-  const closeReplyModal = () => {
-    setReplyModalOpen(false);
-  };
 
   if (!isOpen || disableOnDelete) return null;
 
@@ -66,16 +56,7 @@ const FeedbackReplyModal = ({
           >
             {buttonText}
           </button>
-          <button
-            onClick={openReplyModal}
-            className="px-4 py-2 text-white bg-indigo-600 rounded hover:bg-indigo-700"
-          >
-            {buttonr}
-          </button>
         </div>
-
-        {/* Reply Modal */}
-        {replyModalOpen && <ReplyFeedback onClose={closeReplyModal} />}
       </div>
     </div>
   );

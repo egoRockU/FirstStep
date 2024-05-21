@@ -9,13 +9,14 @@ import {
   getEmployerProfile,
   deleteEmployer,
 } from "../controllers/adminControllers.js";
+import authenticateToken from "../middlewares/authenticateToken.js";
 
-router.get("/getcounts", getCounts);
-router.get("/getapplicants", getApplicants);
-router.post("/getapplicantprofile", getApplicantProfile);
-router.post("/deleteapplicants", deleteApplicant);
-router.get("/getEmployers", getEmployers);
-router.post("/getemployerprofile", getEmployerProfile);
-router.post("/deleteemployers", deleteEmployer);
+router.get("/getcounts", authenticateToken, getCounts);
+router.get("/getapplicants", authenticateToken, getApplicants);
+router.post("/getapplicantprofile", authenticateToken, getApplicantProfile);
+router.post("/deleteapplicants", authenticateToken, deleteApplicant);
+router.get("/getEmployers", authenticateToken, getEmployers);
+router.post("/getemployerprofile", authenticateToken, getEmployerProfile);
+router.post("/deleteemployers", authenticateToken, deleteEmployer);
 
 export default router;

@@ -16,9 +16,9 @@ router.get("/", authenticateToken, getAllLocalAccounts);
 router.post("/create", createLocalAccount);
 router.post("/login", loginLocal);
 router.post("/changepassword", changeLocalPassword);
-router.post("/addprofile", addProfile);
+router.post("/addprofile", authenticateToken, addProfile);
 router.post("/loginadmin", loginAdmin);
-router.post("/updateadmin", updateAdmin);
-router.post("/updateaccount", updateAccount);
+router.post("/updateadmin", authenticateToken, updateAdmin);
+router.post("/updateaccount", authenticateToken, updateAccount);
 
 export default router;

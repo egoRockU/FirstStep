@@ -9,6 +9,7 @@ import Ezekel from "../images/portfolioTemplates/Ezekel.png";
 import BasicTemplate2 from "../images/portfolioTemplates/Lime.png";
 import Cleo from "../images/portfolioTemplates/Cleo.png";
 import Marcus from "../images/portfolioTemplates/Marcus.png";
+import Grafil from "../images/portfolioTemplates/Grafil.png";
 
 function Chooseportfolio() {
   const location = useLocation();
@@ -34,6 +35,7 @@ function Chooseportfolio() {
     { id: 3, title: "Lime", imageUrl: BasicTemplate2 },
     { id: 4, title: "Cleo", imageUrl: Cleo },
     { id: 5, title: "Marcus", imageUrl: Marcus },
+    { id: 6, title: "Grafil", imageUrl: Grafil },
   ];
 
   const handleOpen = (template) => {
@@ -65,7 +67,7 @@ function Chooseportfolio() {
                   Pick a template you want to use
                 </p>
               </div>
-              <div className="grid grid-cols-2 gap-4 text-center w-2/3 mx-auto pt-10">
+              <div className="flex flex-col lg:grid lg:grid-cols-2 gap-4 text-center w-[90%] lg:w-2/3 mx-auto pt-10">
                 {resumeTemplates.map((template, index) => (
                   <div
                     key={index}
