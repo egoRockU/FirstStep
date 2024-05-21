@@ -554,7 +554,7 @@ function Createresume() {
                         </div>
                       </div>
                     </div>
-                    <div className="flex flex-col gap-4">
+                    <div className="flex flex-col gap-4 mx-4 my-4">
                       <div>
                         <div>
                           <h1 className="text-md lg:text-xl text-[#444B88]">
